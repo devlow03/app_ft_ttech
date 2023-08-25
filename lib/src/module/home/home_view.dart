@@ -1,13 +1,12 @@
-import 'package:app_ft_tmart/src/data/respository/prod_category_res.dart';
-import 'package:app_ft_tmart/src/data/services/tmart_services.dart';
-import 'package:app_ft_tmart/src/module/product_detail/product_detail_view.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-
-import '../../data/respository/cart_res.dart';
+import '../../core/xcolor.dart';
+import '../../data/respository/get_product_by_category_rsp.dart';
+import '../../widget/global_image.dart';
 import '../../widget/global_product.dart';
 import '../../widget/search_widget.dart';
 import '../product/product_view.dart';
@@ -21,7 +20,6 @@ class HomePage extends StatelessWidget {
     final logic = Get.put(HomeLogic(Get.find()));
 
     return Scaffold(
-
         backgroundColor: Colors.grey.shade100,
         appBar: AppBar(
           bottom: PreferredSize(
@@ -70,6 +68,7 @@ class HomePage extends StatelessWidget {
                       alignment: Alignment.bottomCenter,
                       children: [
                         CarouselSlider.builder(
+
                           itemCount: logic.getBannerRsp.value?.data?.length,
                           options: CarouselOptions(
                               aspectRatio: 25 / 12,
@@ -85,28 +84,17 @@ class HomePage extends StatelessWidget {
                             // // enableInfiniteScroll: true
                           ),
                           itemBuilder: (context, index, realIndex) {
-                            return Container(
-                                child: Image.network(
-                                  logic.getBannerRsp.value?.data?[index]
-                                      .urlBannerImg ?? "",
-                                  width: MediaQuery
-                                      .of(context)
-                                      .size
-                                      .width,
-                                  fit: BoxFit.fill,
-                                  errorBuilder: (context, error, stackTrace) {
-                                    return Container(
-                                      color: Colors.amber,
-                                      alignment: Alignment.center,
-                                      child: const Text(
-                                        'Whoops!',
-                                        style: TextStyle(fontSize: 30),
-                                      ),
-                                    );
-                                  },
-                                )
-                            );
+                                return GlobalImage(
+                                  imageUrl:logic.getBannerRsp.value?.data?[index]
+                                      .urlBannerImg,
+                                  width: MediaQuery.of(context).size.width,
+                                    boxFit:BoxFit.cover
+                                );
+
+
+
                           },
+
                         ),
                         const SizedBox(
                           height: 10,
@@ -122,7 +110,7 @@ class HomePage extends StatelessWidget {
                                   dotWidth: 5,
                                   dotHeight: 5,
                                   dotColor: Colors.grey,
-                                  activeDotColor: Colors.blue.shade700,
+                                  activeDotColor: XColor.primary,
                                 ),
                               )),
                         ),
@@ -199,28 +187,11 @@ class HomePage extends StatelessWidget {
                                         mainAxisAlignment:
                                         MainAxisAlignment.spaceAround,
                                         children: [
-                                          Image.network(
-                                            logic.getCategoryRsp.value
+                                          GlobalImage(
+                                            imageUrl:logic.getCategoryRsp.value
                                                 ?.category?[index].image ?? "",
-
-                                            width: MediaQuery
-                                                .of(context)
-                                                .size
-                                                .width *
-                                                .1,
-                                            errorBuilder: (context, error,
-                                                stackTrace) {
-                                              return Container(
-                                                color: Colors.amber,
-                                                alignment: Alignment.center,
-                                                child: const Text(
-                                                  'Whoops!',
-                                                  style: TextStyle(
-                                                      fontSize: 30),
-                                                ),
-                                              );
-                                            },
-                                            // fit: BoxFit.fill,
+                                            width: MediaQuery.of(context).size.width*.1,
+                                            boxFit:BoxFit.cover
                                           ),
                                           const SizedBox(
                                             width: 5,
@@ -262,107 +233,564 @@ class HomePage extends StatelessWidget {
                       ),
                     ),
 
-                    ListView.separated(
-                      physics: const NeverScrollableScrollPhysics(),
-                      scrollDirection: Axis.vertical,
-                      shrinkWrap: true,
-                      itemCount: 5,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 1, horizontal: 20),
-                              child: Row(
-                                mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    '${logic.getCategoryRsp.value?.category?[index].nameType} nổi bật',
-                                    style: const TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w700),
-                                  ),
-                                  // InkWell(
-                                  //     onTap: () {
-                                  //
-                                  //     },
-                                  //     child: Text(
-                                  //       "Xem thêm>",
-                                  //       style: TextStyle(
-                                  //           fontSize: 14,
-                                  //           // fontWeight: FontWeight.w700,
-                                  //           color: Colors.blue.shade700),
-                                  //     )),
-                                ],
+                    Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 1, horizontal: 10),
+                          child: Row(
+                            mainAxisAlignment:
+                            MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Điện thoại nổi bật',
+                                style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w700),
                               ),
-                            ),
-                            FutureBuilder<ProdCategoryRes?>(
-                                future: logic.getProduct(id_category: logic.getCategoryRsp.value?.category?[index].idCategory.toString()??""),
-                                builder: (context, snapshot) {
-                                  return Column(
-                                    children: [
-                                      Container(
-                                        // height: MediaQuery.of(context).size.height*.5,
-                                        margin: const EdgeInsets.all(10),
-                                        child: GridView.builder(
 
-                                          // padding: EdgeInsets.symmetric(vertical: 10),
-                                          // padding:
-                                          // const EdgeInsets.symmetric(
-                                          //     horizontal: 10,
-                                          //     vertical: 3),
-                                          shrinkWrap: true,
-                                          itemCount:  snapshot.data?.prodCategory?.length??0,
-                                          physics:
-                                          const NeverScrollableScrollPhysics(),
-                                          itemBuilder: (context, ind) {
-                                            return InkWell(
-                                              onTap: () {
-                                                // Get.to(Product_detailPage(data: snapshot.data?.prodCategory?[ind]));
-                                                Get.to(ProductPage(
-                                                  data: snapshot.data?.prodCategory?[ind],
-                                                ));
-                                              },
-                                              child: GlobalProduct(
-                                                imageLink: snapshot.data?.prodCategory?[ind].imgLink,
-                                                shortDes:  snapshot.data?.prodCategory?[ind].shortDes,
-                                                // price:NumberFormat("###,###.# đ").format(snapshot.data?.products?[index].price),
-                                                price:
-                                                '${ snapshot.data?.prodCategory?[ind].price}',
-                                                nameProduct:
-                                                snapshot.data?.prodCategory?[ind].name,
-                                                numStar: '5.0',
-                                              ),
-                                            );
-                                          },
-                                          gridDelegate:
-                                          const SliverGridDelegateWithFixedCrossAxisCount(
+                            ],
+                          ),
+                        ),
+                        GridView.builder(
+                          shrinkWrap: true,
+                          itemCount:  4,
+                          physics:
+                          const NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, ind) {
+                            return InkWell(
+                              onTap: () {
+                                // Get.to(Product_detailPage(data: snapshot.data?.prodCategory?[ind]));
+                                Get.to(ProductPage(
+                                  data:  logic.getPhoneRsp.value?.prodCategory?[ind],
+                                ));
+                              },
+                              child: GlobalProduct(
+                                imageLink: logic.getPhoneRsp.value?.prodCategory?[ind].imgLink,
+                                shortDes:   logic.getPhoneRsp.value?.prodCategory?[ind].shortDes,
+                                // price:NumberFormat("###,###.# đ").format(snapshot.data?.products?[index].price),
+                                price:
+                                '${  logic.getPhoneRsp.value?.prodCategory?[ind].price}',
+                                nameProduct:
+                                logic.getPhoneRsp.value?.prodCategory?[ind].name,
+                                numStar: '5.0',
+                              ),
+                            );
+                          },
+                          gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
 
-                                            crossAxisCount: 2,
-                                            crossAxisSpacing: 10,
-                                            mainAxisSpacing: 10,
-                                            childAspectRatio: 3 / 4.5,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  );
-                                },
-                            )
-                            ,
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 10,
+                            mainAxisSpacing: 10,
+                            childAspectRatio: 3 / 4.5,
+                          ),
+                        ),
 
-                            const SizedBox(
-                              height: 20,
-                            ),
-                          ],
-                        );
-                      },
-                      separatorBuilder: (BuildContext context, int index) {
-                        return const SizedBox(
-                          height: 10,
-                        );
-                      },
+
+
+
+
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 1, horizontal: 10),
+                          child: Row(
+                            mainAxisAlignment:
+                            MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'laptop nổi bật',
+                                style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w700),
+                              ),
+                              // InkWell(
+                              //     onTap: () {
+                              //
+                              //     },
+                              //     child: Text(
+                              //       "Xem thêm>",
+                              //       style: TextStyle(
+                              //           fontSize: 14,
+                              //           // fontWeight: FontWeight.w700,
+                              //           color: Colors.blue.shade700),
+                              //     )),
+                            ],
+                          ),
+                        ),
+                        GridView.builder(
+                          shrinkWrap: true,
+                          itemCount:  4,
+                          physics:
+                          const NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, ind) {
+                            return InkWell(
+                              onTap: () {
+                                // Get.to(Product_detailPage(data: snapshot.data?.prodCategory?[ind]));
+                                Get.to(ProductPage(
+                                  data:  logic.getLaptopRsp.value?.prodCategory?[ind],
+                                ));
+                              },
+                              child: GlobalProduct(
+                                imageLink: logic.getLaptopRsp.value?.prodCategory?[ind].imgLink,
+                                shortDes:   logic.getLaptopRsp.value?.prodCategory?[ind].shortDes,
+                                // price:NumberFormat("###,###.# đ").format(snapshot.data?.products?[index].price),
+                                price:
+                                '${  logic.getLaptopRsp.value?.prodCategory?[ind].price}',
+                                nameProduct:
+                                logic.getLaptopRsp.value?.prodCategory?[ind].name,
+                                numStar: '5.0',
+                              ),
+                            );
+                          },
+                          gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 10,
+                            mainAxisSpacing: 10,
+                            childAspectRatio: 3 / 4.5,
+                          ),
+                        ),
+
+
+
+
+
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 1, horizontal: 10),
+                          child: Row(
+                            mainAxisAlignment:
+                            MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Tablet nổi bật',
+                                style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w700),
+                              ),
+                              // InkWell(
+                              //     onTap: () {
+                              //
+                              //     },
+                              //     child: Text(
+                              //       "Xem thêm>",
+                              //       style: TextStyle(
+                              //           fontSize: 14,
+                              //           // fontWeight: FontWeight.w700,
+                              //           color: Colors.blue.shade700),
+                              //     )),
+                            ],
+                          ),
+                        ),
+                        GridView.builder(
+                          shrinkWrap: true,
+                          itemCount:  4,
+                          physics:
+                          const NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, ind) {
+                            return InkWell(
+                              onTap: () {
+                                // Get.to(Product_detailPage(data: snapshot.data?.prodCategory?[ind]));
+                                Get.to(ProductPage(
+                                  data:  logic.getTabletRsp.value?.prodCategory?[ind],
+                                ));
+                              },
+                              child: GlobalProduct(
+                                imageLink: logic.getTabletRsp.value?.prodCategory?[ind].imgLink,
+                                shortDes:   logic.getTabletRsp.value?.prodCategory?[ind].shortDes,
+                                // price:NumberFormat("###,###.# đ").format(snapshot.data?.products?[index].price),
+                                price:
+                                '${  logic.getTabletRsp.value?.prodCategory?[ind].price}',
+                                nameProduct:
+                                logic.getTabletRsp.value?.prodCategory?[ind].name,
+                                numStar: '5.0',
+                              ),
+                            );
+                          },
+                          gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 10,
+                            mainAxisSpacing: 10,
+                            childAspectRatio: 3 / 4.5,
+                          ),
+                        ),
+
+
+
+
+
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 1, horizontal: 10),
+                          child: Row(
+                            mainAxisAlignment:
+                            MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Đồng hồ nổi bật',
+                                style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w700),
+                              ),
+                              // InkWell(
+                              //     onTap: () {
+                              //
+                              //     },
+                              //     child: Text(
+                              //       "Xem thêm>",
+                              //       style: TextStyle(
+                              //           fontSize: 14,
+                              //           // fontWeight: FontWeight.w700,
+                              //           color: Colors.blue.shade700),
+                              //     )),
+                            ],
+                          ),
+                        ),
+                        GridView.builder(
+                          shrinkWrap: true,
+                          itemCount:  4,
+                          physics:
+                          const NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, ind) {
+                            return InkWell(
+                              onTap: () {
+                                // Get.to(Product_detailPage(data: snapshot.data?.prodCategory?[ind]));
+                                Get.to(ProductPage(
+                                  data:  logic.getWatchRsp.value?.prodCategory?[ind],
+                                ));
+                              },
+                              child: GlobalProduct(
+                                imageLink: logic.getWatchRsp.value?.prodCategory?[ind].imgLink,
+                                shortDes:   logic.getWatchRsp.value?.prodCategory?[ind].shortDes,
+                                // price:NumberFormat("###,###.# đ").format(snapshot.data?.products?[index].price),
+                                price:
+                                '${  logic.getWatchRsp.value?.prodCategory?[ind].price}',
+                                nameProduct:
+                                logic.getWatchRsp.value?.prodCategory?[ind].name,
+                                numStar: '5.0',
+                              ),
+                            );
+                          },
+                          gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 10,
+                            mainAxisSpacing: 10,
+                            childAspectRatio: 3 / 4.5,
+                          ),
+                        ),
+
+
+
+
+
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 1, horizontal: 10),
+                          child: Row(
+                            mainAxisAlignment:
+                            MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Phụ kiện nổi bật',
+                                style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w700),
+                              ),
+                              // InkWell(
+                              //     onTap: () {
+                              //
+                              //     },
+                              //     child: Text(
+                              //       "Xem thêm>",
+                              //       style: TextStyle(
+                              //           fontSize: 14,
+                              //           // fontWeight: FontWeight.w700,
+                              //           color: Colors.blue.shade700),
+                              //     )),
+                            ],
+                          ),
+                        ),
+                        GridView.builder(
+                          shrinkWrap: true,
+                          itemCount:  4,
+                          physics:
+                          const NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, ind) {
+                            return InkWell(
+                              onTap: () {
+                                // Get.to(Product_detailPage(data: snapshot.data?.prodCategory?[ind]));
+                                Get.to(ProductPage(
+                                  data:  logic.getAccessoryRsp.value?.prodCategory?[ind],
+                                ));
+                              },
+                              child: GlobalProduct(
+                                imageLink: logic.getAccessoryRsp.value?.prodCategory?[ind].imgLink,
+                                shortDes:   logic.getPhoneRsp.value?.prodCategory?[ind].shortDes,
+                                // price:NumberFormat("###,###.# đ").format(snapshot.data?.products?[index].price),
+                                price:
+                                '${  logic.getAccessoryRsp.value?.prodCategory?[ind].price}',
+                                nameProduct:
+                                logic.getAccessoryRsp.value?.prodCategory?[ind].name,
+                                numStar: '5.0',
+                              ),
+                            );
+                          },
+                          gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 10,
+                            mainAxisSpacing: 10,
+                            childAspectRatio: 3 / 4.5,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 1, horizontal: 10),
+                          child: Row(
+                            mainAxisAlignment:
+                            MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Màn hình nổi bật',
+                                style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w700),
+                              ),
+                              // InkWell(
+                              //     onTap: () {
+                              //
+                              //     },
+                              //     child: Text(
+                              //       "Xem thêm>",
+                              //       style: TextStyle(
+                              //           fontSize: 14,
+                              //           // fontWeight: FontWeight.w700,
+                              //           color: Colors.blue.shade700),
+                              //     )),
+                            ],
+                          ),
+                        ),
+                        GridView.builder(
+                          shrinkWrap: true,
+                          itemCount:  4,
+                          physics:
+                          const NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, ind) {
+                            return InkWell(
+                              onTap: () {
+                                // Get.to(Product_detailPage(data: snapshot.data?.prodCategory?[ind]));
+                                Get.to(ProductPage(
+                                  data:  logic.getScreenRsp.value?.prodCategory?[ind],
+                                ));
+                              },
+                              child: GlobalProduct(
+                                imageLink: logic.getScreenRsp.value?.prodCategory?[ind].imgLink,
+                                shortDes:   logic.getScreenRsp.value?.prodCategory?[ind].shortDes,
+                                // price:NumberFormat("###,###.# đ").format(snapshot.data?.products?[index].price),
+                                price:
+                                '${  logic.getScreenRsp.value?.prodCategory?[ind].price}',
+                                nameProduct:
+                                logic.getScreenRsp.value?.prodCategory?[ind].name,
+                                numStar: '5.0',
+                              ),
+                            );
+                          },
+                          gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 10,
+                            mainAxisSpacing: 10,
+                            childAspectRatio: 3 / 4.5,
+                          ),
+                        ),
+
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 1, horizontal: 10),
+                          child: Row(
+                            mainAxisAlignment:
+                            MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Bàn phím nổi bật',
+                                style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w700),
+                              ),
+                              // InkWell(
+                              //     onTap: () {
+                              //
+                              //     },
+                              //     child: Text(
+                              //       "Xem thêm>",
+                              //       style: TextStyle(
+                              //           fontSize: 14,
+                              //           // fontWeight: FontWeight.w700,
+                              //           color: Colors.blue.shade700),
+                              //     )),
+                            ],
+                          ),
+                        ),
+                        GridView.builder(
+                          shrinkWrap: true,
+                          itemCount:  4,
+                          physics:
+                          const NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, ind) {
+                            return InkWell(
+                              onTap: () {
+                                // Get.to(Product_detailPage(data: snapshot.data?.prodCategory?[ind]));
+                                Get.to(ProductPage(
+                                  data:  logic.getKeyboardRsp.value?.prodCategory?[ind],
+                                ));
+                              },
+                              child: GlobalProduct(
+                                imageLink: logic.getKeyboardRsp.value?.prodCategory?[ind].imgLink,
+                                shortDes:   logic.getKeyboardRsp.value?.prodCategory?[ind].shortDes,
+                                // price:NumberFormat("###,###.# đ").format(snapshot.data?.products?[index].price),
+                                price:
+                                '${  logic.getKeyboardRsp.value?.prodCategory?[ind].price}',
+                                nameProduct:
+                                logic.getKeyboardRsp.value?.prodCategory?[ind].name,
+                                numStar: '5.0',
+                              ),
+                            );
+                          },
+                          gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 10,
+                            mainAxisSpacing: 10,
+                            childAspectRatio: 3 / 4.5,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 1, horizontal: 10),
+                          child: Row(
+                            mainAxisAlignment:
+                            MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Tivi nổi bật',
+                                style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w700),
+                              ),
+                              // InkWell(
+                              //     onTap: () {
+                              //
+                              //     },
+                              //     child: Text(
+                              //       "Xem thêm>",
+                              //       style: TextStyle(
+                              //           fontSize: 14,
+                              //           // fontWeight: FontWeight.w700,
+                              //           color: Colors.blue.shade700),
+                              //     )),
+                            ],
+                          ),
+                        ),
+                        GridView.builder(
+                          shrinkWrap: true,
+                          itemCount:  4,
+                          physics:
+                          const NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, ind) {
+                            return InkWell(
+                              onTap: () {
+                                // Get.to(Product_detailPage(data: snapshot.data?.prodCategory?[ind]));
+                                Get.to(ProductPage(
+                                  data:  logic.getTvRsp.value?.prodCategory?[ind],
+                                ));
+                              },
+                              child: GlobalProduct(
+                                imageLink: logic.getTvRsp.value?.prodCategory?[ind].imgLink,
+                                shortDes:   logic.getTvRsp.value?.prodCategory?[ind].shortDes,
+                                // price:NumberFormat("###,###.# đ").format(snapshot.data?.products?[index].price),
+                                price:
+                                '${  logic.getTvRsp.value?.prodCategory?[ind].price}',
+                                nameProduct:
+                                logic.getTvRsp.value?.prodCategory?[ind].name,
+                                numStar: '5.0',
+                              ),
+                            );
+                          },
+                          gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 10,
+                            mainAxisSpacing: 10,
+                            childAspectRatio: 3 / 4.5,
+                          ),
+                        ),
+
+
+
+
+                        const SizedBox(
+                          height: 20,
+                        ),
+                      ],
                     ),
                     const SizedBox(
                       height: 10,

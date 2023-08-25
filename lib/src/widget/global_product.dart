@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import 'global_image.dart';
+
 class GlobalProduct extends StatefulWidget {
   final String? imageLink;
   final String? nameProduct;
@@ -49,21 +51,12 @@ class _GlobalProductState extends State<GlobalProduct> {
           children: [
             const SizedBox(height: 5,),
             Center(
-              child: Image.network(widget.imageLink??'',
+              child: GlobalImage(
+                imageUrl:widget.imageLink,
                 width: MediaQuery.of(context).size.width*.45,
                 height: 150,
-                fit: BoxFit.cover,
-                 errorBuilder: (context, error, stackTrace) {
-              return Container(
-                color: Colors.amber,
-                alignment: Alignment.center,
-                child: const Text(
-                  'Whoops!',
-                  style: TextStyle(fontSize: 30),
-                ),
-              );
-              },
-              ),
+                  boxFit:BoxFit.cover
+              )
             ),
             const SizedBox(height: 20,),
             Text(widget.nameProduct??'',

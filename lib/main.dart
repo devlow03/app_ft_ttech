@@ -1,6 +1,7 @@
 import 'package:app_ft_tmart/src/core/xcolor.dart';
-import 'package:app_ft_tmart/src/data/services/dependency_injections.dart';
+import 'package:app_ft_tmart/src/data/dependency_injections.dart';
 import 'package:app_ft_tmart/src/module/index/index_view.dart';
+import 'package:app_ft_tmart/src/module/splash/splash_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 // SharedPreferences? pre;
@@ -42,7 +43,7 @@ class MyApp extends StatelessWidget {
         // buttonColor: XColor.primary,
 
       ),
-      home: IndexPage(),
+      home: SplashPage(),
     );
   }
 }

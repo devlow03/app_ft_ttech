@@ -1,21 +1,25 @@
+import 'package:app_ft_tmart/src/data/respository/get_slider_prod_rsp.dart';
+import 'package:app_ft_tmart/src/data/services/service.dart';
+import 'package:carousel_slider/carousel_controller.dart';
 import 'package:get/get.dart';
 
-import '../../data/respository/prodslider_res.dart';
-import '../../data/services/tmart_services.dart';
+
 
 class ProductLogic extends GetxController {
-  final TMartServices tMartServices;
+  final Services tMartServices;
   ProductLogic(this.tMartServices);
-  Rxn<ProdsliderRes> getSliderProdRsp = Rxn();
+  Rxn<GetSliderProdRsp> getSliderProdRsp = Rxn();
   Rx<int> activeIndex = Rx(0);
+  Rx<int>indexSlider = Rx(0);
+  CarouselController carouselControl = CarouselController();
   @override
   void onReady() async{
     // TODO: implement onReady
     await getSliderProd;
     super.onReady();
   }
-  Future<ProdsliderRes?>getSliderProd({required String id})async{
-    getSliderProdRsp.value = await tMartServices.getSliderProdRsp(slider: id);
+  Future<GetSliderProdRsp?>getSliderProd({required String id})async{
+    getSliderProdRsp.value = await tMartServices.getSlider(id: id);
     return getSliderProdRsp.value;
   }
 }

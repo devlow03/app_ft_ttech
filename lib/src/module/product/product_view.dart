@@ -1,3 +1,5 @@
+import 'package:app_ft_tmart/src/data/respository/get_product_by_category_rsp.dart';
+import 'package:app_ft_tmart/src/widget/global_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -5,7 +7,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../../core/xcolor.dart';
-import '../../data/respository/prod_category_res.dart';
+
 import 'product_logic.dart';
 
 class ProductPage extends StatelessWidget {
@@ -16,7 +18,7 @@ class ProductPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final logic = Get.put(ProductLogic(Get.find()));
-    logic.getSliderProd(id: data?.id.toString()??"");
+    logic.getSliderProd(id: data?.id.toString() ?? "");
     return Scaffold(
       backgroundColor: Colors.white,
       extendBodyBehindAppBar: true,
@@ -34,7 +36,7 @@ class ProductPage extends StatelessWidget {
                       color: Colors.black38,
 
                     ),
-                    child: const Icon(Icons.arrow_back))
+                    child: const Icon(Icons.arrow_back, color: Colors.white,))
 
             ),
             elevation: 0.0,
@@ -52,15 +54,18 @@ class ProductPage extends StatelessWidget {
                   alignment: Alignment.bottomCenter,
                   children: [
                     CarouselSlider.builder(
+                      carouselController: logic.carouselControl,
                       itemCount: logic.getSliderProdRsp.value?.slider
                           ?.length ??
                           0,
                       options: CarouselOptions(
                         aspectRatio: 20 / 21,
-                        autoPlay: true,
+                        // autoPlay: true,
                         autoPlayInterval: Duration(seconds: 7),
                         onPageChanged: (index, reason) {
                           logic.activeIndex.value = index;
+                          // logic.indexSlider.value = index;
+                          // print(">>>>>>>>>>>>indexSlider: ${logic.indexSlider.value}");
                         },
 
 
@@ -68,38 +73,46 @@ class ProductPage extends StatelessWidget {
                         // enlargeCenterPage: true,
                         // enableInfiniteScroll: true
                       ),
-                      itemBuilder: (context, index, realIndex) {
-                        return InkWell(
-                          onTap: () {
 
-                          },
-                          child: Image.network(
-                            logic.getSliderProdRsp.value?.slider?[index]
+                      itemBuilder: (context, index, realIndex) {
+                        // logic.indexSlider.value = index;
+
+                        return GlobalImage(
+                            imageUrl: logic.getSliderProdRsp.value
+                                ?.slider?[index]
                                 .linkImg ?? '',
-                            // width: MediaQuery
-                            //     .of(context)
-                            //     .size
-                            //     .width,
-                            fit: BoxFit.cover,
-                          ),
+                            width: MediaQuery
+                                .of(context)
+                                .size
+                                .width,
+                            boxFit: BoxFit.cover
+
                         );
                       },
+
                     ),
                     Positioned(
                       bottom: 50,
                       child: Center(
                         // bottom: 2,
-                          child: AnimatedSmoothIndicator(
-                            count: logic.getSliderProdRsp.value?.slider?.length??0,
-                            activeIndex: logic.activeIndex.value ?? 0,
-                            effect: ScrollingDotsEffect(
-                              dotWidth: 10,
-                              dotHeight: 3,
-                              dotColor: Colors.grey,
-                              activeDotColor: XColor.primary,
-                            ),
+                          child: Column(
+                            children: [
+                              AnimatedSmoothIndicator(
+                                count: logic.getSliderProdRsp.value?.slider?.length??0,
+                                activeIndex: logic.activeIndex.value ?? 0,
+                                effect: ExpandingDotsEffect(
+                                  dotWidth: 5,
+                                  dotHeight: 5,
+                                  dotColor: Colors.grey,
+                                  activeDotColor: XColor.primary,
+                                ),
+                              ),
+                              const SizedBox(height: 20,),
+
+                            ],
                           )),
                     ),
+
                   ],
                 );
               }),
@@ -123,7 +136,8 @@ class ProductPage extends StatelessWidget {
                         color: Colors.black38,
 
                       ),
-                      child: const Icon(Icons.favorite_border))
+                      child: const Icon(
+                        Icons.favorite_border, color: Colors.white,))
 
               ),
               IconButton(
@@ -137,7 +151,7 @@ class ProductPage extends StatelessWidget {
                         color: Colors.black38,
 
                       ),
-                      child: const Icon(Icons.search))
+                      child: const Icon(Icons.search, color: Colors.white,))
 
               ),
               IconButton(
@@ -151,21 +165,22 @@ class ProductPage extends StatelessWidget {
                         color: Colors.black38,
 
                       ),
-                      child: const Icon(Icons.shopping_bag_outlined))
+                      child: const Icon(
+                        Icons.shopping_bag_outlined, color: Colors.white,))
               ),
             ],
 
             bottom: PreferredSize(
               preferredSize: Size.fromHeight(0.0),
               child: Container(
-                height: 32,
+                height: 28,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                     color: Colors.white,
 
                     borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(32),
-                        topRight: Radius.circular(32)
+                        topLeft: Radius.circular(25),
+                        topRight: Radius.circular(25)
                     )
                 ),
                 child: Container(
@@ -180,152 +195,226 @@ class ProductPage extends StatelessWidget {
             ),
           ),
           SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('${data?.nameType}',
-                            style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w300
-                            ),
-                          ),
-                          const SizedBox(height: 10,),
-                          Text('${data?.name}',
-                            style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600
-                            ),
-                          )
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Icon(Icons.star, color: Colors.yellow.shade300,),
-                          Text('4.5(231)')
-                        ],
-                      )
-                    ],
-                  ),
-                  const SizedBox(height: 20,),
-                  Text('${data?.descript}',
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w300,
+            child: Obx(() {
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: 50,
+                      child: ListView.separated(
+                        physics: AlwaysScrollableScrollPhysics(),
+                        scrollDirection: Axis.horizontal,
+                        shrinkWrap: true,
 
+                        itemCount: logic.getSliderProdRsp.value
+                            ?.slider
+                            ?.length ??
+                            0,
+                        itemBuilder: (context, index) {
+                          return Obx(() {
+                            return GestureDetector(
+                              onTap: () {
+                                logic.carouselControl.animateToPage(
+                                    index);
+                                logic.indexSlider.value = index;
+                                print(index);
+                              },
+                              child: Visibility(
+                                visible: logic.indexSlider.value ==
+                                    index,
+                                replacement: ClipRRect(
+                                  borderRadius: BorderRadius.circular(
+                                      5),
+                                  child: GlobalImage(
+                                    imageUrl: logic.getSliderProdRsp
+                                        .value?.slider?[index]
+                                        .linkImg ?? '',
+                                    width: MediaQuery
+                                        .of(context)
+                                        .size
+                                        .width * .15,
+                                    height: 30,
+                                    boxFit: BoxFit.cover,
+                                  ),
+                                ),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                        color: XColor.primary),
+                                    borderRadius: BorderRadius
+                                        .circular(5),
+                                  ),
+                                  child: GlobalImage(
+                                    imageUrl: logic.getSliderProdRsp
+                                        .value?.slider?[logic
+                                        .indexSlider.value]
+                                        .linkImg ?? '',
+                                    width: MediaQuery
+                                        .of(context)
+                                        .size
+                                        .width * .15,
+                                    height: 30,
+                                    boxFit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                            );
+                          });
+                        },
+                        separatorBuilder: (context, index) {
+                          return SizedBox(width: 10,);
+                        },
+                      ),
                     ),
-                    maxLines: 7,
-                  ),
-                  const SizedBox(height: 30,),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          Text('Giá:'),
-                          const SizedBox(width: 3,),
-                          Text(
-                            NumberFormat.simpleCurrency(locale: 'VI').format(int
-                                .parse(data?.price.toString() ?? "")),
-                            style: TextStyle(
-                                color: Colors.redAccent,
-                                fontSize: 15,
-                                fontWeight: FontWeight.w500
-
-                            ),
-
+                    const SizedBox(height: 10,),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('${data?.nameType}',
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w300
+                                ),
+                              ),
+                              const SizedBox(height: 10,),
+                              Text('${data?.name}',
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600
+                                ),
+                              )
+                            ],
                           ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Text('Màu sắc: '),
-                          const SizedBox(width: 5),
-                          Icon(Icons.circle, color: Colors.deepPurple,),
-                          Icon(Icons.circle, color: Colors.black,),
-                          Icon(Icons.circle, color: Colors.yellow,),
-                          Icon(Icons.circle, color: Colors.grey,)
-                        ],
-                      ),
-
-
-                    ],
-                  ),
-                  const SizedBox(height: 30,),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      // Text('Số lượng: '),
-                      Container(
-                        padding: EdgeInsets.symmetric(
-                            vertical: 8, horizontal: 20),
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                                color: Colors.grey.shade300
-                            ),
-                            borderRadius: BorderRadius.circular(20)
                         ),
-                        child: Row(
+                        Row(
                           children: [
+                            Icon(Icons.star, color: Colors.orange.shade300,),
+                            Text('4.5(231)')
+                          ],
+                        )
+                      ],
+                    ),
+                    const SizedBox(height: 20,),
+                    Text('${data?.descript}',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w300,
 
+                      ),
+                      maxLines: 7,
+                    ),
+                    const SizedBox(height: 20,),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            Text('Giá:'),
                             const SizedBox(width: 3,),
-                            Icon(Icons.remove, size: 15,),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 10),
-                              child: Text('1'),
-                            ),
-                            Icon(Icons.add, size: 15),
+                            Text(
+                              NumberFormat.simpleCurrency(locale: 'VI').format(
+                                  int
+                                      .parse(data?.price.toString() ?? "")),
+                              style: TextStyle(
+                                  color: Colors.redAccent,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w500
 
+                              ),
+
+                            ),
                           ],
                         ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text('Phiên bản: '),
-                          const SizedBox(width: 2,),
-                          Container(
-                            padding: EdgeInsets.symmetric(horizontal: 10,
-                                vertical: 5),
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: XColor.primary
-                                )
-                            ),
-                            child: Text('256GB',
-                              style: TextStyle(color: XColor.primary),
-                            ),
-                          ),
-                          const SizedBox(width: 5),
-                          Container(
-                            padding: EdgeInsets.symmetric(horizontal: 10,
-                                vertical: 5),
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: Colors.black
-                                )
-                            ),
-                            child: Text('128GB',
-                            ),
-                          ),
+                        Row(
+                          children: [
+                            Text('Màu sắc: '),
+                            const SizedBox(width: 5),
+                            Icon(Icons.circle, color: Colors.deepPurple,),
+                            Icon(Icons.circle, color: Colors.black,),
+                            Icon(Icons.circle, color: Colors.yellow,),
+                            Icon(Icons.circle, color: Colors.grey,)
+                          ],
+                        ),
 
 
-                        ],
-                      )
-                    ],
-                  )
-                ],
-              ),
-            ),
+                      ],
+                    ),
+                    const SizedBox(height: 30,),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        // Text('Số lượng: '),
+                        Container(
+                          padding: EdgeInsets.symmetric(
+                              vertical: 8, horizontal: 20),
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: Colors.grey.shade300
+                              ),
+                              borderRadius: BorderRadius.circular(20)
+                          ),
+                          child: Row(
+                            children: [
+
+                              const SizedBox(width: 3,),
+                              Icon(Icons.remove, size: 15,),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10),
+                                child: Text('1'),
+                              ),
+                              Icon(Icons.add, size: 15),
+
+                            ],
+                          ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text('Phiên bản: '),
+                            const SizedBox(width: 2,),
+                            Container(
+                              padding: EdgeInsets.symmetric(horizontal: 10,
+                                  vertical: 5),
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color: XColor.primary
+                                  )
+                              ),
+                              child: Text('256GB',
+                                style: TextStyle(color: XColor.primary),
+                              ),
+                            ),
+                            const SizedBox(width: 5),
+                            Container(
+                              padding: EdgeInsets.symmetric(horizontal: 10,
+                                  vertical: 5),
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color: Colors.black
+                                  )
+                              ),
+                              child: Text('128GB',
+                              ),
+                            ),
+
+
+                          ],
+                        )
+                      ],
+                    ),
+
+                  ],
+                ),
+              );
+            }),
 
           )
         ],
@@ -369,7 +458,9 @@ class ProductPage extends StatelessWidget {
                       child: Text(
                         "Mua ngay",
                         style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w500),
+                            fontSize: 16, fontWeight: FontWeight.w500,
+                            color: Colors.white
+                        ),
                       ),
                     ),
                     style: ElevatedButton.styleFrom(
