@@ -4,6 +4,7 @@ class XColor {
   XColor._();
   static const Color _primary = Color(0xff33BBC5);
   // static const Color _primary = Color(0xffBE1E2D);
+
   static MaterialColor primary = MaterialColor(
     _primary.value,
     <int, Color>{

@@ -1,3 +1,4 @@
+import 'package:app_ft_tmart/src/core/config.dart';
 import 'package:app_ft_tmart/src/core/xcolor.dart';
 import 'package:app_ft_tmart/src/data/dependency_injections.dart';
 import 'package:app_ft_tmart/src/module/index/index_view.dart';
@@ -9,7 +10,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await DependencyInjections().dependencies();// fix lỗi dependency injection - SharedPreferences
   // pre = await SharedPreferences.getInstance();
-
   runApp(const MyApp());
 }
 
