@@ -69,7 +69,7 @@ class _IndexPageState extends State<IndexPage> {
                   iconColor: Colors.black,
                 ),
                 GButton(
-                  icon: Icons.newspaper_outlined,
+                  icon: Icons.list_alt,
                   text: 'Tin tức',
                   iconColor: Colors.black,
                 ),

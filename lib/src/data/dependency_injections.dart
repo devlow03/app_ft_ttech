@@ -1,5 +1,6 @@
 
 import 'package:app_ft_tmart/src/data/services/service.dart';
+import 'package:app_ft_tmart/src/data/services/tiki_service.dart';
 import 'package:dio/dio.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
@@ -14,6 +15,8 @@ class DependencyInjections implements GET.Bindings {
     final encryptedSharedPreferences = await GET.Get.putAsync(_encryptedSharedPreferences);
     final dio = await GET.Get.putAsync(() => _dio(encryptedSharedPreferences));
     GET.Get.put(Services(dio));
+    GET.Get.put(TikiService(dio));
+
 
   }
 

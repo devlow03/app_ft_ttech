@@ -1,14 +1,18 @@
+import 'package:app_ft_tmart/src/module/search/search_view.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../../core/xcolor.dart';
 import '../../data/respository/get_product_by_category_rsp.dart';
 import '../../widget/global_image.dart';
 import '../../widget/global_product.dart';
 import '../../widget/search_widget.dart';
+import '../list_product/list_product_view.dart';
+import '../product/product_logic.dart';
 import '../product/product_view.dart';
 import 'home_logic.dart';
 
@@ -17,41 +21,37 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final logic = Get.put(HomeLogic(Get.find()));
-
+    final logic = Get.put(HomeLogic(Get.find(), Get.find()));
+    final logicProd = Get.put(ProductLogic(Get.find()));
     return Scaffold(
-        backgroundColor: Colors.grey.shade100,
+        backgroundColor: Colors.white,
         appBar: AppBar(
+          backgroundColor: Colors.white,
           bottom: PreferredSize(
-              preferredSize: Size.fromHeight(50),
-              child: SearchWidget()
+              preferredSize: Size.fromHeight(50), child: SearchWidget()),
+          title: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text('TMART',
+              style: TextStyle(
+                color: XColor.primary,
+                fontSize: 18,
+                fontWeight: FontWeight.w700,
+                fontStyle: FontStyle.italic,
+                letterSpacing: 0.5
+              ),
+              ),
+            ],
           ),
-          leading:  IconButton(
-              onPressed: (){
-
-              },
-              icon:Icon(Icons.menu,color: Colors.white,)),
           elevation: 0.0,
-          // title:Text('TMart',
-          // style: TextStyle(
-          //   fontSize: 20,
-          //   color: Colors.white,
-          //   fontWeight: FontWeight.w700
-          // ),
-          // ),
           actions: [
             IconButton(
-                onPressed: (){
+                onPressed: () {},
+                icon: Icon(
+                  Icons.shopping_cart_outlined,
 
-                }, icon: Icon(Icons.notifications_active,color: Colors.white,)
-            ),
-            IconButton(
-                onPressed: (){
-
-                }, icon: Icon(Icons.shopping_bag_outlined,color: Colors.white,)
-            ),
+                )),
           ],
-
         ),
         body: RefreshIndicator(
           color: Colors.black,
@@ -60,746 +60,731 @@ class HomePage extends StatelessWidget {
             logic.refresh();
           },
           child: Obx(() {
+
             return ListView(
               children: [
                 Column(
                   children: [
-                    Stack(
-                      alignment: Alignment.bottomCenter,
-                      children: [
-                        CarouselSlider.builder(
-
-                          itemCount: logic.getBannerRsp.value?.data?.length,
-                          options: CarouselOptions(
-                              aspectRatio: 25 / 12,
-                              autoPlay: true,
-                              autoPlayInterval: const Duration(seconds: 7),
-                              viewportFraction: 1,
-                              onPageChanged: (index, reason) {
-                                logic.activeIndex.value = index;
-                              }
-
-                            // // viewportFraction: 1,
-
-                            // // enableInfiniteScroll: true
-                          ),
-                          itemBuilder: (context, index, realIndex) {
-                                return GlobalImage(
-                                  imageUrl:logic.getBannerRsp.value?.data?[index]
-                                      .urlBannerImg,
-                                  width: MediaQuery.of(context).size.width,
-                                    boxFit:BoxFit.cover
-                                );
-
-
-
-                          },
-
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Positioned(
-                          bottom: 10,
-                          child: Center(
-                            // bottom: 2,
-                              child: AnimatedSmoothIndicator(
-                                count: logic.getBannerRsp.value?.data?.length??0,
-                                activeIndex: logic.activeIndex.value ?? 0,
-                                effect: ScrollingDotsEffect(
-                                  dotWidth: 5,
-                                  dotHeight: 5,
-                                  dotColor: Colors.grey,
-                                  activeDotColor: XColor.primary,
-                                ),
-                              )),
-                        ),
-                      ],
-                    ),
-
+                    const SizedBox(height: 5,),
                     Container(
-                      width: MediaQuery
-                          .of(context)
-                          .size
-                          .width,
-                      height: 10,
-                      color: Colors.grey.shade100,
+                      color: Colors.white,
+                      child: Stack(
+                        alignment: Alignment.bottomCenter,
+                        children: [
+                          Visibility(
+                            visible: logic.getTikiBannerRsp.value?.data?.first
+                                .banners?.isEmpty==false,
+                            replacement:  CarouselSlider.builder(
+                              itemCount:1,
+                              options: CarouselOptions(
+                                  aspectRatio: 25 / 12,
+                                  autoPlay: true,
+                                  autoPlayInterval: const Duration(seconds: 7),
+                                  viewportFraction: 1,
+                                  onPageChanged: (index, reason) {
+                                    logic.activeIndex.value = index;
+                                  }
+
+                              ),
+                              itemBuilder: (context, index, realIndex) {
+                                return Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 5),
+                                  child: SizedBox(
+                                    width: MediaQuery.of(context).size.width,
+                                    child: Shimmer.fromColors(
+                                      baseColor: Colors.grey.shade300,
+                                      highlightColor: Colors.grey.shade100,
+                                      child: Container(
+                                        decoration:BoxDecoration(
+                                          borderRadius: BorderRadius.circular(8),
+                                          color: Colors.grey.shade300,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                            child: CarouselSlider.builder(
+                              itemCount: logic.getTikiBannerRsp.value?.data?.first
+                                      .banners?.length ??
+                                  0,
+                              options: CarouselOptions(
+                                  aspectRatio: 25 / 12,
+                                  autoPlay: true,
+                                  autoPlayInterval: const Duration(seconds: 7),
+                                  viewportFraction: 1,
+                                  onPageChanged: (index, reason) {
+                                    logic.activeIndex.value = index;
+                                  }
+
+
+
+
+                                  ),
+                              itemBuilder: (context, index, realIndex) {
+                                return Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 5),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(8),
+                                    child: GlobalImage(
+                                      imageUrl: logic.getTikiBannerRsp.value?.data
+                                          ?.first.banners?[index].imageUrl,
+                                      width: MediaQuery.of(context).size.width,
+                                      boxFit: BoxFit.fill,
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Positioned(
+                            bottom: 10,
+                            child: Center(
+                                // bottom: 2,
+                                child: AnimatedSmoothIndicator(
+                              count: logic.getTikiBannerRsp.value?.data?.first
+                                      .banners?.length ??
+                                  0,
+                              activeIndex: logic.activeIndex.value ?? 0,
+                              effect: ScrollingDotsEffect(
+                                dotWidth: 5,
+                                dotHeight: 5,
+                                dotColor: Colors.grey,
+                                activeDotColor: XColor.primary,
+                              ),
+                            )),
+                          ),
+                        ],
+                      ),
                     ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: const [
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Text(
-                          'Danh mục sản phẩm',
-                          style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.w700),
-                        ),
-                      ],
-                    ),
+
+
                     const SizedBox(
                       height: 10,
                     ),
                   ],
                 ),
-
                 Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(
-                      height: 100,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 5),
-                        child: ListView.separated(
-                          scrollDirection: Axis.horizontal,
-                          shrinkWrap: true,
-                          itemCount: logic.getCategoryRsp.value
-                              ?.category?.length??0,
-                          // physics: NeverScrollableScrollPhysics(),
-                          itemBuilder: (context, index) {
-                            return InkWell(
-                              onTap: () {
+                   Padding(
+                     padding: const EdgeInsets.symmetric(horizontal: 5),
+                     child: Container(
+                       width: MediaQuery.of(context).size.width,
+                       decoration: BoxDecoration(
+                         // borderRadius: BorderRadius.circular(10),
+                         // border: Border.all(color: Colors.grey.shade200,),
+                         color: Colors.white,                          ),
+                       child: Column(
+                         crossAxisAlignment: CrossAxisAlignment.start,
+                         children: [
+                           const SizedBox(height: 10,),
+                           Padding(
+                             padding: const EdgeInsets.symmetric( vertical: 3, horizontal: 10),
+                             child: Text(
+                               'Danh mục sản phẩm',
+                               style: TextStyle(
+                                   fontSize: 16, fontWeight: FontWeight.w500),
+                             ),
+                           ),
+                           Visibility(
+                             visible:logic.getCategoryRsp.value?.category?.isEmpty==false ,
+                             replacement:  SizedBox(
+                               height: 100,
+                               child: ListView.separated(
+                                 scrollDirection: Axis.horizontal,
+                                 shrinkWrap: true,
+                                 itemCount:3,
+                                 // physics: NeverScrollableScrollPhysics(),
+                                 itemBuilder: (context, index) {
+                                   return Column(
+                                     mainAxisAlignment: MainAxisAlignment.center,
+                                     children: [
+                                       Padding(
+                                         padding: const EdgeInsets.symmetric(
+                                             horizontal: 5),
+                                         child: SizedBox(
+                                           // width: MediaQuery.of(context).size.width *
+                                           //     .4,
+                                           // height: 60,
+                                           child: Shimmer.fromColors(
+                                               child: Container(
+                                                 width: MediaQuery.of(context).size.width *
+                                                     .4,
+                                                 height: 80,
+                                                 decoration: BoxDecoration(
+                                                   borderRadius: BorderRadius.circular(8),
+                                                   color: Colors.grey.shade300
 
-                              },
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
+                                                 ),
+                                               ),
+                                             baseColor: Colors.grey.shade300,
+                                             highlightColor: Colors.grey.shade100,
+                                           ),
+                                         )
+                                       ),
+                                     ],
+                                   );
+                                 },
+                                 separatorBuilder:
+                                     (BuildContext context, int index) {
+                                   return const SizedBox(
+                                     width: 20,
+                                   );
+                                 },
+                               ),
+                             ),
+                             child: SizedBox(
+                               height: 100,
+                               child: ListView.separated(
+                                 scrollDirection: Axis.horizontal,
+                                 shrinkWrap: true,
+                                 itemCount:
+                                 logic.getCategoryRsp.value?.category?.length ??
+                                     0,
+                                 // physics: NeverScrollableScrollPhysics(),
+                                 itemBuilder: (context, index) {
+                                   return InkWell(
+                                     onTap: () {
+                                       Get.to(List_productPage(
+                                         id: logic.getCategoryRsp.value
+                                             ?.category?[index].idCategory
+                                             .toString() ??
+                                             "",
+                                         name: logic.getCategoryRsp.value
+                                             ?.category?[index].nameType,
+                                       ));
+                                     },
+                                     child: Column(
+                                       mainAxisAlignment: MainAxisAlignment.center,
+                                       children: [
+                                         Container(
+                                           width: MediaQuery.of(context).size.width *
+                                               .4,
+                                           height: 80,
+                                           decoration: BoxDecoration(
+                                               border: Border.all(
+                                                   color: Colors.grey.shade200),
+                                               color: XColor.primary,
+                                               borderRadius:
+                                               BorderRadius.circular(5)),
+                                           child: Padding(
+                                             padding: const EdgeInsets.symmetric(
+                                                 horizontal: 5),
+                                             child: Row(
+                                               mainAxisAlignment:
+                                               MainAxisAlignment.center,
+                                               children: [
+                                                 GlobalImage(
+                                                   imageUrl: logic
+                                                       .getCategoryRsp
+                                                       .value
+                                                       ?.category?[index]
+                                                       .image ??
+                                                       "",
+                                                   width: MediaQuery.of(context)
+                                                       .size
+                                                       .width *
+                                                       .1,
+                                                   height: 50,
+                                                 ),
+                                                 const SizedBox(
+                                                   width: 10,
+                                                 ),
+                                                 Text(
+                                                   logic
+                                                       .getCategoryRsp
+                                                       .value
+                                                       ?.category?[index]
+                                                       .nameType ??
+                                                       "",
+                                                   style: const TextStyle(
+                                                       color: Colors.white,
+                                                       fontWeight: FontWeight.w400,
+                                                       fontSize: 15),
+                                                 )
+                                               ],
+                                             ),
+                                           ),
+                                         ),
+                                       ],
+                                     ),
+                                   );
+                                 },
+                                 separatorBuilder:
+                                     (BuildContext context, int index) {
+                                   return const SizedBox(
+                                     width: 20,
+                                   );
+                                 },
+                               ),
+                             ),
+                           ),
+                         ],
+                       ),
+                     ),
+                   ),
+                     Padding(
+                       padding: const EdgeInsets.symmetric(vertical: 10),
+                       child: Container(
+                         width: MediaQuery.of(context).size.width,
+                         height: 10,
+                         color: Colors.grey.shade100,
+                    ),
+                     ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: Container(
+                        decoration: BoxDecoration(
+                         
+                          color: Colors.white,                          ),
+
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(height: 10,),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 5, horizontal: 15),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Container(
-                                    width:
-                                    MediaQuery
-                                        .of(context)
-                                        .size
-                                        .width *
-                                        .4,
-                                    height: 80,
-                                    decoration: BoxDecoration(
-                                      border: Border.all(color:Colors.grey.shade200),
-                                        color: Colors.white,
-                                        borderRadius:
-                                        BorderRadius.circular(5)),
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 5),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
-                                        children: [
-                                          GlobalImage(
-                                            imageUrl:logic.getCategoryRsp.value
-                                                ?.category?[index].image ?? "",
-                                            width: MediaQuery.of(context).size.width*.1,
-                                            boxFit:BoxFit.cover
-                                          ),
-                                          const SizedBox(
-                                            width: 5,
-                                          ),
-                                          Text(
-                                            logic.getCategoryRsp.value?.category?[index].nameType??"",
-                                            style: const TextStyle(
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.w600,
-                                                fontSize: 15),
-                                          )
-                                        ],
-                                      ),
-                                    ),
+                                  Text(
+                                    'Sản phẩm bán chạy',
+                                    style: const TextStyle(
+                                        fontSize: 16, fontWeight: FontWeight.w500),
                                   ),
                                 ],
                               ),
-                            );
-                          },
-                          separatorBuilder:
-                              (BuildContext context, int index) {
-                            return const SizedBox(
-                              width: 20,
-                            );
-                          },
+                            ),
+                            Visibility(
+                              visible: logic.getTikiTopSellerRsp.value?.tabs?.isEmpty==false,
+                              replacement:  Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: SizedBox(
+                                  height: 35,
+                                  child: ListView.separated(
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount:
+                                    4,
+                                    itemBuilder: (context, index) {
+                                      return Shimmer.fromColors(
+                                        baseColor: Colors.grey.shade300,
+                                        highlightColor: Colors.grey.shade100,
+                                        child: Container(
+                                          width: MediaQuery.of(context).size.width*.3,
+                                            height: 10,
+                                            decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(20),
+                                              color: Colors.grey.shade300
+
+
+                                            )),
+                                      );
+                                    },
+                                    separatorBuilder:
+                                        (BuildContext context, int index) {
+                                      return SizedBox(
+                                        width: 5,
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: SizedBox(
+                                  height: 35,
+                                  child: ListView.separated(
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount:
+                                    logic.getTikiTopSellerRsp.value?.tabs?.length ??
+                                        0,
+                                    itemBuilder: (context, index) {
+                                      return InkWell(
+                                        onTap: () {
+                                          logic.tabIndex.value = index;
+                                          print(logic.tabIndex.value);
+                                        },
+                                        child: Visibility(
+                                          visible: logic.tabIndex.value == index,
+                                          replacement: Container(
+                                              decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(20),
+                                                  border:
+                                                  Border.all(color: Colors.grey.shade300)),
+                                              child: Padding(
+                                                padding: const EdgeInsets.symmetric(
+                                                    vertical: 10, horizontal: 10),
+                                                child: Text(
+                                                  logic.getTikiTopSellerRsp.value
+                                                      ?.tabs?[index].title ??
+                                                      "",
+                                                  style: TextStyle(
+                                                      color: Colors.black,
+                                                    fontSize: 12,
+
+                                                  ),
+                                                  textAlign: TextAlign.center,
+
+                                                ),
+                                              )),
+                                          child: Container(
+                                              decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(20),
+                                                  border:
+                                                  Border.all(color: XColor.primary)),
+                                              child: Padding(
+                                                padding: const EdgeInsets.symmetric(
+                                                    vertical: 10, horizontal: 10),
+                                                child: Text(
+                                                  logic.getTikiTopSellerRsp.value
+                                                      ?.tabs?[index].title ??
+                                                      "",
+                                                  style: TextStyle(color: XColor.primary,fontWeight: FontWeight.w500,fontSize: 12),
+                                                  textAlign: TextAlign.center,
+                                                ),
+                                              )),
+                                        ),
+                                      );
+                                    },
+                                    separatorBuilder:
+                                        (BuildContext context, int index) {
+                                      return SizedBox(
+                                        width: 5,
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Visibility(
+                              visible: logic.getTikiTopSellerRsp.value?.tabs?.isEmpty==false,
+                              replacement: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: SizedBox(
+                                  height: MediaQuery.of(context).size.height*.4,
+
+                                  child: ListView.separated(
+                                    shrinkWrap: true,
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount:3,
+                                    itemBuilder: (context, ind) {
+                                      return Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Container(
+                                          height: MediaQuery.of(context).size.height*.25,
+                                          // padding: EdgeInsets.symmetric(vertical: 20),
+                                          width: MediaQuery.of(context).size.width*.4,
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(10),
+                                            // border: Border.all(color: Colors.red),
+                                            border: Border.all(color: Colors.grey.shade300,),
+                                            color: Colors.white,
+                                          ),
+                                          child: Column(
+                                            // mainAxisAlignment: MainAxisAlignment.,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              // const SizedBox(height: 5,),
+                                              Column(
+                                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                                children: [
+                                                  Shimmer.fromColors(
+                                                    baseColor: Colors.grey.shade300,
+                                                    highlightColor: Colors.grey.shade100,
+                                                    child: Container(
+                                                      width: MediaQuery.of(context).size.width*.1,
+                                                      height: 190,
+                                                      decoration: BoxDecoration(
+                                                        color: Colors.grey.shade300,
+                                                        borderRadius: BorderRadius.only(
+                                                            topLeft: Radius.circular(10),
+                                                            topRight: Radius.circular(10)
+                                                        ),
+                                                      ),
+
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+
+                                              Padding(
+                                                padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 5),
+                                                child: Column(
+                                                  children: [
+                                                    const SizedBox(height: 5,),
+                                                    Shimmer.fromColors(
+                                                      baseColor: Colors.grey.shade300,
+                                                      highlightColor: Colors.grey.shade100,
+                                                      child: Container(
+                                                        color: Colors.grey.shade300,
+                                                        height: 30,
+                                                        width: MediaQuery.of(context).size.width,
+                                                        // boxFit: BoxFit.cover,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              const SizedBox(height: 10,),
+                                              Padding(
+                                                padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 5),
+                                                child: Column(
+                                                  children: [
+                                                    const SizedBox(height: 5,),
+                                                    Shimmer.fromColors(
+                                                      baseColor: Colors.grey.shade300,
+                                                      highlightColor: Colors.grey.shade100,
+                                                      child: Container(
+                                                        color: Colors.grey.shade300,
+                                                        height: 30,
+                                                        width: MediaQuery.of(context).size.width,
+                                                        // boxFit: BoxFit.cover,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+
+
+
+                                            ],
+                                          ),
+                                        )
+                                      );
+                                    },
+                                    separatorBuilder: (BuildContext context, int index) {
+                                      return SizedBox(
+                                        width: 2,
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: SizedBox(
+                                  height: MediaQuery.of(context).size.height*.4,
+
+                                  child: ListView.separated(
+                                    shrinkWrap: true,
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount:
+                                    logic
+                                        .getTikiTopSellerRsp
+                                        .value
+                                        ?.tabs?[logic.tabIndex.value ?? 0]
+                                        .items
+                                        ?.length ??
+                                        0,
+                                    itemBuilder: (context, ind) {
+                                      return InkWell(
+                                        onTap: () async{
+
+                                            Get.to(ProductPage(id: logic
+                                                .getTikiTopSellerRsp
+                                                .value
+                                                ?.tabs?[logic.tabIndex.value ?? 0]
+                                                .items?[ind]
+                                                .id));
+
+                                        },
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: GlobalProduct(
+                                            imageLink: logic
+                                                .getTikiTopSellerRsp
+                                                .value
+                                                ?.tabs?[logic.tabIndex.value ?? 0]
+                                                .items?[ind]
+                                                .thumbnailUrl,
+
+                                            // price:NumberFormat("###,###.# đ").format(snapshot.data?.products?[index].price),
+                                            price:
+                                            '${logic.getTikiTopSellerRsp.value?.tabs?[logic.tabIndex.value ?? 0].items?[ind].price}',
+                                            nameProduct: logic
+                                                .getTikiTopSellerRsp
+                                                .value
+                                                ?.tabs?[logic.tabIndex.value ?? 0]
+                                                .items?[ind]
+                                                .name,
+                                            numStar: '5.0',
+                                            badgesLink: logic
+                                                .getTikiTopSellerRsp
+                                                .value
+                                                ?.tabs?[logic.tabIndex.value ?? 0]
+                                                .items?[ind]
+                                                .badgesNew?[0]
+                                                .icon,
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    separatorBuilder: (BuildContext context, int index) {
+                                      return SizedBox(
+                                        width: 2,
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ),
-
                     Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 3),
+                      padding: const EdgeInsets.symmetric(vertical: 10),
                       child: Container(
-                        width: MediaQuery
-                            .of(context)
-                            .size
-                            .width,
+                        width: MediaQuery.of(context).size.width,
                         height: 10,
                         color: Colors.grey.shade100,
                       ),
                     ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          // borderRadius: BorderRadius.circular(10),
+                          // border: Border.all(color: Colors.grey.shade200,),
+                          color: Colors.white,                          ),
 
-                    Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 1, horizontal: 10),
-                          child: Row(
-                            mainAxisAlignment:
-                            MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Điện thoại nổi bật',
-                                style: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w700),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(height: 10,),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 5, horizontal: 15),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Bạn có thể thích',
+                                    style: const TextStyle(
+                                        fontSize: 16, fontWeight: FontWeight.w500),
+                                  ),
+                                ],
                               ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: SizedBox(
+                                height: 30,
+                                child: ListView.separated(
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount:
+                                  logic.getMayBeYouLikeRsp.value?.tabs?.length ??
+                                      0,
+                                  itemBuilder: (context, index1) {
+                                    return InkWell(
+                                      onTap: () {
+                                        logic.tabLike.value = index1;
 
-                            ],
-                          ),
-                        ),
-                        GridView.builder(
-                          shrinkWrap: true,
-                          itemCount:  4,
-                          physics:
-                          const NeverScrollableScrollPhysics(),
-                          itemBuilder: (context, ind) {
-                            return InkWell(
-                              onTap: () {
-                                // Get.to(Product_detailPage(data: snapshot.data?.prodCategory?[ind]));
-                                Get.to(ProductPage(
-                                  data:  logic.getPhoneRsp.value?.prodCategory?[ind],
-                                ));
-                              },
-                              child: GlobalProduct(
-                                imageLink: logic.getPhoneRsp.value?.prodCategory?[ind].imgLink,
-                                shortDes:   logic.getPhoneRsp.value?.prodCategory?[ind].shortDes,
-                                // price:NumberFormat("###,###.# đ").format(snapshot.data?.products?[index].price),
-                                price:
-                                '${  logic.getPhoneRsp.value?.prodCategory?[ind].price}',
-                                nameProduct:
-                                logic.getPhoneRsp.value?.prodCategory?[ind].name,
-                                numStar: '5.0',
+                                      },
+                                      child: Container(
+                                          decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.circular(20),
+                                              border:
+                                              Border.all(color: XColor.primary)),
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 5, horizontal: 10),
+                                            child: Text(
+                                              logic.getMayBeYouLikeRsp.value
+                                                  ?.tabs?[index1].title ??
+                                                  "",
+                                              style: TextStyle(color: XColor.primary,fontWeight: FontWeight.w500),
+                                            ),
+                                          )),
+                                    );
+                                  },
+                                  separatorBuilder:
+                                      (BuildContext context, int index) {
+                                    return SizedBox(
+                                      width: 5,
+                                    );
+                                  },
+                                ),
                               ),
-                            );
-                          },
-                          gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: SizedBox(
+                                height: MediaQuery.of(context).size.height*.4,
 
-                            crossAxisCount: 2,
-                            crossAxisSpacing: 10,
-                            mainAxisSpacing: 10,
-                            childAspectRatio: 3 / 4.5,
-                          ),
+                                child: ListView.separated(
+                                  shrinkWrap: true,
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount:
+                                  logic
+                                      .getMayBeYouLikeRsp
+                                      .value
+                                      ?.tabs?[logic.tabLike.value ?? 0]
+                                      .items
+                                      ?.length ??
+                                      0,
+                                  itemBuilder: (context, ind1) {
+                                    return InkWell(
+                                      onTap: () async{
+
+                                        Get.to(ProductPage(id: logic.getMayBeYouLikeRsp.value?.tabs?[logic.tabLike.value ?? 0].items?[ind1].id));
+                                      },
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: GlobalProduct(
+                                          imageLink: logic
+                                              .getMayBeYouLikeRsp
+                                              .value
+                                              ?.tabs?[logic.tabLike.value ?? 0]
+                                              .items?[ind1]
+                                              .thumbnailUrl,
+
+                                          // price:NumberFormat("###,###.# đ").format(snapshot.data?.products?[index].price),
+                                          price:
+                                          '${logic.getMayBeYouLikeRsp.value?.tabs?[logic.tabLike.value ?? 0].items?[ind1].price}',
+                                          nameProduct: logic
+                                              .getMayBeYouLikeRsp
+                                              .value
+                                              ?.tabs?[logic.tabLike.value ?? 0]
+                                              .items?[ind1]
+                                              .name,
+                                          numStar: '5.0',
+                                          badgesLink: logic
+                                              .getMayBeYouLikeRsp
+                                              .value
+                                              ?.tabs?[logic.tabLike.value ?? 0]
+                                              .items?[ind1]
+                                              .badgesNew?[1]
+                                              .icon,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  separatorBuilder: (BuildContext context, int index) {
+                                    return SizedBox(
+                                      width: 2,
+                                    );
+                                  },
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-
-
-
-
-
-                      ],
+                      ),
                     ),
                     const SizedBox(
-                      height: 10,
+                      height: 20,
                     ),
-                    Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 1, horizontal: 10),
-                          child: Row(
-                            mainAxisAlignment:
-                            MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'laptop nổi bật',
-                                style: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w700),
-                              ),
-                              // InkWell(
-                              //     onTap: () {
-                              //
-                              //     },
-                              //     child: Text(
-                              //       "Xem thêm>",
-                              //       style: TextStyle(
-                              //           fontSize: 14,
-                              //           // fontWeight: FontWeight.w700,
-                              //           color: Colors.blue.shade700),
-                              //     )),
-                            ],
-                          ),
-                        ),
-                        GridView.builder(
-                          shrinkWrap: true,
-                          itemCount:  4,
-                          physics:
-                          const NeverScrollableScrollPhysics(),
-                          itemBuilder: (context, ind) {
-                            return InkWell(
-                              onTap: () {
-                                // Get.to(Product_detailPage(data: snapshot.data?.prodCategory?[ind]));
-                                Get.to(ProductPage(
-                                  data:  logic.getLaptopRsp.value?.prodCategory?[ind],
-                                ));
-                              },
-                              child: GlobalProduct(
-                                imageLink: logic.getLaptopRsp.value?.prodCategory?[ind].imgLink,
-                                shortDes:   logic.getLaptopRsp.value?.prodCategory?[ind].shortDes,
-                                // price:NumberFormat("###,###.# đ").format(snapshot.data?.products?[index].price),
-                                price:
-                                '${  logic.getLaptopRsp.value?.prodCategory?[ind].price}',
-                                nameProduct:
-                                logic.getLaptopRsp.value?.prodCategory?[ind].name,
-                                numStar: '5.0',
-                              ),
-                            );
-                          },
-                          gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-
-                            crossAxisCount: 2,
-                            crossAxisSpacing: 10,
-                            mainAxisSpacing: 10,
-                            childAspectRatio: 3 / 4.5,
-                          ),
-                        ),
 
 
-
-
-
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 1, horizontal: 10),
-                          child: Row(
-                            mainAxisAlignment:
-                            MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Tablet nổi bật',
-                                style: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w700),
-                              ),
-                              // InkWell(
-                              //     onTap: () {
-                              //
-                              //     },
-                              //     child: Text(
-                              //       "Xem thêm>",
-                              //       style: TextStyle(
-                              //           fontSize: 14,
-                              //           // fontWeight: FontWeight.w700,
-                              //           color: Colors.blue.shade700),
-                              //     )),
-                            ],
-                          ),
-                        ),
-                        GridView.builder(
-                          shrinkWrap: true,
-                          itemCount:  4,
-                          physics:
-                          const NeverScrollableScrollPhysics(),
-                          itemBuilder: (context, ind) {
-                            return InkWell(
-                              onTap: () {
-                                // Get.to(Product_detailPage(data: snapshot.data?.prodCategory?[ind]));
-                                Get.to(ProductPage(
-                                  data:  logic.getTabletRsp.value?.prodCategory?[ind],
-                                ));
-                              },
-                              child: GlobalProduct(
-                                imageLink: logic.getTabletRsp.value?.prodCategory?[ind].imgLink,
-                                shortDes:   logic.getTabletRsp.value?.prodCategory?[ind].shortDes,
-                                // price:NumberFormat("###,###.# đ").format(snapshot.data?.products?[index].price),
-                                price:
-                                '${  logic.getTabletRsp.value?.prodCategory?[ind].price}',
-                                nameProduct:
-                                logic.getTabletRsp.value?.prodCategory?[ind].name,
-                                numStar: '5.0',
-                              ),
-                            );
-                          },
-                          gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-
-                            crossAxisCount: 2,
-                            crossAxisSpacing: 10,
-                            mainAxisSpacing: 10,
-                            childAspectRatio: 3 / 4.5,
-                          ),
-                        ),
-
-
-
-
-
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 1, horizontal: 10),
-                          child: Row(
-                            mainAxisAlignment:
-                            MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Đồng hồ nổi bật',
-                                style: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w700),
-                              ),
-                              // InkWell(
-                              //     onTap: () {
-                              //
-                              //     },
-                              //     child: Text(
-                              //       "Xem thêm>",
-                              //       style: TextStyle(
-                              //           fontSize: 14,
-                              //           // fontWeight: FontWeight.w700,
-                              //           color: Colors.blue.shade700),
-                              //     )),
-                            ],
-                          ),
-                        ),
-                        GridView.builder(
-                          shrinkWrap: true,
-                          itemCount:  4,
-                          physics:
-                          const NeverScrollableScrollPhysics(),
-                          itemBuilder: (context, ind) {
-                            return InkWell(
-                              onTap: () {
-                                // Get.to(Product_detailPage(data: snapshot.data?.prodCategory?[ind]));
-                                Get.to(ProductPage(
-                                  data:  logic.getWatchRsp.value?.prodCategory?[ind],
-                                ));
-                              },
-                              child: GlobalProduct(
-                                imageLink: logic.getWatchRsp.value?.prodCategory?[ind].imgLink,
-                                shortDes:   logic.getWatchRsp.value?.prodCategory?[ind].shortDes,
-                                // price:NumberFormat("###,###.# đ").format(snapshot.data?.products?[index].price),
-                                price:
-                                '${  logic.getWatchRsp.value?.prodCategory?[ind].price}',
-                                nameProduct:
-                                logic.getWatchRsp.value?.prodCategory?[ind].name,
-                                numStar: '5.0',
-                              ),
-                            );
-                          },
-                          gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-
-                            crossAxisCount: 2,
-                            crossAxisSpacing: 10,
-                            mainAxisSpacing: 10,
-                            childAspectRatio: 3 / 4.5,
-                          ),
-                        ),
-
-
-
-
-
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 1, horizontal: 10),
-                          child: Row(
-                            mainAxisAlignment:
-                            MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Phụ kiện nổi bật',
-                                style: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w700),
-                              ),
-                              // InkWell(
-                              //     onTap: () {
-                              //
-                              //     },
-                              //     child: Text(
-                              //       "Xem thêm>",
-                              //       style: TextStyle(
-                              //           fontSize: 14,
-                              //           // fontWeight: FontWeight.w700,
-                              //           color: Colors.blue.shade700),
-                              //     )),
-                            ],
-                          ),
-                        ),
-                        GridView.builder(
-                          shrinkWrap: true,
-                          itemCount:  4,
-                          physics:
-                          const NeverScrollableScrollPhysics(),
-                          itemBuilder: (context, ind) {
-                            return InkWell(
-                              onTap: () {
-                                // Get.to(Product_detailPage(data: snapshot.data?.prodCategory?[ind]));
-                                Get.to(ProductPage(
-                                  data:  logic.getAccessoryRsp.value?.prodCategory?[ind],
-                                ));
-                              },
-                              child: GlobalProduct(
-                                imageLink: logic.getAccessoryRsp.value?.prodCategory?[ind].imgLink,
-                                shortDes:   logic.getPhoneRsp.value?.prodCategory?[ind].shortDes,
-                                // price:NumberFormat("###,###.# đ").format(snapshot.data?.products?[index].price),
-                                price:
-                                '${  logic.getAccessoryRsp.value?.prodCategory?[ind].price}',
-                                nameProduct:
-                                logic.getAccessoryRsp.value?.prodCategory?[ind].name,
-                                numStar: '5.0',
-                              ),
-                            );
-                          },
-                          gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-
-                            crossAxisCount: 2,
-                            crossAxisSpacing: 10,
-                            mainAxisSpacing: 10,
-                            childAspectRatio: 3 / 4.5,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 1, horizontal: 10),
-                          child: Row(
-                            mainAxisAlignment:
-                            MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Màn hình nổi bật',
-                                style: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w700),
-                              ),
-                              // InkWell(
-                              //     onTap: () {
-                              //
-                              //     },
-                              //     child: Text(
-                              //       "Xem thêm>",
-                              //       style: TextStyle(
-                              //           fontSize: 14,
-                              //           // fontWeight: FontWeight.w700,
-                              //           color: Colors.blue.shade700),
-                              //     )),
-                            ],
-                          ),
-                        ),
-                        GridView.builder(
-                          shrinkWrap: true,
-                          itemCount:  4,
-                          physics:
-                          const NeverScrollableScrollPhysics(),
-                          itemBuilder: (context, ind) {
-                            return InkWell(
-                              onTap: () {
-                                // Get.to(Product_detailPage(data: snapshot.data?.prodCategory?[ind]));
-                                Get.to(ProductPage(
-                                  data:  logic.getScreenRsp.value?.prodCategory?[ind],
-                                ));
-                              },
-                              child: GlobalProduct(
-                                imageLink: logic.getScreenRsp.value?.prodCategory?[ind].imgLink,
-                                shortDes:   logic.getScreenRsp.value?.prodCategory?[ind].shortDes,
-                                // price:NumberFormat("###,###.# đ").format(snapshot.data?.products?[index].price),
-                                price:
-                                '${  logic.getScreenRsp.value?.prodCategory?[ind].price}',
-                                nameProduct:
-                                logic.getScreenRsp.value?.prodCategory?[ind].name,
-                                numStar: '5.0',
-                              ),
-                            );
-                          },
-                          gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-
-                            crossAxisCount: 2,
-                            crossAxisSpacing: 10,
-                            mainAxisSpacing: 10,
-                            childAspectRatio: 3 / 4.5,
-                          ),
-                        ),
-
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 1, horizontal: 10),
-                          child: Row(
-                            mainAxisAlignment:
-                            MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Bàn phím nổi bật',
-                                style: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w700),
-                              ),
-                              // InkWell(
-                              //     onTap: () {
-                              //
-                              //     },
-                              //     child: Text(
-                              //       "Xem thêm>",
-                              //       style: TextStyle(
-                              //           fontSize: 14,
-                              //           // fontWeight: FontWeight.w700,
-                              //           color: Colors.blue.shade700),
-                              //     )),
-                            ],
-                          ),
-                        ),
-                        GridView.builder(
-                          shrinkWrap: true,
-                          itemCount:  4,
-                          physics:
-                          const NeverScrollableScrollPhysics(),
-                          itemBuilder: (context, ind) {
-                            return InkWell(
-                              onTap: () {
-                                // Get.to(Product_detailPage(data: snapshot.data?.prodCategory?[ind]));
-                                Get.to(ProductPage(
-                                  data:  logic.getKeyboardRsp.value?.prodCategory?[ind],
-                                ));
-                              },
-                              child: GlobalProduct(
-                                imageLink: logic.getKeyboardRsp.value?.prodCategory?[ind].imgLink,
-                                shortDes:   logic.getKeyboardRsp.value?.prodCategory?[ind].shortDes,
-                                // price:NumberFormat("###,###.# đ").format(snapshot.data?.products?[index].price),
-                                price:
-                                '${  logic.getKeyboardRsp.value?.prodCategory?[ind].price}',
-                                nameProduct:
-                                logic.getKeyboardRsp.value?.prodCategory?[ind].name,
-                                numStar: '5.0',
-                              ),
-                            );
-                          },
-                          gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-
-                            crossAxisCount: 2,
-                            crossAxisSpacing: 10,
-                            mainAxisSpacing: 10,
-                            childAspectRatio: 3 / 4.5,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 1, horizontal: 10),
-                          child: Row(
-                            mainAxisAlignment:
-                            MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Tivi nổi bật',
-                                style: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w700),
-                              ),
-                              // InkWell(
-                              //     onTap: () {
-                              //
-                              //     },
-                              //     child: Text(
-                              //       "Xem thêm>",
-                              //       style: TextStyle(
-                              //           fontSize: 14,
-                              //           // fontWeight: FontWeight.w700,
-                              //           color: Colors.blue.shade700),
-                              //     )),
-                            ],
-                          ),
-                        ),
-                        GridView.builder(
-                          shrinkWrap: true,
-                          itemCount:  4,
-                          physics:
-                          const NeverScrollableScrollPhysics(),
-                          itemBuilder: (context, ind) {
-                            return InkWell(
-                              onTap: () {
-                                // Get.to(Product_detailPage(data: snapshot.data?.prodCategory?[ind]));
-                                Get.to(ProductPage(
-                                  data:  logic.getTvRsp.value?.prodCategory?[ind],
-                                ));
-                              },
-                              child: GlobalProduct(
-                                imageLink: logic.getTvRsp.value?.prodCategory?[ind].imgLink,
-                                shortDes:   logic.getTvRsp.value?.prodCategory?[ind].shortDes,
-                                // price:NumberFormat("###,###.# đ").format(snapshot.data?.products?[index].price),
-                                price:
-                                '${  logic.getTvRsp.value?.prodCategory?[ind].price}',
-                                nameProduct:
-                                logic.getTvRsp.value?.prodCategory?[ind].name,
-                                numStar: '5.0',
-                              ),
-                            );
-                          },
-                          gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-
-                            crossAxisCount: 2,
-                            crossAxisSpacing: 10,
-                            mainAxisSpacing: 10,
-                            childAspectRatio: 3 / 4.5,
-                          ),
-                        ),
-
-
-
-
-                        const SizedBox(
-                          height: 20,
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
                     Container(
-                      width: MediaQuery
-                          .of(context)
-                          .size
-                          .width,
+                      width: MediaQuery.of(context).size.width,
                       height: 10,
                       color: Colors.grey.shade100,
                     ),
@@ -808,6 +793,7 @@ class HomePage extends StatelessWidget {
                     ),
                   ],
                 ),
+
                 const SizedBox(
                   height: 30,
                 ),

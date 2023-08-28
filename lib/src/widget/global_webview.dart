@@ -40,6 +40,7 @@ class _GlobalWebviewState extends State<GlobalWebview> {
         // initialUrl: "https://www.thegioididong.com/",
         javascriptMode: JavascriptMode.unrestricted,
 
+
       ),
     );
   }

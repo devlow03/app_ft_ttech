@@ -126,7 +126,7 @@ class _Services implements Services {
     )
             .compose(
               _dio.options,
-              'api/v1/search/${name}',
+              'api/v1/prod/search/${name}',
               queryParameters: queryParameters,
               data: _data,
             )

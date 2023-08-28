@@ -1,5 +1,10 @@
+import 'package:app_ft_tmart/src/module/list_product/list_product_view.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import '../module/search/search_view.dart';
 class SearchWidget extends StatelessWidget {
+
   const SearchWidget({super.key});
 
   @override
@@ -19,33 +24,38 @@ class SearchWidget extends StatelessWidget {
         ),
         child: TextField(
           onTap: (){
-            // Get.to(SearchPage());
+            Get.to(List_productPage());
           },
+
           readOnly: true,
           decoration: InputDecoration(
-            hintText: 'Tìm sản phẩm',
+            hintText: 'Tìm kiếm sản phẩm',
+            hintStyle: TextStyle(
+              color: Colors.grey,
+              fontWeight: FontWeight.w300
+            ),
             contentPadding: EdgeInsets.symmetric(vertical: 10,horizontal: 20),
             suffixIcon: Icon(Icons.search,color: Colors.black,size: 30,),
             filled: true,
             fillColor: Colors.white,
             border: OutlineInputBorder(
 
-              borderRadius: BorderRadius.circular(5),
+              borderRadius: BorderRadius.circular(8),
               borderSide: BorderSide(
-                  color: Colors.transparent
+                  color: Colors.grey.shade400
               ),
 
             ),
             focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(5),
+              borderRadius: BorderRadius.circular(8),
               borderSide: BorderSide(
-                  color: Colors.transparent
+                  color: Colors.grey.shade400
               ),
             ),
             enabledBorder:  OutlineInputBorder(
-              borderRadius: BorderRadius.circular(5),
+              borderRadius: BorderRadius.circular(8),
               borderSide: BorderSide(
-                  color: Colors.transparent
+                  color: Colors.grey.shade400
               ),
             ),
 

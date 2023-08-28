@@ -17,7 +17,7 @@ class GlobalImage extends StatelessWidget {
         color: Colors.grey.shade200,
         child: Icon(
           Icons.image,
-          size: 150,
+          // size: 150,
 
         ),
       ),

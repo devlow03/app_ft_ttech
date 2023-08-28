@@ -23,8 +23,9 @@ abstract class Services{
   Future<GetCategoryRsp>getCategory();
   @GET('api/v1/prod/slider/{id}')
   Future<GetSliderProdRsp>getSlider({@Path('id') required String id});
-  @GET('api/v1/search/{name}')
+  @GET('api/v1/prod/search/{name}')
   Future<GetSearchRsp>getSearch({@Path('name') required String name});
+
 
 
 
