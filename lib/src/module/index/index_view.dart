@@ -41,16 +41,18 @@ class IndexPage extends StatelessWidget {
     return Obx(() {
       return Scaffold(
         bottomNavigationBar: BottomNavigationBar(
-          iconSize: 30,
-          unselectedItemColor: Colors.grey,
-          showUnselectedLabels: true,
-          // selectedLabelStyle: TextStyle(fontSize: 0),
-          backgroundColor: Colors.white,
-          selectedItemColor: XColor.primary,
-          elevation: 0.0,
+          type: BottomNavigationBarType.fixed,
+          iconSize: 20,
+          selectedLabelStyle: TextStyle(
+              color: XColor.primary
+          ),
+
+          elevation: 0,
           showSelectedLabels: true,
           onTap: logic.tabSelect,
           currentIndex: logic.tabIndex.value,
+
+          // showSelectedLabels: true,
           items: bottomNavigationBarItems.map((e) {
             return BottomNavigationBarItem(
               icon: e['icon'],

@@ -35,11 +35,32 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'TMart',
       theme: ThemeData(
-
+          fontFamily: 'Helvetica',
         primarySwatch: XColor.primary,
         appBarTheme: AppBarTheme(
-          backgroundColor: XColor.primary
+          backgroundColor: XColor.primary,
+          iconTheme: IconThemeData(
+            color: Colors.black
+          ),
+          titleTextStyle: TextStyle(
+            color: Colors.black,
+
+          )
         ),
+        bottomNavigationBarTheme: BottomNavigationBarThemeData(
+          backgroundColor: Colors.white,
+          selectedLabelStyle: TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.w400
+          ),
+          unselectedLabelStyle: TextStyle(
+            fontSize: 12,
+              fontWeight: FontWeight.w400
+          ),
+          selectedItemColor: XColor.primary,
+          unselectedItemColor: Colors.grey,
+          // showUnselectedLabels: true,
+        )
         // buttonColor: XColor.primary,
 
       ),

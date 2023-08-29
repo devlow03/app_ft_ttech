@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 class XColor {
   XColor._();
-  static const Color _primary = Color(0xff33BBC5);
+  static const Color _primary = Color(0xff007BFF);
+  static const Color container = Colors.white;
   // static const Color _primary = Color(0xffBE1E2D);
 
   static MaterialColor primary = MaterialColor(
@@ -20,4 +21,5 @@ class XColor {
       900: Color(_primary.value + (0xff000000)),
     },
   );
+
 }

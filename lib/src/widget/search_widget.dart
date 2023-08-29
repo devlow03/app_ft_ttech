@@ -35,27 +35,27 @@ class SearchWidget extends StatelessWidget {
               fontWeight: FontWeight.w300
             ),
             contentPadding: EdgeInsets.symmetric(vertical: 10,horizontal: 20),
-            suffixIcon: Icon(Icons.search,color: Colors.black,size: 30,),
+            prefixIcon: Icon(Icons.search,color: Colors.grey,size: 30,),
             filled: true,
             fillColor: Colors.white,
             border: OutlineInputBorder(
 
               borderRadius: BorderRadius.circular(8),
               borderSide: BorderSide(
-                  color: Colors.grey.shade400
+                  color: Colors.transparent
               ),
 
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
               borderSide: BorderSide(
-                  color: Colors.grey.shade400
+                  color: Colors.transparent
               ),
             ),
             enabledBorder:  OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
               borderSide: BorderSide(
-                  color: Colors.grey.shade400
+                  color: Colors.transparent
               ),
             ),
 

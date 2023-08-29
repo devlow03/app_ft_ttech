@@ -26,29 +26,45 @@ class HomePage extends StatelessWidget {
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          backgroundColor: Colors.white,
+          backgroundColor: XColor.primary,
           bottom: PreferredSize(
-              preferredSize: Size.fromHeight(50), child: SearchWidget()),
+              preferredSize: Size.fromHeight(50), child: Row(
+                children: [
+                  Expanded(child: SearchWidget()),
+                  IconButton(
+                      onPressed: () {},
+                      icon: Icon(
+                        Icons.shopping_cart_outlined,
+                        color: Colors.white,
+
+                      )),
+                ],
+              )),
           title: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text('TMART',
               style: TextStyle(
-                color: XColor.primary,
-                fontSize: 18,
-                fontWeight: FontWeight.w700,
-                fontStyle: FontStyle.italic,
-                letterSpacing: 0.5
+                color: Colors.white,
+                fontSize: 20,
+                fontWeight: FontWeight.w900,
+                // fontStyle: FontStyle.italic,
+                fontFamily: 'OpenSans',
+                letterSpacing: 1,
+
               ),
               ),
+
             ],
           ),
           elevation: 0.0,
           actions: [
+
             IconButton(
                 onPressed: () {},
                 icon: Icon(
-                  Icons.shopping_cart_outlined,
+                  Icons.menu_outlined,
+                  color: Colors.white,
 
                 )),
           ],
@@ -67,7 +83,7 @@ class HomePage extends StatelessWidget {
                   children: [
                     const SizedBox(height: 5,),
                     Container(
-                      color: Colors.white,
+                      color: Colors.grey.shade50,
                       child: Stack(
                         alignment: Alignment.bottomCenter,
                         children: [
@@ -171,14 +187,14 @@ class HomePage extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                   Padding(
-                     padding: const EdgeInsets.symmetric(horizontal: 5),
-                     child: Container(
-                       width: MediaQuery.of(context).size.width,
-                       decoration: BoxDecoration(
-                         // borderRadius: BorderRadius.circular(10),
-                         // border: Border.all(color: Colors.grey.shade200,),
-                         color: Colors.white,                          ),
+                   Container(
+                     width: MediaQuery.of(context).size.width,
+                     decoration: BoxDecoration(
+                       // borderRadius: BorderRadius.circular(10),
+                       // border: Border.all(color: Colors.grey.shade200,),
+                       color: XColor.container,                          ),
+                     child: Padding(
+                       padding: const EdgeInsets.all(8.0),
                        child: Column(
                          crossAxisAlignment: CrossAxisAlignment.start,
                          children: [
@@ -193,134 +209,108 @@ class HomePage extends StatelessWidget {
                            ),
                            Visibility(
                              visible:logic.getCategoryRsp.value?.category?.isEmpty==false ,
-                             replacement:  SizedBox(
-                               height: 100,
-                               child: ListView.separated(
-                                 scrollDirection: Axis.horizontal,
-                                 shrinkWrap: true,
-                                 itemCount:3,
-                                 // physics: NeverScrollableScrollPhysics(),
-                                 itemBuilder: (context, index) {
-                                   return Column(
-                                     mainAxisAlignment: MainAxisAlignment.center,
-                                     children: [
-                                       Padding(
+                             replacement:  Padding(
+                               padding: const EdgeInsets.all(10),
+                               child: SizedBox(
+                                 height: 50,
+                                 child: ListView.separated(
+                                   scrollDirection: Axis.horizontal,
+                                   shrinkWrap: true,
+                                   itemCount:5,
+                                   // physics: NeverScrollableScrollPhysics(),
+                                   itemBuilder: (context, index) {
+                                     return Container(
+                                       width: MediaQuery.of(context).size.width *
+                                           .15,
+                                       height: 20,
+                                       decoration: BoxDecoration(
+                                           border: Border.all(
+                                               color: Colors.grey.shade200),
+                                           color: Colors.blueGrey.shade100,
+                                           borderRadius:
+                                           BorderRadius.circular(5)),
+                                       child: Padding(
                                          padding: const EdgeInsets.symmetric(
-                                             horizontal: 5),
-                                         child: SizedBox(
-                                           // width: MediaQuery.of(context).size.width *
-                                           //     .4,
-                                           // height: 60,
-                                           child: Shimmer.fromColors(
-                                               child: Container(
-                                                 width: MediaQuery.of(context).size.width *
-                                                     .4,
-                                                 height: 80,
-                                                 decoration: BoxDecoration(
-                                                   borderRadius: BorderRadius.circular(8),
-                                                   color: Colors.grey.shade300
-
-                                                 ),
-                                               ),
-                                             baseColor: Colors.grey.shade300,
-                                             highlightColor: Colors.grey.shade100,
-                                           ),
-                                         )
-                                       ),
-                                     ],
-                                   );
-                                 },
-                                 separatorBuilder:
-                                     (BuildContext context, int index) {
-                                   return const SizedBox(
-                                     width: 20,
-                                   );
-                                 },
-                               ),
-                             ),
-                             child: SizedBox(
-                               height: 100,
-                               child: ListView.separated(
-                                 scrollDirection: Axis.horizontal,
-                                 shrinkWrap: true,
-                                 itemCount:
-                                 logic.getCategoryRsp.value?.category?.length ??
-                                     0,
-                                 // physics: NeverScrollableScrollPhysics(),
-                                 itemBuilder: (context, index) {
-                                   return InkWell(
-                                     onTap: () {
-                                       Get.to(List_productPage(
-                                         id: logic.getCategoryRsp.value
-                                             ?.category?[index].idCategory
-                                             .toString() ??
-                                             "",
-                                         name: logic.getCategoryRsp.value
-                                             ?.category?[index].nameType,
-                                       ));
-                                     },
-                                     child: Column(
-                                       mainAxisAlignment: MainAxisAlignment.center,
-                                       children: [
-                                         Container(
-                                           width: MediaQuery.of(context).size.width *
-                                               .4,
-                                           height: 80,
-                                           decoration: BoxDecoration(
-                                               border: Border.all(
-                                                   color: Colors.grey.shade200),
-                                               color: XColor.primary,
-                                               borderRadius:
-                                               BorderRadius.circular(5)),
-                                           child: Padding(
-                                             padding: const EdgeInsets.symmetric(
-                                                 horizontal: 5),
-                                             child: Row(
-                                               mainAxisAlignment:
-                                               MainAxisAlignment.center,
-                                               children: [
-                                                 GlobalImage(
-                                                   imageUrl: logic
-                                                       .getCategoryRsp
-                                                       .value
-                                                       ?.category?[index]
-                                                       .image ??
-                                                       "",
-                                                   width: MediaQuery.of(context)
-                                                       .size
-                                                       .width *
-                                                       .1,
-                                                   height: 50,
-                                                 ),
-                                                 const SizedBox(
-                                                   width: 10,
-                                                 ),
-                                                 Text(
-                                                   logic
-                                                       .getCategoryRsp
-                                                       .value
-                                                       ?.category?[index]
-                                                       .nameType ??
-                                                       "",
-                                                   style: const TextStyle(
-                                                       color: Colors.white,
-                                                       fontWeight: FontWeight.w400,
-                                                       fontSize: 15),
-                                                 )
-                                               ],
-                                             ),
+                                             horizontal: 5,vertical: 5),
+                                         child: Shimmer.fromColors(
+                                           baseColor: Colors.grey.shade300,
+                                           highlightColor: Colors.grey.shade100,
+                                           child: Container(
+                                             width: 10,
+                                             height: 40,
+                                             color: Colors.white,
                                            ),
                                          ),
-                                       ],
-                                     ),
-                                   );
-                                 },
-                                 separatorBuilder:
-                                     (BuildContext context, int index) {
-                                   return const SizedBox(
-                                     width: 20,
-                                   );
-                                 },
+                                       ),
+                                     );
+                                   },
+                                   separatorBuilder:
+                                       (BuildContext context, int index) {
+                                     return const SizedBox(
+                                       width: 20,
+                                     );
+                                   },
+                                 ),
+                               ),
+                             ),
+                             child: Padding(
+                               padding: const EdgeInsets.all(10),
+                               child: SizedBox(
+                                 height:50,
+                                 child: ListView.separated(
+                                   scrollDirection: Axis.horizontal,
+                                   shrinkWrap: true,
+                                   itemCount:
+                                   logic.getCategoryRsp.value?.category?.length ??
+                                       0,
+                                   // physics: NeverScrollableScrollPhysics(),
+                                   itemBuilder: (context, index) {
+                                     return InkWell(
+                                       onTap: () {
+                                         Get.to(List_productPage(
+                                           id: logic.getCategoryRsp.value
+                                               ?.category?[index].idCategory
+                                               .toString() ??
+                                               "",
+                                           name: logic.getCategoryRsp.value
+                                               ?.category?[index].nameType,
+                                         ));
+                                       },
+                                       child: Container(
+                                         width: MediaQuery.of(context).size.width *
+                                             .15,
+                                         height: 20,
+                                         decoration: BoxDecoration(
+                                             border: Border.all(
+                                                 color: Colors.grey.shade200),
+                                             color: Colors.white,
+                                             borderRadius:
+                                             BorderRadius.circular(5)),
+                                         child: Padding(
+                                           padding: const EdgeInsets.symmetric(
+                                               horizontal: 5,vertical: 5),
+                                           child: GlobalImage(
+                                             imageUrl: logic
+                                                 .getCategoryRsp
+                                                 .value
+                                                 ?.category?[index]
+                                                 .image ??
+                                                 "",
+                                             width: 10,
+                                             height: 40,
+                                           ),
+                                         ),
+                                       ),
+
+                                     );
+                                   },
+                                   separatorBuilder:
+                                       (BuildContext context, int index) {
+                                     return const SizedBox(
+                                       width: 20,
+                                     );
+                                   },
+                                 ),
                                ),
                              ),
                            ),
@@ -328,20 +318,20 @@ class HomePage extends StatelessWidget {
                        ),
                      ),
                    ),
-                     Padding(
-                       padding: const EdgeInsets.symmetric(vertical: 10),
-                       child: Container(
-                         width: MediaQuery.of(context).size.width,
-                         height: 10,
-                         color: Colors.grey.shade100,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: 10,
+                        color: Colors.grey.shade100,
+                      ),
                     ),
-                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: Container(
                         decoration: BoxDecoration(
                          
-                          color: Colors.white,                          ),
+                          color: XColor.container,                          ),
 
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -366,7 +356,7 @@ class HomePage extends StatelessWidget {
                               replacement:  Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: SizedBox(
-                                  height: 35,
+                                  height: 40,
                                   child: ListView.separated(
                                     scrollDirection: Axis.horizontal,
                                     itemCount:
@@ -380,7 +370,7 @@ class HomePage extends StatelessWidget {
                                             height: 10,
                                             decoration: BoxDecoration(
                                                 borderRadius: BorderRadius.circular(20),
-                                              color: Colors.grey.shade300
+                                              color: Colors.white
 
 
                                             )),
@@ -398,7 +388,7 @@ class HomePage extends StatelessWidget {
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: SizedBox(
-                                  height: 35,
+                                  height: 40,
                                   child: ListView.separated(
                                     scrollDirection: Axis.horizontal,
                                     itemCount:
@@ -414,9 +404,11 @@ class HomePage extends StatelessWidget {
                                           visible: logic.tabIndex.value == index,
                                           replacement: Container(
                                               decoration: BoxDecoration(
+                                                color: Colors.white,
                                                   borderRadius: BorderRadius.circular(20),
                                                   border:
-                                                  Border.all(color: Colors.grey.shade300)),
+                                                  Border.all(color: Colors.grey.shade300)
+                                      ),
                                               child: Padding(
                                                 padding: const EdgeInsets.symmetric(
                                                     vertical: 10, horizontal: 10),
@@ -427,6 +419,7 @@ class HomePage extends StatelessWidget {
                                                   style: TextStyle(
                                                       color: Colors.black,
                                                     fontSize: 12,
+                                                    fontWeight: FontWeight.w400
 
                                                   ),
                                                   textAlign: TextAlign.center,
@@ -435,9 +428,10 @@ class HomePage extends StatelessWidget {
                                               )),
                                           child: Container(
                                               decoration: BoxDecoration(
+                                                color: Colors.white,
                                                   borderRadius: BorderRadius.circular(20),
                                                   border:
-                                                  Border.all(color: XColor.primary)),
+                                                  Border.all(color: XColor.primary,width: 2)),
                                               child: Padding(
                                                 padding: const EdgeInsets.symmetric(
                                                     vertical: 10, horizontal: 10),
@@ -445,7 +439,10 @@ class HomePage extends StatelessWidget {
                                                   logic.getTikiTopSellerRsp.value
                                                       ?.tabs?[index].title ??
                                                       "",
-                                                  style: TextStyle(color: XColor.primary,fontWeight: FontWeight.w500,fontSize: 12),
+                                                  style: TextStyle(
+                                                      color: XColor.primary,
+                                                      fontWeight: FontWeight.w400,
+                                                      fontSize: 12),
                                                   textAlign: TextAlign.center,
                                                 ),
                                               )),
@@ -646,18 +643,18 @@ class HomePage extends StatelessWidget {
                         color: Colors.grey.shade100,
                       ),
                     ),
+
                     Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      padding: const EdgeInsets.symmetric(vertical: 5),
                       child: Container(
                         decoration: BoxDecoration(
                           // borderRadius: BorderRadius.circular(10),
                           // border: Border.all(color: Colors.grey.shade200,),
-                          color: Colors.white,                          ),
+                          color: XColor.container,                          ),
 
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const SizedBox(height: 10,),
                             Padding(
                               padding: const EdgeInsets.symmetric(
                                   vertical: 5, horizontal: 15),
@@ -783,14 +780,7 @@ class HomePage extends StatelessWidget {
                     ),
 
 
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: 10,
-                      color: Colors.grey.shade100,
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
+
                   ],
                 ),
 

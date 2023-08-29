@@ -453,22 +453,30 @@ class ProductPage extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              InkWell(
-                onTap: () async {
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 5),
+                  child: ElevatedButton(
+                    onPressed: () async {
 
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(color: Colors.grey.shade300)),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 40),
+                    },
                     child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 15),
-                        child: Icon(
-                          Icons.add_shopping_cart,
-                          color: Colors.black,
-                        )),
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: Text(
+                        "Thêm vào giỏ",
+                        style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.white
+                        ),
+                      ),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      primary: XColor.primary,
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 5, vertical: 3),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5)),
+                    ),
                   ),
                 ),
               ),
@@ -484,16 +492,22 @@ class ProductPage extends StatelessWidget {
                       child: Text(
                         "Mua ngay",
                         style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w500,
-                            color: Colors.white
+                            fontSize: 14,
+                            color: XColor.primary
                         ),
                       ),
                     ),
                     style: ElevatedButton.styleFrom(
+                      primary: Colors.white,
+
                       padding: EdgeInsets.symmetric(
                           horizontal: 5, vertical: 3),
                       shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(32)),
+                          borderRadius: BorderRadius.circular(5),
+                        side: BorderSide(
+                          color: XColor.primary
+                        )
+                      ),
                     ),
                   ),
                 ),

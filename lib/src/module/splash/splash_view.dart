@@ -15,26 +15,31 @@ class SplashPage extends StatelessWidget {
       backgroundColor: Colors.white,
       body: Container(
         height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
-        // decoration: BoxDecoration(
-        //     image:DecorationImage(
-        //       image: Icon(Icons.phone),
-        //
-        //
-        //     )
-        // ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const SizedBox(height: 300,),
-            Center(
-              child: CircularProgressIndicator(
-                backgroundColor: Colors.black,
-                color: XColor.primary,
-                strokeWidth: 8,
+        width: MediaQuery.of(context).size.width*.9,
+        decoration: BoxDecoration(
+            image:DecorationImage(
+              image: AssetImage(
+                'assets/images/splash.jpg'
               ),
-            ),
-          ],
+
+
+            )
+        ),
+        child: Padding(
+          padding: const EdgeInsets.only(left: 35),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const SizedBox(height: 300,),
+              Center(
+                child: CircularProgressIndicator(
+                  backgroundColor: Colors.black,
+                  color: XColor.primary,
+                  strokeWidth: 8,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
