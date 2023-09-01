@@ -12,6 +12,7 @@ import 'package:shimmer/shimmer.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../../core/xcolor.dart';
 
+import '../cart/cart_view.dart';
 import 'product_logic.dart';
 
 class ProductPage extends StatelessWidget {
@@ -149,9 +150,9 @@ class ProductPage extends StatelessWidget {
                   icon: const Icon(Icons.search)),
               IconButton(
                   onPressed: () {
-                    // Get.to(CartPage(),transition: Transition.rightToLeft);
+                    Get.to(CartPage(),transition: Transition.rightToLeft);
                   },
-                  icon: const Icon(Icons.shopping_cart)),
+                  icon: const Icon(Icons.shopping_cart_outlined)),
             ],
             bottom: PreferredSize(
               preferredSize: const Size.fromHeight(0.0),
@@ -318,87 +319,7 @@ class ProductPage extends StatelessWidget {
                              )
                            ],
                          ),
-                         const SizedBox(
-                           height: 20,
-                         ),
-                         Text('Mô tả sản phẩm',
-                         style: TextStyle(
-                           fontSize: 14,
-                           fontWeight: FontWeight.w600
-                         )
-                         ),
-                        const SizedBox(height: 10,),
-                        Stack(
-                          alignment: Alignment.bottomCenter,
-                          children: [
-                            Container(
-                              height: 300,
-                              child: Html(
-                                data: logic.getTikiProductRsp.value
-                                    ?.description ??
-                                    "",
-                                style: {
-                                  // "body": Style(
-                                  //   fontSize: FontSize(19.0),
-                                  // ),
-                                  "img": Style(
-                                    width: Width(MediaQuery.of(context).size.width*.95),
-                                    // height: Height(MediaQuery.of(context).size.height*.3)
 
-
-                                  ),
-
-                                },
-                              ),
-                            ),
-                            Positioned(
-                              right: 0,
-                              left: 0,
-                              bottom: 0,
-                              child: AnimatedOpacity(
-                                duration: Duration(seconds: 2),
-                                opacity: 1,
-                                child: Container(
-                                  height: 128,
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    gradient: LinearGradient(
-                                      colors: [
-                                        Color(0x00ffffff),
-                                        Colors.white,
-                                        Colors.white,
-                                      ],
-                                      stops: [
-                                        0,
-                                        0.9,
-                                        1,
-                                      ],
-                                      begin: Alignment.topCenter,
-                                      end: Alignment.bottomCenter,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-
-
-                          ],
-                        ),
-                         Center(
-                           child: TextButton(
-                               onPressed: () {
-                                 Get.to(GlobalHtml(
-                                     html: logic.getTikiProductRsp.value
-                                         ?.description ??
-                                         ""));
-                               },
-                               child: const Text("Xem chi tiết",
-                                 style: TextStyle(
-
-                                     fontSize: 14
-                                 ),
-                               )),
-                         ),
 
                          const SizedBox(
                            height: 15,
@@ -513,7 +434,88 @@ class ProductPage extends StatelessWidget {
                          ),
                        ],
                      ),
-                   )
+                   ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Text('Mô tả sản phẩm',
+                        style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600
+                        )
+                    ),
+                    const SizedBox(height: 10,),
+                    Stack(
+                      alignment: Alignment.bottomCenter,
+                      children: [
+                        Container(
+                          height: 300,
+                          child: Html(
+                            data: logic.getTikiProductRsp.value
+                                ?.description ??
+                                "",
+                            style: {
+                              // "body": Style(
+                              //   fontSize: FontSize(19.0),
+                              // ),
+                              "img": Style(
+                                width: Width(MediaQuery.of(context).size.width*.95),
+                                // height: Height(MediaQuery.of(context).size.height*.3)
+
+
+                              ),
+
+                            },
+                          ),
+                        ),
+                        Positioned(
+                          right: 0,
+                          left: 0,
+                          bottom: 0,
+                          child: AnimatedOpacity(
+                            duration: Duration(seconds: 2),
+                            opacity: 1,
+                            child: Container(
+                              height: 128,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                gradient: LinearGradient(
+                                  colors: [
+                                    Color(0x00ffffff),
+                                    Colors.white,
+                                    Colors.white,
+                                  ],
+                                  stops: [
+                                    0,
+                                    0.9,
+                                    1,
+                                  ],
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+
+
+                      ],
+                    ),
+                    Center(
+                      child: TextButton(
+                          onPressed: () {
+                            Get.to(GlobalHtml(
+                                html: logic.getTikiProductRsp.value
+                                    ?.description ??
+                                    ""));
+                          },
+                          child: const Text("Xem chi tiết",
+                            style: TextStyle(
+
+                                fontSize: 14
+                            ),
+                          )),
+                    ),
                   ],
                 ),
               );

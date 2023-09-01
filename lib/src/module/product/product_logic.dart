@@ -19,6 +19,7 @@ class ProductLogic extends GetxController {
   Rxn<GetTikiProductRsp>getTikiProductRsp = Rxn();
   CarouselController carouselControl = CarouselController();
   ScrollController scrollController = ScrollController();
+
   final dio = Dio();
   @override
   void onReady() async{

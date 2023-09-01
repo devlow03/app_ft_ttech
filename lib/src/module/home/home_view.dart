@@ -1,3 +1,4 @@
+import 'package:app_ft_tmart/src/module/cart/cart_view.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -28,7 +29,9 @@ class HomePage extends StatelessWidget {
                 children: [
                   const Expanded(child: SearchWidget()),
                   IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Get.to(CartPage());
+                      },
                       icon: const Icon(
                         Icons.shopping_cart_outlined,
                         color: Colors.white,
@@ -53,6 +56,12 @@ class HomePage extends StatelessWidget {
           ),
           elevation: 0.0,
           actions: [
+            // IconButton(
+            //     onPressed: () {},
+            //     icon: const Icon(
+            //       Icons.notifications,
+            //       color: Colors.white,
+            //     )),
             IconButton(
                 onPressed: () {},
                 icon: const Icon(
@@ -211,7 +220,7 @@ class HomePage extends StatelessWidget {
                               replacement: Padding(
                                 padding: const EdgeInsets.all(10),
                                 child: SizedBox(
-                                  height: 50,
+                                  height: 80,
                                   child: ListView.separated(
                                     scrollDirection: Axis.horizontal,
                                     shrinkWrap: true,
@@ -221,7 +230,7 @@ class HomePage extends StatelessWidget {
                                       return Container(
                                         width:
                                             MediaQuery.of(context).size.width *
-                                                .15,
+                                                .25,
                                         height: 20,
                                         decoration: BoxDecoration(
                                             border: Border.all(
@@ -257,7 +266,7 @@ class HomePage extends StatelessWidget {
                               child: Padding(
                                 padding: const EdgeInsets.all(10),
                                 child: SizedBox(
-                                  height: 50,
+                                  height: 80,
                                   child: ListView.separated(
                                     scrollDirection: Axis.horizontal,
                                     shrinkWrap: true,
@@ -284,26 +293,32 @@ class HomePage extends StatelessWidget {
                                           width: MediaQuery.of(context)
                                                   .size
                                                   .width *
-                                              .15,
+                                              .25,
                                           height: 20,
                                           decoration: BoxDecoration(
                                               border: Border.all(
                                                   color: Colors.grey.shade200),
-                                              color: Colors.grey.shade300,
+                                              color: Colors.grey.shade100,
                                               borderRadius:
                                                   BorderRadius.circular(5)),
                                           child: Padding(
                                             padding: const EdgeInsets.symmetric(
                                                 horizontal: 5, vertical: 5),
-                                            child: GlobalImage(
-                                              imageUrl: logic
-                                                      .getCategoryRsp
-                                                      .value
-                                                      ?.category?[index]
-                                                      .image ??
-                                                  "",
-                                              width: 10,
-                                              height: 40,
+                                            child: Column(
+                                              children: [
+                                                GlobalImage(
+                                                  imageUrl: logic
+                                                          .getCategoryRsp
+                                                          .value
+                                                          ?.category?[index]
+                                                          .image ??
+                                                      "",
+                                                  width: 30,
+                                                  height: 40,
+                                                ),
+                                                const SizedBox(height: 10,),
+                                                Text(logic.getCategoryRsp.value?.category?[index].nameType??"")
+                                              ],
                                             ),
                                           ),
                                         ),
