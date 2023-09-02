@@ -18,13 +18,27 @@ class GlobalHtml extends StatelessWidget {
             onPressed: () {
               Get.back();
             },
-            icon: const Icon(Icons.arrow_back,)
+            icon: const Icon(Icons.close,)
 
         ),
       ),
       body: ListView(
         children: [
           Html(data: html,
+            style: {
+              // "body": Style(
+              //   fontSize: FontSize(19.0),
+              // ),
+              "img": Style(
+                  width: Width(MediaQuery.of(context).size.width*.95),
+                // height: Height(MediaQuery.of(context).size.height*.3)
+
+
+              )
+            },
+
+
+
           ),
         ],
       ),

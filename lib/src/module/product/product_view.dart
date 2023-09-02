@@ -22,7 +22,7 @@ class ProductPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final logic = Get.put(ProductLogic(Get.find()));
-    logic.getProduct(id: id??0);
+    logic.getProduct(id: id ?? 0);
     return Scaffold(
       backgroundColor: Colors.white,
       extendBodyBehindAppBar: true,
@@ -33,36 +33,39 @@ class ProductPage extends StatelessWidget {
                 onPressed: () {
                   Get.back();
                 },
-                icon: const Icon(Icons.arrow_back,)
-
-            ),
+                icon: const Icon(
+                  Icons.arrow_back,
+                )),
             elevation: 0.0,
             backgroundColor: Colors.white,
             systemOverlayStyle: const SystemUiOverlayStyle(
-                statusBarBrightness: Brightness.dark
-            ),
-            expandedHeight: MediaQuery
-                .of(context)
-                .size
-                .height * .45,
+                statusBarBrightness: Brightness.dark),
+            expandedHeight: MediaQuery.of(context).size.height * .45,
             flexibleSpace: FlexibleSpaceBar(
-
               background: Obx(() {
                 return Stack(
                   alignment: Alignment.bottomCenter,
                   children: [
                     CarouselSlider.builder(
                       carouselController: logic.carouselControl,
-                      itemCount: logic.getTikiProductRsp.value?.images
-                          ?.length ??
-                          0,
+                      itemCount:
+                          logic.getTikiProductRsp.value?.images?.length ?? 0,
                       options: CarouselOptions(
                         aspectRatio: 25 / 25,
                         // autoPlay: true,
-                        autoPlayInterval: Duration(seconds: 7),
+                        autoPlayInterval: const Duration(seconds: 7),
                         onPageChanged: (index, reason) {
+
                           logic.activeIndex.value = index;
                           logic.indexSlider.value = index;
+                          int? itemsPerPage = 5;
+                          double targetPosition = index * itemsPerPage*10;
+                          logic.scrollController.animateTo(
+                            targetPosition,
+                            duration: Duration(milliseconds: 500),
+                            curve: Curves.easeInOut,
+                          );
+
                           // print(">>>>>>>>>>>>indexSlider: ${logic.indexSlider.value}");
                         },
 
@@ -71,64 +74,57 @@ class ProductPage extends StatelessWidget {
                         // enlargeCenterPage: true,
                         // enableInfiniteScroll: true
                       ),
-
                       itemBuilder: (context, index, realIndex) {
                         // logic.indexSlider.value = index;
 
                         return Visibility(
-                          visible: logic.getTikiProductRsp.value?.images?.isEmpty==false,
+                          visible:
+                              logic.getTikiProductRsp.value?.images?.isEmpty ==
+                                  false,
                           replacement: Shimmer.fromColors(
-                              child: Container(
-                                width: MediaQuery
-                                  .of(context)
-                                  .size
-                                  .width,
-                                color: Colors.grey.shade300,
-                              ),
+                            child: Container(
+                              width: MediaQuery.of(context).size.width,
+                              color: Colors.grey.shade300,
+                            ),
                             baseColor: Colors.grey.shade300,
                             highlightColor: Colors.grey.shade100,
                           ),
                           child: GlobalImage(
-                              imageUrl: logic.getTikiProductRsp.value?.images?[index]
-                                  .baseUrl ?? '',
-                              width: MediaQuery
-                                  .of(context)
-                                  .size
-                                  .width,
+                            imageUrl: logic.getTikiProductRsp.value
+                                    ?.images?[index].baseUrl ??
+                                '',
+                            width: MediaQuery.of(context).size.width,
                             boxFit: BoxFit.cover,
                             // height: MediaQuery
                             //     .of(context)
                             //     .size
                             //     .height,
-
-
                           ),
                         );
                       },
-
                     ),
                     Positioned(
                       bottom: 50,
                       child: Center(
-                        // bottom: 2,
+                          // bottom: 2,
                           child: Column(
-                            children: [
-                              AnimatedSmoothIndicator(
-                                count: 4,
-                                activeIndex: logic.activeIndex.value ?? 0,
-                                effect: ExpandingDotsEffect(
-                                  dotWidth: 5,
-                                  dotHeight: 5,
-                                  dotColor: Colors.grey,
-                                  activeDotColor: XColor.primary,
-                                ),
-                              ),
-                              const SizedBox(height: 20,),
-
-                            ],
-                          )),
+                        children: [
+                          AnimatedSmoothIndicator(
+                            count: 4,
+                            activeIndex: logic.activeIndex.value ?? 0,
+                            effect: ExpandingDotsEffect(
+                              dotWidth: 5,
+                              dotHeight: 5,
+                              dotColor: Colors.grey,
+                              activeDotColor: XColor.primary,
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                        ],
+                      )),
                     ),
-
                   ],
                 );
               }),
@@ -145,122 +141,119 @@ class ProductPage extends StatelessWidget {
                     // Fluttertoast.showToast(
                     //     msg: "Đã thêm sản phẩm vào yêu thích", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM, timeInSecForIosWeb: 1, textColor: Colors.white, fontSize: 16.0);
                   },
-                  icon: const Icon(
-                    Icons.favorite_border)
-
-              ),
+                  icon: const Icon(Icons.favorite_border)),
               IconButton(
                   onPressed: () {
-                    Get.to(SearchPage());
+                    Get.to(const SearchPage());
                   },
-                  icon: const Icon(Icons.search)
-
-              ),
+                  icon: const Icon(Icons.search)),
               IconButton(
                   onPressed: () {
                     // Get.to(CartPage(),transition: Transition.rightToLeft);
                   },
-                  icon: const Icon(
-                    Icons.shopping_bag_outlined)
-              ),
+                  icon: const Icon(Icons.shopping_cart)),
             ],
-
             bottom: PreferredSize(
-              preferredSize: Size.fromHeight(0.0),
+              preferredSize: const Size.fromHeight(0.0),
               child: Container(
                 height: 28,
                 alignment: Alignment.center,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     color: Colors.white,
-
-
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(25),
-                        topRight: Radius.circular(25)
-                    )
-                ),
-                child: Text(''),
-
+                        topRight: Radius.circular(25))),
+                child: const Text(''),
               ),
             ),
           ),
           SliverToBoxAdapter(
             child: Obx(() {
-
-              return Visibility(
-                visible: logic.getTikiProductRsp.value?.images?.isEmpty==false,
-                replacement: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Shimmer.fromColors(
-                    child: Container(
-                      width: MediaQuery.of(context).size.width,
-                      color: Colors.grey.shade300,
-                      height: MediaQuery.of(context).size.height,
-                    ),
-                    baseColor: Colors.grey.shade300,
-                    highlightColor: Colors.grey.shade100,
-                  ),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      SizedBox(
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Visibility(
+                      visible: logic.getTikiProductRsp.value?.images?.isEmpty==false,
+                      replacement: SizedBox(
                         height: 50,
                         child: ListView.separated(
-                          physics: AlwaysScrollableScrollPhysics(),
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          scrollDirection: Axis.horizontal,
+                          shrinkWrap: true,
+                          itemCount:5,
+                          itemBuilder: (context, index) {
+                            return Shimmer.fromColors(
+                              baseColor: Colors.grey.shade300,
+                              highlightColor: Colors.grey.shade100,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.grey.shade300,
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                width: MediaQuery.of(context).size.width *
+                                    .15,
+                                height: 30,
+
+                              ),
+                            );
+                          },
+                          separatorBuilder: (context, index) {
+                            return const SizedBox(
+                              width: 10,
+                            );
+                          },
+                        ),
+                      ),
+                      child: SizedBox(
+                        height: 50,
+                        child: ListView.separated(
+                          controller: logic.scrollController,
+                          physics: const AlwaysScrollableScrollPhysics(),
                           scrollDirection: Axis.horizontal,
                           shrinkWrap: true,
 
-                          itemCount: logic.getTikiProductRsp.value?.images
-                              ?.length ??
-                              0,
+                          itemCount:
+                              logic.getTikiProductRsp.value?.images?.length ??
+                                  0,
                           itemBuilder: (context, index) {
                             return Obx(() {
                               return GestureDetector(
                                 onTap: () {
-                                  logic.carouselControl.animateToPage(
-                                      index);
+                                  logic.carouselControl.animateToPage(index);
                                   logic.indexSlider.value = index;
                                   print(index);
                                 },
                                 child: Visibility(
-                                  visible: logic.indexSlider.value ==
-                                      index,
+                                  visible: logic.indexSlider.value == index,
                                   replacement: ClipRRect(
-                                    borderRadius: BorderRadius.circular(
-                                        5),
+                                    borderRadius: BorderRadius.circular(5),
                                     child: GlobalImage(
-                                      imageUrl: logic.getTikiProductRsp.value?.images?[index]
-                                          .mediumUrl ?? '',
-                                      width: MediaQuery
-                                          .of(context)
-                                          .size
-                                          .width * .15,
+                                      imageUrl: logic.getTikiProductRsp.value
+                                              ?.images?[index].mediumUrl ??
+                                          '',
+                                      width: MediaQuery.of(context).size.width *
+                                          .15,
                                       height: 30,
                                       boxFit: BoxFit.cover,
-
                                     ),
                                   ),
                                   child: Container(
                                     decoration: BoxDecoration(
                                       border: Border.all(
-                                          color: XColor.primary),
-                                      borderRadius: BorderRadius
-                                          .circular(5),
+                                          color: XColor.primary, width: 2),
+                                      borderRadius: BorderRadius.circular(5),
                                     ),
                                     child: GlobalImage(
-                                      imageUrl: logic.getTikiProductRsp.value?.images?[index]
-                                          .mediumUrl ?? '',
-                                      width: MediaQuery
-                                          .of(context)
-                                          .size
-                                          .width * .15,
+                                      imageUrl: logic.getTikiProductRsp.value
+                                              ?.images?[index].mediumUrl ??
+                                          '',
+                                      width: MediaQuery.of(context).size.width *
+                                          .15,
                                       height: 30,
                                       boxFit: BoxFit.cover,
-
                                     ),
                                   ),
                                 ),
@@ -268,180 +261,263 @@ class ProductPage extends StatelessWidget {
                             });
                           },
                           separatorBuilder: (context, index) {
-                            return SizedBox(width: 10,);
+                            return const SizedBox(
+                              width: 10,
+                            );
                           },
                         ),
                       ),
-                      const SizedBox(height: 10,),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(logic.getTikiProductRsp.value?.brand?.name??"",
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w300
-                                  ),
-                                ),
-                                const SizedBox(height: 10,),
-                                Text(logic.getTikiProductRsp.value?.name??"",
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w600
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                          Row(
-                            children: [
-                              Icon(Icons.star, color: Colors.orange.shade300,),
-                              Text('4.5(231)')
-                            ],
-                          )
-                        ],
-                      ),
-                      const SizedBox(height: 20,),
-                      // Center(child: Text('Mô tả sản phẩm')),
-                      Html(
-                          data: logic.getTikiProductRsp.value?.shortDescription??"",
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                   Visibility(
+                     visible: logic.getTikiProductRsp.value?.images?.isEmpty==false,
+                     replacement: Center(
+                       child: CircularProgressIndicator(
+                         color: XColor.primary,
+                       ),
+                     ),
+                     child: Column(
+                       crossAxisAlignment: CrossAxisAlignment.start,
+                       children: [
+                         Row(
+                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                           children: [
+                             Expanded(
+                               child: Column(
+                                 crossAxisAlignment: CrossAxisAlignment.start,
+                                 children: [
+                                   Text(
+                                     logic.getTikiProductRsp.value?.brand?.name ??
+                                         "",
+                                     style: const TextStyle(
+                                         fontSize: 14,
+                                         fontWeight: FontWeight.w300),
+                                   ),
+                                   const SizedBox(
+                                     height: 10,
+                                   ),
+                                   Text(
+                                     logic.getTikiProductRsp.value?.name ?? "",
+                                     style: const TextStyle(
+                                         fontSize: 16,
+                                         fontWeight: FontWeight.w600),
+                                   )
+                                 ],
+                               ),
+                             ),
+                             Row(
+                               children: [
+                                 Icon(
+                                   Icons.star,
+                                   color: Colors.orange.shade300,
+                                 ),
+                                 const Text('4.5(231)')
+                               ],
+                             )
+                           ],
+                         ),
+                         const SizedBox(
+                           height: 20,
+                         ),
+                         Text('Mô tả sản phẩm',
+                         style: TextStyle(
+                           fontSize: 14,
+                           fontWeight: FontWeight.w600
+                         )
+                         ),
+                        const SizedBox(height: 10,),
+                        Stack(
+                          alignment: Alignment.bottomCenter,
+                          children: [
+                            Container(
+                              height: 300,
+                              child: Html(
+                                data: logic.getTikiProductRsp.value
+                                    ?.description ??
+                                    "",
+                                style: {
+                                  // "body": Style(
+                                  //   fontSize: FontSize(19.0),
+                                  // ),
+                                  "img": Style(
+                                    width: Width(MediaQuery.of(context).size.width*.95),
+                                    // height: Height(MediaQuery.of(context).size.height*.3)
 
-                      ),
-                      Center(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            width: MediaQuery.of(context).size.width,
-                            color: Colors.grey.shade100,
-                            child: TextButton(
-                                onPressed: (){
-                                  Get.to(GlobalHtml(html: logic.getTikiProductRsp.value?.description??""));
+
+                                  ),
+
                                 },
-                                child: Text("Xem mô tả chi tiết")
+                              ),
                             ),
-                          ),
+                            Positioned(
+                              right: 0,
+                              left: 0,
+                              bottom: 0,
+                              child: AnimatedOpacity(
+                                duration: Duration(seconds: 2),
+                                opacity: 1,
+                                child: Container(
+                                  height: 128,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    gradient: LinearGradient(
+                                      colors: [
+                                        Color(0x00ffffff),
+                                        Colors.white,
+                                        Colors.white,
+                                      ],
+                                      stops: [
+                                        0,
+                                        0.9,
+                                        1,
+                                      ],
+                                      begin: Alignment.topCenter,
+                                      end: Alignment.bottomCenter,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+
+
+                          ],
                         ),
-                      ),
-                      // Text(logic.getTikiProductRsp.value?.description??"",
-                      //   style: TextStyle(
-                      //     fontSize: 14,
-                      //     fontWeight: FontWeight.w300,
-                      //
-                      //   ),
-                      //   maxLines: 7,
-                      // ),
-                      const SizedBox(height: 15,),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              Text('Giá:'),
-                              const SizedBox(width: 3,),
-                              Text(
-                                NumberFormat.simpleCurrency(locale: 'VI').format(logic.getTikiProductRsp.value?.price??0),
-                                style: TextStyle(
-                                    color: Colors.redAccent,
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w500
+                         Center(
+                           child: TextButton(
+                               onPressed: () {
+                                 Get.to(GlobalHtml(
+                                     html: logic.getTikiProductRsp.value
+                                         ?.description ??
+                                         ""));
+                               },
+                               child: const Text("Xem chi tiết",
+                                 style: TextStyle(
 
-                                ),
+                                     fontSize: 14
+                                 ),
+                               )),
+                         ),
 
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              Text('Màu sắc: '),
-                              const SizedBox(width: 5),
-                              Icon(Icons.circle, color: Colors.deepPurple,),
-                              Icon(Icons.circle, color: Colors.black,),
-                              Icon(Icons.circle, color: Colors.yellow,),
-                              Icon(Icons.circle, color: Colors.grey,)
-                            ],
-                          ),
-
-
-                        ],
-                      ),
-                      const SizedBox(height: 30,),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          // Text('Số lượng: '),
-                          Container(
-                            padding: EdgeInsets.symmetric(
-                                vertical: 8, horizontal: 20),
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: Colors.grey.shade300
-                                ),
-                                borderRadius: BorderRadius.circular(20)
-                            ),
-                            child: Row(
-                              children: [
-
-                                const SizedBox(width: 3,),
-                                Icon(Icons.remove, size: 15,),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 10),
-                                  child: Text('1'),
-                                ),
-                                Icon(Icons.add, size: 15),
-
-                              ],
-                            ),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text('Phiên bản: '),
-                              const SizedBox(width: 2,),
-                              Container(
-                                padding: EdgeInsets.symmetric(horizontal: 10,
-                                    vertical: 5),
-                                decoration: BoxDecoration(
-                                    border: Border.all(
-                                        color: XColor.primary
-                                    ),
-                                    borderRadius: BorderRadius.circular(8)
-                                ),
-                                child: Text('256GB',
-                                  style: TextStyle(color: XColor.primary),
-                                ),
-                              ),
-                              const SizedBox(width: 5),
-                              Container(
-
-                                padding: EdgeInsets.symmetric(horizontal: 10,
-                                    vertical: 5),
-                                decoration: BoxDecoration(
-                                    border: Border.all(
-                                        color: Colors.black
-                                    ),
-                                  borderRadius: BorderRadius.circular(8)
-                                ),
-                                child: Text('128GB',
-                                ),
-                              ),
-
-
-                            ],
-                          )
-                        ],
-                      ),
-
-
-                    ],
-                  ),
+                         const SizedBox(
+                           height: 15,
+                         ),
+                         Row(
+                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                           children: [
+                             Row(
+                               children: [
+                                 const Text('Giá:'),
+                                 const SizedBox(
+                                   width: 3,
+                                 ),
+                                 Text(
+                                   NumberFormat.simpleCurrency(locale: 'VI')
+                                       .format(
+                                       logic.getTikiProductRsp.value?.price ??
+                                           0),
+                                   style: const TextStyle(
+                                       color: Colors.redAccent,
+                                       fontSize: 15,
+                                       fontWeight: FontWeight.w500),
+                                 ),
+                               ],
+                             ),
+                             Row(
+                               children: [
+                                 const Text('Màu sắc: '),
+                                 const SizedBox(width: 5),
+                                 const Icon(
+                                   Icons.circle,
+                                   color: Colors.deepPurple,
+                                 ),
+                                 const Icon(
+                                   Icons.circle,
+                                   color: Colors.black,
+                                 ),
+                                 const Icon(
+                                   Icons.circle,
+                                   color: Colors.yellow,
+                                 ),
+                                 const Icon(
+                                   Icons.circle,
+                                   color: Colors.grey,
+                                 )
+                               ],
+                             ),
+                           ],
+                         ),
+                         const SizedBox(
+                           height: 30,
+                         ),
+                         Row(
+                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                           children: [
+                             // Text('Số lượng: '),
+                             Container(
+                               padding: const EdgeInsets.symmetric(
+                                   vertical: 8, horizontal: 20),
+                               decoration: BoxDecoration(
+                                   border: Border.all(color: Colors.grey.shade300),
+                                   borderRadius: BorderRadius.circular(20)),
+                               child: Row(
+                                 children: [
+                                   const SizedBox(
+                                     width: 3,
+                                   ),
+                                   const Icon(
+                                     Icons.remove,
+                                     size: 15,
+                                   ),
+                                   const Padding(
+                                     padding: EdgeInsets.symmetric(horizontal: 10),
+                                     child: Text('1'),
+                                   ),
+                                   const Icon(Icons.add, size: 15),
+                                 ],
+                               ),
+                             ),
+                             Row(
+                               mainAxisAlignment: MainAxisAlignment.start,
+                               children: [
+                                 const Text('Phiên bản: '),
+                                 const SizedBox(
+                                   width: 2,
+                                 ),
+                                 Container(
+                                   padding: const EdgeInsets.symmetric(
+                                       horizontal: 10, vertical: 5),
+                                   decoration: BoxDecoration(
+                                       border: Border.all(color: XColor.primary),
+                                       borderRadius: BorderRadius.circular(8)),
+                                   child: Text(
+                                     '256GB',
+                                     style: TextStyle(color: XColor.primary),
+                                   ),
+                                 ),
+                                 const SizedBox(width: 5),
+                                 Container(
+                                   padding: const EdgeInsets.symmetric(
+                                       horizontal: 10, vertical: 5),
+                                   decoration: BoxDecoration(
+                                       border: Border.all(color: Colors.black),
+                                       borderRadius: BorderRadius.circular(8)),
+                                   child: const Text(
+                                     '128GB',
+                                   ),
+                                 ),
+                               ],
+                             )
+                           ],
+                         ),
+                       ],
+                     ),
+                   )
+                  ],
                 ),
               );
             }),
-
           )
         ],
       ),
@@ -457,22 +533,17 @@ class ProductPage extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 5),
                   child: ElevatedButton(
-                    onPressed: () async {
-
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
+                    onPressed: () async {},
+                    child: const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 10),
                       child: Text(
                         "Thêm vào giỏ",
-                        style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.white
-                        ),
+                        style: TextStyle(fontSize: 14, color: Colors.white),
                       ),
                     ),
                     style: ElevatedButton.styleFrom(
                       primary: XColor.primary,
-                      padding: EdgeInsets.symmetric(
+                      padding: const EdgeInsets.symmetric(
                           horizontal: 5, vertical: 3),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(5)),
@@ -484,30 +555,21 @@ class ProductPage extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 5),
                   child: ElevatedButton(
-                    onPressed: () async {
-
-                    },
+                    onPressed: () async {},
                     child: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: Text(
                         "Mua ngay",
-                        style: TextStyle(
-                            fontSize: 14,
-                            color: XColor.primary
-                        ),
+                        style: TextStyle(fontSize: 14, color: XColor.primary),
                       ),
                     ),
                     style: ElevatedButton.styleFrom(
                       primary: Colors.white,
-
-                      padding: EdgeInsets.symmetric(
+                      padding: const EdgeInsets.symmetric(
                           horizontal: 5, vertical: 3),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(5),
-                        side: BorderSide(
-                          color: XColor.primary
-                        )
-                      ),
+                          side: BorderSide(color: XColor.primary)),
                     ),
                   ),
                 ),
@@ -516,7 +578,6 @@ class ProductPage extends StatelessWidget {
           ),
         ),
       ),
-
     );
   }
 }

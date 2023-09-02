@@ -38,7 +38,7 @@ class _GlobalProductState extends State<GlobalProduct> {
 
     return Container(
 
-      height: MediaQuery.of(context).size.height*.25,
+      // height: MediaQuery.of(context).size.height*.25,
       // padding: EdgeInsets.symmetric(vertical: 20),
       width: MediaQuery.of(context).size.width*.4,
       decoration: BoxDecoration(
@@ -49,11 +49,12 @@ class _GlobalProductState extends State<GlobalProduct> {
       ),
       child: Column(
 
-        // mainAxisAlignment: MainAxisAlignment.,
+        mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // const SizedBox(height: 5,),
           Column(
+            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               ClipRRect(
@@ -63,9 +64,9 @@ class _GlobalProductState extends State<GlobalProduct> {
                 ),
                 child: GlobalImage(
                   imageUrl:widget.imageLink,
-                  width: MediaQuery.of(context).size.width*.1,
-                  height: 190,
-                    boxFit:BoxFit.fill
+                  width: MediaQuery.of(context).size.width*.2,
+                  height: 150,
+                  boxFit: BoxFit.fill,
 
                 ),
               ),

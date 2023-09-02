@@ -5,6 +5,7 @@ import 'package:app_ft_tmart/src/data/services/service.dart';
 import 'package:app_ft_tmart/src/data/tiki_respository/get_tiki_product_rsp.dart';
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 
@@ -17,6 +18,7 @@ class ProductLogic extends GetxController {
   Rx<int>indexSlider = Rx(0);
   Rxn<GetTikiProductRsp>getTikiProductRsp = Rxn();
   CarouselController carouselControl = CarouselController();
+  ScrollController scrollController = ScrollController();
   final dio = Dio();
   @override
   void onReady() async{
