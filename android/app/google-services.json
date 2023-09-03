@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "392911829696",
+    "project_id": "apptmart-9ff47",
+    "storage_bucket": "apptmart-9ff47.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:392911829696:android:af88031f3dc18343744b25",
+        "android_client_info": {
+          "package_name": "com.example.app_ft_tmart"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "392911829696-vuq8nl9rbd3t1ds498avsfussob98dod.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCqTAMGGG3VXVRHbuVfq5YM7GrqPnCqzJM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "392911829696-vuq8nl9rbd3t1ds498avsfussob98dod.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
