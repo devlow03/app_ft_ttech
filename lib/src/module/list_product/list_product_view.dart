@@ -4,44 +4,50 @@ import 'package:get/get.dart';
 
 import '../../widget/global_product.dart';
 import '../product/product_view.dart';
+import '../search/search_view.dart';
 import 'list_product_logic.dart';
 
-class List_productPage extends StatelessWidget {
+class ListProductPage extends StatelessWidget {
   final String? id;
   final String? name;
 
-  const List_productPage({Key? key, this.id,  this.name}) : super(key: key);
+  const ListProductPage({Key? key, this.id,  this.name}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final logic = Get.put(List_productLogic(Get.find()));
+    final logic = Get.put(ListProductLogic(Get.find()));
     logic.keyController.text=name??"";
     logic.getProduct(name: name??"");
 
     return Scaffold(
       appBar: AppBar(
+        // backgroundColor: Colors.white,
         automaticallyImplyLeading: false,
         // backgroundColor: Colors.grey.shade200,
         leading: IconButton(
           onPressed: () {
-            Get.back();
+            Get.to(SearchPage());
           },
           icon: Icon(Icons.arrow_back, color: Colors.white,),
 
         ),
-        title: SizedBox(
+        title: Container(
+          decoration: BoxDecoration(
+
+          ),
           width: double.infinity,
           height: 40,
           child: TextField(
             controller: logic.keyController,
+            readOnly: true,
             onTap: () {
-              // Get.to(SearchPage());
+              Get.to(SearchPage());
             },
             onChanged: (value) {
-              logic.getProduct(name: value);
+              // logic.getProduct(name: value);
             },
             onSubmitted: (value){
-              logic.getProduct(name: value);
+              // logic.getProduct(name: value);
             },
             decoration: InputDecoration(
               contentPadding: EdgeInsets.symmetric(vertical: 5,horizontal: 10),
@@ -54,30 +60,22 @@ class List_productPage extends StatelessWidget {
               //     child: Icon(Icons.search, color: Colors.black, size: 30,)),
               filled: true,
               fillColor: Colors.white,
-              suffixIcon: Container(
-                child: IconButton(
-                    onPressed: (){},
-                    icon: Icon(Icons.filter_alt_outlined,
-                    color: XColor.primary,
-                    )
-                ),
-              ),
               border: OutlineInputBorder(
 
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(5),
                 borderSide: BorderSide(
                     color: Colors.transparent
                 ),
 
               ),
               focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(5),
                 borderSide: BorderSide(
                     color: Colors.transparent
                 ),
               ),
               enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(5),
                 borderSide: BorderSide(
                     color: Colors.transparent
                 ),
@@ -87,12 +85,22 @@ class List_productPage extends StatelessWidget {
           ),
         ),
 
-        actions: null
-        // [
+        actions:[
+          IconButton(
+              onPressed: (){},
+              icon: Icon(Icons.filter_alt_outlined,color: Colors.white,)
+          ),
 
-        // ],
+        ]
       ),
       body: Obx(() {
+        if(logic.getProductRsp.value?.searchProducts?.isEmpty??true){
+          return Center(
+            child: CircularProgressIndicator(
+              color: XColor.primary,
+            ),
+          );
+        }
         return ListView(
           children: [
             const SizedBox(height: 10,),
@@ -127,8 +135,8 @@ class List_productPage extends StatelessWidget {
               const SliverGridDelegateWithFixedCrossAxisCount(
 
                 crossAxisCount: 2,
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 10,
+                crossAxisSpacing: 15,
+                mainAxisSpacing: 20,
                 childAspectRatio: 3 / 4.5,
               ),
             ),

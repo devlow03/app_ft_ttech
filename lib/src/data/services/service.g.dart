@@ -13,7 +13,7 @@ class _Services implements Services {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'https://smartstore.khanhnhat.top/';
+    baseUrl ??= 'https://tmart.tuanthanhdev.id.vn/api/';
   }
 
   final Dio _dio;
@@ -21,117 +21,25 @@ class _Services implements Services {
   String? baseUrl;
 
   @override
-  Future<GetBannerRsp> getBanner() async {
+  Future<GetProductRsp> getProductRsp() async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final Map<String, dynamic>? _data = null;
     final _result = await _dio
-        .fetch<Map<String, dynamic>>(_setStreamType<GetBannerRsp>(Options(
+        .fetch<Map<String, dynamic>>(_setStreamType<GetProductRsp>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
     )
             .compose(
               _dio.options,
-              'api/v1/banner',
+              'auth/get_products?perPage=20',
               queryParameters: queryParameters,
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = GetBannerRsp.fromJson(_result.data!);
-    return value;
-  }
-
-  @override
-  Future<GetProductByCategoryRsp> getProductCategory({required id}) async {
-    const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<GetProductByCategoryRsp>(Options(
-      method: 'GET',
-      headers: _headers,
-      extra: _extra,
-    )
-            .compose(
-              _dio.options,
-              'api/v1/category/${id}',
-              queryParameters: queryParameters,
-              data: _data,
-            )
-            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = GetProductByCategoryRsp.fromJson(_result.data!);
-    return value;
-  }
-
-  @override
-  Future<GetCategoryRsp> getCategory() async {
-    const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
-    final _result = await _dio
-        .fetch<Map<String, dynamic>>(_setStreamType<GetCategoryRsp>(Options(
-      method: 'GET',
-      headers: _headers,
-      extra: _extra,
-    )
-            .compose(
-              _dio.options,
-              'api/v1/category',
-              queryParameters: queryParameters,
-              data: _data,
-            )
-            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = GetCategoryRsp.fromJson(_result.data!);
-    return value;
-  }
-
-  @override
-  Future<GetSliderProdRsp> getSlider({required id}) async {
-    const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
-    final _result = await _dio
-        .fetch<Map<String, dynamic>>(_setStreamType<GetSliderProdRsp>(Options(
-      method: 'GET',
-      headers: _headers,
-      extra: _extra,
-    )
-            .compose(
-              _dio.options,
-              'api/v1/prod/slider/${id}',
-              queryParameters: queryParameters,
-              data: _data,
-            )
-            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = GetSliderProdRsp.fromJson(_result.data!);
-    return value;
-  }
-
-  @override
-  Future<GetSearchRsp> getSearch({required name}) async {
-    const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
-    final _result = await _dio
-        .fetch<Map<String, dynamic>>(_setStreamType<GetSearchRsp>(Options(
-      method: 'GET',
-      headers: _headers,
-      extra: _extra,
-    )
-            .compose(
-              _dio.options,
-              'api/v1/prod/search/${name}',
-              queryParameters: queryParameters,
-              data: _data,
-            )
-            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = GetSearchRsp.fromJson(_result.data!);
+    final value = GetProductRsp.fromJson(_result.data!);
     return value;
   }
 

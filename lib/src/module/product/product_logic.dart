@@ -28,10 +28,7 @@ class ProductLogic extends GetxController {
     super.onReady();
     await getProduct;
   }
-  Future<GetSliderProdRsp?>getSliderProd({required String id})async{
-    getSliderProdRsp.value = await tMartServices.getSlider(id: id);
-    return getSliderProdRsp.value;
-  }
+
 
   Future<GetTikiProductRsp?>getProduct({required num id})async{
     final response = await dio.get("https://tiki.vn/api/v2/products/$id");

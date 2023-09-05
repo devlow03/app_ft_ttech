@@ -1,3 +1,4 @@
+import 'package:app_ft_tmart/src/module/search/search_view.dart';
 import 'package:app_ft_tmart/src/widget/global_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -26,7 +27,9 @@ class CartPage extends StatelessWidget {
         centerTitle: true,
         actions: [
           IconButton(
-              onPressed: (){},
+              onPressed: (){
+                Get.to(SearchPage());
+              },
               icon: Icon(Icons.search)
           )
         ],

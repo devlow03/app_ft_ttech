@@ -44,7 +44,7 @@ class _GlobalProductState extends State<GlobalProduct> {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         // border: Border.all(color: Colors.red),
-        border: Border.all(color: Colors.grey.shade300,),
+        // border: Border.all(color: Colors.grey.shade300,),
         color: Colors.white,
       ),
       child: Column(
@@ -52,25 +52,21 @@ class _GlobalProductState extends State<GlobalProduct> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // const SizedBox(height: 5,),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(10),
-                    topRight: Radius.circular(10)
-                ),
-                child: GlobalImage(
-                  imageUrl:widget.imageLink,
-                  width: MediaQuery.of(context).size.width*.2,
-                  height: 150,
-                  boxFit: BoxFit.fill,
-
-                ),
+          const SizedBox(height: 10,),
+          Center(
+            child: ClipRRect(
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(10),
+                  topRight: Radius.circular(10)
               ),
-            ],
+              child: GlobalImage(
+                imageUrl:widget.imageLink,
+                width: MediaQuery.of(context).size.width*.3,
+                height: 150,
+                boxFit: BoxFit.cover,
+
+              ),
+            ),
           ),
 
           Visibility(

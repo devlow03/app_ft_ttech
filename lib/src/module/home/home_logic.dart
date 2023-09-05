@@ -10,6 +10,7 @@ import 'package:dio/dio.dart';
 
 import 'package:get/get.dart';
 
+import '../../data/respository/get_product_rsp.dart';
 import '../../data/services/service.dart';
 import '../../data/services/tiki_service.dart';
 
@@ -22,9 +23,8 @@ class HomeLogic extends GetxController {
   Rxn<GetTikiBannerRsp> getTikiBannerRsp = Rxn();
   Rxn<GetTikiTopSellerRsp>getTikiTopSellerRsp = Rxn();
   Rxn<GetMayBeYouLikeRsp>getMayBeYouLikeRsp =Rxn();
-  Rxn<GetBannerRsp> getBannerRsp = Rxn();
-  Rxn<GetCategoryRsp> getCategoryRsp = Rxn();
-  Rxn<GetProductByCategoryRsp>getProductRsp = Rxn();
+  Rxn<GetProductRsp>getProductRsp = Rxn();
+  Rxn<GetCategoryRsp>getCategoryRsp = Rxn();
 
   Rxn<int> activeIndex = Rxn();
   // Rxn<String>idCategory = Rxn();
@@ -38,7 +38,8 @@ class HomeLogic extends GetxController {
     // TODO: implement onReady
     super.onReady();
     getTikiBanner();
-     getCategory();
+    getCategory();
+    getProduct();
      getTikiTopSeller();
      getMayBeYouLike();
 
@@ -50,22 +51,11 @@ class HomeLogic extends GetxController {
     super.refresh();
     await getTikiBanner();
     await getCategory();
+    await getProduct();
     await getTikiTopSeller();
     await getMayBeYouLike();
   }
-  Future<GetBannerRsp?>getBanner()async{
-    getBannerRsp.value = await tMartServices.getBanner();
-    return getBannerRsp.value;
-  }
 
-  Future<GetCategoryRsp?>getCategory()async{
-     getCategoryRsp.value = await tMartServices.getCategory();
-     return getCategoryRsp.value;
-  }
-  Future<GetProductByCategoryRsp?>getProduct({required String id})async{
-    getProductRsp.value = await tMartServices.getProductCategory(id: id);
-    return getProductRsp.value;
-  }
 
 
   Future<GetTikiBannerRsp?>getTikiBanner()async{
@@ -86,6 +76,19 @@ class HomeLogic extends GetxController {
     print(jsonEncode(response.data));
     return getMayBeYouLikeRsp.value;
   }
+
+  Future<GetProductRsp?>getProduct()async{
+    getProductRsp.value = await tMartServices.getProductRsp();
+    return getProductRsp.value;
+  }
+
+  Future<GetCategoryRsp?>getCategory()async{
+    final response = await dio.get("https://smartstore.khanhnhat.top/api/v1/category");
+    getCategoryRsp.value = GetCategoryRsp.fromJson(response.data);
+    print(jsonEncode(response.data));
+    return getCategoryRsp.value;
+  }
+
 
 
 

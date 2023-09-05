@@ -13,18 +13,19 @@ class SearchWidget extends StatelessWidget {
       padding: const EdgeInsets.all(10),
       child: Container(
         decoration: BoxDecoration(
-          // boxShadow: [
-          //   BoxShadow(
-          //     color: Colors.grey.shade50,
-          //     spreadRadius: 5,
-          //     blurRadius: 7,
-          //     offset: Offset(0, 2), // changes position of shadow
-          //   ),
-          // ],
+
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.shade200,
+              spreadRadius: 5,
+              blurRadius: 7,
+              offset: Offset(0, 5), // changes position of shadow
+            ),
+          ],
         ),
         child: TextField(
           onTap: (){
-            Get.to(List_productPage());
+            Get.to(SearchPage());
           },
 
           readOnly: true,
@@ -40,20 +41,20 @@ class SearchWidget extends StatelessWidget {
             fillColor: Colors.white,
             border: OutlineInputBorder(
 
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(10),
               borderSide: BorderSide(
                   color: Colors.transparent
               ),
 
             ),
             focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(10),
               borderSide: BorderSide(
                   color: Colors.transparent
               ),
             ),
             enabledBorder:  OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(10),
               borderSide: BorderSide(
                   color: Colors.transparent
               ),

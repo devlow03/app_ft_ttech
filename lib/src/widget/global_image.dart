@@ -29,22 +29,21 @@ class GlobalImage extends StatelessWidget {
         placeholder: (context, url) => Container(
           width: width,
           height: height,
-          color: Colors.grey.shade200,
-          child: Icon(
-            Icons.image,
-            color: Colors.grey,
-            // size: 100,
-
-          ),
+          color: Colors.white,
+          child:Image.asset("assets/images/placeholder.png",
+          width: width,
+            height: height,
+            // fit: BoxFit.contain,
+          )
         ),
         errorWidget: (context, url, error) =>Container(
           width: width,
           height:height,
-          color: Colors.grey.shade200,
+          color: Colors.white,
           child: Icon(
-            Icons.image,
+            Icons.image_outlined,
             color: Colors.grey,
-            // size: 100,
+            // size: 50,
 
           ),
         ),

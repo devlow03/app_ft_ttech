@@ -1,3 +1,4 @@
+import 'package:app_ft_tmart/src/data/respository/get_product_rsp.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 
@@ -15,16 +16,9 @@ part 'service.g.dart';
 abstract class Services{
   factory Services(Dio dio,{String baseUrl}) = _Services;
 
-  @GET('api/v1/banner')
-  Future<GetBannerRsp>getBanner();
-  @GET('api/v1/category/{id}')
-  Future<GetProductByCategoryRsp>getProductCategory({@Path('id') required String id });
-  @GET('api/v1/category')
-  Future<GetCategoryRsp>getCategory();
-  @GET('api/v1/prod/slider/{id}')
-  Future<GetSliderProdRsp>getSlider({@Path('id') required String id});
-  @GET('api/v1/prod/search/{name}')
-  Future<GetSearchRsp>getSearch({@Path('name') required String name});
+  @GET('auth/get_products?perPage=20')
+  Future<GetProductRsp>getProductRsp();
+
 
 
 

@@ -3,24 +3,23 @@ import 'package:app_ft_tmart/src/core/xcolor.dart';
 import 'package:app_ft_tmart/src/data/dependency_injections.dart';
 import 'package:app_ft_tmart/src/module/index/index_view.dart';
 import 'package:app_ft_tmart/src/module/splash/splash_view.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import 'firebase_options.dart';
 // SharedPreferences? pre;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await DependencyInjections().dependencies();// fix lỗi dependency injection - SharedPreferences
-  // pre = await SharedPreferences.getInstance();
+  await Firebase.initializeApp(
+    // name: Platform.isIOS ? null : 'gas-luxen',
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 
-// import 'package:device_preview/device_preview.dart';
 
-// void main() => runApp(
-//   DevicePreview(
-//     // enabled: !kReleaseMode,
-//     builder: (context) => MyApp(), // Wrap your app
-//   ),
-// );
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

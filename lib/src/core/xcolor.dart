@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class XColor {
   XColor._();
   static const Color _primary = Color(0xff007BFF);
+  // static const Color _primary = Color(0xff426676);
   static const Color container = Colors.white;
   // static const Color _primary = Color(0xffBE1E2D);
 

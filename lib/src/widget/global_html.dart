@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:get/get.dart';
 class GlobalHtml extends StatelessWidget {
   final String html;
@@ -24,22 +24,13 @@ class GlobalHtml extends StatelessWidget {
       ),
       body: ListView(
         children: [
-          Html(data: html,
-            style: {
-              // "body": Style(
-              //   fontSize: FontSize(19.0),
-              // ),
-              "img": Style(
-                  width: Width(MediaQuery.of(context).size.width*.95),
-                // height: Height(MediaQuery.of(context).size.height*.3)
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: HtmlWidget(
+              html,
 
-
-              )
-            },
-
-
-
-          ),
+            ),
+          )
         ],
       ),
     );

@@ -1,4 +1,5 @@
 
+import 'package:app_ft_tmart/src/core/config.dart';
 import 'package:app_ft_tmart/src/data/services/service.dart';
 import 'package:app_ft_tmart/src/data/services/tiki_service.dart';
 import 'package:dio/dio.dart';
@@ -40,15 +41,18 @@ class DependencyInjections implements GET.Bindings {
               requestOptions: options,
               statusCode: 200,
               data: await fileResponse.file.readAsBytes(),
+
             ));
           } else {
+            options.headers = {
+              "Access-Control-Allow-Origin": "*",
+              "Authorization": "Bearer ${EnvironmentConfig.storeToken}",
+
+              ...options.headers,
+            };
             handler.next(options);
           }
-          // options.headers = {
-          //   // "Authorization": "Bearer $token",
-          //   // ...options.headers,
-          // };
-          // handler.next(options);
+
         },
           onError: ( error, handler) {
             // Xử lý lỗi

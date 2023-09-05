@@ -5,9 +5,9 @@ import '../../data/respository/get_product_by_category_rsp.dart';
 import '../../data/respository/get_search_rsp.dart';
 import '../../data/services/service.dart';
 
-class List_productLogic extends GetxController {
+class ListProductLogic extends GetxController {
   final Services tMartServices;
-  List_productLogic(this.tMartServices);
+  ListProductLogic(this.tMartServices);
   TextEditingController keyController = TextEditingController();
   Rxn<GetSearchRsp>getProductRsp = Rxn();
 
@@ -18,7 +18,7 @@ class List_productLogic extends GetxController {
   }
 
   Future<GetSearchRsp?>getProduct({required String name})async{
-    getProductRsp.value = await tMartServices.getSearch(name: name);
+    // getProductRsp.value = await tMartServices.getSearch(name: name);
     return getProductRsp.value;
   }
 }
