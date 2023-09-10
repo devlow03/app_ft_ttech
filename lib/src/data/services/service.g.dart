@@ -21,7 +21,7 @@ class _Services implements Services {
   String? baseUrl;
 
   @override
-  Future<GetProductRsp> getProductRsp() async {
+  Future<GetProductRsp> getProductRsp({required page}) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -34,12 +34,58 @@ class _Services implements Services {
     )
             .compose(
               _dio.options,
-              'auth/get_products?perPage=20',
+              'auth/get_products?perPage=${page}',
               queryParameters: queryParameters,
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = GetProductRsp.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<GetBannerRsp> getBannerRsp() async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<GetBannerRsp>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              'auth/banners',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = GetBannerRsp.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<GetProductByIdRsp> getProdutByIdRsp({required id}) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<GetProductByIdRsp>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              'auth/get_product_by_id/${id}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = GetProductByIdRsp.fromJson(_result.data!);
     return value;
   }
 

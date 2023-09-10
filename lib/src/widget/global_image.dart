@@ -26,26 +26,25 @@ class GlobalImage extends StatelessWidget {
         height: height??0,
         width: width??0,
         fit:boxFit,
-        placeholder: (context, url) => Container(
-          width: width,
-          height: height,
-          color: Colors.white,
-          child:Image.asset("assets/images/placeholder.png",
-          width: width,
-            height: height,
-            // fit: BoxFit.contain,
-          )
-        ),
+        // placeholder: (context, url) => Container(
+        //   width: width,
+        //   height: height,
+        //   color: Colors.white,
+        //   child:Image.asset("assets/images/placeholder.png",
+        //   width: width,
+        //     height: height,
+        //     // fit: BoxFit.contain,
+        //   )
+        // ),
         errorWidget: (context, url, error) =>Container(
           width: width,
           height:height,
           color: Colors.white,
-          child: Icon(
-            Icons.image_outlined,
-            color: Colors.grey,
-            // size: 50,
-
-          ),
+          child:Image.asset("assets/images/placeholder.png",
+            width: width,
+            height: height,
+            // fit: BoxFit.contain,
+          )
         ),
       ),
     );

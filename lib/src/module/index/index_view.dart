@@ -22,8 +22,8 @@ class IndexPage extends StatelessWidget {
         'screen': HomePage(),
       },
       {
-        'icon': Icon(Icons.list_alt_outlined),
-        'label': 'Bảng tin',
+        'icon': Icon(Icons.newspaper_outlined),
+        'label': 'Tin tức',
         'screen': NewsPage(),
       },
       {

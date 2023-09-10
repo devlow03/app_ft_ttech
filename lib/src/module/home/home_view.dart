@@ -1,3 +1,4 @@
+import 'package:app_ft_tmart/src/module/all_product/all_product_view.dart';
 import 'package:app_ft_tmart/src/module/cart/cart_view.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -38,8 +39,8 @@ class HomePage extends StatelessWidget {
                       )),
                 ],
               )),
-          title: Image.asset("assets/images/splash.png",
-          width: MediaQuery.of(context).size.width*.3,
+          title: Image.asset("assets/images/tmart.png",
+          width: MediaQuery.of(context).size.width*.15,
             height: 100,
             fit: BoxFit.cover,
           ),
@@ -74,8 +75,7 @@ class HomePage extends StatelessWidget {
                         alignment: Alignment.bottomCenter,
                         children: [
                           Visibility(
-                            visible: logic.getTikiBannerRsp.value?.data?.first
-                                    .banners?.isEmpty ==
+                            visible: logic.getBannerRsp.value?.data?.isEmpty ==
                                 false,
                             replacement: CarouselSlider.builder(
                               itemCount: 1,
@@ -85,7 +85,7 @@ class HomePage extends StatelessWidget {
                                   autoPlayInterval: const Duration(seconds: 7),
                                   viewportFraction: 1,
                                   onPageChanged: (index, reason) {
-                                    logic.activeIndex.value = index;
+                                    // logic.activeIndex.value = index;
                                   }),
                               itemBuilder: (context, index, realIndex) {
                                 return Padding(
@@ -109,11 +109,10 @@ class HomePage extends StatelessWidget {
                               },
                             ),
                             child: CarouselSlider.builder(
-                              itemCount: logic.getTikiBannerRsp.value?.data
-                                      ?.first.banners?.length ??
+                              itemCount: logic.getBannerRsp.value?.data?.length ??
                                   0,
                               options: CarouselOptions(
-                                  aspectRatio: 25 / 8,
+                                  aspectRatio: 25 / 9,
                                   autoPlay: true,
                                   autoPlayInterval: const Duration(seconds: 7),
                                   viewportFraction: 1,
@@ -121,21 +120,53 @@ class HomePage extends StatelessWidget {
                                     logic.activeIndex.value = index;
                                   }),
                               itemBuilder: (context, index, realIndex) {
-                                return Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 5),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(8),
-                                    child: GlobalImage(
-                                      imageUrl: logic
-                                          .getTikiBannerRsp
+                                return Visibility(
+                                  visible: logic
+                                      .getBannerRsp
+                                      .value
+                                      ?.data?[index]
+                                      .details?.first.link!=null,
+                                  replacement:  Padding(
+                                    padding:
+                                    const EdgeInsets.symmetric(horizontal: 5),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(8),
+                                      child: GlobalImage(
+                                          imageUrl: logic
+                                              .getBannerRsp
+                                              .value
+                                              ?.data?[index]
+                                              .details?.first.image,
+                                          width: MediaQuery.of(context).size.width,
+                                          height: MediaQuery.of(context).size.height*.3,
+                                          boxFit: BoxFit.fill
+                                      ),
+                                    ),
+                                  ),
+                                  child: InkWell(
+                                    onTap: (){
+                                      Get.to(ProductPage(id: logic
+                                          .getBannerRsp
                                           .value
-                                          ?.data
-                                          ?.first
-                                          .banners?[index]
-                                          .imageUrl,
-                                      width: MediaQuery.of(context).size.width,
-                                      boxFit: BoxFit.cover,
+                                          ?.data?[index]
+                                          .details?.first.link));
+                                    },
+                                    child: Padding(
+                                      padding:
+                                          const EdgeInsets.symmetric(horizontal: 5),
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(8),
+                                        child: GlobalImage(
+                                          imageUrl: logic
+                                              .getBannerRsp
+                                              .value
+                                              ?.data?[index]
+                                              .details?.first.image,
+                                          width: MediaQuery.of(context).size.width,
+                                          height: MediaQuery.of(context).size.height*.3,
+                                          boxFit: BoxFit.fill
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 );
@@ -150,8 +181,7 @@ class HomePage extends StatelessWidget {
                             child: Center(
                                 // bottom: 2,
                                 child: AnimatedSmoothIndicator(
-                              count: logic.getTikiBannerRsp.value?.data?.first
-                                      .banners?.length ??
+                              count: logic.getBannerRsp.value?.data?.length ??
                                   0,
                               activeIndex: logic.activeIndex.value ?? 0,
                               effect: ScrollingDotsEffect(
@@ -350,12 +380,24 @@ class HomePage extends StatelessWidget {
                               child: Row(
                                 mainAxisAlignment:
                                 MainAxisAlignment.spaceBetween,
-                                children: const [
+                                children:  [
                                   Text(
                                     'Sản phẩm ngẫu nhiên',
                                     style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.w500),
+                                  ),
+                                  InkWell(
+                                    onTap: (){
+                                      Get.to(AllProductPage());
+                                    },
+                                    child: Text(
+                                      'Xem thêm>',
+                                      style: TextStyle(
+                                        color: XColor.primary,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w500),
+                                    ),
                                   ),
                                 ],
                               ),
@@ -514,7 +556,7 @@ class HomePage extends StatelessWidget {
                                               border: Border.all(
                                                 color: Colors.grey.shade300,
                                               ),
-                                              color: Colors.white,
+                                              color: Colors.grey.shade200,
                                             ),
                                             child: Column(
                                               // mainAxisAlignment: MainAxisAlignment.,
@@ -542,7 +584,7 @@ class HomePage extends StatelessWidget {
                                                         decoration:
                                                         BoxDecoration(
                                                           color: Colors
-                                                              .grey.shade300,
+                                                              .grey,
                                                           borderRadius:
                                                           const BorderRadius
                                                               .only(
@@ -575,7 +617,7 @@ class HomePage extends StatelessWidget {
                                                             .grey.shade100,
                                                         child: Container(
                                                           color: Colors
-                                                              .grey.shade300,
+                                                              .grey,
                                                           height: 30,
                                                           width: MediaQuery.of(
                                                               context)
@@ -588,13 +630,13 @@ class HomePage extends StatelessWidget {
                                                   ),
                                                 ),
                                                 const SizedBox(
-                                                  height: 10,
+                                                  height: 5,
                                                 ),
                                                 Padding(
                                                   padding: const EdgeInsets
                                                       .symmetric(
                                                       horizontal: 8.0,
-                                                      vertical: 5),
+                                                      vertical: 2),
                                                   child: Column(
                                                     children: [
                                                       const SizedBox(
@@ -607,8 +649,8 @@ class HomePage extends StatelessWidget {
                                                             .grey.shade100,
                                                         child: Container(
                                                           color: Colors
-                                                              .grey.shade300,
-                                                          height: 10,
+                                                              .grey,
+                                                          height: 20,
                                                           width: MediaQuery.of(
                                                               context)
                                                               .size
@@ -640,11 +682,11 @@ class HomePage extends StatelessWidget {
                                   child: ListView.separated(
                                     shrinkWrap: true,
                                     scrollDirection: Axis.horizontal,
-                                    itemCount:logic.getProductRsp.value?.data?.length??0,
+                                    itemCount:5,
                                     itemBuilder: (context, ind) {
                                       return InkWell(
                                         onTap: () async {
-                                          Get.to(ProductPage(data: logic.getProductRsp.value?.data?[ind]));
+                                          Get.to(ProductPage(id: logic.getProductRsp.value?.data?[ind].id.toString()));
                                         },
                                         child: Padding(
                                           padding: const EdgeInsets.all(8.0),

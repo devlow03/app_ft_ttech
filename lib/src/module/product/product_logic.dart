@@ -8,17 +8,20 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../data/respository/get_product_by_id_rsp.dart';
+
 
 
 class ProductLogic extends GetxController {
   final Services tMartServices;
   ProductLogic(this.tMartServices);
-  Rxn<GetSliderProdRsp> getSliderProdRsp = Rxn();
+  Rxn<GetProductByIdRsp>getProductByIdRsp = Rxn();
   Rx<int> activeIndex = Rx(0);
   Rx<int>indexSlider = Rx(0);
   Rxn<GetTikiProductRsp>getTikiProductRsp = Rxn();
   CarouselController carouselControl = CarouselController();
   ScrollController scrollController = ScrollController();
+  Rxn<bool>viewAll = Rxn(false);
 
   final dio = Dio();
   @override
@@ -26,14 +29,10 @@ class ProductLogic extends GetxController {
     // TODO: implement onReady
     // await getSliderProd;
     super.onReady();
-    await getProduct;
+    await getProductById;
   }
-
-
-  Future<GetTikiProductRsp?>getProduct({required num id})async{
-    final response = await dio.get("https://tiki.vn/api/v2/products/$id");
-    getTikiProductRsp.value = GetTikiProductRsp.fromJson(response.data);
-    print(jsonEncode(response.data));
-    return getTikiProductRsp.value;
+  Future<GetProductByIdRsp?>getProductById({required String id})async{
+    getProductByIdRsp.value = await tMartServices.getProdutByIdRsp(id: id);
+    return getProductByIdRsp.value;
   }
 }

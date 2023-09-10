@@ -19,7 +19,7 @@ class SplashPage extends StatelessWidget {
         decoration: BoxDecoration(
             image:DecorationImage(
               image: AssetImage(
-                'assets/images/splash.png'
+                'assets/images/tmart.png'
               ),
 
 
@@ -31,7 +31,7 @@ class SplashPage extends StatelessWidget {
             const SizedBox(height: 300,),
             Center(
               child: CircularProgressIndicator(
-                backgroundColor: Colors.black,
+                backgroundColor: Color(0xff72FFFF),
                 color: XColor.primary,
                 strokeWidth: 8,
               ),

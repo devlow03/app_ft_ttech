@@ -20,11 +20,12 @@ class HomeLogic extends GetxController {
   final Services tMartServices;
   final TikiService tikiService;
   HomeLogic(this.tMartServices,this.tikiService);
-  Rxn<GetTikiBannerRsp> getTikiBannerRsp = Rxn();
+  Rxn<GetBannerRsp> getBannerRsp = Rxn();
   Rxn<GetTikiTopSellerRsp>getTikiTopSellerRsp = Rxn();
   Rxn<GetMayBeYouLikeRsp>getMayBeYouLikeRsp =Rxn();
   Rxn<GetProductRsp>getProductRsp = Rxn();
   Rxn<GetCategoryRsp>getCategoryRsp = Rxn();
+
 
   Rxn<int> activeIndex = Rxn();
   // Rxn<String>idCategory = Rxn();
@@ -37,7 +38,7 @@ class HomeLogic extends GetxController {
   void onReady() async{
     // TODO: implement onReady
     super.onReady();
-    getTikiBanner();
+    getBanner();
     getCategory();
     getProduct();
      getTikiTopSeller();
@@ -49,7 +50,7 @@ class HomeLogic extends GetxController {
   @override
   void refresh()async{
     super.refresh();
-    await getTikiBanner();
+    await getBanner();
     await getCategory();
     await getProduct();
     await getTikiTopSeller();
@@ -58,10 +59,9 @@ class HomeLogic extends GetxController {
 
 
 
-  Future<GetTikiBannerRsp?>getTikiBanner()async{
-    final response = await dio.get("https://tka.tiki.vn/widget/api/v1/banners-group?group=home_banner_main_v2");
-    getTikiBannerRsp.value = GetTikiBannerRsp.fromJson(response.data);
-    return getTikiBannerRsp.value;
+  Future<GetBannerRsp?>getBanner()async{
+    getBannerRsp.value = await tMartServices.getBannerRsp();
+    return getBannerRsp.value;
   }
 
   Future<GetTikiTopSellerRsp?>getTikiTopSeller()async{
@@ -78,7 +78,7 @@ class HomeLogic extends GetxController {
   }
 
   Future<GetProductRsp?>getProduct()async{
-    getProductRsp.value = await tMartServices.getProductRsp();
+    getProductRsp.value = await tMartServices.getProductRsp(page: 5);
     return getProductRsp.value;
   }
 

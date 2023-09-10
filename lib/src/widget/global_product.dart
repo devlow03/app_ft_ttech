@@ -54,18 +54,12 @@ class _GlobalProductState extends State<GlobalProduct> {
         children: [
           const SizedBox(height: 10,),
           Center(
-            child: ClipRRect(
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(10),
-                  topRight: Radius.circular(10)
-              ),
-              child: GlobalImage(
-                imageUrl:widget.imageLink,
-                width: MediaQuery.of(context).size.width*.3,
-                height: 150,
-                boxFit: BoxFit.cover,
+            child: GlobalImage(
+              imageUrl:widget.imageLink,
+              width: MediaQuery.of(context).size.width*.3,
+              height: 150,
+              boxFit: BoxFit.cover,
 
-              ),
             ),
           ),
 

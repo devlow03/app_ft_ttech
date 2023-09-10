@@ -9,7 +9,7 @@ class SplashLogic extends GetxController {
   void onReady() async{
     // TODO: implement onReady
     super.onReady();
-    await logic.getTikiBanner();
+    await logic.getBanner();
     // await logic.getCategory();
     // await logic.getTikiTopSeller();
     // await logic.getBanner();

@@ -14,7 +14,7 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final logic = Get.put(ProfileLogic());
-    final logicSignin = Get.put(SignInLogic());
+    final logicSignin = Get.put(SignInLogic(Get.find()));
 
     return Scaffold(
         backgroundColor: Colors.grey.shade100,
@@ -50,7 +50,7 @@ class ProfilePage extends StatelessWidget {
                     color: XColor.primary,
                   ),
                   child: Visibility(
-                    visible: logicSignin.onSignIn.value==true,
+                    visible: logicSignin.uid.value!=null,
                     replacement: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: Row(
@@ -207,7 +207,7 @@ class ProfilePage extends StatelessWidget {
                         trailing: Icon(Icons.keyboard_arrow_right),
                       ),
                       Visibility(
-                        visible: logicSignin.onSignIn.value==true,
+                        visible: logicSignin.uid.value!=null,
                         child: Column(
                           children: [
                             const SizedBox(height: 10,),
