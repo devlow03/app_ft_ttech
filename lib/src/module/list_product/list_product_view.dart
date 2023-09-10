@@ -17,132 +17,163 @@ class ListProductPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final logic = Get.put(ListProductLogic(Get.find()));
     logic.keyController.text=name??"";
-    logic.getProduct(name: name??"");
+    logic.getSearch(name: name??"", page: logic.page.value);
 
-    return Scaffold(
-      appBar: AppBar(
-        // backgroundColor: Colors.white,
-        automaticallyImplyLeading: false,
-        // backgroundColor: Colors.grey.shade200,
-        leading: IconButton(
-          onPressed: () {
-            Get.to(SearchPage());
-          },
-          icon: Icon(Icons.arrow_back, color: Colors.white,),
+    return WillPopScope(
+      onWillPop: ()async{
+        logic.keyController.text ="";
+        logic.getSearchRsp.value =null;
+        return true;
 
-        ),
-        title: Container(
-          decoration: BoxDecoration(
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          // backgroundColor: Colors.white,
+          automaticallyImplyLeading: false,
+          // backgroundColor: Colors.grey.shade200,
+          leading: IconButton(
+            onPressed: () {
+              Get.back();
+            },
+            icon: Icon(Icons.arrow_back, color: Colors.white,),
 
           ),
-          width: double.infinity,
-          height: 40,
-          child: TextField(
-            controller: logic.keyController,
-            readOnly: true,
-            onTap: () {
-              Get.to(SearchPage());
-            },
-            onChanged: (value) {
-              // logic.getProduct(name: value);
-            },
-            onSubmitted: (value){
-              // logic.getProduct(name: value);
-            },
-            decoration: InputDecoration(
-              contentPadding: EdgeInsets.symmetric(vertical: 5,horizontal: 10),
-              hintText: 'Tìm sản phẩm',
-              // suffixIcon: InkWell(
-              //     onTap: () {
-              //       logic.onSearch.value = true;
-              //       logic.getSearch(name: logic.name);
-              //     },
-              //     child: Icon(Icons.search, color: Colors.black, size: 30,)),
-              filled: true,
-              fillColor: Colors.white,
-              border: OutlineInputBorder(
-
-                borderRadius: BorderRadius.circular(5),
-                borderSide: BorderSide(
-                    color: Colors.transparent
-                ),
-
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(5),
-                borderSide: BorderSide(
-                    color: Colors.transparent
-                ),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(5),
-                borderSide: BorderSide(
-                    color: Colors.transparent
-                ),
-              ),
+          title: Container(
+            decoration: BoxDecoration(
 
             ),
-          ),
-        ),
-
-        actions:[
-          IconButton(
-              onPressed: (){},
-              icon: Icon(Icons.filter_alt_outlined,color: Colors.white,)
-          ),
-
-        ]
-      ),
-      body: Obx(() {
-        if(logic.getProductRsp.value?.searchProducts?.isEmpty??true){
-          return Center(
-            child: CircularProgressIndicator(
-              color: XColor.primary,
-            ),
-          );
-        }
-        return ListView(
-          children: [
-            const SizedBox(height: 10,),
-            GridView.builder(
-              shrinkWrap: true,
-              itemCount: logic.getProductRsp.value?.searchProducts?.length ?? 0,
-              physics:
-              const NeverScrollableScrollPhysics(),
-              itemBuilder: (context, ind) {
-                return InkWell(
-                  onTap: () {
-                    // Get.to(Product_detailPage(data: snapshot.data?.searchProducts?[ind]));
-                    // Get.to(ProductPage(
-                    //   data: logic.getProductRsp.value?.searchProducts?[ind],
-                    // ));
-                  },
-                  child: GlobalProduct(
-                    imageLink: logic.getProductRsp.value?.searchProducts?[ind]
-                        .imgLink,
-                    shortDes: logic.getProductRsp.value?.searchProducts?[ind]
-                        .shortDes,
-                    // price:NumberFormat("###,###.# đ").format(snapshot.data?.products?[index].price),
-                    price:
-                    '${ logic.getProductRsp.value?.searchProducts?[ind].price}',
-                    nameProduct:
-                    logic.getProductRsp.value?.searchProducts?[ind].name,
-                    numStar: '5.0',
-                  ),
-                );
+            width: double.infinity,
+            height: 40,
+            child: TextField(
+              controller: logic.keyController,
+              readOnly: true,
+              onTap: () {
+                Get.to(SearchPage());
               },
-              gridDelegate:
-              const SliverGridDelegateWithFixedCrossAxisCount(
+              onChanged: (value) {
+                // logic.getProduct(name: value);
+              },
+              onSubmitted: (value){
+                // logic.getProduct(name: value);
+              },
+              decoration: InputDecoration(
+                contentPadding: EdgeInsets.symmetric(vertical: 5,horizontal: 10),
+                hintText: 'Tìm sản phẩm',
+                // suffixIcon: InkWell(
+                //     onTap: () {
+                //       logic.onSearch.value = true;
+                //       logic.getSearch(name: logic.name);
+                //     },
+                //     child: Icon(Icons.search, color: Colors.black, size: 30,)),
+                filled: true,
+                fillColor: Colors.white,
+                border: OutlineInputBorder(
 
-                crossAxisCount: 2,
-                crossAxisSpacing: 15,
-                mainAxisSpacing: 20,
-                childAspectRatio: 3 / 4.5,
+                  borderRadius: BorderRadius.circular(5),
+                  borderSide: BorderSide(
+                      color: Colors.transparent
+                  ),
+
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(5),
+                  borderSide: BorderSide(
+                      color: Colors.transparent
+                  ),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(5),
+                  borderSide: BorderSide(
+                      color: Colors.transparent
+                  ),
+                ),
+
               ),
             ),
-          ],
-        );
-      }),
+          ),
+
+          actions:[
+            IconButton(
+                onPressed: (){},
+                icon: Icon(Icons.filter_alt_outlined,color: Colors.white,)
+            ),
+
+          ]
+        ),
+        body: Obx(() {
+          if(logic.getSearchRsp.value?.data?.isEmpty??true){
+            return Center(
+              child: CircularProgressIndicator(
+                color: XColor.primary,
+              ),
+            );
+          }
+          return ListView(
+            controller: logic.controller,
+            children: [
+              const SizedBox(height: 10,),
+              Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: GridView.builder(
+                      shrinkWrap: true,
+                      itemCount: logic.getSearchRsp.value?.data?.length??0,
+                      physics:
+                      const NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, ind) {
+                        logic.indexPage.value=ind;
+                        return InkWell(
+                          onTap: () {
+                            Get.to(ProductPage(id: logic.getSearchRsp.value?.data?[ind].id.toString(),));
+                          },
+                          child: GlobalProduct(
+                            imageLink:logic.getSearchRsp.value?.data?[ind].thumpnailUrl,
+
+                            // price:NumberFormat("###,###.# đ").format(snapshot.data?.products?[index].price),
+                            price:
+                            '${ logic.getSearchRsp.value?.data?[ind].price}',
+                            nameProduct:
+                            logic.getSearchRsp.value?.data?[ind].productName,
+                            numStar: '5.0',
+                          ),
+                        );
+
+                      },
+                      gridDelegate:
+                      const SliverGridDelegateWithFixedCrossAxisCount(
+
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 15,
+                        mainAxisSpacing: 20,
+                        childAspectRatio: 3 / 4.5,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 30,),
+                  Visibility(
+                    visible: logic.isLoading.value!=false,
+                    replacement: Center(),
+                    child: Center(
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        color: XColor.primary,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 30,),
+                  // TextButton(
+                  //     onPressed: (){
+                  //       print(">>>>>>>>>>>>>>>>>>>${logic.isLoading.value}");
+                  //     },
+                  //     child: Text('a')
+                  // )
+                ],
+              ),
+            ],
+          );
+        }),
+      ),
     );
   }
 }

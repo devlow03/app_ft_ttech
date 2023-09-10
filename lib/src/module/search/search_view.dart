@@ -38,7 +38,7 @@ class SearchPage extends StatelessWidget {
               },
               onChanged: (value) {
                 // logic.keyController.text=value;
-                logicSearch.getProduct(name: value);
+                logicSearch.getSearch(name: value,page: 6);
               },
               onSubmitted: (value) {
                 logic.keyController.text=value;
@@ -112,7 +112,7 @@ class SearchPage extends StatelessWidget {
           children: [
             ListView.separated(
               shrinkWrap: true,
-              itemCount: logicSearch.getProductRsp.value?.searchProducts
+              itemCount: logicSearch.getSearchRsp.value?.data
                   ?.length ?? 0,
               itemBuilder: (context, index) {
                 return InkWell(
@@ -124,8 +124,8 @@ class SearchPage extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
-                          logicSearch.getProductRsp.value?.searchProducts?[index]
-                              .name ?? ""),
+                          logicSearch.getSearchRsp.value?.data?[index]
+                              .productName ?? ""),
                     ),
                   ),
                 );

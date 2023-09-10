@@ -58,7 +58,7 @@ class _GlobalProductState extends State<GlobalProduct> {
               imageUrl:widget.imageLink,
               width: MediaQuery.of(context).size.width*.3,
               height: 150,
-              boxFit: BoxFit.cover,
+              boxFit: BoxFit.contain,
 
             ),
           ),

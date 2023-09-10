@@ -7,6 +7,7 @@ import 'package:app_ft_tmart/src/data/tiki_respository/get_may_be_you_like_rsp.d
 import 'package:app_ft_tmart/src/data/tiki_respository/get_tiki_banner_rsp.dart';
 import 'package:app_ft_tmart/src/data/tiki_respository/get_tiki_top_seller_rsp.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 
@@ -21,9 +22,8 @@ class HomeLogic extends GetxController {
   final TikiService tikiService;
   HomeLogic(this.tMartServices,this.tikiService);
   Rxn<GetBannerRsp> getBannerRsp = Rxn();
-  Rxn<GetTikiTopSellerRsp>getTikiTopSellerRsp = Rxn();
-  Rxn<GetMayBeYouLikeRsp>getMayBeYouLikeRsp =Rxn();
   Rxn<GetProductRsp>getProductRsp = Rxn();
+  Rxn<GetProductRsp>getProductByIdCategoryRsp = Rxn();
   Rxn<GetCategoryRsp>getCategoryRsp = Rxn();
 
 
@@ -32,7 +32,21 @@ class HomeLogic extends GetxController {
   final dio = Dio();
   Rxn<int>tabIndex = Rxn(0);
   Rxn<int>tabLike = Rxn(0);
-
+  Rx<int>totalItem = Rx(0);
+  Rx<int>page = Rx(6);
+  Rxn<bool>isLoading = Rxn(false);
+  final ScrollController controller = ScrollController();
+  Rx<int>indexPage = Rx(0);
+  Rxn<GetProductRsp>getPhoneRsp = Rxn();
+  Rxn<GetProductRsp>getLaptopRsp = Rxn();
+  Rxn<GetProductRsp>getTabletRsp = Rxn();
+  Rxn<GetProductRsp>getWatchRsp = Rxn();
+  List<IconData> iconCategory = [
+    Icons.phone_android_outlined,
+    Icons.laptop_mac_outlined,
+    Icons.tablet_mac_outlined,
+    Icons.watch_outlined
+  ];
 
   @override
   void onReady() async{
@@ -40,9 +54,13 @@ class HomeLogic extends GetxController {
     super.onReady();
     getBanner();
     getCategory();
-    getProduct();
-     getTikiTopSeller();
-     getMayBeYouLike();
+    await getPhone();
+    await getLaptop();
+    await getTablet();
+    await getWatch();
+    await getProduct(page: page.value);
+     loadMore();
+
 
 
   }
@@ -52,9 +70,15 @@ class HomeLogic extends GetxController {
     super.refresh();
     await getBanner();
     await getCategory();
-    await getProduct();
-    await getTikiTopSeller();
-    await getMayBeYouLike();
+    await getProduct(page: page.value);
+
+    totalItem.value = getProductRsp.value?.data?.length??0;
+    if(indexPage.value<=totalItem.value){
+      loadMore();
+      isLoading.value=false;
+
+    }
+    return;
   }
 
 
@@ -64,30 +88,60 @@ class HomeLogic extends GetxController {
     return getBannerRsp.value;
   }
 
-  Future<GetTikiTopSellerRsp?>getTikiTopSeller()async{
-    final response = await dio.get("https://api.tiki.vn/raiden/v3/widgets/top_selling");
-    getTikiTopSellerRsp.value = GetTikiTopSellerRsp.fromJson(response.data);
-    return getTikiTopSellerRsp.value;
-  }
-
-  Future<GetMayBeYouLikeRsp?>getMayBeYouLike()async{
-    final response = await dio.get("https://api.tiki.vn/raiden/v3/widgets/maybe_you_like");
-    getMayBeYouLikeRsp.value = GetMayBeYouLikeRsp.fromJson(response.data);
-    print(jsonEncode(response.data));
-    return getMayBeYouLikeRsp.value;
-  }
-
-  Future<GetProductRsp?>getProduct()async{
-    getProductRsp.value = await tMartServices.getProductRsp(page: 5);
+  Future<GetProductRsp?>getProduct({required int page})async{
+    getProductRsp.value = await tMartServices.getProductRsp(page: page);
     return getProductRsp.value;
   }
 
   Future<GetCategoryRsp?>getCategory()async{
-    final response = await dio.get("https://smartstore.khanhnhat.top/api/v1/category");
-    getCategoryRsp.value = GetCategoryRsp.fromJson(response.data);
-    print(jsonEncode(response.data));
+
+    getCategoryRsp.value = await tMartServices.getCategoryRsp();
+
     return getCategoryRsp.value;
   }
+
+  Future<void>loadMore()async {
+    controller.addListener(() async{
+      if(controller.position.maxScrollExtent == controller.offset){
+        isLoading.value=true;
+        print(">>>>>>>>>>>>>>>>>>>>>>>>>AAAAAAAAAAAAAAAAAA");
+        page.value+=6;
+        await getProduct(page: page.value);
+
+
+
+      }
+    });
+    isLoading.value=false;
+  }
+  Future<GetProductRsp?>getProductByIdCategory({required int id})async{
+    getProductByIdCategoryRsp.value = await tMartServices.getProductByIdCategoryRsp(categoryId: id);
+    return getProductByIdCategoryRsp.value;
+  }
+  Future<GetProductRsp?>getPhone()async{
+    getPhoneRsp.value = await tMartServices.getProductByIdCategoryRsp(categoryId: 4);
+    return getPhoneRsp.value;
+  }
+
+  Future<GetProductRsp?>getLaptop()async{
+    getLaptopRsp.value = await tMartServices.getProductByIdCategoryRsp(categoryId: 5);
+    return getLaptopRsp.value;
+  }
+
+  Future<GetProductRsp?>getTablet()async{
+    getTabletRsp.value = await tMartServices.getProductByIdCategoryRsp(categoryId: 6);
+    return getTabletRsp.value;
+  }
+  Future<GetProductRsp?>getWatch()async{
+    getWatchRsp.value = await tMartServices.getProductByIdCategoryRsp(categoryId: 7);
+    return getWatchRsp.value;
+  }
+
+
+
+
+
+
 
 
 

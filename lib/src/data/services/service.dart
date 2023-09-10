@@ -23,6 +23,14 @@ abstract class Services{
   Future<GetBannerRsp>getBannerRsp();
   @GET("auth/get_product_by_id/{id}")
   Future<GetProductByIdRsp>getProdutByIdRsp({@Path('id') required String id});
+  @GET("auth/categories")
+  Future<GetCategoryRsp>getCategoryRsp();
+  @GET("auth/get_products?product_name={name}&perPage={page}")
+  Future<GetProductRsp>getSearchRsp({@Path('name') required String name, @Path('page') required int page});
+  @GET("auth/get_products/?category_id={categoryId}&perPage=10")
+  Future<GetProductRsp>getProductByIdCategoryRsp({@Path('categoryId') required int categoryId});
+
+
 
 
 

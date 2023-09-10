@@ -1,3 +1,4 @@
+import 'package:app_ft_tmart/src/data/respository/get_product_rsp.dart';
 import 'package:app_ft_tmart/src/module/all_product/all_product_view.dart';
 import 'package:app_ft_tmart/src/module/cart/cart_view.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -63,6 +64,7 @@ class HomePage extends StatelessWidget {
           },
           child: Obx(() {
             return ListView(
+              controller: logic.controller,
               children: [
                 Column(
                   children: [
@@ -229,7 +231,7 @@ class HomePage extends StatelessWidget {
                                 ),
                               ),
                               Visibility(
-                                visible: logic.getCategoryRsp.value?.category
+                                visible: logic.getCategoryRsp.value?.data
                                         ?.isEmpty ==
                                     false,
                                 replacement: Padding(
@@ -286,7 +288,7 @@ class HomePage extends StatelessWidget {
                                       scrollDirection: Axis.horizontal,
                                       shrinkWrap: true,
                                       itemCount: logic.getCategoryRsp.value
-                                              ?.category?.length ??
+                                              ?.data?.length ??
                                           0,
                                       // physics: NeverScrollableScrollPhysics(),
                                       itemBuilder: (context, index) {
@@ -296,19 +298,19 @@ class HomePage extends StatelessWidget {
                                               id: logic
                                                       .getCategoryRsp
                                                       .value
-                                                      ?.category?[index]
-                                                      .idCategory
+                                                      ?.data?[index]
+                                                      .id
                                                       .toString() ??
                                                   "",
                                               name: logic.getCategoryRsp.value
-                                                  ?.category?[index].nameType,
+                                                  ?.data?[index].name,
                                             ));
                                           },
                                           child: Container(
                                             width: MediaQuery.of(context)
                                                     .size
                                                     .width *
-                                                .25,
+                                                .2,
                                             height: 20,
                                             decoration: BoxDecoration(
                                                 // border: Border.all(
@@ -321,18 +323,9 @@ class HomePage extends StatelessWidget {
                                                   horizontal: 5, vertical: 5),
                                               child: Column(
                                                 children: [
-                                                  GlobalImage(
-                                                    imageUrl: logic
-                                                            .getCategoryRsp
-                                                            .value
-                                                            ?.category?[index]
-                                                            .image ??
-                                                        "",
-                                                    width: 30,
-                                                    height: 40,
-                                                  ),
+                                                  Icon(logic.iconCategory[index],color: XColor.primary,size: 35,),
                                                   const SizedBox(height: 10,),
-                                                  Text(logic.getCategoryRsp.value?.category?[index].nameType??"")
+                                                  Text(logic.getCategoryRsp.value?.data?[index].name??"")
                                                 ],
                                               ),
                                             ),
@@ -342,7 +335,7 @@ class HomePage extends StatelessWidget {
                                       separatorBuilder:
                                           (BuildContext context, int index) {
                                         return const SizedBox(
-                                          width: 20,
+                                          width: 15,
                                         );
                                       },
                                     ),
@@ -382,151 +375,29 @@ class HomePage extends StatelessWidget {
                                 MainAxisAlignment.spaceBetween,
                                 children:  [
                                   Text(
-                                    'Sản phẩm ngẫu nhiên',
+                                    'Điện thoại bán chạy',
                                     style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.w500),
                                   ),
                                   InkWell(
                                     onTap: (){
-                                      Get.to(AllProductPage());
+                                      Get.to(ListProductPage(name: "Điện thoại",));
                                     },
                                     child: Text(
                                       'Xem thêm>',
                                       style: TextStyle(
-                                        color: XColor.primary,
-                                          fontSize: 16,
+                                          color: XColor.primary,
+                                          fontSize: 14,
                                           fontWeight: FontWeight.w500),
                                     ),
                                   ),
                                 ],
                               ),
                             ),
-                            // Visibility(
-                            //   visible: logic.getTikiTopSellerRsp.value?.tabs
-                            //       ?.isEmpty ==
-                            //       false,
-                            //   replacement: Padding(
-                            //     padding: const EdgeInsets.all(8.0),
-                            //     child: SizedBox(
-                            //       height: 40,
-                            //       child: ListView.separated(
-                            //         scrollDirection: Axis.horizontal,
-                            //         itemCount: 4,
-                            //         itemBuilder: (context, index) {
-                            //           return Shimmer.fromColors(
-                            //             baseColor: Colors.grey.shade300,
-                            //             highlightColor: Colors.grey.shade100,
-                            //             child: Container(
-                            //                 width: MediaQuery.of(context)
-                            //                     .size
-                            //                     .width *
-                            //                     .3,
-                            //                 height: 10,
-                            //                 decoration: BoxDecoration(
-                            //                     borderRadius:
-                            //                     BorderRadius.circular(20),
-                            //                     color: Colors.white)),
-                            //           );
-                            //         },
-                            //         separatorBuilder:
-                            //             (BuildContext context, int index) {
-                            //           return const SizedBox(
-                            //             width: 5,
-                            //           );
-                            //         },
-                            //       ),
-                            //     ),
-                            //   ),
-                            //   child: Padding(
-                            //     padding: const EdgeInsets.all(8.0),
-                            //     child: SizedBox(
-                            //       height: 40,
-                            //       child: ListView.separated(
-                            //         scrollDirection: Axis.horizontal,
-                            //         itemCount: logic.getTikiTopSellerRsp.value
-                            //             ?.tabs?.length ??
-                            //             0,
-                            //         itemBuilder: (context, index) {
-                            //           return InkWell(
-                            //             onTap: () {
-                            //               logic.tabIndex.value = index;
-                            //               print(logic.tabIndex.value);
-                            //             },
-                            //             child: Visibility(
-                            //               visible:
-                            //               logic.tabIndex.value == index,
-                            //               replacement: Container(
-                            //                   decoration: BoxDecoration(
-                            //                       color: Colors.white,
-                            //                       borderRadius:
-                            //                       BorderRadius.circular(20),
-                            //                       border: Border.all(
-                            //                           color: Colors
-                            //                               .grey.shade300)),
-                            //                   child: Padding(
-                            //                     padding:
-                            //                     const EdgeInsets.symmetric(
-                            //                         vertical: 10,
-                            //                         horizontal: 10),
-                            //                     child: Text(
-                            //                       logic
-                            //                           .getTikiTopSellerRsp
-                            //                           .value
-                            //                           ?.tabs?[index]
-                            //                           .title ??
-                            //                           "",
-                            //                       style: const TextStyle(
-                            //                           color: Colors.black,
-                            //                           fontSize: 12,
-                            //                           fontWeight:
-                            //                           FontWeight.w400),
-                            //                       textAlign: TextAlign.center,
-                            //                     ),
-                            //                   )),
-                            //               child: Container(
-                            //                   decoration: BoxDecoration(
-                            //                       color: Colors.white,
-                            //                       borderRadius:
-                            //                       BorderRadius.circular(20),
-                            //                       border: Border.all(
-                            //                           color: XColor.primary,
-                            //                           width: 2)),
-                            //                   child: Padding(
-                            //                     padding:
-                            //                     const EdgeInsets.symmetric(
-                            //                         vertical: 10,
-                            //                         horizontal: 10),
-                            //                     child: Text(
-                            //                       logic
-                            //                           .getTikiTopSellerRsp
-                            //                           .value
-                            //                           ?.tabs?[index]
-                            //                           .title ??
-                            //                           "",
-                            //                       style: TextStyle(
-                            //                           color: XColor.primary,
-                            //                           fontWeight:
-                            //                           FontWeight.w400,
-                            //                           fontSize: 12),
-                            //                       textAlign: TextAlign.center,
-                            //                     ),
-                            //                   )),
-                            //             ),
-                            //           );
-                            //         },
-                            //         separatorBuilder:
-                            //             (BuildContext context, int index) {
-                            //           return const SizedBox(
-                            //             width: 5,
-                            //           );
-                            //         },
-                            //       ),
-                            //     ),
-                            //   ),
-                            // ),
+
                             Visibility(
-                              visible: logic.getProductRsp.value?.data?.isNotEmpty==true,
+                              visible: logic.getPhoneRsp.value?.data?.isNotEmpty==true,
                               replacement: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: SizedBox(
@@ -682,21 +553,21 @@ class HomePage extends StatelessWidget {
                                   child: ListView.separated(
                                     shrinkWrap: true,
                                     scrollDirection: Axis.horizontal,
-                                    itemCount:5,
+                                    itemCount:10,
                                     itemBuilder: (context, ind) {
                                       return InkWell(
                                         onTap: () async {
-                                          Get.to(ProductPage(id: logic.getProductRsp.value?.data?[ind].id.toString()));
+                                          Get.to(ProductPage(id: logic.getPhoneRsp.value?.data?[ind].id.toString()));
                                         },
                                         child: Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: GlobalProduct(
-                                            imageLink: logic.getProductRsp.value?.data?[ind].thumpnailUrl,
+                                            imageLink: logic.getPhoneRsp.value?.data?[ind].thumpnailUrl,
 
                                             // price:NumberFormat("###,###.# đ").format(snapshot.data?.products?[index].price),
                                             price:
-                                            '${logic.getProductRsp.value?.data?[ind].price}',
-                                            nameProduct: logic.getProductRsp.value?.data?[ind].productName,
+                                            '${logic.getPhoneRsp.value?.data?[ind].price}',
+                                            nameProduct: logic.getPhoneRsp.value?.data?[ind].productName,
                                             numStar: '5.0',
 
                                           ),
@@ -717,384 +588,6 @@ class HomePage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
-                      child: Container(
-                        decoration:  BoxDecoration(
-                          color: Colors.grey.shade100,
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            // const SizedBox(
-                            //   height: 10,
-                            // ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 10, horizontal: 15),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: const [
-                                  Text(
-                                    'Sản phẩm bán chạy',
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Visibility(
-                              visible: logic.getTikiTopSellerRsp.value?.tabs
-                                      ?.isEmpty ==
-                                  false,
-                              replacement: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: SizedBox(
-                                  height: 40,
-                                  child: ListView.separated(
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount: 4,
-                                    itemBuilder: (context, index) {
-                                      return Shimmer.fromColors(
-                                        baseColor: Colors.grey.shade300,
-                                        highlightColor: Colors.grey.shade100,
-                                        child: Container(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                .3,
-                                            height: 10,
-                                            decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(20),
-                                                color: Colors.white)),
-                                      );
-                                    },
-                                    separatorBuilder:
-                                        (BuildContext context, int index) {
-                                      return const SizedBox(
-                                        width: 5,
-                                      );
-                                    },
-                                  ),
-                                ),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: SizedBox(
-                                  height: 40,
-                                  child: ListView.separated(
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount: logic.getTikiTopSellerRsp.value
-                                            ?.tabs?.length ??
-                                        0,
-                                    itemBuilder: (context, index) {
-                                      return InkWell(
-                                        onTap: () {
-                                          logic.tabIndex.value = index;
-                                          print(logic.tabIndex.value);
-                                        },
-                                        child: Visibility(
-                                          visible:
-                                              logic.tabIndex.value == index,
-                                          replacement: Container(
-                                              decoration: BoxDecoration(
-                                                  color: Colors.white,
-                                                  borderRadius:
-                                                      BorderRadius.circular(20),
-                                                  border: Border.all(
-                                                      color: Colors
-                                                          .grey.shade300)),
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        vertical: 10,
-                                                        horizontal: 10),
-                                                child: Text(
-                                                  logic
-                                                          .getTikiTopSellerRsp
-                                                          .value
-                                                          ?.tabs?[index]
-                                                          .title ??
-                                                      "",
-                                                  style: const TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: 12,
-                                                      fontWeight:
-                                                          FontWeight.w400),
-                                                  textAlign: TextAlign.center,
-                                                ),
-                                              )),
-                                          child: Container(
-                                              decoration: BoxDecoration(
-                                                  color: Colors.white,
-                                                  borderRadius:
-                                                      BorderRadius.circular(20),
-                                                  border: Border.all(
-                                                      color: XColor.primary,
-                                                      width: 2)),
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        vertical: 10,
-                                                        horizontal: 10),
-                                                child: Text(
-                                                  logic
-                                                          .getTikiTopSellerRsp
-                                                          .value
-                                                          ?.tabs?[index]
-                                                          .title ??
-                                                      "",
-                                                  style: TextStyle(
-                                                      color: XColor.primary,
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                      fontSize: 12),
-                                                  textAlign: TextAlign.center,
-                                                ),
-                                              )),
-                                        ),
-                                      );
-                                    },
-                                    separatorBuilder:
-                                        (BuildContext context, int index) {
-                                      return const SizedBox(
-                                        width: 5,
-                                      );
-                                    },
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Visibility(
-                              visible: logic.getTikiTopSellerRsp.value?.tabs
-                                      ?.isEmpty ==
-                                  false,
-                              replacement: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: SizedBox(
-                                  height:
-                                      MediaQuery.of(context).size.height * .35,
-                                  child: ListView.separated(
-                                    shrinkWrap: true,
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount: 3,
-                                    itemBuilder: (context, ind) {
-                                      return Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Container(
-                                            height: MediaQuery.of(context)
-                                                    .size
-                                                    .height *
-                                                .25,
-                                            // padding: EdgeInsets.symmetric(vertical: 20),
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                .4,
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              // border: Border.all(color: Colors.red),
-                                              border: Border.all(
-                                                color: Colors.grey.shade300,
-                                              ),
-                                              color: Colors.white,
-                                            ),
-                                            child: Column(
-                                              // mainAxisAlignment: MainAxisAlignment.,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                // const SizedBox(height: 5,),
-                                                Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment
-                                                          .stretch,
-                                                  children: [
-                                                    Shimmer.fromColors(
-                                                      baseColor:
-                                                          Colors.grey.shade300,
-                                                      highlightColor:
-                                                          Colors.grey.shade100,
-                                                      child: Container(
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width *
-                                                            .1,
-                                                        height: 190,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          color: Colors
-                                                              .grey.shade300,
-                                                          borderRadius:
-                                                              const BorderRadius
-                                                                      .only(
-                                                                  topLeft: Radius
-                                                                      .circular(
-                                                                          10),
-                                                                  topRight: Radius
-                                                                      .circular(
-                                                                          10)),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-
-                                                Padding(
-                                                  padding: const EdgeInsets
-                                                          .symmetric(
-                                                      horizontal: 8.0,
-                                                      vertical: 5),
-                                                  child: Column(
-                                                    children: [
-                                                      const SizedBox(
-                                                        height: 5,
-                                                      ),
-                                                      Shimmer.fromColors(
-                                                        baseColor: Colors
-                                                            .grey.shade300,
-                                                        highlightColor: Colors
-                                                            .grey.shade100,
-                                                        child: Container(
-                                                          color: Colors
-                                                              .grey.shade300,
-                                                          height: 30,
-                                                          width: MediaQuery.of(
-                                                                  context)
-                                                              .size
-                                                              .width,
-                                                          // boxFit: BoxFit.cover,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                                const SizedBox(
-                                                  height: 10,
-                                                ),
-                                                Padding(
-                                                  padding: const EdgeInsets
-                                                          .symmetric(
-                                                      horizontal: 8.0,
-                                                      vertical: 5),
-                                                  child: Column(
-                                                    children: [
-                                                      const SizedBox(
-                                                        height: 2,
-                                                      ),
-                                                      Shimmer.fromColors(
-                                                        baseColor: Colors
-                                                            .grey.shade300,
-                                                        highlightColor: Colors
-                                                            .grey.shade100,
-                                                        child: Container(
-                                                          color: Colors
-                                                              .grey.shade300,
-                                                          height: 10,
-                                                          width: MediaQuery.of(
-                                                                  context)
-                                                              .size
-                                                              .width,
-                                                          // boxFit: BoxFit.cover,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ));
-                                    },
-                                    separatorBuilder:
-                                        (BuildContext context, int index) {
-                                      return const SizedBox(
-                                        width: 2,
-                                      );
-                                    },
-                                  ),
-                                ),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: SizedBox(
-                                  height:
-                                      MediaQuery.of(context).size.height * .35,
-                                  child: ListView.separated(
-                                    shrinkWrap: true,
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount: logic
-                                            .getTikiTopSellerRsp
-                                            .value
-                                            ?.tabs?[logic.tabIndex.value ?? 0]
-                                            .items
-                                            ?.length ??
-                                        0,
-                                    itemBuilder: (context, ind) {
-                                      return InkWell(
-                                        onTap: () async {
-
-                                        },
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: GlobalProduct(
-                                            imageLink: logic
-                                                .getTikiTopSellerRsp
-                                                .value
-                                                ?.tabs?[
-                                                    logic.tabIndex.value ?? 0]
-                                                .items?[ind]
-                                                .thumbnailUrl,
-
-                                            // price:NumberFormat("###,###.# đ").format(snapshot.data?.products?[index].price),
-                                            price:
-                                                '${logic.getTikiTopSellerRsp.value?.tabs?[logic.tabIndex.value ?? 0].items?[ind].price}',
-                                            nameProduct: logic
-                                                .getTikiTopSellerRsp
-                                                .value
-                                                ?.tabs?[
-                                                    logic.tabIndex.value ?? 0]
-                                                .items?[ind]
-                                                .name,
-                                            numStar: '5.0',
-                                            badgesLink: logic
-                                                .getTikiTopSellerRsp
-                                                .value
-                                                ?.tabs?[
-                                                    logic.tabIndex.value ?? 0]
-                                                .items?[ind]
-                                                .badgesNew?[0]
-                                                .icon,
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                    separatorBuilder:
-                                        (BuildContext context, int index) {
-                                      return const SizedBox(
-                                        width: 2,
-                                      );
-                                    },
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    // Padding(
-                    //   padding: const EdgeInsets.symmetric(vertical: 10),
-                    //   child: Container(
-                    //     width: MediaQuery.of(context).size.width,
-                    //     height: 10,
-                    //     color: Colors.grey.shade100,
-                    //   ),
-                    // ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: Container(
@@ -1113,143 +606,31 @@ class HomePage extends StatelessWidget {
                               child: Row(
                                 mainAxisAlignment:
                                 MainAxisAlignment.spaceBetween,
-                                children: const [
+                                children:  [
                                   Text(
-                                    'Bạn có thể thích',
+                                    'Laptop bán chạy',
                                     style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.w500),
                                   ),
+                                  InkWell(
+                                    onTap: (){
+                                      Get.to(ListProductPage(name: "Laptop",));
+                                    },
+                                    child: Text(
+                                      'Xem thêm>',
+                                      style: TextStyle(
+                                          color: XColor.primary,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),
+
                             Visibility(
-                              visible: logic.getTikiTopSellerRsp.value?.tabs
-                                  ?.isEmpty ==
-                                  false,
-                              replacement: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: SizedBox(
-                                  height: 40,
-                                  child: ListView.separated(
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount: 4,
-                                    itemBuilder: (context, index) {
-                                      return Shimmer.fromColors(
-                                        baseColor: Colors.grey.shade300,
-                                        highlightColor: Colors.grey.shade100,
-                                        child: Container(
-                                            width: MediaQuery.of(context)
-                                                .size
-                                                .width *
-                                                .3,
-                                            height: 10,
-                                            decoration: BoxDecoration(
-                                                borderRadius:
-                                                BorderRadius.circular(20),
-                                                color: Colors.white)),
-                                      );
-                                    },
-                                    separatorBuilder:
-                                        (BuildContext context, int index) {
-                                      return const SizedBox(
-                                        width: 5,
-                                      );
-                                    },
-                                  ),
-                                ),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: SizedBox(
-                                  height: 40,
-                                  child: ListView.separated(
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount: logic.getTikiTopSellerRsp.value
-                                        ?.tabs?.length ??
-                                        0,
-                                    itemBuilder: (context, index) {
-                                      return InkWell(
-                                        onTap: () {
-                                          logic.tabIndex.value = index;
-                                          print(logic.tabIndex.value);
-                                        },
-                                        child: Visibility(
-                                          visible:
-                                          logic.tabIndex.value == index,
-                                          replacement: Container(
-                                              decoration: BoxDecoration(
-                                                  color: Colors.white,
-                                                  borderRadius:
-                                                  BorderRadius.circular(20),
-                                                  border: Border.all(
-                                                      color: Colors
-                                                          .grey.shade300)),
-                                              child: Padding(
-                                                padding:
-                                                const EdgeInsets.symmetric(
-                                                    vertical: 10,
-                                                    horizontal: 10),
-                                                child: Text(
-                                                  logic
-                                                      .getTikiTopSellerRsp
-                                                      .value
-                                                      ?.tabs?[index]
-                                                      .title ??
-                                                      "",
-                                                  style: const TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: 12,
-                                                      fontWeight:
-                                                      FontWeight.w400),
-                                                  textAlign: TextAlign.center,
-                                                ),
-                                              )),
-                                          child: Container(
-                                              decoration: BoxDecoration(
-                                                  color: Colors.white,
-                                                  borderRadius:
-                                                  BorderRadius.circular(20),
-                                                  border: Border.all(
-                                                      color: XColor.primary,
-                                                      width: 2)),
-                                              child: Padding(
-                                                padding:
-                                                const EdgeInsets.symmetric(
-                                                    vertical: 10,
-                                                    horizontal: 10),
-                                                child: Text(
-                                                  logic
-                                                      .getTikiTopSellerRsp
-                                                      .value
-                                                      ?.tabs?[index]
-                                                      .title ??
-                                                      "",
-                                                  style: TextStyle(
-                                                      color: XColor.primary,
-                                                      fontWeight:
-                                                      FontWeight.w400,
-                                                      fontSize: 12),
-                                                  textAlign: TextAlign.center,
-                                                ),
-                                              )),
-                                        ),
-                                      );
-                                    },
-                                    separatorBuilder:
-                                        (BuildContext context, int index) {
-                                      return const SizedBox(
-                                        width: 5,
-                                      );
-                                    },
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Visibility(
-                              visible: logic.getTikiTopSellerRsp.value?.tabs
-                                  ?.isEmpty ==
-                                  false,
+                              visible: logic.getLaptopRsp.value?.data?.isNotEmpty==true,
                               replacement: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: SizedBox(
@@ -1279,7 +660,7 @@ class HomePage extends StatelessWidget {
                                               border: Border.all(
                                                 color: Colors.grey.shade300,
                                               ),
-                                              color: Colors.white,
+                                              color: Colors.grey.shade200,
                                             ),
                                             child: Column(
                                               // mainAxisAlignment: MainAxisAlignment.,
@@ -1307,7 +688,7 @@ class HomePage extends StatelessWidget {
                                                         decoration:
                                                         BoxDecoration(
                                                           color: Colors
-                                                              .grey.shade300,
+                                                              .grey,
                                                           borderRadius:
                                                           const BorderRadius
                                                               .only(
@@ -1340,7 +721,7 @@ class HomePage extends StatelessWidget {
                                                             .grey.shade100,
                                                         child: Container(
                                                           color: Colors
-                                                              .grey.shade300,
+                                                              .grey,
                                                           height: 30,
                                                           width: MediaQuery.of(
                                                               context)
@@ -1353,13 +734,13 @@ class HomePage extends StatelessWidget {
                                                   ),
                                                 ),
                                                 const SizedBox(
-                                                  height: 10,
+                                                  height: 5,
                                                 ),
                                                 Padding(
                                                   padding: const EdgeInsets
                                                       .symmetric(
                                                       horizontal: 8.0,
-                                                      vertical: 5),
+                                                      vertical: 2),
                                                   child: Column(
                                                     children: [
                                                       const SizedBox(
@@ -1372,8 +753,8 @@ class HomePage extends StatelessWidget {
                                                             .grey.shade100,
                                                         child: Container(
                                                           color: Colors
-                                                              .grey.shade300,
-                                                          height: 10,
+                                                              .grey,
+                                                          height: 20,
                                                           width: MediaQuery.of(
                                                               context)
                                                               .size
@@ -1405,48 +786,487 @@ class HomePage extends StatelessWidget {
                                   child: ListView.separated(
                                     shrinkWrap: true,
                                     scrollDirection: Axis.horizontal,
-                                    itemCount: logic
-                                        .getTikiTopSellerRsp
-                                        .value
-                                        ?.tabs?[logic.tabIndex.value ?? 0]
-                                        .items
-                                        ?.length ??
-                                        0,
+                                    itemCount:10,
                                     itemBuilder: (context, ind) {
                                       return InkWell(
                                         onTap: () async {
-
+                                          Get.to(ProductPage(id: logic.getLaptopRsp.value?.data?[ind].id.toString()));
                                         },
                                         child: Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: GlobalProduct(
-                                            imageLink: logic
-                                                .getTikiTopSellerRsp
-                                                .value
-                                                ?.tabs?[
-                                            logic.tabIndex.value ?? 0]
-                                                .items?[ind]
-                                                .thumbnailUrl,
+                                            imageLink: logic.getLaptopRsp.value?.data?[ind].thumpnailUrl,
 
                                             // price:NumberFormat("###,###.# đ").format(snapshot.data?.products?[index].price),
                                             price:
-                                            '${logic.getTikiTopSellerRsp.value?.tabs?[logic.tabIndex.value ?? 0].items?[ind].price}',
-                                            nameProduct: logic
-                                                .getTikiTopSellerRsp
-                                                .value
-                                                ?.tabs?[
-                                            logic.tabIndex.value ?? 0]
-                                                .items?[ind]
-                                                .name,
+                                            '${logic.getLaptopRsp.value?.data?[ind].price}',
+                                            nameProduct: logic.getLaptopRsp.value?.data?[ind].productName,
                                             numStar: '5.0',
-                                            badgesLink: logic
-                                                .getTikiTopSellerRsp
-                                                .value
-                                                ?.tabs?[
-                                            logic.tabIndex.value ?? 0]
-                                                .items?[ind]
-                                                .badgesNew?[0]
-                                                .icon,
+
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    separatorBuilder:
+                                        (BuildContext context, int index) {
+                                      return const SizedBox(
+                                        width: 2,
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: Container(
+                        decoration:  BoxDecoration(
+                          color: Colors.grey.shade100,
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // const SizedBox(
+                            //   height: 10,
+                            // ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 15),
+                              child: Row(
+                                mainAxisAlignment:
+                                MainAxisAlignment.spaceBetween,
+                                children:  [
+                                  Text(
+                                    'Tablet bán chạy',
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                  InkWell(
+                                    onTap: (){
+                                      Get.to(ListProductPage(name: "Tablet",));
+                                    },
+                                    child: Text(
+                                      'Xem thêm>',
+                                      style: TextStyle(
+                                          color: XColor.primary,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Visibility(
+                              visible: logic.getTabletRsp.value?.data?.isNotEmpty==true,
+                              replacement: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: SizedBox(
+                                  height:
+                                  MediaQuery.of(context).size.height * .35,
+                                  child: ListView.separated(
+                                    shrinkWrap: true,
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: 3,
+                                    itemBuilder: (context, ind) {
+                                      return Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Container(
+                                            height: MediaQuery.of(context)
+                                                .size
+                                                .height *
+                                                .25,
+                                            // padding: EdgeInsets.symmetric(vertical: 20),
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width *
+                                                .4,
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                              BorderRadius.circular(10),
+                                              // border: Border.all(color: Colors.red),
+                                              border: Border.all(
+                                                color: Colors.grey.shade300,
+                                              ),
+                                              color: Colors.grey.shade200,
+                                            ),
+                                            child: Column(
+                                              // mainAxisAlignment: MainAxisAlignment.,
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                              children: [
+                                                // const SizedBox(height: 5,),
+                                                Column(
+                                                  crossAxisAlignment:
+                                                  CrossAxisAlignment
+                                                      .stretch,
+                                                  children: [
+                                                    Shimmer.fromColors(
+                                                      baseColor:
+                                                      Colors.grey.shade300,
+                                                      highlightColor:
+                                                      Colors.grey.shade100,
+                                                      child: Container(
+                                                        width: MediaQuery.of(
+                                                            context)
+                                                            .size
+                                                            .width *
+                                                            .1,
+                                                        height: 190,
+                                                        decoration:
+                                                        BoxDecoration(
+                                                          color: Colors
+                                                              .grey,
+                                                          borderRadius:
+                                                          const BorderRadius
+                                                              .only(
+                                                              topLeft: Radius
+                                                                  .circular(
+                                                                  10),
+                                                              topRight: Radius
+                                                                  .circular(
+                                                                  10)),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+
+                                                Padding(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                      horizontal: 8.0,
+                                                      vertical: 5),
+                                                  child: Column(
+                                                    children: [
+                                                      const SizedBox(
+                                                        height: 5,
+                                                      ),
+                                                      Shimmer.fromColors(
+                                                        baseColor: Colors
+                                                            .grey.shade300,
+                                                        highlightColor: Colors
+                                                            .grey.shade100,
+                                                        child: Container(
+                                                          color: Colors
+                                                              .grey,
+                                                          height: 30,
+                                                          width: MediaQuery.of(
+                                                              context)
+                                                              .size
+                                                              .width,
+                                                          // boxFit: BoxFit.cover,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                                const SizedBox(
+                                                  height: 5,
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                      horizontal: 8.0,
+                                                      vertical: 2),
+                                                  child: Column(
+                                                    children: [
+                                                      const SizedBox(
+                                                        height: 2,
+                                                      ),
+                                                      Shimmer.fromColors(
+                                                        baseColor: Colors
+                                                            .grey.shade300,
+                                                        highlightColor: Colors
+                                                            .grey.shade100,
+                                                        child: Container(
+                                                          color: Colors
+                                                              .grey,
+                                                          height: 20,
+                                                          width: MediaQuery.of(
+                                                              context)
+                                                              .size
+                                                              .width,
+                                                          // boxFit: BoxFit.cover,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ));
+                                    },
+                                    separatorBuilder:
+                                        (BuildContext context, int index) {
+                                      return const SizedBox(
+                                        width: 2,
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: SizedBox(
+                                  height:
+                                  MediaQuery.of(context).size.height * .35,
+                                  child: ListView.separated(
+                                    shrinkWrap: true,
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount:10,
+                                    itemBuilder: (context, ind) {
+                                      return InkWell(
+                                        onTap: () async {
+                                          Get.to(ProductPage(id: logic.getTabletRsp.value?.data?[ind].id.toString()));
+                                        },
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: GlobalProduct(
+                                            imageLink: logic.getTabletRsp.value?.data?[ind].thumpnailUrl,
+
+                                            // price:NumberFormat("###,###.# đ").format(snapshot.data?.products?[index].price),
+                                            price:
+                                            '${logic.getTabletRsp.value?.data?[ind].price}',
+                                            nameProduct: logic.getTabletRsp.value?.data?[ind].productName,
+                                            numStar: '5.0',
+
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    separatorBuilder:
+                                        (BuildContext context, int index) {
+                                      return const SizedBox(
+                                        width: 2,
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: Container(
+                        decoration:  BoxDecoration(
+                          color: Colors.grey.shade100,
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // const SizedBox(
+                            //   height: 10,
+                            // ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 15),
+                              child: Row(
+                                mainAxisAlignment:
+                                MainAxisAlignment.spaceBetween,
+                                children:  [
+                                  Text(
+                                    'Đồng hồ bán chạy',
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                  InkWell(
+                                    onTap: (){
+                                      Get.to(ListProductPage(name: "Đồng hồ",));
+                                    },
+                                    child: Text(
+                                      'Xem thêm>',
+                                      style: TextStyle(
+                                          color: XColor.primary,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Visibility(
+                              visible: logic.getWatchRsp.value?.data?.isNotEmpty==true,
+                              replacement: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: SizedBox(
+                                  height:
+                                  MediaQuery.of(context).size.height * .35,
+                                  child: ListView.separated(
+                                    shrinkWrap: true,
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: 3,
+                                    itemBuilder: (context, ind) {
+                                      return Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Container(
+                                            height: MediaQuery.of(context)
+                                                .size
+                                                .height *
+                                                .25,
+                                            // padding: EdgeInsets.symmetric(vertical: 20),
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width *
+                                                .4,
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                              BorderRadius.circular(10),
+                                              // border: Border.all(color: Colors.red),
+                                              border: Border.all(
+                                                color: Colors.grey.shade300,
+                                              ),
+                                              color: Colors.grey.shade200,
+                                            ),
+                                            child: Column(
+                                              // mainAxisAlignment: MainAxisAlignment.,
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                              children: [
+                                                // const SizedBox(height: 5,),
+                                                Column(
+                                                  crossAxisAlignment:
+                                                  CrossAxisAlignment
+                                                      .stretch,
+                                                  children: [
+                                                    Shimmer.fromColors(
+                                                      baseColor:
+                                                      Colors.grey.shade300,
+                                                      highlightColor:
+                                                      Colors.grey.shade100,
+                                                      child: Container(
+                                                        width: MediaQuery.of(
+                                                            context)
+                                                            .size
+                                                            .width *
+                                                            .1,
+                                                        height: 190,
+                                                        decoration:
+                                                        BoxDecoration(
+                                                          color: Colors
+                                                              .grey,
+                                                          borderRadius:
+                                                          const BorderRadius
+                                                              .only(
+                                                              topLeft: Radius
+                                                                  .circular(
+                                                                  10),
+                                                              topRight: Radius
+                                                                  .circular(
+                                                                  10)),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+
+                                                Padding(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                      horizontal: 8.0,
+                                                      vertical: 5),
+                                                  child: Column(
+                                                    children: [
+                                                      const SizedBox(
+                                                        height: 5,
+                                                      ),
+                                                      Shimmer.fromColors(
+                                                        baseColor: Colors
+                                                            .grey.shade300,
+                                                        highlightColor: Colors
+                                                            .grey.shade100,
+                                                        child: Container(
+                                                          color: Colors
+                                                              .grey,
+                                                          height: 30,
+                                                          width: MediaQuery.of(
+                                                              context)
+                                                              .size
+                                                              .width,
+                                                          // boxFit: BoxFit.cover,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                                const SizedBox(
+                                                  height: 5,
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                      horizontal: 8.0,
+                                                      vertical: 2),
+                                                  child: Column(
+                                                    children: [
+                                                      const SizedBox(
+                                                        height: 2,
+                                                      ),
+                                                      Shimmer.fromColors(
+                                                        baseColor: Colors
+                                                            .grey.shade300,
+                                                        highlightColor: Colors
+                                                            .grey.shade100,
+                                                        child: Container(
+                                                          color: Colors
+                                                              .grey,
+                                                          height: 20,
+                                                          width: MediaQuery.of(
+                                                              context)
+                                                              .size
+                                                              .width,
+                                                          // boxFit: BoxFit.cover,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ));
+                                    },
+                                    separatorBuilder:
+                                        (BuildContext context, int index) {
+                                      return const SizedBox(
+                                        width: 2,
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: SizedBox(
+                                  height:
+                                  MediaQuery.of(context).size.height * .35,
+                                  child: ListView.separated(
+                                    shrinkWrap: true,
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount:10,
+                                    itemBuilder: (context, ind) {
+                                      return InkWell(
+                                        onTap: () async {
+                                          Get.to(ProductPage(id: logic.getWatchRsp.value?.data?[ind].id.toString()));
+                                        },
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: GlobalProduct(
+                                            imageLink: logic.getWatchRsp.value?.data?[ind].thumpnailUrl,
+
+                                            // price:NumberFormat("###,###.# đ").format(snapshot.data?.products?[index].price),
+                                            price:
+                                            '${logic.getWatchRsp.value?.data?[ind].price}',
+                                            nameProduct: logic.getWatchRsp.value?.data?[ind].productName,
+                                            numStar: '5.0',
+
                                           ),
                                         ),
                                       );
@@ -1466,10 +1286,114 @@ class HomePage extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(
-                      height: 20,
+                      height: 10,
                     ),
+                    Container(
+                      color: Colors.grey.shade100,
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 10, horizontal: 15),
+                            child: Row(
+                              mainAxisAlignment:
+                              MainAxisAlignment.spaceBetween,
+                              children: const [
+                                Text(
+                                  'Gợi ý hôm nay',
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 10),
+                                child: GridView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: logic.getProductRsp.value?.data?.length??0,
+                                  physics:
+                                  const NeverScrollableScrollPhysics(),
+                                  itemBuilder: (context, ind) {
+                                    logic.indexPage.value=ind;
+                                    return InkWell(
+                                      onTap: () {
+                                        Get.to(ProductPage(id: logic.getProductRsp.value?.data?[ind].id.toString(),));
+                                      },
+                                      child: GlobalProduct(
+                                        imageLink:logic.getProductRsp.value?.data?[ind].thumpnailUrl,
+
+                                        // price:NumberFormat("###,###.# đ").format(snapshot.data?.products?[index].price),
+                                        price:
+                                        '${ logic.getProductRsp.value?.data?[ind].price}',
+                                        nameProduct:
+                                        logic.getProductRsp.value?.data?[ind].productName,
+                                        numStar: '5.0',
+                                      ),
+                                    );
+                                    // else{
+                                    //   // logic.loadMore();
+                                    //
+                                    //   return Padding(
+                                    //     padding: const EdgeInsets.symmetric(horizontal: 50),
+                                    //     child: Column(
+                                    //       crossAxisAlignment: CrossAxisAlignment.center,
+                                    //       mainAxisAlignment: MainAxisAlignment.center,
+                                    //       children: [
+                                    //         CircularProgressIndicator(),
+                                    //         TextButton(
+                                    //             onPressed:(){
+                                    //               logic.loadMore();
+                                    //             },
+                                    //             child: Text("load")
+                                    //         )
+                                    //       ],
+                                    //     ),
+                                    //   );
+                                    //
+                                    // }
+                                  },
+                                  gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+
+                                    crossAxisCount: 2,
+                                    crossAxisSpacing: 15,
+                                    mainAxisSpacing: 20,
+                                    childAspectRatio: 3 / 4.5,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 30,),
+                              Visibility(
+                                visible: logic.isLoading.value!=false,
+                                replacement: Center(),
+                                child: Center(
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                    color: XColor.primary,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 30,),
+                              // TextButton(
+                              //     onPressed: (){
+                              //       print(">>>>>>>>>>>>>>>>>>>${logic.isLoading.value}");
+                              //     },
+                              //     child: Text('a')
+                              // )
+                            ],
+                          ),
+                        ],
+                      ),
+                    )
+
                   ],
                 ),
+
+
                 const SizedBox(
                   height: 30,
                 ),
