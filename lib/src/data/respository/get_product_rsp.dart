@@ -53,6 +53,7 @@ class Data {
   int? id;
   dynamic code;
   String? productName;
+  int? defaultPrice;
   int? price;
   String? slug;
   dynamic sku;
@@ -81,6 +82,7 @@ class Data {
     this.id,
     this.code,
     this.productName,
+    this.defaultPrice,
     this.price,
     this.slug,
     this.sku,
@@ -110,6 +112,7 @@ class Data {
     int? id,
     dynamic code,
     String? productName,
+    int? defaultPrice,
     int? price,
     String? slug,
     dynamic sku,
@@ -138,6 +141,7 @@ class Data {
         id: id ?? this.id,
         code: code ?? this.code,
         productName: productName ?? this.productName,
+        defaultPrice: defaultPrice ?? this.defaultPrice,
         price: price ?? this.price,
         slug: slug ?? this.slug,
         sku: sku ?? this.sku,
@@ -167,6 +171,7 @@ class Data {
     id: json["id"],
     code: json["code"],
     productName: json["product_name"],
+    defaultPrice: json["default_price"],
     price: json["price"],
     slug: json["slug"],
     sku: json["sku"],
@@ -196,6 +201,7 @@ class Data {
     "id": id,
     "code": code,
     "product_name": productName,
+    "default_price": defaultPrice,
     "price": price,
     "slug": slug,
     "sku": sku,

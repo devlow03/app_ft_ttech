@@ -23,6 +23,7 @@ class ListProductPage extends StatelessWidget {
       onWillPop: ()async{
         logic.keyController.text ="";
         logic.getSearchRsp.value =null;
+        logic.page.value=10;
         return true;
 
       },
@@ -45,6 +46,7 @@ class ListProductPage extends StatelessWidget {
             width: double.infinity,
             height: 40,
             child: TextField(
+              autofocus: false,
               controller: logic.keyController,
               readOnly: true,
               onTap: () {
@@ -103,8 +105,16 @@ class ListProductPage extends StatelessWidget {
         body: Obx(() {
           if(logic.getSearchRsp.value?.data?.isEmpty??true){
             return Center(
-              child: CircularProgressIndicator(
-                color: XColor.primary,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CircularProgressIndicator(
+                    color: XColor.primary,
+                  ),
+                  const SizedBox(height: 5,),
+                  Text("Đang tải")
+                ],
               ),
             );
           }
@@ -125,11 +135,14 @@ class ListProductPage extends StatelessWidget {
                         logic.indexPage.value=ind;
                         return InkWell(
                           onTap: () {
-                            Get.to(ProductPage(id: logic.getSearchRsp.value?.data?[ind].id.toString(),));
+                            Get.to(ProductPage(
+                              id: logic.getSearchRsp.value?.data?[ind].id.toString(),
+                              categoryId: logic.getSearchRsp.value?.data?[ind].categoryId.toString(),
+                            ));
                           },
                           child: GlobalProduct(
                             imageLink:logic.getSearchRsp.value?.data?[ind].thumpnailUrl,
-
+                            defaultPrice: '${logic.getSearchRsp.value?.data?[ind].defaultPrice}',
                             // price:NumberFormat("###,###.# đ").format(snapshot.data?.products?[index].price),
                             price:
                             '${ logic.getSearchRsp.value?.data?[ind].price}',
@@ -146,13 +159,13 @@ class ListProductPage extends StatelessWidget {
                         crossAxisCount: 2,
                         crossAxisSpacing: 15,
                         mainAxisSpacing: 20,
-                        childAspectRatio: 3 / 4.5,
+                        childAspectRatio: 3 / 5,
                       ),
                     ),
                   ),
                   const SizedBox(height: 30,),
                   Visibility(
-                    visible: logic.isLoading.value!=false,
+                    visible: logic.page.value<(logic.getSearchRsp.value?.meta?.total??0),
                     replacement: Center(),
                     child: Center(
                       child: CircularProgressIndicator(

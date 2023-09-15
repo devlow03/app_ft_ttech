@@ -11,7 +11,7 @@ class ListProductLogic extends GetxController {
   ListProductLogic(this.tMartServices);
   TextEditingController keyController = TextEditingController();
   Rxn<GetProductRsp>getSearchRsp = Rxn();
-  Rx<int>page = Rx(6);
+  Rx<int>page = Rx(10);
   Rxn<bool>isLoading = Rxn(false);
   final ScrollController controller = ScrollController();
   Rx<int>indexPage = Rx(0);
@@ -19,7 +19,10 @@ class ListProductLogic extends GetxController {
   void onReady() async{
     // TODO: implement onReady
     super.onReady();
-    loadMore();
+
+      loadMore();
+
+
   }
 
   Future<GetProductRsp?>getSearch({required String name, required int page})async{
@@ -30,10 +33,13 @@ class ListProductLogic extends GetxController {
   Future<void>loadMore()async {
     controller.addListener(() async{
       if(controller.position.maxScrollExtent == controller.offset){
-        isLoading.value=true;
-        print(">>>>>>>>>>>>>>>>>>>>>>>>>AAAAAAAAAAAAAAAAAA");
-        page.value+=6;
-        await getSearch(page: page.value, name: keyController.text);
+
+        if(page.value<(getSearchRsp.value?.meta?.total??0)){
+          isLoading.value=true;
+          print(">>>>>>>>>>>>>>>>>>>>>>>>>AAAAAAAAAAAAAAAAAA");
+          page.value+=10;
+          await getSearch(page: page.value, name: keyController.text);
+        }
 
 
 

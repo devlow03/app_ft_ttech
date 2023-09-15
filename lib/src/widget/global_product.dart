@@ -8,6 +8,7 @@ class GlobalProduct extends StatefulWidget {
   final String? imageLink;
   final String? nameProduct;
   final dynamic  price;
+  final dynamic defaultPrice;
   final String? numStar;
   final String? shortDes;
   final String? badgesLink;
@@ -20,6 +21,7 @@ class GlobalProduct extends StatefulWidget {
     this.shortDes,
     this.numStar,
     this.badgesLink,
+    this.defaultPrice,
     // this.shortDescript
 
 
@@ -44,7 +46,7 @@ class _GlobalProductState extends State<GlobalProduct> {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         // border: Border.all(color: Colors.red),
-        // border: Border.all(color: Colors.grey.shade300,),
+        border: Border.all(color: Colors.grey.shade100,),
         color: Colors.white,
       ),
       child: Column(
@@ -126,6 +128,31 @@ class _GlobalProductState extends State<GlobalProduct> {
               ],
             ),
           ),
+          Visibility(
+            visible: widget.defaultPrice!=null,
+            replacement: Center(),
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    // mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text(NumberFormat.simpleCurrency(locale: 'vi').format(double.parse(widget.defaultPrice??0)),
+                        style:  TextStyle(
+                            fontSize: 12,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w400,
+                            decoration:TextDecoration.lineThrough
+                        ),)
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 5,),
+              ],
+            ),
+          ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Column(
@@ -133,7 +160,7 @@ class _GlobalProductState extends State<GlobalProduct> {
               // mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Text(NumberFormat.simpleCurrency(locale: 'vi').format(double.parse(widget.price)),
-                  style:  TextStyle(fontSize: 16,color: Colors.black,fontWeight: FontWeight.w600),)
+                  style:  TextStyle(fontSize: 16,color: Colors.redAccent,fontWeight: FontWeight.w600),)
               ],
             ),
           )

@@ -7,6 +7,7 @@ import 'package:app_ft_tmart/src/data/tiki_respository/get_may_be_you_like_rsp.d
 import 'package:app_ft_tmart/src/data/tiki_respository/get_tiki_banner_rsp.dart';
 import 'package:app_ft_tmart/src/data/tiki_respository/get_tiki_top_seller_rsp.dart';
 import 'package:dio/dio.dart';
+import 'package:encrypted_shared_preferences/encrypted_shared_preferences.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -14,13 +15,15 @@ import 'package:get/get.dart';
 import '../../data/respository/get_product_rsp.dart';
 import '../../data/services/service.dart';
 import '../../data/services/tiki_service.dart';
+import '../cart/cart_logic.dart';
 
 
 
 class HomeLogic extends GetxController {
   final Services tMartServices;
-  final TikiService tikiService;
-  HomeLogic(this.tMartServices,this.tikiService);
+  final EncryptedSharedPreferences sharedPreferences;
+
+  HomeLogic(this.tMartServices,this.sharedPreferences);
   Rxn<GetBannerRsp> getBannerRsp = Rxn();
   Rxn<GetProductRsp>getProductRsp = Rxn();
   Rxn<GetProductRsp>getProductByIdCategoryRsp = Rxn();
@@ -33,7 +36,7 @@ class HomeLogic extends GetxController {
   Rxn<int>tabIndex = Rxn(0);
   Rxn<int>tabLike = Rxn(0);
   Rx<int>totalItem = Rx(0);
-  Rx<int>page = Rx(6);
+  Rx<int>page = Rx(10);
   Rxn<bool>isLoading = Rxn(false);
   final ScrollController controller = ScrollController();
   Rx<int>indexPage = Rx(0);
@@ -47,13 +50,15 @@ class HomeLogic extends GetxController {
     Icons.tablet_mac_outlined,
     Icons.watch_outlined
   ];
+  final logicCart = Get.put(CartLogic(Get.find()));
 
   @override
   void onReady() async{
     // TODO: implement onReady
     super.onReady();
-    getBanner();
-    getCategory();
+    await logicCart.getCart();
+    print(">>>>>>>>>>>>>>>>>>>session:${await sharedPreferences.getString("session")}");
+    await getCategory();
     await getPhone();
     await getLaptop();
     await getTablet();
@@ -103,10 +108,12 @@ class HomeLogic extends GetxController {
   Future<void>loadMore()async {
     controller.addListener(() async{
       if(controller.position.maxScrollExtent == controller.offset){
-        isLoading.value=true;
-        print(">>>>>>>>>>>>>>>>>>>>>>>>>AAAAAAAAAAAAAAAAAA");
-        page.value+=6;
-        await getProduct(page: page.value);
+        if(page.value<(getProductRsp.value?.meta?.total??0)){
+          isLoading.value=true;
+          print(">>>>>>>>>>>>>>>>>>>>>>>>>AAAAAAAAAAAAAAAAAA");
+          page.value+=10;
+          await getProduct(page: page.value);
+        }
 
 
 

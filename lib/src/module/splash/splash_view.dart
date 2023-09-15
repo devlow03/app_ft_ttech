@@ -9,7 +9,7 @@ class SplashPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final logic = Get.put(SplashLogic());
+    final logic = Get.put(SplashLogic(Get.find(),Get.find()));
 
     return Scaffold(
       backgroundColor: Colors.white,
