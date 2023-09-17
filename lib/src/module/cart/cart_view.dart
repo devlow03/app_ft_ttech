@@ -1,3 +1,5 @@
+import 'package:app_ft_tmart/src/module/cart/voucher/voucher_logic.dart';
+import 'package:app_ft_tmart/src/module/cart/voucher/voucher_view.dart';
 import 'package:app_ft_tmart/src/module/product/product_view.dart';
 import 'package:app_ft_tmart/src/module/search/search_view.dart';
 import 'package:app_ft_tmart/src/widget/global_image.dart';
@@ -14,47 +16,60 @@ class CartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final logic = Get.put(CartLogic(Get.find()));
+    final logicVoucher = Get.put(VoucherLogic(Get.find()));
     logic.getCart();
-    print(">>>>>>>>>>>>>>>${logic.getCartRsp.value?.data?.cartDetails?.length??0}");
-    return Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          elevation: 0.0,
+    print(
+        ">>>>>>>>>>>>>>>${logic.getCartRsp.value?.data?.cartDetails?.length ?? 0}");
+    return WillPopScope(
+      onWillPop: () async {
+        await logicVoucher.deleteVoucher(cartId: int.parse((logic.getCartRsp.value?.data?.id??0).toString()));
+        logic.voucherCode.value=null;
+        return true;
+      },
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
           backgroundColor: Colors.white,
-          automaticallyImplyLeading: true,
-          title: Text('Giỏ hàng',
-            style: TextStyle(
-                fontSize: 18, fontWeight: FontWeight.w700, color: Colors.black
+          appBar: AppBar(
+            elevation: 0.0,
+            backgroundColor: Colors.white,
+            automaticallyImplyLeading: true,
+            title: Text(
+              'Giỏ hàng',
+              style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.black),
             ),
+            centerTitle: true,
+            actions: [
+              IconButton(
+                  onPressed: () {
+                    Get.to(SearchPage());
+                  },
+                  icon: Icon(Icons.search))
+            ],
           ),
-          centerTitle: true,
-          actions: [
-            IconButton(
-                onPressed: () {
-                  Get.to(SearchPage());
-                },
-                icon: Icon(Icons.search)
-            )
-          ],
-        ),
-
-        body: Obx(() {
-          return ListView(
+          body: Obx(() {
+            return ListView(
               children: [
-                const SizedBox(height: 20,),
+                const SizedBox(
+                  height: 20,
+                ),
                 ListView.separated(
                   physics: NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
-                  itemCount: logic.getCartRsp.value?.data
-                      ?.cartDetails?.length ?? 0,
+                  itemCount:
+                      logic.getCartRsp.value?.data?.cartDetails?.length ?? 0,
                   itemBuilder: (context, index) {
                     return InkWell(
-                      onTap: (){
+                      onTap: () {
                         Get.to(ProductPage(
-                            id:  logic.getCartRsp.value?.data
-                            ?.cartDetails?[index].productId.toString(),
+                          id: logic.getCartRsp.value?.data?.cartDetails?[index]
+                              .productId
+                              .toString(),
                           categoryId: logic.getCartRsp.value?.data
-                              ?.cartDetails?[index].categoryId.toString(),
+                              ?.cartDetails?[index].categoryId
+                              .toString(),
                         ));
                       },
                       child: Padding(
@@ -64,36 +79,30 @@ class CartPage extends StatelessWidget {
                           children: [
                             GlobalImage(
                               height: 100,
-                              width: MediaQuery
-                                  .of(context)
-                                  .size
-                                  .width * .3,
+                              width: MediaQuery.of(context).size.width * .3,
                               imageUrl: logic.getCartRsp.value?.data
                                   ?.cartDetails?[index].thumpnailUrl,
                             ),
-                            const SizedBox(width: 20,),
+                            const SizedBox(
+                              width: 20,
+                            ),
                             Expanded(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  Text('${logic.getCartRsp.value?.data
-                                      ?.cartDetails?[index].productName}',
+                                  Text(
+                                    '${logic.getCartRsp.value?.data?.cartDetails?[index].productName}',
                                     style: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w600,
-                                        height: 1.2
-                                    ),
+                                        height: 1.2),
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.symmetric(
                                         vertical: 10),
                                     child: Text(
-                                        "${NumberFormat.simpleCurrency(
-                                            locale: "VI")
-                                            .format(logic.getCartRsp.value?.data
-                                            ?.cartDetails?[index].price)}"
-                                    ),
+                                        "${NumberFormat.simpleCurrency(locale: "VI").format(logic.getCartRsp.value?.data?.cartDetails?[index].price)}"),
                                   ),
                                   Row(
                                     children: [
@@ -102,91 +111,140 @@ class CartPage extends StatelessWidget {
                                         decoration: BoxDecoration(
                                             border: Border.all(
                                                 color: Colors.grey.shade300),
-                                            borderRadius: BorderRadius.circular(
-                                                5),
-                                            color: Colors.grey.shade100
-                                        ),
+                                            borderRadius:
+                                                BorderRadius.circular(5),
+                                            color: Colors.grey.shade100),
                                         child: Row(
                                           children: [
                                             IconButton(
-                                                onPressed: () async{
+                                                onPressed: () async {
                                                   print(">>>>>>>>>>>>>>>>>>A");
-                                                  int? quantity =int.parse(( (logic.getCartRsp.value?.data
-                                                      ?.cartDetails?[index].quantity).toString()))-1;
-                                                  print(">>>>>>>>>>>>>>>>>>${quantity}");
-                                                  if(quantity>=1){
+                                                  int? quantity = int.parse(
+                                                          ((logic
+                                                                  .getCartRsp
+                                                                  .value
+                                                                  ?.data
+                                                                  ?.cartDetails?[
+                                                                      index]
+                                                                  .quantity)
+                                                              .toString())) -
+                                                      1;
+                                                  print(
+                                                      ">>>>>>>>>>>>>>>>>>${quantity}");
+                                                  if (quantity >= 1) {
                                                     await logic.updateCartDetail(
-                                                        idCart: logic.getCartRsp.value?.data
-                                                            ?.cartDetails?[index].id.toString()??"",
-                                                        quantity: quantity
-                                                    );
+                                                        idCart: logic
+                                                                .getCartRsp
+                                                                .value
+                                                                ?.data
+                                                                ?.cartDetails?[
+                                                                    index]
+                                                                .id
+                                                                .toString() ??
+                                                            "",
+                                                        quantity: quantity);
                                                     await logic.getCart();
-                                                  }
-                                                  else{
-                                                    await logic.deleteCart(idCart: logic.getCartRsp.value?.data
-                                                        ?.cartDetails?[index].id.toString()??"");
-
+                                                  } else {
+                                                    await logic.deleteCart(
+                                                        idCart: logic
+                                                                .getCartRsp
+                                                                .value
+                                                                ?.data
+                                                                ?.cartDetails?[
+                                                                    index]
+                                                                .id
+                                                                .toString() ??
+                                                            "");
                                                   }
                                                 },
                                                 icon: Icon(
-                                                  Icons.remove, size: 10,)
-                                            ),
-                                            Text("${logic.getCartRsp.value?.data
-                                                ?.cartDetails?[index].quantity}"),
+                                                  Icons.remove,
+                                                  size: 10,
+                                                )),
+                                            Text(
+                                                "${logic.getCartRsp.value?.data?.cartDetails?[index].quantity}"),
                                             IconButton(
-                                                onPressed: () async{
+                                                onPressed: () async {
                                                   print(">>>>>>>>>>>>>>>>>>A");
-                                                  int? quantity =int.parse(( (logic.getCartRsp.value?.data
-                                                      ?.cartDetails?[index].quantity).toString()))+1;
-                                                  print(">>>>>>>>>>>>>>>>>>${quantity}");
-                                                  if(quantity>=1){
+                                                  int? quantity = int.parse(
+                                                          ((logic
+                                                                  .getCartRsp
+                                                                  .value
+                                                                  ?.data
+                                                                  ?.cartDetails?[
+                                                                      index]
+                                                                  .quantity)
+                                                              .toString())) +
+                                                      1;
+                                                  print(
+                                                      ">>>>>>>>>>>>>>>>>>${quantity}");
+                                                  if (quantity >= 1) {
                                                     await logic.updateCartDetail(
-                                                        idCart: logic.getCartRsp.value?.data
-                                                            ?.cartDetails?[index].id.toString()??"",
-                                                        quantity: quantity
-                                                    );
-
+                                                        idCart: logic
+                                                                .getCartRsp
+                                                                .value
+                                                                ?.data
+                                                                ?.cartDetails?[
+                                                                    index]
+                                                                .id
+                                                                .toString() ??
+                                                            "",
+                                                        quantity: quantity);
                                                   }
                                                 },
-                                                icon: Icon(Icons.add, size: 10,)
-                                            )
+                                                icon: Icon(
+                                                  Icons.add,
+                                                  size: 10,
+                                                ))
                                           ],
                                         ),
                                       ),
-                                      const SizedBox(width: 10,),
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
                                       Container(
                                         decoration: BoxDecoration(
                                             border: Border.all(
                                                 color: Colors.grey.shade300),
-                                            borderRadius: BorderRadius.circular(
-                                                5),
-                                            color: Colors.grey.shade100
-                                        ),
+                                            borderRadius:
+                                                BorderRadius.circular(5),
+                                            color: Colors.grey.shade100),
                                         child: Padding(
                                           padding: const EdgeInsets.all(5),
                                           child: Icon(
                                             Icons.favorite_border_outlined,
-                                            color: Colors.black,),
+                                            color: Colors.black,
+                                          ),
                                         ),
                                       ),
-                                      const SizedBox(width: 10,),
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
                                       InkWell(
-                                        onTap: ()async{
-                                          await logic.deleteCart(idCart: logic.getCartRsp.value?.data
-                                              ?.cartDetails?[index].id.toString()??"");
+                                        onTap: () async {
+                                          await logic.deleteCart(
+                                              idCart: logic
+                                                      .getCartRsp
+                                                      .value
+                                                      ?.data
+                                                      ?.cartDetails?[index]
+                                                      .id
+                                                      .toString() ??
+                                                  "");
                                         },
                                         child: Container(
                                           decoration: BoxDecoration(
                                               border: Border.all(
                                                   color: Colors.grey.shade300),
-                                              borderRadius: BorderRadius.circular(
-                                                  5),
-                                              color: Colors.grey.shade100
-                                          ),
+                                              borderRadius:
+                                                  BorderRadius.circular(5),
+                                              color: Colors.grey.shade100),
                                           child: Padding(
                                             padding: const EdgeInsets.all(5),
-                                            child: Icon(Icons.delete_outline,
-                                              color: Colors.black,),
+                                            child: Icon(
+                                              Icons.delete_outline,
+                                              color: Colors.black,
+                                            ),
                                           ),
                                         ),
                                       )
@@ -196,13 +254,8 @@ class CartPage extends StatelessWidget {
                                     padding: const EdgeInsets.symmetric(
                                         vertical: 10),
                                     child: Text(
-                                      "Tổng: ${NumberFormat.simpleCurrency(
-                                          locale: "VI")
-                                          .format(logic.getCartRsp.value?.data
-                                          ?.cartDetails?[index].total)}",
-                                      style: TextStyle(
-                                          color: Colors.redAccent
-                                      ),
+                                      "Tổng: ${NumberFormat.simpleCurrency(locale: "VI").format(logic.getCartRsp.value?.data?.cartDetails?[index].total)}",
+                                      style: TextStyle(color: Colors.black),
                                     ),
                                   ),
                                 ],
@@ -218,10 +271,7 @@ class CartPage extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(vertical: 8.0),
                       child: Container(
                         height: 2,
-                        width: MediaQuery
-                            .of(context)
-                            .size
-                            .width,
+                        width: MediaQuery.of(context).size.width,
                         color: Colors.grey.shade300,
                       ),
                     );
@@ -229,81 +279,241 @@ class CartPage extends StatelessWidget {
                 )
               ],
             );
-        }),
-        bottomNavigationBar: Obx(() {
-          return Visibility(
-            visible: (logic.getCartRsp.value?.data?.cartDetails?.length??0)>=1,
-            replacement:  Center(
-              child: Visibility(
-                visible: logic.getCartRsp.value?.data?.cartDetails?.isEmpty??true,
-                child: Center(
-                  child: Text("Không có sản phẩm nào"),
-                ),
-                replacement: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    CircularProgressIndicator(
-                      color: XColor.primary,
-                    ),
-                    const SizedBox(height: 10,),
-                    Text("Đang tải",style: TextStyle(
-                        color: Colors.black
-                    ),)
-                  ],
-                ),
-              ),
-            ),
-            child: BottomAppBar(
-                child: Padding(
-                  padding: const EdgeInsets.all(5),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+          }),
+          bottomNavigationBar: Obx(() {
+            return Visibility(
+              visible:
+                  (logic.getCartRsp.value?.data?.cartDetails?.length ?? 0) >= 1,
+              replacement: Center(
+                child: Visibility(
+                  visible: logic.getCartRsp.value?.data?.cartDetails?.isEmpty ??
+                      true,
+                  child: Center(
+                    child: Text("Không có sản phẩm nào"),
+                  ),
+                  replacement: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        "Tổng: ${NumberFormat.simpleCurrency(locale: "VI").format(
-                            (logic.getCartRsp.value?.data?.info?[1].value)??0)}",
-                        style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w700,
-                            letterSpacing: 0.5
-                        ),
+                      CircularProgressIndicator(
+                        color: XColor.primary,
                       ),
-                      Container(
-                        padding: EdgeInsets.symmetric(vertical: 10),
-                        width: MediaQuery
-                            .of(context)
-                            .size
-                            .width * .5,
-                        child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 5, vertical: 3),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8)),
-
-                            ),
-                            onPressed: () {
-
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 15),
-                              child: Text('Mua hàng',
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w600,
-
-                                ),
-                              ),
-                            )
-                        ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        "Đang tải",
+                        style: TextStyle(color: Colors.black),
                       )
                     ],
                   ),
-                )
-            ),
-          );
-        })
+                ),
+              ),
+              child: BottomAppBar(
+                  height: 160,
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.confirmation_num_rounded,
+                                  color: XColor.primary,
+                                  size: 30,
+                                ),
+                                const SizedBox(
+                                  width: 5,
+                                ),
+                                Text(
+                                  "Khuyến mãi",
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500,
+                                      // letterSpacing: 0.5
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Visibility(
+                              visible: logic.voucherCode.value!=null,
+                              replacement: Container(
+                                // decoration: BoxDecoration(
+                                //     border: Border.all(color: Colors.grey),
+                                //     borderRadius: BorderRadius.circular(5)
+                                // ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        'Chưa áp mã giảm giá',
+                                        style: TextStyle(
+                                            color: Colors.grey,
+                                            fontWeight: FontWeight.w700
+                                        ),
+                                      ),
+
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    border: Border.all(color: XColor.primary),
+                                  borderRadius: BorderRadius.circular(5)
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        logic.voucherCode.value ?? "",
+                                        style: TextStyle(
+                                          color: XColor.primary,
+                                          fontWeight: FontWeight.w700
+                                        ),
+                                      ),
+
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "Tổng: ",
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700,
+                                  letterSpacing: 0.5),
+                            ),
+                            Text(
+                              "${NumberFormat.simpleCurrency(locale: "VI").format((logic.getCartRsp.value?.data?.info?.last.value) ?? 0)}",
+                              style: TextStyle(
+                                color: Colors.redAccent,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700,
+                                  letterSpacing: 0.5),
+                            )
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          // crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Container(
+                              padding: EdgeInsets.symmetric(vertical: 5),
+                              width: MediaQuery.of(context).size.width * .25,
+                              height: 65,
+                              child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    primary: Colors.white,
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 5, vertical: 3),
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(8),
+                                        side: BorderSide(
+                                            color: Colors.grey.shade200)),
+                                  ),
+                                  onPressed: () {
+                                    Get.bottomSheet(
+                                      enableDrag: true,
+                                        VoucherPage(
+                                        cartId: int.parse((logic
+                                                .getCartRsp.value?.data?.id
+                                                .toString() ??
+                                            ""))));
+                                  },
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Visibility(
+                                        visible:
+                                            logic.voucherCode.value==null,
+                                        replacement: Icon(
+                                          Icons.verified,
+                                          color: XColor.primary,
+                                        ),
+                                        child: Image.asset(
+                                          "assets/images/voucher.png",
+                                          height: 25,
+                                          width: 25,
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(5),
+                                        child: Container(
+                                          width: 2,
+                                          height: 30,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Text(
+                                          'Mã giảm giá',
+                                          style: TextStyle(
+                                              fontSize: 11,
+                                              fontWeight: FontWeight.w600,
+                                              color: Colors.black),
+                                        ),
+                                      ),
+                                    ],
+                                  )),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Expanded(
+                              child: Container(
+                                padding: EdgeInsets.symmetric(vertical: 10),
+                                width: MediaQuery.of(context).size.width * .5,
+                                child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 5, vertical: 3),
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(8)),
+                                    ),
+                                    onPressed: () {},
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 15),
+                                      child: Text(
+                                        'Mua hàng',
+                                        style: TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    )),
+                              ),
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                  )),
+            );
+          })),
     );
   }
 }

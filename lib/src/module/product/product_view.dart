@@ -1081,7 +1081,7 @@ class ProductPage extends StatelessWidget {
             visible: logic.getProductByIdRsp.value?.data?.thumpnailUrl
                 ?.isNotEmpty == true,
             child: BottomAppBar(
-              height: 122,
+              height: 150,
               // color: Colors.transparent,
               elevation: 0.0,
               child: Padding(

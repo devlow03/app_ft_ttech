@@ -1,4 +1,6 @@
 import 'package:app_ft_tmart/src/data/respository/get_product_rsp.dart';
+import 'package:app_ft_tmart/src/data/respository/get_voucher_rsp.dart';
+import 'package:app_ft_tmart/src/data/respository/post_add_voucher.dart';
 import 'package:app_ft_tmart/src/data/respository/post_update_cart_detail_rqst.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
@@ -43,6 +45,12 @@ abstract class Services{
   Future postUpdateCartDetailRsp({@Path('id_cart')required String idCart, @Body() required PostUpdateCartDetailRqst body});
   @DELETE("normal/remove_cart_detail/{id_cart}")
   Future deleteCartDetails({@Path('id_cart') required String idCart});
+  @GET("normal/get_vouchers")
+  Future<GetVoucherRsp>getVoucherRsp();
+  @POST("normal/add_voucher")
+  Future postAddVoucher({@Body()required PostAddVoucher body});
+  @DELETE("normal/remove_voucher/{cartId}")
+  Future deleteVoucher({@Path('cartId') required int cartId});
 
 
 

@@ -63,6 +63,7 @@ dependencies:
   gallery_saver: ^2.3.2
   flutter_widget_from_html: ^0.10.5+2
   webview_flutter: any
+  ticket_widget: ^0.0.1
 
 
 

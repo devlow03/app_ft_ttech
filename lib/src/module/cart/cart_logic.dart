@@ -1,5 +1,6 @@
 import 'package:app_ft_tmart/src/core/xcolor.dart';
 import 'package:app_ft_tmart/src/data/respository/post_update_cart_detail_rqst.dart';
+import 'package:app_ft_tmart/src/module/cart/voucher/voucher_logic.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -12,12 +13,15 @@ class CartLogic extends GetxController {
   CartLogic(this.tMartServices);
   Rxn<GetCartRsp>getCartRsp = Rxn();
   Rx<int>quantity = Rx(1);
-
+  Rxn<String>voucherCode = Rxn();
+  // final logicVoucher = Get.put(VoucherLogic(Get.find()));
   @override
   void onReady() async{
     // TODO: implement onReady
     super.onReady();
     await getCart();
+    getVoucher();
+
   }
 
   @override
@@ -117,6 +121,20 @@ class CartLogic extends GetxController {
             )
           ],
         ));
+  }
+
+  String? getVoucher(){
+    try{
+      for(int i=0;i<=(getCartRsp.value?.data?.info?.length??0);i++){
+        if(getCartRsp.value?.data?.info?[i].code == "voucher"){
+          voucherCode.value = (getCartRsp.value?.data?.info?[i].title).toString();
+        }
+
+      }
+      return voucherCode.value;
+    }catch(e){
+      print(e);
+    }
   }
 
 }
