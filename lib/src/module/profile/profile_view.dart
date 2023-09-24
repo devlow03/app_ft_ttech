@@ -1,6 +1,7 @@
 import 'package:app_ft_tmart/src/module/authentication/sign_in/sign_in_view.dart';
 import 'package:app_ft_tmart/src/module/authentication/signup/signup_view.dart';
 import 'package:app_ft_tmart/src/module/cart/cart_view.dart';
+import 'package:app_ft_tmart/src/module/profile/address_book/address_book_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -187,6 +188,19 @@ class ProfilePage extends StatelessWidget {
                             Icons.shopping_cart_outlined, color: XColor.primary,),
                           title: Text('Giỏ hàng'),
                           subtitle: Text('Xem giỏ hàng'),
+                          trailing: Icon(Icons.keyboard_arrow_right),
+                        ),
+                      ),
+                      const SizedBox(height: 10,),
+                      InkWell(
+                        onTap: (){
+                          Get.to(AddressBookPage());
+                        },
+                        child: ListTile(
+                          leading: Icon(
+                            Icons.bookmark_border, color: XColor.primary,),
+                          title: Text('Sổ địa chỉ'),
+                          subtitle: Text('Xem sổ địa chỉ'),
                           trailing: Icon(Icons.keyboard_arrow_right),
                         ),
                       ),

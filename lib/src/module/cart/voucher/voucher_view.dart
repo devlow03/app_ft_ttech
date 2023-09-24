@@ -41,60 +41,64 @@ class VoucherPage extends StatelessWidget {
               controller: logic.voucherCodeController,
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.symmetric(vertical: 5,horizontal: 10),
-                  suffixIcon: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        InkWell(
-                          onTap: (){
-                            if(logic.voucherCodeController.text==""){
-                              Fluttertoast.showToast(msg: "Vui lòng nhập mã giảm giá");
-                            }
-                            else{
-                              logic.addVoucher(
-                                  cartId: cartId,
-                                  voucherCode: logic.voucherCodeController.text
-                              );
-                            }
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: XColor.primary,
-                              // borderRadius: BorderRadius.circular(5)
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(6),
-                              child: Text(
-                                "Áp dụng",
-                                style: TextStyle(
-                                  color: Colors.white
-                                ),
+                  suffixIcon: InkWell(
+                    onTap: (){
+                      if(logic.voucherCodeController.text==""){
+                        Fluttertoast.showToast(msg: "Vui lòng nhập mã giảm giá");
+                      }
+                      else{
+                        logic.addVoucher(
+                            cartId: cartId,
+                            voucherCode: logic.voucherCodeController.text
+                        );
+                      }
+                    },
+                    child: Container(
+                      // height: 60,
+                      decoration: BoxDecoration(
+                        color: XColor.primary,
+                        borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(10),
+                          bottomRight: Radius.circular(10),
+                        ),
+                        // border: Border.all(
+                        //   color: Colors.grey
+                        // )
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "Áp dụng",
+                              style: TextStyle(
+                                color: Colors.white
                               ),
                             ),
-                          ),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
                   ),
                   hintText: "Nhập mã giảm giá",
                   enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(5),
+                    borderRadius: BorderRadius.circular(10),
                     borderSide: BorderSide(
-                        color: Colors.grey
+                        color: XColor.primary
                     ),
 
                   ),
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(5),
+                    borderRadius: BorderRadius.circular(10),
                     borderSide: BorderSide(
-                        color: Colors.grey
+                        color: XColor.primary
                     ),
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(5),
+                    borderRadius: BorderRadius.circular(10),
                     borderSide: BorderSide(
-                        color: Colors.grey
+                        color: XColor.primary
                     ),
                   )
 
@@ -177,37 +181,54 @@ class VoucherPage extends StatelessWidget {
                           Visibility(
                             visible: logic.logicCart.voucherCode.value!=logic.getVoucherRsp.value?.data?[index]
                                 .title,
-                            replacement: TextButton(
-                                onPressed: (){
-                                  logic.deleteVoucher(cartId: cartId);
-                                },
-                                child:
-                                Text("Xóa",
-                                  style: TextStyle(
-                                      color:Colors.red,
-                                      fontSize: 16,
-
+                            replacement: InkWell(
+                              onTap: (){
+                                logic.deleteVoucher(cartId: cartId);
+                              },
+                              child: Container(
+                                  decoration: BoxDecoration(
+                                      color: Colors.red,
+                                      borderRadius: BorderRadius.circular(20)
                                   ),
-                                )
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 8),
+                                    child: Text("Xóa mã",
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w500
+                                      ),
+                                    ),
+                                  )
+                              ),
                             ),
-                            child: TextButton(
-                                onPressed: (){
-                                  logic.addVoucher(
-                                      cartId: cartId,
-                                      voucherCode: logic.getVoucherRsp.value?.data?[index]
-                                          .voucherCode??""
-                                  );
-                                },
-                                child:
-                                Text("Áp dụng",
-                                style: TextStyle(
+                            child: InkWell(
+                              onTap: (){
+                                logic.addVoucher(
+                                    cartId: cartId,
+                                    voucherCode: logic.getVoucherRsp.value?.data?[index]
+                                        .voucherCode??""
+                                );
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
                                   color: XColor.primary,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500
+                                  borderRadius: BorderRadius.circular(20)
                                 ),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 8),
+                                  child: Text("Áp dụng",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500
+                                      ),
+                                      ),
                                 )
+                                ),
+                              ),
                             ),
-                          )
+
                         ],
                       ),
                     ),

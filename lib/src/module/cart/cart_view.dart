@@ -8,6 +8,8 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import '../../core/xcolor.dart';
+import '../address/address_view.dart';
+import '../order/order_view.dart';
 import 'cart_logic.dart';
 
 class CartPage extends StatelessWidget {
@@ -324,7 +326,7 @@ class CartPage extends StatelessWidget {
                             Row(
                               children: [
                                 Icon(
-                                  Icons.confirmation_num_rounded,
+                                  Icons.confirmation_num_outlined,
                                   color: XColor.primary,
                                   size: 30,
                                 ),
@@ -420,9 +422,9 @@ class CartPage extends StatelessWidget {
                           // crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             Container(
-                              padding: EdgeInsets.symmetric(vertical: 5),
-                              width: MediaQuery.of(context).size.width * .25,
-                              height: 65,
+                              // padding: EdgeInsets.symmetric(vertical: 3),
+                              width: MediaQuery.of(context).size.width * .23,
+                              height: 50,
                               child: ElevatedButton(
                                   style: ElevatedButton.styleFrom(
                                     primary: Colors.white,
@@ -435,12 +437,16 @@ class CartPage extends StatelessWidget {
                                   ),
                                   onPressed: () {
                                     Get.bottomSheet(
+                                      isScrollControlled: true,
                                       enableDrag: true,
-                                        VoucherPage(
-                                        cartId: int.parse((logic
-                                                .getCartRsp.value?.data?.id
-                                                .toString() ??
-                                            ""))));
+                                        SizedBox(
+                                          height: MediaQuery.of(context).size.height*.6,
+                                          child: VoucherPage(
+                                          cartId: int.parse((logic
+                                                  .getCartRsp.value?.data?.id
+                                                  .toString() ??
+                                              ""))),
+                                        ));
                                   },
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
@@ -483,7 +489,7 @@ class CartPage extends StatelessWidget {
                             ),
                             Expanded(
                               child: Container(
-                                padding: EdgeInsets.symmetric(vertical: 10),
+                                padding: EdgeInsets.symmetric(vertical: 5),
                                 width: MediaQuery.of(context).size.width * .5,
                                 child: ElevatedButton(
                                     style: ElevatedButton.styleFrom(
@@ -493,7 +499,9 @@ class CartPage extends StatelessWidget {
                                           borderRadius:
                                               BorderRadius.circular(8)),
                                     ),
-                                    onPressed: () {},
+                                    onPressed: () {
+                                     Get.to(OrderPage());
+                                    },
                                     child: Padding(
                                       padding: const EdgeInsets.symmetric(
                                           vertical: 15),
