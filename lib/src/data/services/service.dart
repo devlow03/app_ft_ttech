@@ -1,65 +1,78 @@
-import 'package:app_ft_tmart/src/data/respository/get_product_rsp.dart';
-import 'package:app_ft_tmart/src/data/respository/get_voucher_rsp.dart';
-import 'package:app_ft_tmart/src/data/respository/post_add_voucher.dart';
-import 'package:app_ft_tmart/src/data/respository/post_update_cart_detail_rqst.dart';
+import 'package:app_ft_tmart/src/data/repositories/get_product_rsp.dart';
+import 'package:app_ft_tmart/src/data/repositories/get_voucher_rsp.dart';
+import 'package:app_ft_tmart/src/data/repositories/post_add_voucher.dart';
+import 'package:app_ft_tmart/src/data/repositories/post_signin_rqst.dart';
+import 'package:app_ft_tmart/src/data/repositories/post_update_cart_detail_rqst.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 
 import '../../core/config.dart';
-import '../respository/get_banner_rsp.dart';
-import '../respository/get_cart_rsp.dart';
-import '../respository/get_category_rsp.dart';
-import '../respository/get_product_by_category_rsp.dart';
-import '../respository/get_product_by_id_rsp.dart';
-import '../respository/get_search_rsp.dart';
-import '../respository/get_session_rsp.dart';
-import '../respository/get_slider_prod_rsp.dart';
-import '../respository/post_cart_rqst.dart';
+import '../repositories/get_banner_rsp.dart';
+import '../repositories/get_brand_rsp.dart';
+import '../repositories/get_cart_rsp.dart';
+import '../repositories/get_category_rsp.dart';
+import '../repositories/get_product_by_category_rsp.dart';
+import '../repositories/get_product_by_id_rsp.dart';
+import '../repositories/get_product_rq_query.dart';
+import '../repositories/get_search_rsp.dart';
+import '../repositories/get_session_rsp.dart';
+import '../repositories/get_slider_prod_rsp.dart';
+import '../repositories/post_cart_rqst.dart';
+import '../repositories/post_signin_rsp.dart';
 part 'service.g.dart';
 
+@RestApi(baseUrl: GlobalData.baseUrl)
+abstract class Services {
+  factory Services(Dio dio, {String baseUrl}) = _Services;
+
+  @GET('api/auth/get_products')
+  Future<GetProductRsp> getProductRsp({@Body() required GetProductRqQuery query});
+
+  @GET('api/auth/banners')
+  Future<GetBannerRsp> getBannerRsp();
+
+  @GET("api/auth/get_product_by_id/{id}")
+  Future<GetProductByIdRsp> getProductByIdRsp({@Path('id') required String id});
+
+  @GET("api/auth/categories")
+  Future<GetCategoryRsp> getCategoryRsp();
+  @GET("api/auth/get_products?product_name={name}&perPage={page}")
 
 
-@RestApi(baseUrl: EnvironmentConfig.baseUrl)
-abstract class Services{
-  factory Services(Dio dio,{String baseUrl}) = _Services;
+  @GET("api/auth/get_products/?category_id={categoryId}&perPage=10")
+  Future<GetProductRsp> getProductByIdCategoryRsp(
+      {@Path('categoryId') required int categoryId});
 
-  @GET('auth/get_products?perPage={page}')
-  Future<GetProductRsp>getProductRsp({@Path('page') required int page});
-  @GET('auth/banners')
-  Future<GetBannerRsp>getBannerRsp();
-  @GET("auth/get_product_by_id/{id}")
-  Future<GetProductByIdRsp>getProdutByIdRsp({@Path('id') required String id});
-  @GET("auth/categories")
-  Future<GetCategoryRsp>getCategoryRsp();
-  @GET("auth/get_products?product_name={name}&perPage={page}")
-  Future<GetProductRsp>getSearchRsp({@Path('name') required String name, @Path('page') required int page});
-  @GET("auth/get_products/?category_id={categoryId}&perPage=10")
-  Future<GetProductRsp>getProductByIdCategoryRsp({@Path('categoryId') required int categoryId});
-  @GET("normal/set_session")
-  Future<GetSessionRsp>getSessionRsp();
-  @POST("normal/add_to_cart")
-  Future postAddCart({@Body() required  PostCartRqst body});
-  @GET("normal/get_cart?guest_session={session}")
-  Future<GetCartRsp>getCartRsp({@Path('session') required String session});
-  @PUT("normal/update_cart_detail/{id_cart}")
-  Future postUpdateCartDetailRsp({@Path('id_cart')required String idCart, @Body() required PostUpdateCartDetailRqst body});
-  @DELETE("normal/remove_cart_detail/{id_cart}")
+  @GET("api/auth/get_manufacturers")
+  Future<GetBrandRsp>getBrandRsp();
+
+  @GET("api/normal/set_session")
+  Future<GetSessionRsp> getSessionRsp();
+
+  @POST("api/normal/add_to_cart")
+  Future postAddCart({@Body() required PostCartRqst body});
+
+  @GET("api/normal/get_cart?guest_session={session}")
+  Future<GetCartRsp> getCartRsp({@Path('session') required String session});
+
+  @PUT("api/normal/update_cart_detail/{id_cart}")
+  Future postUpdateCartDetailRsp(
+      {@Path('id_cart') required String idCart,
+      @Body() required PostUpdateCartDetailRqst body});
+
+
+  @DELETE("api/normal/remove_cart_detail/{id_cart}")
   Future deleteCartDetails({@Path('id_cart') required String idCart});
-  @GET("normal/get_vouchers")
-  Future<GetVoucherRsp>getVoucherRsp();
-  @POST("normal/add_voucher")
-  Future postAddVoucher({@Body()required PostAddVoucher body});
-  @DELETE("normal/remove_voucher/{cartId}")
+
+  @GET("api/normal/get_vouchers")
+  Future<GetVoucherRsp> getVoucherRsp();
+
+  @POST("api/normal/add_voucher")
+  Future postAddVoucher({@Body() required PostAddVoucher body});
+
+  @DELETE("api/normal/remove_voucher/{cartId}")
   Future deleteVoucher({@Path('cartId') required int cartId});
 
-
-
-
-
-
-
-
-
-
-
+  @POST("auth/login")
+  Future<PostSigninRsp> postSigninRsp({@Body() required PostSigninRqst body});
 }

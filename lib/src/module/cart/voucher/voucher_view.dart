@@ -179,7 +179,7 @@ class VoucherPage extends StatelessWidget {
                             ],
                           ),
                           Visibility(
-                            visible: logic.logicCart.voucherCode.value!=logic.getVoucherRsp.value?.data?[index]
+                            visible: logic.logicCart.voucherTitle.value!=logic.getVoucherRsp.value?.data?[index]
                                 .title,
                             replacement: InkWell(
                               onTap: (){

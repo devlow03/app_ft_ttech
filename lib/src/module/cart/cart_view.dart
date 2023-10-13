@@ -25,7 +25,7 @@ class CartPage extends StatelessWidget {
     return WillPopScope(
       onWillPop: () async {
         await logicVoucher.deleteVoucher(cartId: int.parse((logic.getCartRsp.value?.data?.id??0).toString()));
-        logic.voucherCode.value=null;
+        logic.voucherTitle.value=null;
         return true;
       },
       child: Scaffold(
@@ -69,9 +69,7 @@ class CartPage extends StatelessWidget {
                           id: logic.getCartRsp.value?.data?.cartDetails?[index]
                               .productId
                               .toString(),
-                          categoryId: logic.getCartRsp.value?.data
-                              ?.cartDetails?[index].categoryId
-                              .toString(),
+
                         ));
                       },
                       child: Padding(
@@ -325,10 +323,9 @@ class CartPage extends StatelessWidget {
                           children: [
                             Row(
                               children: [
-                                Icon(
-                                  Icons.confirmation_num_outlined,
-                                  color: XColor.primary,
-                                  size: 30,
+                                Image.asset("assets/images/coupon.png",
+                                width: 30,
+                                  height: 30,
                                 ),
                                 const SizedBox(
                                   width: 5,
@@ -336,15 +333,15 @@ class CartPage extends StatelessWidget {
                                 Text(
                                   "Khuyến mãi",
                                   style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500,
+                                      fontSize: 14,
+                                      // fontWeight: FontWeight.w500,
                                       // letterSpacing: 0.5
                                   ),
                                 ),
                               ],
                             ),
                             Visibility(
-                              visible: logic.voucherCode.value!=null,
+                              visible: logic.voucherTitle.value!=null,
                               replacement: Container(
                                 // decoration: BoxDecoration(
                                 //     border: Border.all(color: Colors.grey),
@@ -376,7 +373,7 @@ class CartPage extends StatelessWidget {
                                   child: Row(
                                     children: [
                                       Text(
-                                        logic.voucherCode.value ?? "",
+                                        logic.voucherTitle.value ?? "",
                                         style: TextStyle(
                                           color: XColor.primary,
                                           fontWeight: FontWeight.w700
@@ -453,7 +450,7 @@ class CartPage extends StatelessWidget {
                                     children: [
                                       Visibility(
                                         visible:
-                                            logic.voucherCode.value==null,
+                                            logic.voucherTitle.value==null,
                                         replacement: Icon(
                                           Icons.verified,
                                           color: XColor.primary,

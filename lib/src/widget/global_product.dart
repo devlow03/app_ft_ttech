@@ -7,8 +7,8 @@ import 'global_image.dart';
 class GlobalProduct extends StatefulWidget {
   final String? imageLink;
   final String? nameProduct;
-  final dynamic  price;
-  final dynamic defaultPrice;
+  final String?  price;
+  final String? defaultPrice;
   final String? numStar;
   final String? shortDes;
   final String? badgesLink;
@@ -139,7 +139,7 @@ class _GlobalProductState extends State<GlobalProduct> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     // mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Text(NumberFormat.simpleCurrency(locale: 'vi').format(double.parse(widget.defaultPrice??0)),
+                      Text(NumberFormat.simpleCurrency(locale: 'vi').format(int.parse(widget.defaultPrice.toString())),
                         style:  TextStyle(
                             fontSize: 12,
                             color: Colors.black,
@@ -159,7 +159,7 @@ class _GlobalProductState extends State<GlobalProduct> {
               crossAxisAlignment: CrossAxisAlignment.start,
               // mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Text(NumberFormat.simpleCurrency(locale: 'vi').format(double.parse(widget.price)),
+                Text(NumberFormat.simpleCurrency(locale: 'vi').format(int.parse(widget.price.toString())),
                   style:  TextStyle(fontSize: 16,color: Colors.redAccent,fontWeight: FontWeight.w600),)
               ],
             ),

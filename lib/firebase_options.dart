@@ -67,6 +67,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '392911829696',
     projectId: 'apptmart-9ff47',
     storageBucket: 'apptmart-9ff47.appspot.com',
+    androidClientId: '392911829696-k7nv4b8c6cm0p3gi4jcmite6cj59vo5a.apps.googleusercontent.com',
     iosClientId: '392911829696-dnan608o5cfneclh8h4akh3f8bvcq7ia.apps.googleusercontent.com',
     iosBundleId: 'com.example.appFtTmart',
   );
@@ -77,6 +78,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '392911829696',
     projectId: 'apptmart-9ff47',
     storageBucket: 'apptmart-9ff47.appspot.com',
+    androidClientId: '392911829696-k7nv4b8c6cm0p3gi4jcmite6cj59vo5a.apps.googleusercontent.com',
     iosClientId: '392911829696-91arnd03hpmv7lhnpghj4gnu2ucbd5v2.apps.googleusercontent.com',
     iosBundleId: 'com.example.appFtTmart.RunnerTests',
   );

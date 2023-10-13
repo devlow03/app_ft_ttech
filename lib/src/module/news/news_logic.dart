@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:get/get.dart';
 import 'package:dio/dio.dart';
-import '../../data/respository/get_news_rsp.dart';
+import '../../data/repositories/get_news_rsp.dart';
 
 class NewsLogic extends GetxController {
   Rxn<GetNewsRsp>getNewsRsp = Rxn();

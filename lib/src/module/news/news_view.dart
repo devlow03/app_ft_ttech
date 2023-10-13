@@ -143,6 +143,7 @@ class NewsPage extends StatelessWidget {
                   options: CarouselOptions(
                     aspectRatio: 20 / 10,
                     autoPlay: true,
+                    enlargeCenterPage: true
 
                     // viewportFraction: 1
                   )),

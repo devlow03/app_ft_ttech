@@ -1,8 +1,11 @@
 import 'package:app_ft_tmart/src/core/xcolor.dart';
+import 'package:app_ft_tmart/src/module/list_product/filter/filter_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../widget/global_product.dart';
+import '../cart/cart_logic.dart';
+import '../cart/cart_view.dart';
 import '../product/product_view.dart';
 import '../search/search_view.dart';
 import 'list_product_logic.dart';
@@ -16,8 +19,11 @@ class ListProductPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final logic = Get.put(ListProductLogic(Get.find()));
+    final logicCart = Get.put(CartLogic(Get.find()));
+    final GlobalKey<ScaffoldState> key = GlobalKey<ScaffoldState>();
+    logic.keyController.text = name??'';
     logic.keyController.text=name??"";
-    logic.getSearch(name: name??"", page: logic.page.value);
+    logic.getSearch(name: name??"");
 
     return WillPopScope(
       onWillPop: ()async{
@@ -28,6 +34,7 @@ class ListProductPage extends StatelessWidget {
 
       },
       child: Scaffold(
+        key: key,
         appBar: AppBar(
           // backgroundColor: Colors.white,
           automaticallyImplyLeading: false,
@@ -43,7 +50,7 @@ class ListProductPage extends StatelessWidget {
             decoration: BoxDecoration(
 
             ),
-            width: double.infinity,
+            width: MediaQuery.of(context).size.width*.85,
             height: 40,
             child: TextField(
               autofocus: false,
@@ -61,12 +68,7 @@ class ListProductPage extends StatelessWidget {
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.symmetric(vertical: 5,horizontal: 10),
                 hintText: 'Tìm sản phẩm',
-                // suffixIcon: InkWell(
-                //     onTap: () {
-                //       logic.onSearch.value = true;
-                //       logic.getSearch(name: logic.name);
-                //     },
-                //     child: Icon(Icons.search, color: Colors.black, size: 30,)),
+
                 filled: true,
                 fillColor: Colors.white,
                 border: OutlineInputBorder(
@@ -95,28 +97,85 @@ class ListProductPage extends StatelessWidget {
           ),
 
           actions:[
+            Obx(() {
+              return Stack(
+                alignment: Alignment.centerRight,
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      Get.to(
+                          CartPage());
+                    },
+                    icon:
+                    Icon(Icons.shopping_cart_outlined,color: Colors.white,)
+                    ,
+                  ),
+                  Visibility(
+                    visible: logicCart.getCartRsp.value?.data?.cartDetails
+                        ?.isNotEmpty == true,
+                    child: Positioned(
+                      right: 5,
+                      bottom: 25,
+                      child: Container(
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: XColor.primary
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(5),
+                          child: Text(
+                            "${logicCart.getCartRsp.value?.data
+                                ?.cartDetails
+                                ?.length}",
+                            style: TextStyle(
+                                color: Colors.white
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              );
+            }),
             IconButton(
-                onPressed: (){},
+                onPressed: (){
+                  key.currentState?.openEndDrawer();
+                },
                 icon: Icon(Icons.filter_alt_outlined,color: Colors.white,)
-            ),
+            )
 
           ]
         ),
+        endDrawer: const Drawer(
+          child: FilterPage(),
+        ),
         body: Obx(() {
           if(logic.getSearchRsp.value?.data?.isEmpty??true){
-            return Center(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  CircularProgressIndicator(
-                    color: XColor.primary,
-                  ),
-                  const SizedBox(height: 5,),
-                  Text("Đang tải")
-                ],
-              ),
-            );
+            if(logic.getSearchRsp.value?.data?.length==0){
+              return Center(
+                child: Text("Sản phẩm không tồn tại",
+                style: TextStyle(
+                  color: Colors.black
+                ),
+                ),
+              );
+            }
+
+              return Center(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CircularProgressIndicator(
+                      color: XColor.primary,
+                    ),
+                    const SizedBox(height: 5,),
+                    Text("Đang tải")
+                  ],
+                ),
+              );
+
           }
           return ListView(
             controller: logic.controller,
@@ -137,7 +196,7 @@ class ListProductPage extends StatelessWidget {
                           onTap: () {
                             Get.to(ProductPage(
                               id: logic.getSearchRsp.value?.data?[ind].id.toString(),
-                              categoryId: logic.getSearchRsp.value?.data?[ind].categoryId.toString(),
+
                             ));
                           },
                           child: GlobalProduct(
@@ -157,15 +216,16 @@ class ListProductPage extends StatelessWidget {
                       const SliverGridDelegateWithFixedCrossAxisCount(
 
                         crossAxisCount: 2,
-                        crossAxisSpacing: 15,
-                        mainAxisSpacing: 20,
+                        crossAxisSpacing: 5,
+                        mainAxisSpacing: 5,
                         childAspectRatio: 3 / 5,
                       ),
                     ),
                   ),
                   const SizedBox(height: 30,),
                   Visibility(
-                    visible: logic.page.value<(logic.getSearchRsp.value?.meta?.total??0),
+                    visible: (logic.getSearchRsp.value?.meta?.perPage ?? 0) <
+                        (logic.getSearchRsp.value?.meta?.total ?? 0),
                     replacement: Center(),
                     child: Center(
                       child: CircularProgressIndicator(

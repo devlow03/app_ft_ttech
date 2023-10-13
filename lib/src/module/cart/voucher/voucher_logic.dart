@@ -1,10 +1,10 @@
-import 'package:app_ft_tmart/src/data/respository/post_add_voucher.dart';
+import 'package:app_ft_tmart/src/data/repositories/post_add_voucher.dart';
 import 'package:app_ft_tmart/src/data/services/service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
-import '../../../data/respository/get_voucher_rsp.dart';
+import '../../../data/repositories/get_voucher_rsp.dart';
 import '../cart_logic.dart';
 
 class VoucherLogic extends GetxController {
@@ -46,7 +46,7 @@ class VoucherLogic extends GetxController {
     await tMartServices.deleteVoucher(cartId: cartId);
     await logicCart.getCart();
     logicCart.getVoucher();
-    logicCart.voucherCode.value=null;
+    logicCart.voucherTitle.value=null;
     Get.back();
 
 

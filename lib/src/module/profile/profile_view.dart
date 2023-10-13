@@ -14,8 +14,10 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     final logic = Get.put(ProfileLogic());
-    final logicSignin = Get.put(SignInLogic(Get.find()));
+    final logicSignin = Get.put(SignInLogic(Get.find(),Get.find()));
+
 
     return Scaffold(
         backgroundColor: Colors.grey.shade100,
@@ -51,7 +53,7 @@ class ProfilePage extends StatelessWidget {
                     color: XColor.primary,
                   ),
                   child: Visibility(
-                    visible: logicSignin.uid.value!=null,
+                    visible: logic.token.value!='',
                     replacement: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: Row(
@@ -129,7 +131,7 @@ class ProfilePage extends StatelessWidget {
                                 child: CircleAvatar(
                                   radius: 30,
                                   backgroundImage: NetworkImage(
-                                    logicSignin.avatar.value??""
+                                    "https://e7.pngegg.com/pngimages/799/987/png-clipart-computer-icons-avatar-icon-design-avatar-heroes-computer-wallpaper-thumbnail.png"
                                       ),
                                 ),
                               ),
@@ -145,7 +147,7 @@ class ProfilePage extends StatelessWidget {
                                     ),
                                   ),
 
-                                  Text(logicSignin.fullName.value??"",
+                                  Text("Quang Thiện",
                                     style: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w700,
@@ -221,7 +223,7 @@ class ProfilePage extends StatelessWidget {
                         trailing: Icon(Icons.keyboard_arrow_right),
                       ),
                       Visibility(
-                        visible: logicSignin.uid.value!=null,
+                        visible: logic.token.value!='',
                         child: Column(
                           children: [
                             const SizedBox(height: 10,),

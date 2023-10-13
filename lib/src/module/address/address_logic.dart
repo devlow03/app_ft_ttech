@@ -3,9 +3,9 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 
-import '../../data/respository/get_district_rsp.dart';
-import '../../data/respository/get_province_rsp.dart';
-import '../../data/respository/get_ward_rsp.dart';
+import '../../data/repositories/get_district_rsp.dart';
+import '../../data/repositories/get_province_rsp.dart';
+import '../../data/repositories/get_ward_rsp.dart';
 import '../order/order_logic.dart';
 
 class AddressLogic extends GetxController {

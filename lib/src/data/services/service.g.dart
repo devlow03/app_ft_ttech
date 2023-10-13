@@ -13,7 +13,7 @@ class _Services implements Services {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'https://tmart.tuanthanhdev.id.vn/api/';
+    baseUrl ??= 'https://tmart.tuanthanhdev.id.vn/';
   }
 
   final Dio _dio;
@@ -21,11 +21,12 @@ class _Services implements Services {
   String? baseUrl;
 
   @override
-  Future<GetProductRsp> getProductRsp({required page}) async {
+  Future<GetProductRsp> getProductRsp({required query}) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
+    final _data = <String, dynamic>{};
+    _data.addAll(query.toJson());
     final _result = await _dio
         .fetch<Map<String, dynamic>>(_setStreamType<GetProductRsp>(Options(
       method: 'GET',
@@ -34,7 +35,7 @@ class _Services implements Services {
     )
             .compose(
               _dio.options,
-              'auth/get_products?perPage=${page}',
+              'api/auth/get_products',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -57,7 +58,7 @@ class _Services implements Services {
     )
             .compose(
               _dio.options,
-              'auth/banners',
+              'api/auth/banners',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -67,7 +68,7 @@ class _Services implements Services {
   }
 
   @override
-  Future<GetProductByIdRsp> getProdutByIdRsp({required id}) async {
+  Future<GetProductByIdRsp> getProductByIdRsp({required id}) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -80,7 +81,7 @@ class _Services implements Services {
     )
             .compose(
               _dio.options,
-              'auth/get_product_by_id/${id}',
+              'api/auth/get_product_by_id/${id}',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -103,38 +104,12 @@ class _Services implements Services {
     )
             .compose(
               _dio.options,
-              'auth/categories',
+              'api/auth/categories',
               queryParameters: queryParameters,
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = GetCategoryRsp.fromJson(_result.data!);
-    return value;
-  }
-
-  @override
-  Future<GetProductRsp> getSearchRsp({
-    required name,
-    required page,
-  }) async {
-    const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
-    final _result = await _dio
-        .fetch<Map<String, dynamic>>(_setStreamType<GetProductRsp>(Options(
-      method: 'GET',
-      headers: _headers,
-      extra: _extra,
-    )
-            .compose(
-              _dio.options,
-              'auth/get_products?product_name=${name}&perPage=${page}',
-              queryParameters: queryParameters,
-              data: _data,
-            )
-            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = GetProductRsp.fromJson(_result.data!);
     return value;
   }
 
@@ -152,12 +127,35 @@ class _Services implements Services {
     )
             .compose(
               _dio.options,
-              'auth/get_products/?category_id=${categoryId}&perPage=10',
+              'api/auth/get_products?product_name={name}&perPage={page}',
               queryParameters: queryParameters,
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = GetProductRsp.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<GetBrandRsp> getBrandRsp() async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<GetBrandRsp>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              'api/auth/get_manufacturers',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = GetBrandRsp.fromJson(_result.data!);
     return value;
   }
 
@@ -175,7 +173,7 @@ class _Services implements Services {
     )
             .compose(
               _dio.options,
-              'normal/set_session',
+              'api/normal/set_session',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -198,7 +196,7 @@ class _Services implements Services {
     )
         .compose(
           _dio.options,
-          'normal/add_to_cart',
+          'api/normal/add_to_cart',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -221,7 +219,7 @@ class _Services implements Services {
     )
             .compose(
               _dio.options,
-              'normal/get_cart?guest_session=${session}',
+              'api/normal/get_cart?guest_session=${session}',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -247,7 +245,7 @@ class _Services implements Services {
     )
         .compose(
           _dio.options,
-          'normal/update_cart_detail/${idCart}',
+          'api/normal/update_cart_detail/${idCart}',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -269,7 +267,7 @@ class _Services implements Services {
     )
         .compose(
           _dio.options,
-          'normal/remove_cart_detail/${idCart}',
+          'api/normal/remove_cart_detail/${idCart}',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -292,7 +290,7 @@ class _Services implements Services {
     )
             .compose(
               _dio.options,
-              'normal/get_vouchers',
+              'api/normal/get_vouchers',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -315,7 +313,7 @@ class _Services implements Services {
     )
         .compose(
           _dio.options,
-          'normal/add_voucher',
+          'api/normal/add_voucher',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -337,12 +335,36 @@ class _Services implements Services {
     )
         .compose(
           _dio.options,
-          'normal/remove_voucher/${cartId}',
+          'api/normal/remove_voucher/${cartId}',
           queryParameters: queryParameters,
           data: _data,
         )
         .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = _result.data;
+    return value;
+  }
+
+  @override
+  Future<PostSigninRsp> postSigninRsp({required body}) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(body.toJson());
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<PostSigninRsp>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              'auth/login',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = PostSigninRsp.fromJson(_result.data!);
     return value;
   }
 

@@ -1,20 +1,18 @@
 import 'dart:convert';
 
-import 'package:app_ft_tmart/src/data/respository/get_banner_rsp.dart';
-import 'package:app_ft_tmart/src/data/respository/get_category_rsp.dart';
-import 'package:app_ft_tmart/src/data/respository/get_product_by_category_rsp.dart';
-import 'package:app_ft_tmart/src/data/tiki_respository/get_may_be_you_like_rsp.dart';
-import 'package:app_ft_tmart/src/data/tiki_respository/get_tiki_banner_rsp.dart';
-import 'package:app_ft_tmart/src/data/tiki_respository/get_tiki_top_seller_rsp.dart';
+import 'package:app_ft_tmart/src/core/config.dart';
+import 'package:app_ft_tmart/src/data/repositories/get_banner_rsp.dart';
+import 'package:app_ft_tmart/src/data/repositories/get_category_rsp.dart';
+import 'package:app_ft_tmart/src/data/repositories/get_product_by_category_rsp.dart';
+import 'package:app_ft_tmart/src/data/repositories/get_product_rq_query.dart';
 import 'package:dio/dio.dart';
 import 'package:encrypted_shared_preferences/encrypted_shared_preferences.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 
-import '../../data/respository/get_product_rsp.dart';
+import '../../data/repositories/get_product_rsp.dart';
 import '../../data/services/service.dart';
-import '../../data/services/tiki_service.dart';
 import '../cart/cart_logic.dart';
 
 
@@ -26,7 +24,7 @@ class HomeLogic extends GetxController {
   HomeLogic(this.tMartServices,this.sharedPreferences);
   Rxn<GetBannerRsp> getBannerRsp = Rxn();
   Rxn<GetProductRsp>getProductRsp = Rxn();
-  Rxn<GetProductRsp>getProductByIdCategoryRsp = Rxn();
+  Rx<Map<int, GetProductRsp>> getProductByIdCategoryRsp = Rx({});
   Rxn<GetCategoryRsp>getCategoryRsp = Rxn();
 
 
@@ -40,10 +38,6 @@ class HomeLogic extends GetxController {
   Rxn<bool>isLoading = Rxn(false);
   final ScrollController controller = ScrollController();
   Rx<int>indexPage = Rx(0);
-  Rxn<GetProductRsp>getPhoneRsp = Rxn();
-  Rxn<GetProductRsp>getLaptopRsp = Rxn();
-  Rxn<GetProductRsp>getTabletRsp = Rxn();
-  Rxn<GetProductRsp>getWatchRsp = Rxn();
   List<IconData> iconCategory = [
     Icons.phone_android_outlined,
     Icons.laptop_mac_outlined,
@@ -56,15 +50,13 @@ class HomeLogic extends GetxController {
   void onReady() async{
     // TODO: implement onReady
     super.onReady();
+    await getBanner();
     await logicCart.getCart();
     print(">>>>>>>>>>>>>>>>>>>session:${await sharedPreferences.getString("session")}");
     await getCategory();
-    await getPhone();
-    await getLaptop();
-    await getTablet();
-    await getWatch();
-    await getProduct(page: page.value);
-     loadMore();
+    await getProductByIdCategory();
+    await getProduct();
+    loadMore();
 
 
 
@@ -75,7 +67,10 @@ class HomeLogic extends GetxController {
     super.refresh();
     await getBanner();
     await getCategory();
-    await getProduct(page: page.value);
+    await getProductByIdCategory();
+    await getProduct();
+
+
 
     totalItem.value = getProductRsp.value?.data?.length??0;
     if(indexPage.value<=totalItem.value){
@@ -93,8 +88,13 @@ class HomeLogic extends GetxController {
     return getBannerRsp.value;
   }
 
-  Future<GetProductRsp?>getProduct({required int page})async{
-    getProductRsp.value = await tMartServices.getProductRsp(page: page);
+  Future<GetProductRsp?>getProduct()async{
+
+    getProductRsp.value = await tMartServices.getProductRsp(
+      query: GetProductRqQuery(
+        perPage: (page.value).toString(),
+      )
+    );
     return getProductRsp.value;
   }
 
@@ -112,7 +112,8 @@ class HomeLogic extends GetxController {
           isLoading.value=true;
           print(">>>>>>>>>>>>>>>>>>>>>>>>>AAAAAAAAAAAAAAAAAA");
           page.value+=10;
-          await getProduct(page: page.value);
+          print(">>>>page: ${page.value}");
+          await getProduct();
         }
 
 
@@ -121,28 +122,22 @@ class HomeLogic extends GetxController {
     });
     isLoading.value=false;
   }
-  Future<GetProductRsp?>getProductByIdCategory({required int id})async{
-    getProductByIdCategoryRsp.value = await tMartServices.getProductByIdCategoryRsp(categoryId: id);
-    return getProductByIdCategoryRsp.value;
-  }
-  Future<GetProductRsp?>getPhone()async{
-    getPhoneRsp.value = await tMartServices.getProductByIdCategoryRsp(categoryId: 4);
-    return getPhoneRsp.value;
+  Future getProductByIdCategory()async{
+    final category = getCategoryRsp.value?.data;
+    final categoryLength = category?.length;
+    for(var i=0; i< (categoryLength??0);i++){
+      int? id = category?[i].id;
+      getProductByIdCategoryRsp.value[id??0] = await tMartServices.getProductRsp(
+          query: GetProductRqQuery(
+            categoryId: [id.toString()]
+          )
+      );
+
+    }
+
+
   }
 
-  Future<GetProductRsp?>getLaptop()async{
-    getLaptopRsp.value = await tMartServices.getProductByIdCategoryRsp(categoryId: 5);
-    return getLaptopRsp.value;
-  }
-
-  Future<GetProductRsp?>getTablet()async{
-    getTabletRsp.value = await tMartServices.getProductByIdCategoryRsp(categoryId: 6);
-    return getTabletRsp.value;
-  }
-  Future<GetProductRsp?>getWatch()async{
-    getWatchRsp.value = await tMartServices.getProductByIdCategoryRsp(categoryId: 7);
-    return getWatchRsp.value;
-  }
 
 
 

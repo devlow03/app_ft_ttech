@@ -46,7 +46,7 @@ class SearchPage extends StatelessWidget {
                 },
                 onChanged: (value) {
                   // logic.keyController.text=value;
-                  logicSearch.getSearch(name: value,page: 6);
+                  logicSearch.getSearch(name: value);
                 },
                 // onSubmitted: (value) {
                 //   logic.keyController.text=value;
@@ -127,10 +127,7 @@ class SearchPage extends StatelessWidget {
                   return InkWell(
                     onTap: (){
                       Get.to(ProductPage(id: logicSearch.getSearchRsp.value?.data?[index]
-                          .id.toString() ?? "",
-                      categoryId: logicSearch.getSearchRsp.value?.data?[index]
-                          .categoryId.toString(),
-                      ));
+                          .id.toString() ?? ""));
 
                     },
                     child: Container(

@@ -15,7 +15,7 @@ class SignInPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final logic = Get.put(SignInLogic(Get.find()));
+    final logic = Get.put(SignInLogic(Get.find(),Get.find()));
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -27,7 +27,7 @@ class SignInPage extends StatelessWidget {
               height: MediaQuery
                   .of(context)
                   .size
-                  .height * .4,
+                  .height * .45,
             )),
           ),
           // const SizedBox(height: 10,),
@@ -41,12 +41,12 @@ class SignInPage extends StatelessWidget {
           //   ),
           // ),
           Container(
-            // height: MediaQuery.of(context).size.height*.65,
+            height: MediaQuery.of(context).size.height*.56,
             decoration: BoxDecoration(
-              color: XColor.primary.shade300,
+              color: XColor.primary.shade500,
               borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(20),
-                topRight: Radius.circular(20)
+                topLeft: Radius.circular(30),
+                topRight: Radius.circular(30)
               )
             ),
             child: Column(
@@ -60,20 +60,22 @@ class SignInPage extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
                           child:GlobalTextField(
+                            controller: logic.phoneControl,
                             prefixIcon: Icon(Icons.phone,color: XColor.primary,),
                             hint: 'Nhập số điện thoại',
                             autovalidateMode: AutovalidateMode.onUserInteraction,
-                            validator: Validator.phone,
-                            textInputType: TextInputType.phone,
+                            validator: Validator.email,
+                            textInputType: TextInputType.emailAddress,
                           )
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
                           child: GlobalTextField(
+                            controller: logic.passControl,
                             prefixIcon: Icon(Icons.lock,color: XColor.primary,),
                             hint: 'Nhập mật khẩu',
                             autovalidateMode: AutovalidateMode.onUserInteraction,
-                            validator: Validator.password,
+                            // validator: Validator.password,
                             textInputType: TextInputType.visiblePassword,
                             // validator: Validator.password,
                             security: true,
@@ -88,9 +90,7 @@ class SignInPage extends StatelessWidget {
                                 .size
                                 .width,
                             child: ElevatedButton(
-                              onPressed: () async {
-
-                              },
+                              onPressed:()async=>logic.signIn(),
                               child: Padding(
                                 padding: const EdgeInsets.all(10),
                                 child: Text(
@@ -115,7 +115,7 @@ class SignInPage extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(height: 5,),
+
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -149,7 +149,7 @@ class SignInPage extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 5,),
+                // const SizedBox(height: 5,),
                 ui.AuthStateListener(
                   listener: (oldState, state, controller) {
                     if (state is ui.UserCreated) {
@@ -160,7 +160,7 @@ class SignInPage extends StatelessWidget {
                     }
                   },
                   child: Padding(
-                    padding: const EdgeInsets.all(10),
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: Column(
                       children: [
 
@@ -175,7 +175,7 @@ class SignInPage extends StatelessWidget {
 
                           child: ui.OAuthProviderButton(
                             provider: uigg.GoogleProvider(
-                                clientId: '392911829696-vuq8nl9rbd3t1ds498avsfussob98dod.apps.googleusercontent.com'),
+                                clientId: '392911829696-k7nv4b8c6cm0p3gi4jcmite6cj59vo5a.apps.googleusercontent.com'),
 
                           ),
                         ),
@@ -215,19 +215,19 @@ class SignInPage extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 5,),
-                InkWell(
-                  onTap: (){
-                    // Get.back();
-                    Get.back();
-                  },
-                  child: Center(
-                      child: Text("Trở về",
-                      style: TextStyle(
-                        color: Colors.white
-                      ),
-                      )
-                  ),
-                ),
+                // InkWell(
+                //   onTap: (){
+                //     // Get.back();
+                //     Get.back();
+                //   },
+                //   child: Center(
+                //       child: Text("Trở về",
+                //       style: TextStyle(
+                //         color: Colors.white
+                //       ),
+                //       )
+                //   ),
+                // ),
                 const SizedBox(height: 10,),
               ],
             ),

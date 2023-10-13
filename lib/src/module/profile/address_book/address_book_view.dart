@@ -17,7 +17,7 @@ class AddressBookPage extends StatelessWidget {
       appBar: AppBar(
         elevation: 0.0,
         backgroundColor: Colors.white,
-        title:Text(
+        title: Text(
           'Sổ địa chỉ',
           style: TextStyle(
               fontSize: 18,
@@ -31,140 +31,164 @@ class AddressBookPage extends StatelessWidget {
         // shrinkWrap: true,
         children: [
           const SizedBox(height: 10,),
-          
+
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
-            child: ListView.separated(
-              shrinkWrap: true,
-                itemCount: 3,
-                itemBuilder: (context,index){
-                  return InkWell(
-                    onTap: ()=>Get.to(EditAddressBookPage()),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        border: Border.all(
-                          color: index==1?XColor.primary:Colors.grey.shade500,
-                          width: 1
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+              child: ListView.separated(
+                shrinkWrap: true,
+                itemCount: logic.address.length,
+                itemBuilder: (context, index) {
+                  return Row(
+                    children: [
+                      Expanded(
+                        child: InkWell(
+                          onTap: () => Get.to(EditAddressBookPage()),
+                          child: Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                border: Border.all(
+                                    color: index == 1 ? XColor.primary : Colors
+                                        .grey.shade500,
+                                    width: 1
 
-                        )
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            RichText(
-                        text: TextSpan(
-                        style: DefaultTextStyle.of(context).style,
-                        children: <TextSpan>[
-                          TextSpan(
-                            text: 'Hứa Quang Thiện  ',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w700,
-                              fontSize: 16,
-                              color: Colors.black,
-                              letterSpacing: 1
+                                )
                             ),
-                          ),
-
-                          TextSpan(
-                            text: '(Địa chỉ mặc định)',
-                            style: TextStyle(
-
-                              fontSize: 14,
-                              color: XColor.primary,
-                            ),
-                          ),
-                        ],
-                    ),),
-                            const SizedBox(height: 10,),
-                            RichText(
-                              text: TextSpan(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  TextSpan(
-                                    text: 'Địa chỉ: ',
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.black
-                                    )
-                                  ),
-                                  TextSpan(
-                                    text: '149 Nguyễn Đệ, Phường An Hòa, Quận Ninh Kiều, Cần Thơ',
-                                      style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
-                                          color: Colors.black,
-                                        height: 1.5
-                                      )
-                                  )
-                                ]
-                              ),
-                            ),
-                            const SizedBox(height: 10,),
-                            RichText(
-                              text: TextSpan(
-                                  children: [
-                                    TextSpan(
-                                        text: 'Điện thoại: ',
-                                        style: TextStyle(
+                                  RichText(
+                                    text: TextSpan(
+                                      style: DefaultTextStyle
+                                          .of(context)
+                                          .style,
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                          text: "${logic
+                                              .address[index]["name"]}",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 16,
+                                              color: Colors.black,
+                                              letterSpacing: 1
+                                          ),
+                                        ),
+
+                                        TextSpan(
+                                          text: '${logic.address[index]["status"]}',
+                                          style: TextStyle(
+
                                             fontSize: 14,
-                                            fontWeight: FontWeight.w500,
-                                            color: Colors.black
-                                        )
+                                            color: XColor.primary,
+                                          ),
+                                        ),
+                                      ],
+                                    ),),
+                                  const SizedBox(height: 10,),
+                                  RichText(
+                                    text: TextSpan(
+                                        children: [
+                                          TextSpan(
+                                              text: 'Địa chỉ: ',
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Colors.black
+                                              )
+                                          ),
+                                          TextSpan(
+                                              text: "${logic
+                                                  .address[index]["address"]}",
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w400,
+                                                  color: Colors.black,
+                                                  height: 1.5
+                                              )
+                                          )
+                                        ]
                                     ),
-                                    TextSpan(
-                                        text: '(+84)776506112',
-                                        style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w400,
-                                            color: Colors.black,
-                                            height: 1.5
-                                        )
-                                    )
-                                  ]
+                                  ),
+                                  const SizedBox(height: 10,),
+                                  RichText(
+                                    text: TextSpan(
+                                        children: [
+                                          TextSpan(
+                                              text: 'Điện thoại: ',
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Colors.black
+                                              )
+                                          ),
+                                          TextSpan(
+                                              text: "${logic
+                                                  .address[index]["phoneNumber"]}",
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w400,
+                                                  color: Colors.black,
+                                                  height: 1.5
+                                              )
+                                          )
+                                        ]
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                          ],
+                          ),
                         ),
                       ),
-                    ),
+                      Obx(() {
+                        return Radio(
+                          value: logic.address[index]["id"],
+                          activeColor: XColor.primary,
+                          groupValue: logic.selectValue.value,
+                          onChanged: (value) {
+                            logic.selectValue.value = value;
+                            print(">>>>>>>${logic.selectValue.value}");
+                          },
+                        );
+                      }),
+                    ],
                   );
                 },
-                separatorBuilder: (context,index){
+                separatorBuilder: (context, index) {
                   return SizedBox(height: 20,);
                 },
 
-            ),
+              )
           )
         ],
       ),
       bottomNavigationBar: BottomAppBar(
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
-            primary: Colors.white
+              primary: Colors.white
           ),
-          onPressed: (){
+          onPressed: () {
             Get.to(AddAddressBookPage());
           },
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 15),
             child: RichText(
               text: TextSpan(
-                children: [
-                  WidgetSpan(
-                    alignment: PlaceholderAlignment.middle,
-                    child: Icon(Icons.add_circle_outline,color: XColor.primary,)
-                  ),
-                  TextSpan(
-                    text: " Thêm địa chỉ mới",
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: XColor.primary
+                  children: [
+                    WidgetSpan(
+                        alignment: PlaceholderAlignment.middle,
+                        child: Icon(
+                          Icons.add_circle_outline, color: XColor.primary,)
+                    ),
+                    TextSpan(
+                        text: " Thêm địa chỉ mới",
+                        style: TextStyle(
+                            fontSize: 14,
+                            color: XColor.primary
+                        )
                     )
-                  )
-                ]
+                  ]
               ),
             ),
           ),

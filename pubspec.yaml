@@ -63,6 +63,8 @@ dependencies:
   gallery_saver: ^2.3.2
   flutter_widget_from_html: ^0.10.5+2
   webview_flutter: any
+  curl_logger_dio_interceptor: ^1.0.0
+  talker_dio_logger: ^2.3.0
 
 
 

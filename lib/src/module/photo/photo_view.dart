@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../core/xcolor.dart';
-import '../../data/respository/get_product_by_id_rsp.dart';
+import '../../data/repositories/get_product_by_id_rsp.dart';
 import '../../widget/global_image.dart';
 import '../product/product_logic.dart';
 import 'photo_logic.dart';

@@ -1,19 +1,21 @@
 import 'package:app_ft_tmart/src/core/xcolor.dart';
-import 'package:app_ft_tmart/src/data/respository/post_update_cart_detail_rqst.dart';
+import 'package:app_ft_tmart/src/data/repositories/post_update_cart_detail_rqst.dart';
 import 'package:app_ft_tmart/src/module/cart/voucher/voucher_logic.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
-import '../../data/respository/get_cart_rsp.dart';
+import '../../data/repositories/get_cart_rsp.dart';
 import '../../data/services/service.dart';
+import '../../widget/utils.dart';
 
 class CartLogic extends GetxController {
   final Services tMartServices;
   CartLogic(this.tMartServices);
   Rxn<GetCartRsp>getCartRsp = Rxn();
   Rx<int>quantity = Rx(1);
-  Rxn<String>voucherCode = Rxn();
+  Rxn<String>voucherValue = Rxn();
+  Rxn<String>voucherTitle = Rxn();
   // final logicVoucher = Get.put(VoucherLogic(Get.find()));
   @override
   void onReady() async{
@@ -36,32 +38,12 @@ class CartLogic extends GetxController {
   }
 
   Future<void>updateCartDetail({required String idCart,required int quantity })async{
-    Get.dialog( Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          CircularProgressIndicator(
-            strokeWidth: 5,
-            color: XColor.primary,
-
-          ),
-          const SizedBox(height: 20,),
-          Text("Đang xử lí",
-            style: TextStyle(
-                color: Colors.white,
-                fontSize: 11,
-                decoration: TextDecoration.none
-            ),
-          )
-        ],
-      ),
-    ));
-    await tMartServices.postUpdateCartDetailRsp(idCart: idCart, body: PostUpdateCartDetailRqst(
-      quantity: quantity
-    ));
-    await getCart();
-    Get.back();
-    // Fluttertoast.showToast(msg: "cập nhật số lượng thành công",timeInSecForIosWeb: 3);
+    Utils.loading(()async{
+      await tMartServices.postUpdateCartDetailRsp(idCart: idCart, body: PostUpdateCartDetailRqst(
+          quantity: quantity
+      ));
+      await getCart();
+    });
   }
   Future<void>deleteCart({required String idCart})async{
     Get.dialog(
@@ -91,29 +73,10 @@ class CartLogic extends GetxController {
                 ),
                 onPressed: ()async{
                   Get.back();
-                  Get.dialog( Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        CircularProgressIndicator(
-                          strokeWidth: 5,
-                          color: XColor.primary,
-
-                        ),
-                        const SizedBox(height: 20,),
-                        Text("Đang xử lí",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 11,
-                              decoration: TextDecoration.none
-                          ),
-                        )
-                      ],
-                    ),
-                  ));
-                  await tMartServices.deleteCartDetails(idCart: idCart);
-                  await getCart();
-                  Get.back();
+                  Utils.loading(()async{
+                    await tMartServices.deleteCartDetails(idCart: idCart);
+                    await getCart();
+                  });
 
 
                 },
@@ -123,15 +86,16 @@ class CartLogic extends GetxController {
         ));
   }
 
-  String? getVoucher(){
+  void getVoucher(){
     try{
       for(int i=0;i<=(getCartRsp.value?.data?.info?.length??0);i++){
         if(getCartRsp.value?.data?.info?[i].code == "voucher"){
-          voucherCode.value = (getCartRsp.value?.data?.info?[i].title).toString();
+          voucherValue.value = (getCartRsp.value?.data?.info?[i].text).toString();
+          voucherTitle.value = (getCartRsp.value?.data?.info?[i].title).toString();
         }
 
       }
-      return voucherCode.value;
+
     }catch(e){
       print(e);
     }

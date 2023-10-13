@@ -9,7 +9,7 @@ class SplashPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final logic = Get.put(SplashLogic(Get.find(),Get.find()));
+    final logic = Get.put(SplashLogic());
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -19,7 +19,7 @@ class SplashPage extends StatelessWidget {
         decoration: BoxDecoration(
             image:DecorationImage(
               image: AssetImage(
-                'assets/images/tmart.png'
+                  'assets/images/tmart.png'
               ),
 
 
@@ -33,7 +33,8 @@ class SplashPage extends StatelessWidget {
               child: CircularProgressIndicator(
                 backgroundColor: Color(0xff72FFFF),
                 color: XColor.primary,
-                strokeWidth: 8,
+
+                strokeWidth: 10,
               ),
             ),
           ],

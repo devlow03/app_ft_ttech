@@ -1,4 +1,4 @@
-import 'package:app_ft_tmart/src/data/respository/get_product_by_category_rsp.dart';
+import 'package:app_ft_tmart/src/data/repositories/get_product_by_category_rsp.dart';
 import 'package:app_ft_tmart/src/module/search/search_view.dart';
 import 'package:app_ft_tmart/src/widget/global_html.dart';
 import 'package:app_ft_tmart/src/widget/global_image.dart';
@@ -13,7 +13,7 @@ import 'package:shimmer/shimmer.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../../core/xcolor.dart';
 
-import '../../data/respository/get_product_rsp.dart';
+import '../../data/repositories/get_product_rsp.dart';
 import '../../widget/global_product.dart';
 import '../cart/cart_logic.dart';
 import '../cart/cart_view.dart';
@@ -23,9 +23,9 @@ import 'product_logic.dart';
 
 class ProductPage extends StatelessWidget {
   final String? id;
-  final String? categoryId;
 
-  const ProductPage({Key? key, required this.id, this.categoryId}) : super(key: key);
+
+  const ProductPage({Key? key, required this.id, }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,7 @@ class ProductPage extends StatelessWidget {
     final logic = Get.put(ProductLogic(Get.find()));
     logicCart.getCart();
     logic.getProductById(id: id ?? "");
-    logic.getProductByIdCategory(categoryId: categoryId??"");
+
 
     return WillPopScope(
       onWillPop: () async {
@@ -869,7 +869,7 @@ class ProductPage extends StatelessWidget {
                                               itemCount: 3,
                                               itemBuilder: (context, ind) {
                                                 return Padding(
-                                                    padding: const EdgeInsets.all(8.0),
+                                                    padding: const EdgeInsets.symmetric(vertical: 8,horizontal: 2),
                                                     child: Container(
                                                       height: MediaQuery
                                                           .of(context)
@@ -1026,12 +1026,11 @@ class ProductPage extends StatelessWidget {
                                                     Get.to(ProductPage(
                                                       id: logic.getProductRsp.value
                                                           ?.data?[ind].id.toString(),
-                                                      categoryId: logic.getProductRsp.value
-                                                          ?.data?[ind].categoryId.toString(),
+
                                                     ));
                                                   },
                                                   child: Padding(
-                                                    padding: const EdgeInsets.all(8.0),
+                                                    padding: const EdgeInsets.symmetric(vertical: 8,horizontal: 2),
                                                     child: GlobalProduct(
                                                       imageLink: logic.getProductRsp.value
                                                           ?.data?[ind].thumpnailUrl,
