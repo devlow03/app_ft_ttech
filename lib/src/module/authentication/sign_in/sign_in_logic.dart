@@ -16,12 +16,12 @@ import '../../../core/xcolor.dart';
 import '../../../data/repositories/post_signin_rqst.dart';
 
 class SignInLogic extends GetxController {
-  final Services tMartServices;
-  final EncryptedSharedPreferences sharedPreferences;
-  SignInLogic(this.sharedPreferences, this.tMartServices);
+  final Services tMartServices = Get.find();
+
+
   TextEditingController phoneControl = TextEditingController();
   TextEditingController passControl = TextEditingController();
-
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   Rxn<bool> onSignIn = Rxn(false);
   Rxn<String>avatar = Rxn();
@@ -34,8 +34,8 @@ class SignInLogic extends GetxController {
   void onReady() async{
     // TODO: implement onReady
     super.onReady();
-    phoneControl.text = "admin@gmail.com";
-    passControl.text = "12345678";
+    // phoneControl.text = "0776506112";
+    // passControl.text = "12345678";
   }
 
 
@@ -67,7 +67,7 @@ class SignInLogic extends GetxController {
     Utils.loading(()async{
       postSignInRsp.value = await tMartServices.postSigninRsp(body:
       PostSigninRqst(
-          email: phoneControl.text,
+          phone: phoneControl.text,
           password: passControl.text
       )
       );

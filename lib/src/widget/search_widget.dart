@@ -14,14 +14,14 @@ class SearchWidget extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
 
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.shade200,
-              spreadRadius: 5,
-              blurRadius: 7,
-              offset: Offset(0, 5), // changes position of shadow
-            ),
-          ],
+          // boxShadow: [
+          //   BoxShadow(
+          //     color: Colors.grey.shade200,
+          //     spreadRadius: 5,
+          //     blurRadius: 7,
+          //     offset: Offset(0, 5), // changes position of shadow
+          //   ),
+          // ],
         ),
         child: TextField(
           onTap: (){

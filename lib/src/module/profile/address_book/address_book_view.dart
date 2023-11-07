@@ -6,8 +6,10 @@ import 'package:get/get.dart';
 import '../../../core/xcolor.dart';
 import 'address_book_logic.dart';
 
+
 class AddressBookPage extends StatelessWidget {
-  const AddressBookPage({Key? key}) : super(key: key);
+
+  const AddressBookPage({Key? key, }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -34,132 +36,139 @@ class AddressBookPage extends StatelessWidget {
 
           Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-              child: ListView.separated(
-                shrinkWrap: true,
-                itemCount: logic.address.length,
-                itemBuilder: (context, index) {
-                  return Row(
-                    children: [
-                      Expanded(
-                        child: InkWell(
-                          onTap: () => Get.to(EditAddressBookPage()),
-                          child: Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5),
-                                border: Border.all(
-                                    color: index == 1 ? XColor.primary : Colors
-                                        .grey.shade500,
-                                    width: 1
-
-                                )
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  RichText(
-                                    text: TextSpan(
-                                      style: DefaultTextStyle
-                                          .of(context)
-                                          .style,
-                                      children: <TextSpan>[
-                                        TextSpan(
-                                          text: "${logic
-                                              .address[index]["name"]}",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w700,
-                                              fontSize: 16,
-                                              color: Colors.black,
-                                              letterSpacing: 1
-                                          ),
-                                        ),
-
-                                        TextSpan(
-                                          text: '${logic.address[index]["status"]}',
-                                          style: TextStyle(
-
-                                            fontSize: 14,
-                                            color: XColor.primary,
-                                          ),
-                                        ),
-                                      ],
-                                    ),),
-                                  const SizedBox(height: 10,),
-                                  RichText(
-                                    text: TextSpan(
-                                        children: [
+              child: Obx(() {
+                if(logic.getAddressBookRsp.value?.data?.isEmpty==true){
+                  return Center(
+                    child: Text("chưa có sổ địa chỉ!"),
+                  );
+                }
+                return ListView.separated(
+                  shrinkWrap: true,
+                  itemCount: logic.getAddressBookRsp.value?.data?.length ?? 0,
+                  itemBuilder: (context, index) {
+                    final data = logic.getAddressBookRsp.value?.data?[index];
+                    return Row(
+                      children: [
+                        Expanded(
+                          child: InkWell(
+                            onTap: () => Get.to(EditAddressBookPage(data: data,)),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(10),
+                                  // border: Border.all(
+                                  //     color: Colors
+                                  //         .grey.shade500,
+                                  //     width: 1
+                                  //
+                                  // )
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    RichText(
+                                      text: TextSpan(
+                                        style: DefaultTextStyle
+                                            .of(context)
+                                            .style,
+                                        children: <TextSpan>[
                                           TextSpan(
-                                              text: 'Địa chỉ: ',
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Colors.black
-                                              )
+                                            text: "${data?.fullName}",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: 16,
+                                                color: Colors.black,
+                                                letterSpacing: 1
+                                            ),
                                           ),
-                                          TextSpan(
-                                              text: "${logic
-                                                  .address[index]["address"]}",
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w400,
-                                                  color: Colors.black,
-                                                  height: 1.5
-                                              )
-                                          )
-                                        ]
+
+                                          // TextSpan(
+                                          //   text: '${logic
+                                          //       .address[index]["status"]}',
+                                          //   style: TextStyle(
+                                          //
+                                          //     fontSize: 14,
+                                          //     color: XColor.primary,
+                                          //   ),
+                                          // ),
+                                        ],
+                                      ),),
+                                    const SizedBox(height: 10,),
+                                    RichText(
+                                      text: TextSpan(
+                                          children: [
+                                            TextSpan(
+                                                text: 'Địa chỉ: ',
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Colors.black
+                                                )
+                                            ),
+                                            TextSpan(
+                                                text: "${data?.fullAddress}",
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w400,
+                                                    color: Colors.black,
+                                                    height: 1.5
+                                                )
+                                            )
+                                          ]
+                                      ),
                                     ),
-                                  ),
-                                  const SizedBox(height: 10,),
-                                  RichText(
-                                    text: TextSpan(
-                                        children: [
-                                          TextSpan(
-                                              text: 'Điện thoại: ',
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Colors.black
-                                              )
-                                          ),
-                                          TextSpan(
-                                              text: "${logic
-                                                  .address[index]["phoneNumber"]}",
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w400,
-                                                  color: Colors.black,
-                                                  height: 1.5
-                                              )
-                                          )
-                                        ]
+                                    const SizedBox(height: 10,),
+                                    RichText(
+                                      text: TextSpan(
+                                          children: [
+                                            TextSpan(
+                                                text: 'Điện thoại: ',
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Colors.black
+                                                )
+                                            ),
+                                            TextSpan(
+                                                text: "${data?.phone}",
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w400,
+                                                    color: Colors.black,
+                                                    height: 1.5
+                                                )
+                                            )
+                                          ]
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                      Obx(() {
-                        return Radio(
-                          value: logic.address[index]["id"],
-                          activeColor: XColor.primary,
-                          groupValue: logic.selectValue.value,
-                          onChanged: (value) {
-                            logic.selectValue.value = value;
-                            print(">>>>>>>${logic.selectValue.value}");
-                          },
-                        );
-                      }),
-                    ],
-                  );
-                },
-                separatorBuilder: (context, index) {
-                  return SizedBox(height: 20,);
-                },
+                        Obx(() {
+                          return Radio(
+                            value: logic.getAddressBookRsp.value?.data?[index].id,
+                            activeColor: XColor.primary,
+                            groupValue: logic.selectValue.value,
+                            onChanged: (value) {
+                              // logic.selectValue.value = value;
+                              print(">>>>>>>${logic.selectValue.value}");
+                            },
+                          );
+                        }),
+                      ],
+                    );
+                  },
+                  separatorBuilder: (context, index) {
+                    return SizedBox(height: 20,);
+                  },
 
-              )
+                );
+              })
           )
         ],
       ),

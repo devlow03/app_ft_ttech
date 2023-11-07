@@ -46,7 +46,7 @@ class _GlobalProductState extends State<GlobalProduct> {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         // border: Border.all(color: Colors.red),
-        border: Border.all(color: Colors.grey.shade100,),
+        border: Border.all(color: Colors.grey.shade200,),
         color: Colors.white,
       ),
       child: Column(

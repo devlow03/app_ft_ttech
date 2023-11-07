@@ -123,7 +123,7 @@ class _GlobalTextFieldState extends State<GlobalTextField> {
           keyboardType: widget.textInputType,
           decoration: InputDecoration(
             filled: true,
-            fillColor: Colors.white,
+            fillColor: Colors.grey.shade100,
             hintText: widget.hint ?? '',
             suffixIcon: widget.suffixIcon,
             prefixIcon: widget.prefixIcon,

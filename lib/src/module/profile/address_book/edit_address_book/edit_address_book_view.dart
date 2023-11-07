@@ -3,14 +3,16 @@ import 'package:get/get.dart';
 
 import '../address_bottom_sheet/address_bottom_sheet_view.dart';
 import 'edit_address_book_logic.dart';
+import '../../../../data/repositories/get_address_book_rsp.dart';
 
 class EditAddressBookPage extends StatelessWidget {
-  const EditAddressBookPage({Key? key}) : super(key: key);
+  final Data? data;
+  const EditAddressBookPage({Key? key, this.data}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final logic = Get.put(EditAddressBookLogic());
-
+    logic.setAddressBook(data: data);
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
@@ -31,7 +33,8 @@ class EditAddressBookPage extends StatelessWidget {
             padding: EdgeInsets.all(8.0),
             child: Text("Thông tin liên hệ"),
           ),
-          const TextField(
+          TextFormField(
+            controller: logic.fullNameControl,
             decoration: InputDecoration(
               fillColor: Colors.white,
               filled: true,
@@ -48,7 +51,8 @@ class EditAddressBookPage extends StatelessWidget {
             height: 2,
             color: Colors.black,
           ),
-          const TextField(
+          TextFormField(
+            controller: logic.phoneControl,
             decoration: InputDecoration(
               fillColor: Colors.white,
               filled: true,
@@ -68,15 +72,19 @@ class EditAddressBookPage extends StatelessWidget {
             padding: EdgeInsets.all(8.0),
             child: Text("Địa chỉ"),
           ),
-          TextField(
+          TextFormField(
             maxLines: 2,
-            controller: logic.addressControl,
+            controller: logic.fullAddressControl,
             onTap: () {
               Get.bottomSheet(
                   isScrollControlled: true,
                   SizedBox(
                     height: MediaQuery.of(context).size.height*.7,
-                    child: AddressBottomSheetPage(addressControl: logic.addressControl,),
+                    child: AddressBottomSheetPage(
+                      cityId: logic.cityId.value,
+                      districtId: logic.districtId.value,
+                      wardId: logic.wardId.value,
+                    ),
                   )
               );
             },
@@ -101,7 +109,8 @@ class EditAddressBookPage extends StatelessWidget {
             height: 2,
             color: Colors.black,
           ),
-          const TextField(
+          TextFormField(
+            controller: logic.fullAddressControl,
             decoration: InputDecoration(
               fillColor: Colors.white,
               filled: true,
@@ -140,7 +149,9 @@ class EditAddressBookPage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () async{
+                  // await logic.postCreateAddressBook();
+                },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 15),
                   child: Text("Hoàn thành"),

@@ -31,7 +31,7 @@ class ProductPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final logicCart = Get.put(CartLogic(Get.find()));
     final logic = Get.put(ProductLogic(Get.find()));
-    logicCart.getCart();
+    // logicCart.getCart();
     logic.getProductById(id: id ?? "");
 
 
@@ -1123,6 +1123,7 @@ class ProductPage extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(horizontal: 5),
                             child: ElevatedButton(
                               onPressed: () async {
+
                                 await logic.postAddCart(
                                     productId: logic.getProductByIdRsp.value
                                         ?.data
@@ -1131,7 +1132,7 @@ class ProductPage extends StatelessWidget {
                                     quantity: logic.quantity.value.toString() ??
                                         ""
                                 );
-                                await logicCart.getCart();
+
                               },
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(
@@ -1160,6 +1161,16 @@ class ProductPage extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(horizontal: 5),
                             child: ElevatedButton(
                               onPressed: () async {
+
+                                await logic.buyNow(
+                                    productId: logic.getProductByIdRsp.value
+                                        ?.data
+                                        ?.id
+                                        .toString() ?? "",
+                                    quantity: logic.quantity.value.toString() ??
+                                        ""
+                                );
+
 
                               },
                               child: const Padding(

@@ -1,9 +1,20 @@
 import 'dart:convert';
 
+import 'package:app_ft_tmart/src/widget/utils.dart';
 import 'package:get/get.dart';
 
+import '../../../data/repositories/get_address_book_rsp.dart';
+import '../../../data/services/service.dart';
+
 class AddressBookLogic extends GetxController {
+  final Services tMartServices = Get.find();
   Rxn<String> selectValue = Rxn();
+  Rxn<GetAddressBookRsp>getAddressBookRsp = Rxn();
+  @override
+  void onReady()async{
+    super.onReady();
+    await getAddressBook();
+  }
   List<Map<String, String>> address = [
     {
       "id": "1",
@@ -27,4 +38,14 @@ class AddressBookLogic extends GetxController {
       "phoneNumber": "555-5678"
     }
   ];
+
+  Future<GetAddressBookRsp?>getAddressBook()async{
+    Utils.loading(()async{
+      getAddressBookRsp.value = await tMartServices.getAddressBookRsp();
+
+    });
+    return getAddressBookRsp.value;
+
+
+  }
 }

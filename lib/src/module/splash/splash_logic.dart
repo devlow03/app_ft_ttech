@@ -11,7 +11,10 @@ class SplashLogic extends GetxController {
   void onReady() async{
     // TODO: implement onReady
     super.onReady();
-    checkSignIn();
+    Future.delayed(Duration(seconds: 3),(){
+      Get.offAll(IndexPage());
+    });
+    // checkSignIn();
   }
 
   Future<void>checkSignIn()async{

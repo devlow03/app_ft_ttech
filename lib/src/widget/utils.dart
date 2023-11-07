@@ -56,7 +56,7 @@ class Utils{
                        actions: [
                          ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                              primary: Colors.red
+                              primary: XColor.primary
                             ),
                              onPressed: (){
                                Get.back();

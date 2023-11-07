@@ -8,7 +8,7 @@ import '../../data/repositories/get_product_by_id_rsp.dart';
 import '../../widget/global_image.dart';
 import '../product/product_logic.dart';
 import 'photo_logic.dart';
-import 'package:gallery_saver/gallery_saver.dart';
+
 
 class PhotoPage extends StatelessWidget {
   final Data? data;
@@ -68,39 +68,39 @@ class PhotoPage extends StatelessWidget {
                       // logicPro.indexSlider.value = index;
 
                       return InkWell(
-                        onLongPress: (){
-                          Get.dialog(
-                              AlertDialog(
-                                content: InkWell(
-                                    onTap: ()async{
-                                      await GallerySaver.saveImage(data?.galleryImagesUrl?[logicPro.indexSlider.value].largeUrl??'',toDcim: true).then((value) {
-                                        Get.back();
-                                        ScaffoldMessenger.of(context).showSnackBar(
-                                            SnackBar(
-                                              backgroundColor: Colors.black54,
-                                              width: 300,
-                                              content: Text('Đã tải ảnh!',
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    letterSpacing: 1
-                                                ),
-                                              ),
-                                              elevation: 3.0,
-                                              duration: Duration(seconds: 2),
-                                              behavior: SnackBarBehavior.floating,
-                                              shape: RoundedRectangleBorder(
-                                                  borderRadius: BorderRadius.circular(20)
-                                              ),
-                                            )
-
-                                        );
-                                      });
-                                    },
-                                    child: Text('Tải ảnh về máy')),
-                              )
-                          );
-                        },
+                        // onLongPress: (){
+                        //   Get.dialog(
+                        //       AlertDialog(
+                        //         content: InkWell(
+                        //             onTap: ()async{
+                        //               await GallerySaver.saveImage(data?.galleryImagesUrl?[logicPro.indexSlider.value].largeUrl??'',toDcim: true).then((value) {
+                        //                 Get.back();
+                        //                 ScaffoldMessenger.of(context).showSnackBar(
+                        //                     SnackBar(
+                        //                       backgroundColor: Colors.black54,
+                        //                       width: 300,
+                        //                       content: Text('Đã tải ảnh!',
+                        //                         textAlign: TextAlign.center,
+                        //                         style: TextStyle(
+                        //                             color: Colors.white,
+                        //                             letterSpacing: 1
+                        //                         ),
+                        //                       ),
+                        //                       elevation: 3.0,
+                        //                       duration: Duration(seconds: 2),
+                        //                       behavior: SnackBarBehavior.floating,
+                        //                       shape: RoundedRectangleBorder(
+                        //                           borderRadius: BorderRadius.circular(20)
+                        //                       ),
+                        //                     )
+                        //
+                        //                 );
+                        //               });
+                        //             },
+                        //             child: Text('Tải ảnh về máy')),
+                        //       )
+                        //   );
+                        // },
                         child: GlobalImage(
                           imageUrl: data?.galleryImagesUrl?[logicPro.indexSlider.value].largeUrl ??
                               '',

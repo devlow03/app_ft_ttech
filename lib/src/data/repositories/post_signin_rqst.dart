@@ -1,31 +1,31 @@
-/// email : "admin@gmail.com"
-/// password : "12345678"
+/// phone : "0776506112"
+/// password : "123456789"
 
 class PostSigninRqst {
   PostSigninRqst({
-      String? email, 
+      String? phone, 
       String? password,}){
-    _email = email;
+    _phone = phone;
     _password = password;
 }
 
   PostSigninRqst.fromJson(dynamic json) {
-    _email = json['email'];
+    _phone = json['phone'];
     _password = json['password'];
   }
-  String? _email;
+  String? _phone;
   String? _password;
-PostSigninRqst copyWith({  String? email,
+PostSigninRqst copyWith({  String? phone,
   String? password,
-}) => PostSigninRqst(  email: email ?? _email,
+}) => PostSigninRqst(  phone: phone ?? _phone,
   password: password ?? _password,
 );
-  String? get email => _email;
+  String? get phone => _phone;
   String? get password => _password;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
-    map['email'] = _email;
+    map['phone'] = _phone;
     map['password'] = _password;
     return map;
   }

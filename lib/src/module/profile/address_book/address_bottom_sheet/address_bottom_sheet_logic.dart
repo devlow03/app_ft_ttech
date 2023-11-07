@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import '../../../../data/repositories/get_district_rsp.dart';
 import '../../../../data/repositories/get_province_rsp.dart';
 import '../../../../data/repositories/get_ward_rsp.dart';
+import '../add_address_book/add_address_book_logic.dart';
 
 class AddressBottomSheetLogic extends GetxController {
   Rxn<GetProvinceRsp>getProvinceRsp = Rxn();
@@ -17,6 +18,7 @@ class AddressBottomSheetLogic extends GetxController {
   Rxn<String>disTxt = Rxn();
   Rxn<String>wardTxt = Rxn();
   TextEditingController addressControl = TextEditingController();
+  final logicAdd = Get.put(AddAddressBookLogic());
 
 
 
@@ -66,7 +68,19 @@ class AddressBottomSheetLogic extends GetxController {
     }
   }
 
-  void goTab(int tabIndex){
+  Future<void>setCity({required String cityName, required String cityId})async{
+    logicAdd.cityName.value = cityName;
+    logicAdd.cityId.value = cityId;
+  }
 
+  Future<void>setDistrict({required String districtName, required String districtId})async{
+    logicAdd.districtName.value = districtName;
+    logicAdd.districtId.value = districtId;
+  }
+
+  Future<void>setWard({required String wardName, required String wardId})async{
+    logicAdd.wardName.value = wardName;
+    logicAdd.wardId.value = wardId;
+    logicAdd.fullAddressControl.text = "${logicAdd.wardName.value}, ${logicAdd.districtName.value}, ${logicAdd.cityName.value}";
   }
 }

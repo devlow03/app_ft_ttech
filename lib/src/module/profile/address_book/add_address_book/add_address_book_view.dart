@@ -33,7 +33,8 @@ class AddAddressBookPage extends StatelessWidget {
             padding: EdgeInsets.all(8.0),
             child: Text("Thông tin liên hệ"),
           ),
-          const TextField(
+           TextFormField(
+            controller: logic.fullNameControl,
             decoration: InputDecoration(
               fillColor: Colors.white,
               filled: true,
@@ -50,7 +51,8 @@ class AddAddressBookPage extends StatelessWidget {
             height: 2,
             color: Colors.black,
           ),
-          const TextField(
+           TextFormField(
+             controller: logic.phoneControl,
             decoration: InputDecoration(
               fillColor: Colors.white,
               filled: true,
@@ -70,15 +72,15 @@ class AddAddressBookPage extends StatelessWidget {
             padding: EdgeInsets.all(8.0),
             child: Text("Địa chỉ"),
           ),
-          TextField(
+          TextFormField(
             maxLines: 2,
-            controller: logic.addressControl,
+            controller: logic.fullAddressControl,
             onTap: () {
               Get.bottomSheet(
                isScrollControlled: true,
                SizedBox(
                  height: MediaQuery.of(context).size.height*.7,
-                 child: AddressBottomSheetPage(addressControl: logic.addressControl,),
+                 child: AddressBottomSheetPage(),
                )
               );
             },
@@ -103,7 +105,8 @@ class AddAddressBookPage extends StatelessWidget {
             height: 2,
             color: Colors.black,
           ),
-          const TextField(
+           TextFormField(
+            controller: logic.streetControl,
             decoration: InputDecoration(
               fillColor: Colors.white,
               filled: true,
@@ -142,7 +145,9 @@ class AddAddressBookPage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () async{
+                  await logic.postCreateAddressBook();
+                },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 15),
                   child: Text("Hoàn thành"),

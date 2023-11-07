@@ -29,6 +29,7 @@ class HomeLogic extends GetxController {
 
 
   Rxn<int> activeIndex = Rxn();
+  Rxn<bool>hasData = Rxn(false);
   // Rxn<String>idCategory = Rxn();
   final dio = Dio();
   Rxn<int>tabIndex = Rxn(0);
@@ -55,12 +56,22 @@ class HomeLogic extends GetxController {
     print(">>>>>>>>>>>>>>>>>>>session:${await sharedPreferences.getString("session")}");
     await getCategory();
     await getProductByIdCategory();
+
+    // if(hasData.value == false){
+    //   getProductByIdCategoryRsp.refresh();
+    //   hasData.value=true;
+    // }
+    // else{
+    //   hasData.value=false;
+    // }
     await getProduct();
     loadMore();
 
 
 
   }
+
+
 
   @override
   void refresh()async{
@@ -83,6 +94,8 @@ class HomeLogic extends GetxController {
 
 
 
+
+
   Future<GetBannerRsp?>getBanner()async{
     getBannerRsp.value = await tMartServices.getBannerRsp();
     return getBannerRsp.value;
@@ -91,9 +104,9 @@ class HomeLogic extends GetxController {
   Future<GetProductRsp?>getProduct()async{
 
     getProductRsp.value = await tMartServices.getProductRsp(
-      query: GetProductRqQuery(
-        perPage: (page.value).toString(),
-      )
+        query: GetProductRqQuery(
+          perPage: (page.value).toString(),
+        )
     );
     return getProductRsp.value;
   }
@@ -129,11 +142,19 @@ class HomeLogic extends GetxController {
       int? id = category?[i].id;
       getProductByIdCategoryRsp.value[id??0] = await tMartServices.getProductRsp(
           query: GetProductRqQuery(
-            categoryId: [id.toString()]
+              categoryId: [id.toString()],
+            perPage: "5"
           )
       );
 
+
+
+
     }
+    getProductByIdCategoryRsp.refresh();
+
+
+
 
 
   }

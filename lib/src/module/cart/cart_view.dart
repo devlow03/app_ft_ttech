@@ -19,12 +19,12 @@ class CartPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final logic = Get.put(CartLogic(Get.find()));
     final logicVoucher = Get.put(VoucherLogic(Get.find()));
-    logic.getCart();
+
     print(
         ">>>>>>>>>>>>>>>${logic.getCartRsp.value?.data?.cartDetails?.length ?? 0}");
     return WillPopScope(
       onWillPop: () async {
-        await logicVoucher.deleteVoucher(cartId: int.parse((logic.getCartRsp.value?.data?.id??0).toString()));
+        // await logicVoucher.deleteVoucher(cartId: int.parse((logic.getCartRsp.value?.data?.id??0).toString()));
         logic.voucherTitle.value=null;
         return true;
       },

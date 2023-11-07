@@ -14,13 +14,14 @@ class SplashPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Container(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
+        height: double.infinity,
+        width: double.infinity,
         decoration: BoxDecoration(
             image:DecorationImage(
               image: AssetImage(
                   'assets/images/tmart.png'
               ),
+
 
 
             )
@@ -31,10 +32,10 @@ class SplashPage extends StatelessWidget {
             const SizedBox(height: 300,),
             Center(
               child: CircularProgressIndicator(
-                backgroundColor: Color(0xff72FFFF),
+                // backgroundColor: Color(0xff72FFFF),
                 color: XColor.primary,
 
-                strokeWidth: 10,
+                strokeWidth: 12,
               ),
             ),
           ],

@@ -1,23 +1,22 @@
-import 'package:app_ft_tmart/src/module/authentication/signup/signup_view.dart';
-import 'package:app_ft_tmart/src/module/index/index_view.dart';
+import 'package:app_ft_tmart/src/module/authentication/sign_in/sign_in_view.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:firebase_ui_auth/firebase_ui_auth.dart' as ui;
 import 'package:firebase_ui_oauth_facebook/firebase_ui_oauth_facebook.dart' as uifb;
 import 'package:firebase_ui_oauth_google/firebase_ui_oauth_google.dart' as uigg;
-
 import '../../../core/xcolor.dart';
 import '../../../widget/global_textfield.dart';
-import 'sign_in_logic.dart';
+import '../../index/index_view.dart';
+import 'form_sign_up_logic.dart';
 
-class SignInPage extends StatelessWidget {
-  const SignInPage({Key? key}) : super(key: key);
+class FormSignUpPage extends StatelessWidget {
+  final String? phoneNumber;
+  const FormSignUpPage({Key? key, this.phoneNumber, }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final logic = Get.put(SignInLogic());
-
+    final logic = Get.put(FormSignUpLogic());
+    logic.phoneNumber.value = phoneNumber;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
@@ -31,26 +30,26 @@ class SignInPage extends StatelessWidget {
               child: RichText(
                   textAlign: TextAlign.start,
                   text: TextSpan(
-                  children: [
-                    TextSpan(
-                        text: "Welcome, \n",
-                        style: TextStyle(
-                            fontSize: 40,
-                            color: Color(0xff3640E0),
-                            fontWeight: FontWeight.bold,
-                          height: 1
+                      children: [
+                        TextSpan(
+                            text: "Welcome, \n",
+                            style: TextStyle(
+                                fontSize: 40,
+                                color: Color(0xff3640E0),
+                                fontWeight: FontWeight.bold,
+                                height: 1
+                            )
+                        ),
+                        TextSpan(
+                            text: "register to start with TMART 👋",
+                            style: TextStyle(
+                                fontSize: 22,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold
+                            )
                         )
-                    ),
-                     TextSpan(
-                        text: "login to start with TMART 👋",
-                        style: TextStyle(
-                            fontSize: 22,
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold
-                        )
-                    )
-                  ]
-              )),
+                      ]
+                  )),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -62,18 +61,41 @@ class SignInPage extends StatelessWidget {
                     Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
                         child:GlobalTextField(
-                          controller: logic.phoneControl,
-                          prefixIcon: Icon(Icons.phone,color: XColor.primary,),
-                          hint: 'Nhập số điện thoại',
-                          validator: Validator.phone,
+                          title: "Họ tên",
+
+                          controller: logic.fullNameControl,
+                          // prefixIcon: Icon(Icons.phone,color: XColor.primary,),
+                          hint: 'Nhập họ tên',
+                          validator: Validator.fullname,
+                          textInputType: TextInputType.name,
+                        )
+                    ),
+                    Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
+                        child:GlobalTextField(
+                          controller: logic.emailControl,
+
+                          title: "Email",
+                          // prefixIcon: Icon(Icons.phone,color: XColor.primary,),
+                          hint: 'Nhập email( Không bắt buộc )',
+                          validator: (value){
+                            if(!value.isEmpty){
+                              if (!RegExp(r"^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$").hasMatch(value)) {
+                                return 'Vui lòng nhập đúng email';
+                              }
+                            }
+                            return null;
+                          },
                           textInputType: TextInputType.emailAddress,
+                          security: false,
+
                         )
                     ),
                     Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
                         child: GlobalTextField(
                           controller: logic.passControl,
-                          prefixIcon: Icon(Icons.lock,color: XColor.primary,),
+                          title: "Mật khẩu",
                           hint: 'Nhập mật khẩu',
                           validator: Validator.password,
                           textInputType: TextInputType.visiblePassword,
@@ -81,21 +103,6 @@ class SignInPage extends StatelessWidget {
                           security: true,
 
                         )
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        TextButton(
-                            onPressed: (){},
-                            child: Text("Quên mật khẩu?",
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: XColor.primary,
-                              fontWeight: FontWeight.bold
-                            ),
-                            )
-                        )
-                      ],
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 50),
@@ -107,20 +114,20 @@ class SignInPage extends StatelessWidget {
                         child: ElevatedButton(
                           onPressed:()async{
                             if(logic.formKey.currentState?.validate()==true){
-                              await logic.signIn();
+                              await logic.register();
                             }
                           },
                           style: ElevatedButton.styleFrom(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 5, vertical: 6),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10)),
-                              primary: Color(0xff3640E0),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 5, vertical: 6),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10)),
+                            primary: Color(0xff3640E0),
                           ),
                           child: Padding(
                             padding: const EdgeInsets.all(10),
                             child: Text(
-                              "Đăng nhập",
+                              "Đăng ký",
                               style: TextStyle(
                                   fontSize: 18, fontWeight: FontWeight.w500,
                                   color: Colors.white
@@ -172,10 +179,10 @@ class SignInPage extends StatelessWidget {
             ui.AuthStateListener(
               listener: (oldState, state, controller) {
                 if (state is ui.UserCreated) {
-                  logic.socialSignin(state.credential.user,);
+                  // logic.socialSignin(state.credential.user,);
                 }
                 if (state is ui.SignedIn) {
-                  logic.socialSignin(state.user,);
+                  // logic.socialSignin(state.user,);
                 }
               },
               child: Padding(
@@ -215,17 +222,17 @@ class SignInPage extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text("Bạn chưa có tài khoản ?",
+                Text("Bạn đã có tài khoản ?",
                   style: TextStyle(
                       color: Colors.black,
-                    fontWeight: FontWeight.bold
+                      fontWeight: FontWeight.bold
                   ),
                 ),
                 const SizedBox(width: 3),
                 TextButton(
                     onPressed: () {
-                      Get.to(SignupPage());
-                    }, child: Text('Đăng ký',
+                      Get.offAll(const SignInPage());
+                    }, child: Text('Đăng nhập',
                   style: TextStyle(
                     color: XColor.primary,
 
@@ -237,14 +244,14 @@ class SignInPage extends StatelessWidget {
             const SizedBox(height: 5,),
             InkWell(
               onTap: (){
-                // Get.back();
-                Get.offAll(IndexPage());
+                Get.back();
+                // Get.offAll(IndexPage());
               },
               child: Center(
                   child: Text("Trở về",
-                  style: TextStyle(
-                    color: Colors.black
-                  ),
+                    style: TextStyle(
+                        color: Colors.black
+                    ),
                   )
               ),
             ),

@@ -36,16 +36,35 @@ class SignupPage extends StatelessWidget {
             ),
           ),
           Form(
-            // key: logic.formKey,
+            key: logic.formKey,
             child: Column(
               children: [
                 Padding(
                   padding: const EdgeInsets.all(10),
                   child: GlobalTextField(
+                    onChanged: (value)async{
+                      await logic.postCheckPhone();
+                    },
                     controller: logic.phoneController,
                     hint: 'Số điện thoại',
                     prefixIcon: Icon(Icons.phone,color: XColor.primary,),
-                    autovalidateMode:AutovalidateMode.onUserInteraction,
+                    validator:(value){
+                      if(logic.postCheckPhoneRsp.value?.data?.status == true){
+                        return "Số điện thoại đã tồn tại ở hệ thống";
+                      }
+                      if (value.isEmpty) {
+                        return 'Vui lòng nhập số điện thoại Việt Nam';
+                      }
+                      if (value.trim().length != 10) {
+                        return 'Vui lòng nhập đúng 10 số điện thoại';
+                      }
+                      if (!RegExp(r'^0?[3|5|7|8|9][0-9]{8}$')
+                          .hasMatch(value)) {
+                        return 'Vui lòng nhập đúng số điện thoại Việt Nam';
+                      }
+                      return null;
+
+                    },
                   )
                 ),
                 Padding(
@@ -54,8 +73,11 @@ class SignupPage extends StatelessWidget {
                     width: MediaQuery.of(context).size.width,
                     child: ElevatedButton(
                       onPressed: () async {
-                        await logic.sendOtp();
-                        // Get.to(OtpPage());
+
+                        if(logic.formKey.currentState?.validate()==true){
+                          await logic.sendOtp();
+                        }
+
                       },
                       child: Padding(
                         padding: const EdgeInsets.all(10),

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:app_ft_tmart/src/data/repositories/get_slider_prod_rsp.dart';
 import 'package:app_ft_tmart/src/data/repositories/post_cart_rqst.dart';
 import 'package:app_ft_tmart/src/data/services/service.dart';
+import 'package:app_ft_tmart/src/module/cart/cart_view.dart';
 import 'package:app_ft_tmart/src/widget/utils.dart';
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:dio/dio.dart';
@@ -24,7 +25,6 @@ class ProductLogic extends GetxController {
   Rxn<GetProductByIdRsp>getProductByIdRsp = Rxn();
   Rx<int> activeIndex = Rx(0);
   Rx<int>indexSlider = Rx(0);
-
   CarouselController carouselControl = CarouselController();
   ScrollController scrollController = ScrollController();
   Rxn<bool>viewAll = Rxn(false);
@@ -40,6 +40,7 @@ class ProductLogic extends GetxController {
     super.refresh();
     await logicCart.getCart();
     await getProductById;
+    await getProductByIdCategory();
   }
   @override
   void onReady() async{
@@ -47,7 +48,7 @@ class ProductLogic extends GetxController {
     // await getSliderProd;
     super.onReady();
     await logicCart.getCart();
-    getProductById;
+    await getProductById;
     await getProductByIdCategory();
 
 
@@ -59,13 +60,27 @@ class ProductLogic extends GetxController {
   }
 
   Future<void>postAddCart({required String productId, required String quantity })async{
-    Utils.loading(()async{
-      await tMartServices.postAddCart(body: PostCartRqst(
-          guestSession: "64FF1EABC08F21694441131",
-          productId: productId,
-          quantity: quantity
-      )).then((value) => Fluttertoast.showToast(msg: "Đã thêm vào giỏ hàng"));
-    });
+    await tMartServices.postAddCart(body: PostCartRqst(
+      // guestSession: "64FF1EABC08F21694441131",
+        productId: productId,
+        quantity: quantity
+    ));
+    await logicCart.getCart();
+    Fluttertoast.showToast(msg: "Đã thêm vào giỏ hàng");
+
+
+
+
+
+
+  }
+
+  Future<void>buyNow({required String productId, required String quantity })async{
+    await postAddCart(productId: productId, quantity: quantity);
+    await logicCart.getCart();
+    Get.to(CartPage());
+
+
 
 
   }

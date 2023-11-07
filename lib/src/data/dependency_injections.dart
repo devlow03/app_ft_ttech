@@ -1,16 +1,19 @@
 
+import 'dart:io';
+
 import 'package:app_ft_tmart/src/core/config.dart';
 import 'package:app_ft_tmart/src/data/services/service.dart';
+import 'package:app_ft_tmart/src/module/authentication/sign_in/sign_in_view.dart';
 import 'package:curl_logger_dio_interceptor/curl_logger_dio_interceptor.dart';
 import 'package:dio/dio.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart'as GET;
 import 'package:encrypted_shared_preferences/encrypted_shared_preferences.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:talker_dio_logger/talker_dio_logger_interceptor.dart';
-import 'package:talker_dio_logger/talker_dio_logger_settings.dart';
+
 
 class DependencyInjections implements GET.Bindings {
   @override
@@ -25,24 +28,19 @@ class DependencyInjections implements GET.Bindings {
 
   Future<Dio> _dio(EncryptedSharedPreferences encryptedSharedPreferences) async {
     var dio = Dio();
-    dio.interceptors.add(CurlLoggerDioInterceptor(
-
-    ),
-    );
-    dio.interceptors.add(TalkerDioLogger(
-      settings: const TalkerDioLoggerSettings(
-        printRequestHeaders: true,
-
-        printResponseHeaders: true,
-        printResponseMessage: true,
-      ),
-    ),);
+    dio.interceptors.add(CurlLoggerDioInterceptor());
+    dio.interceptors.add(PrettyDioLogger(
+        requestHeader: true,
+        requestBody: true,
+        responseBody: true,
+        responseHeader: false,
+        error: true,
+        compact: true,
+        maxWidth: 90));
 
 
       dio.interceptors.add(InterceptorsWrapper(
         onRequest: (options, handler) async {
-          final SharedPreferences prefs = await SharedPreferences.getInstance();
-          String token  = await prefs.getString(GlobalData.token)??"";
           var fileResponse = await DefaultCacheManager().getFileFromCache(options.uri.toString());
           if (fileResponse != null && fileResponse.file.existsSync()) {
             handler.resolve(Response(
@@ -52,9 +50,11 @@ class DependencyInjections implements GET.Bindings {
 
             ));
           } else {
+            final SharedPreferences prefs = await SharedPreferences.getInstance();
+            String token =  prefs.getString(GlobalData.token)!=null? prefs.getString(GlobalData.token)??"":GlobalData.storeToken;
             options.headers = {
               "Access-Control-Allow-Origin": "*",
-              "Authorization": "Bearer ${token}",
+              "Authorization": "Bearer $token",
 
               ...options.headers,
             };
@@ -63,8 +63,15 @@ class DependencyInjections implements GET.Bindings {
 
         },
           onError: ( error, handler) {
-            // Xử lý lỗi
+          if(error.response?.statusCode == HttpStatus.unauthorized){
+            GET.Get.offAll(const SignInPage());
             handler.next(error);
+          }
+          else{
+            handler.next(error);
+          }
+
+
           },
         onResponse: (response,handler)async{
           if (response.statusCode == 200 && response.data is List<int>) {

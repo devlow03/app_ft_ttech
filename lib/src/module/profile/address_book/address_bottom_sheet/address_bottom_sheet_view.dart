@@ -1,3 +1,4 @@
+import 'package:app_ft_tmart/src/module/profile/address_book/add_address_book/add_address_book_logic.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -5,12 +6,18 @@ import '../../../../core/xcolor.dart';
 import 'address_bottom_sheet_logic.dart';
 
 class AddressBottomSheetPage extends StatelessWidget {
-  final TextEditingController addressControl;
-  const AddressBottomSheetPage({Key? key, required this.addressControl}) : super(key: key);
+  final String? cityId;
+  final String? districtId;
+  final String? wardId;
+
+  const AddressBottomSheetPage({Key? key, this.cityId, this.districtId, this.wardId}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final logic = Get.put(AddressBottomSheetLogic(Get.find()));
+
+    logic.logicAdd.districtId.value = districtId;
+    logic.logicAdd.wardId.value = wardId;
 
     return Scaffold(
 
@@ -95,9 +102,9 @@ class AddressBottomSheetPage extends StatelessWidget {
                   child: TabBarView(
 
                     children: [
-                      AddressCityPage(),
-                      AddressDistrictPage(),
-                      AddressWardPage(addressControl: addressControl,)
+                      AddressCityPage(cityId: cityId,),
+                      const AddressDistrictPage(),
+                      AddressWardPage()
                     ],
                   ),
                 )
@@ -110,9 +117,10 @@ class AddressBottomSheetPage extends StatelessWidget {
 }
 
 class AddressCityPage extends StatelessWidget {
-  final String? cityText;
+  final String? cityId;
 
-  const AddressCityPage({Key? key, this.cityText}) : super(key: key);
+
+  const AddressCityPage({Key? key, this.cityId}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -122,13 +130,19 @@ class AddressCityPage extends StatelessWidget {
       return ListView.separated(
         itemCount: logic.getProvinceRsp.value?.results.length ?? 0,
         itemBuilder: (context, index) {
+          if(logic.getProvinceRsp.value?.results[index].code == cityId){
+            logic.logicAdd.cityId.value = cityId;
+          }
           return InkWell(
             onTap: () async {
               logic.cityTxt.value = '${logic.getProvinceRsp.value?.results[index].name}';
               logic.disTxt.value=null;
+              await logic.setCity(
+                  cityName: '${logic.getProvinceRsp.value?.results[index].name}',
+                  cityId: '${logic.getProvinceRsp.value?.results[index].code}'
+              );
               print(">>>>>>>>>>>>>tabIndex: ${logic.addressIndex.value}");
-              await logic.getDistrict(
-                  logic.getProvinceRsp.value?.results[index].code ?? "");
+              await logic.getDistrict(logic.logicAdd.cityId.value??"");
               DefaultTabController.of(context).animateTo(1);
             },
             child: Padding(
@@ -138,7 +152,7 @@ class AddressCityPage extends StatelessWidget {
                 children: [
                   Text(
                       '${logic.getProvinceRsp.value?.results[index].name}'),
-                  Icon(Icons.arrow_forward_ios_outlined, size: 18,
+                  const Icon(Icons.arrow_forward_ios_outlined, size: 18,
                     color: Colors.grey,)
                 ],
               ),
@@ -174,8 +188,12 @@ class AddressDistrictPage extends StatelessWidget {
             onTap: () async {
               logic.disTxt.value = '${logic.getDistrictRsp.value?.results[index].name}';
               logic.wardTxt.value=null;
+              await logic.setDistrict(
+                  districtName: '${logic.getDistrictRsp.value?.results[index].name}',
+                  districtId: '${logic.getDistrictRsp.value?.results[index].code}'
+              );
               await logic.getWard(
-                  logic.getDistrictRsp.value?.results[index].code ?? "");
+                  logic.logicAdd.wardId.value ?? "");
               DefaultTabController.of(context).animateTo(2);
             },
             child:Padding(
@@ -205,9 +223,9 @@ class AddressDistrictPage extends StatelessWidget {
 
 class AddressWardPage extends StatelessWidget {
   final String? idDis;
-  final TextEditingController addressControl;
 
-  const AddressWardPage({Key? key, this.idDis, required this.addressControl,}) : super(key: key);
+
+  const AddressWardPage({Key? key, this.idDis, }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -220,9 +238,13 @@ class AddressWardPage extends StatelessWidget {
         itemCount: logic.getWardRsp.value?.results?.length ?? 0,
         itemBuilder: (context, index) {
           return InkWell(
-            onTap: () {
+            onTap: () async{
               logic.wardTxt.value = '${logic.getWardRsp.value?.results?[index].name}';
-              addressControl.text = "${logic.wardTxt.value}, ${logic.disTxt.value}, ${logic.cityTxt.value}";
+              // addressControl.text = "${logic.wardTxt.value}, ${logic.disTxt.value}, ${logic.cityTxt.value}";
+              await logic.setWard(
+                  wardName: '${logic.getWardRsp.value?.results?[index].name}',
+                  wardId: '${logic.getWardRsp.value?.results?[index].code}'
+              );
               Get.back();
             },
             child:Padding(

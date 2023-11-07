@@ -1,11 +1,14 @@
 import 'dart:async';
 
+import 'package:app_ft_tmart/src/module/authentication/form_sign_up/form_sign_up_view.dart';
+import 'package:app_ft_tmart/src/module/authentication/sign_in/sign_in_view.dart';
 import 'package:app_ft_tmart/src/module/index/index_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
+import '../../../widget/utils.dart';
 import '../signup/signup_logic.dart';
 
 class OtpLogic extends GetxController {
@@ -13,8 +16,10 @@ class OtpLogic extends GetxController {
   TextEditingController codeController = TextEditingController();
   final logic = Get.put(SignupLogic());
   Rxn<String>phoneNumber = Rxn();
+
   Rx<int> seconds = Rx(60);
   Rxn<String>verifyId = Rxn();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   Future<void> startTimer() async {
      // Thời gian đếm ngược (60 giây)
@@ -35,48 +40,37 @@ class OtpLogic extends GetxController {
       Get.snackbar('Thông báo', 'Vui lòng nhập mã xác thực');
     }
     else {
-      Get.dialog( Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CircularProgressIndicator(
-              strokeWidth: 5,
-              color: Color(0xffffa386),
+      Utils.loading(()async{
+        try{
+          PhoneAuthCredential credential = await PhoneAuthProvider.credential(
+            verificationId: logic.verifyId.value ?? '',
+            smsCode: codeController.text,
+          );
+          await auth.signInWithCredential(credential).then((value) async {
+            phoneNumber.value = value.user?.phoneNumber;
 
-            ),
-            const SizedBox(height: 20,),
-            Text("Hệ thống đang xác thực",
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 11,
-                  decoration: TextDecoration.none
-              ),
-            )
-          ],
-        ),
-      ));
-      try{
-        PhoneAuthCredential credential = await PhoneAuthProvider.credential(
-          verificationId: logic.verifyId.value ?? '',
-          smsCode: codeController.text,
-        );
-        await auth.signInWithCredential(credential).then((value) async {
-          phoneNumber.value = value.user?.phoneNumber;
+          });
+          if(phoneNumber.value?.startsWith('+84')==true){
+            String? phone = "0${phoneNumber.substring(3)}";
+            Get.offAll( FormSignUpPage(phoneNumber: phone) );
+          }
 
-        });
-        Get.to( IndexPage());
-      }catch(e){
-        Get.back();
-        Get.snackbar("Hệ thộng xác thực thất bại","Vui lòng thử lại");
-      }
+        }catch(e){
+          Get.back();
+          Get.snackbar("Hệ thộng xác thực thất bại","Vui lòng thử lại");
+        }
+      });
+
     }
   }
   Future<void>resendOtp(String? phone)async{
 
 
       try{
+        seconds.value=59;
+        await startTimer();
         await auth.verifyPhoneNumber(
-          phoneNumber: "+84${phone}",
+          phoneNumber: "+84$phone",
           verificationCompleted: (PhoneAuthCredential credential)async{
             await auth.signInWithCredential(credential);
           },

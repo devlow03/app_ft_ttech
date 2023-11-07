@@ -1,3 +1,5 @@
+import 'package:app_ft_tmart/src/module/authentication/form_sign_up/form_sign_up_logic.dart';
+import 'package:app_ft_tmart/src/module/authentication/form_sign_up/form_sign_up_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -41,117 +43,125 @@ class OtpPage extends StatelessWidget {
                     .of(context)
                     .size
                     .width * .95,
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(5),
-                      child: Center(
-                        child: SvgPicture.asset("assets/images/verify.svg",
-                          height: MediaQuery
-                              .of(context)
-                              .size
-                              .height * .5,
-                        ),
-                      ),
-                    ),
-                    Center(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text("Xác Thực OTP",
-                          style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.w700
+                child: Form(
+                  key: logic.formKey,
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(5),
+                        child: Center(
+                          child: SvgPicture.asset("assets/images/verify.svg",
+                            height: MediaQuery
+                                .of(context)
+                                .size
+                                .height * .5,
                           ),
                         ),
                       ),
-                    ),
-                    const SizedBox(height: 10,),
-                    Center(
-                        child: Text(
-                            "Nhập mã xác thực OTP được gửi đến ${phoneNumber}")),
-                    const SizedBox(height: 40,),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 30),
-                      child: Center(
-                        child: Pinput(
-                          controller: logic.codeController,
-                          length: 6,
-                          defaultPinTheme: defaultPinTheme,
-                          // focusedPinTheme: focusedPinTheme,
-                          // submittedPinTheme: submittedPinTheme,
-                          validator: (value) {
-                            return value?.length == 6
-                                ? null
-                                : 'Pin is incorrect';
-                          },
-                          pinputAutovalidateMode: PinputAutovalidateMode
-                              .onSubmit,
-                          showCursor: true,
-                          onCompleted: (pin) => print(pin),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 20,),
-                    Center(
-                      child: Text(
-                          "00:${logic.seconds.value}"
-                      ),
-                    ),
-                    const SizedBox(height: 10,),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text("Không nhận được mã?"),
-                        TextButton(
-                            onPressed: () async{
-                              await logic.resendOtp(phoneNumber);
-                              logic.seconds.value=59;
-                              await logic.startTimer();
-                            },
-                            child: Text("Gửi lại")
-                        )
-                      ],
-                    ),
-                    const SizedBox(height: 20,),
-                    Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: Container(
-                        width: MediaQuery
-                            .of(context)
-                            .size
-                            .width,
-                        child: ElevatedButton(
-                          onPressed: () async {
-                            await logic.verifyOtp();
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.all(10),
-                            child: Text(
-                              "Xác thực",
-                              style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.w500),
+                      Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text("Xác Thực OTP",
+                            style: TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.w700
                             ),
                           ),
-                          style: ElevatedButton.styleFrom(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 5, vertical: 3),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(4)),
-
+                        ),
+                      ),
+                      const SizedBox(height: 10,),
+                      Center(
+                          child: Text(
+                              "Nhập mã xác thực OTP được gửi đến ${phoneNumber}")),
+                      const SizedBox(height: 40,),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 30),
+                        child: Center(
+                          child: Pinput(
+                            controller: logic.codeController,
+                            length: 6,
+                            defaultPinTheme: defaultPinTheme,
+                            // focusedPinTheme: focusedPinTheme,
+                            // submittedPinTheme: submittedPinTheme,
+                            validator: (value) {
+                             if(value?.isEmpty == true){
+                               return "Mã OTP không được để trống";
+                             }
+                             if((value?.length??0)<6){
+                               return "Nhập đủ mã OTP";
+                             }
+                             return null;
+                            },
+                            pinputAutovalidateMode: PinputAutovalidateMode
+                                .onSubmit,
+                            showCursor: true,
+                            onCompleted: (pin) => print(pin),
                           ),
                         ),
                       ),
-                    ),
-                    const SizedBox(height: 10,),
-                    InkWell(
-                      onTap: () {
-                        Get.back();
-                        // Get.back();
-                      },
-                      child: Center(
-                          child: Text("Trở về")),
-                    )
-                  ],
+                      const SizedBox(height: 20,),
+                      Center(
+                        child: Text(
+                            "00:${logic.seconds.value}"
+                        ),
+                      ),
+                      const SizedBox(height: 10,),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text("Không nhận được mã?"),
+                          TextButton(
+                              onPressed: () async{
+                                await logic.resendOtp(phoneNumber);
+                              },
+                              child: Text("Gửi lại")
+                          )
+                        ],
+                      ),
+                      const SizedBox(height: 20,),
+                      Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: Container(
+                          width: MediaQuery
+                              .of(context)
+                              .size
+                              .width,
+                          child: ElevatedButton(
+                            onPressed: () async {
+                              //
+                              if(logic.formKey.currentState?.validate()==true){
+                                await logic.verifyOtp();
+                              }
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(10),
+                              child: Text(
+                                "Xác thực",
+                                style: TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.w500),
+                              ),
+                            ),
+                            style: ElevatedButton.styleFrom(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 5, vertical: 3),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(4)),
+
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 10,),
+                      InkWell(
+                        onTap: () {
+                          Get.back();
+                          // Get.back();
+                        },
+                        child: Center(
+                            child: Text("Trở về")),
+                      )
+                    ],
+                  ),
                 ),
               )
 
