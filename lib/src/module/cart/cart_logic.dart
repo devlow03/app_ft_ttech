@@ -8,21 +8,24 @@ import 'package:get/get.dart';
 import '../../data/repositories/get_cart_rsp.dart';
 import '../../data/services/service.dart';
 import '../../widget/utils.dart';
+import '../order/order_logic.dart';
 
 class CartLogic extends GetxController {
-  final Services tMartServices;
-  CartLogic(this.tMartServices);
+  final Services tMartServices = Get.find();
+  CartLogic();
   Rxn<GetCartRsp>getCartRsp = Rxn();
   Rx<int>quantity = Rx(1);
   Rxn<String>voucherValue = Rxn();
   Rxn<String>voucherTitle = Rxn();
+  final logic = Get.put(OrderLogic());
   // final logicVoucher = Get.put(VoucherLogic(Get.find()));
   @override
   void onReady() async{
     // TODO: implement onReady
     super.onReady();
     await getCart();
-    getVoucher();
+    await getVoucher();
+
 
   }
 
@@ -34,6 +37,7 @@ class CartLogic extends GetxController {
   }
   Future<GetCartRsp?>getCart()async{
     getCartRsp.value = await tMartServices.getCartRsp(session: "64FF1EABC08F21694441131");
+    // await logic.postCreateShipping(action: "p");
     return getCartRsp.value;
   }
 
@@ -86,7 +90,7 @@ class CartLogic extends GetxController {
         ));
   }
 
-  void getVoucher(){
+  Future<void> getVoucher()async{
     try{
       for(int i=0;i<=(getCartRsp.value?.data?.info?.length??0);i++){
         if(getCartRsp.value?.data?.info?[i].code == "voucher"){

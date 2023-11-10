@@ -133,15 +133,16 @@ class VoucherPage extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: TicketWidget(
-                    borderColor: XColor.primary,
+                    // borderColor: XColor.primary,
                     width: 100,
-                    height: 120,
-                    color: XColor.primary.shade50,
+                    height: 130,
+                    color: Colors.white,
                     // isCornerRounded: true,
                     padding: EdgeInsets.all(20),
                     child:  Padding(
                       padding: const EdgeInsets.all(5),
                       child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Column(

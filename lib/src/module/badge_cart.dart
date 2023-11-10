@@ -9,7 +9,7 @@ class BadgeCart  extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final logicCart = Get.put(CartLogic(Get.find()));
+    final logicCart = Get.put(CartLogic());
     return Obx(() {
       return Stack(
         alignment: Alignment.centerRight,

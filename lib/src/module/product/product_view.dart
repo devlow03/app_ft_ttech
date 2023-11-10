@@ -29,7 +29,7 @@ class ProductPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final logicCart = Get.put(CartLogic(Get.find()));
+    final logicCart = Get.put(CartLogic());
     final logic = Get.put(ProductLogic(Get.find()));
     // logicCart.getCart();
     logic.getProductById(id: id ?? "");

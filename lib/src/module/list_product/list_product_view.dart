@@ -19,7 +19,7 @@ class ListProductPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final logic = Get.put(ListProductLogic(Get.find()));
-    final logicCart = Get.put(CartLogic(Get.find()));
+    final logicCart = Get.put(CartLogic());
     final GlobalKey<ScaffoldState> key = GlobalKey<ScaffoldState>();
     logic.keyController.text = name??'';
     logic.keyController.text=name??"";

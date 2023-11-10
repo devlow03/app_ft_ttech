@@ -6,9 +6,7 @@ import 'package:app_ft_tmart/src/widget/global_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-
 import '../../core/xcolor.dart';
-import '../address/address_view.dart';
 import '../order/order_view.dart';
 import 'cart_logic.dart';
 
@@ -17,7 +15,7 @@ class CartPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final logic = Get.put(CartLogic(Get.find()));
+    final logic = Get.put(CartLogic());
     final logicVoucher = Get.put(VoucherLogic(Get.find()));
 
     print(

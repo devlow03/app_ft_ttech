@@ -10,11 +10,14 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../core/config.dart';
 import '../../data/repositories/get_cart_rsp.dart';
 import '../../data/repositories/get_product_by_id_rsp.dart';
 import '../../data/repositories/get_product_rq_query.dart';
 import '../../data/repositories/get_product_rsp.dart';
+import '../authentication/sign_in/sign_in_view.dart';
 import '../cart/cart_logic.dart';
 
 
@@ -29,7 +32,7 @@ class ProductLogic extends GetxController {
   ScrollController scrollController = ScrollController();
   Rxn<bool>viewAll = Rxn(false);
   Rx<int> quantity = Rx(1);
-  final logicCart = Get.put(CartLogic(Get.find()));
+  final logicCart = Get.put(CartLogic());
   Rxn<GetProductRsp>getProductRsp = Rxn();
 
 
@@ -60,13 +63,22 @@ class ProductLogic extends GetxController {
   }
 
   Future<void>postAddCart({required String productId, required String quantity })async{
-    await tMartServices.postAddCart(body: PostCartRqst(
-      // guestSession: "64FF1EABC08F21694441131",
-        productId: productId,
-        quantity: quantity
-    ));
-    await logicCart.getCart();
-    Fluttertoast.showToast(msg: "Đã thêm vào giỏ hàng");
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    if(( prefs.getString(GlobalData.token)??"")==''){
+      Fluttertoast.showToast(msg: "Đăng nhập để mua hàng");
+      Get.to(const SignInPage(intoCart: true,));
+    }
+    else{
+      await tMartServices.postAddCart(body: PostCartRqst(
+        // guestSession: "64FF1EABC08F21694441131",
+          productId: productId,
+          quantity: quantity
+      ));
+      await logicCart.getCart();
+      Fluttertoast.showToast(msg: "Đã thêm vào giỏ hàng");
+
+    }
+
 
 
 
@@ -76,9 +88,16 @@ class ProductLogic extends GetxController {
   }
 
   Future<void>buyNow({required String productId, required String quantity })async{
-    await postAddCart(productId: productId, quantity: quantity);
-    await logicCart.getCart();
-    Get.to(CartPage());
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    if(( prefs.getString(GlobalData.token)??"")==''){
+      Fluttertoast.showToast(msg: "Đăng nhập để mua hàng");
+      Get.to(const SignInPage(intoCart: true,));
+    }
+    else{
+      await postAddCart(productId: productId, quantity: quantity);
+      await logicCart.getCart();
+      Get.to(CartPage());
+    }
 
 
 

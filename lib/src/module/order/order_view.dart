@@ -2,10 +2,10 @@ import 'package:app_ft_tmart/src/module/profile/address_book/address_book_view.d
 import 'package:app_ft_tmart/src/widget/global_image.dart';
 import 'package:app_ft_tmart/src/widget/global_textfield.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import '../../core/xcolor.dart';
-import '../address/address_view.dart';
 import '../cart/cart_logic.dart';
 import '../cart/voucher/voucher_view.dart';
 import '../product/product_view.dart';
@@ -17,7 +17,7 @@ class OrderPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final logic = Get.put(OrderLogic());
-    final logicCart = Get.put(CartLogic(Get.find()));
+    final logicCart = Get.put(CartLogic());
 
     return Scaffold(
         appBar: AppBar(
@@ -41,7 +41,7 @@ class OrderPage extends StatelessWidget {
               const SizedBox(height: 10,),
               InkWell(
                 onTap: () {
-                  Get.to(AddressBookPage());
+                  Get.to(const AddressBookPage(intoOrder: true,));
                 },
                 child: Container(
                   color: Colors.white,
@@ -63,78 +63,105 @@ class OrderPage extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   Icon(
-                                    Icons.location_on, color: XColor.primary,size: 18,),
+                                    Icons.location_on, color: XColor.primary,
+                                    size: 18,),
                                   Text("Địa chỉ nhận hàng",
                                     style: TextStyle(
-                                        fontWeight: FontWeight.w700,
-                                        fontSize: 15,
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 15,
 
                                     ),
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 10,),
-                              Text("Hứa Quang Thiện",
-                                style: TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w500
-                                ),
-
-                              ),
-                              RichText(
-                                text: TextSpan(
-                                    children: [
-                                      TextSpan(
-                                          text: 'Địa chỉ: ',
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.black
-                                          )
+                              Obx(() {
+                                return Visibility(
+                                  visible: logicCart.getCartRsp.value?.data
+                                      ?.name != null,
+                                  replacement: const Padding(
+                                    padding: EdgeInsets.all(8.0),
+                                    child: Text("Nhấn để chọn địa chỉ",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold
                                       ),
-                                      TextSpan(
-                                        spellOut: true,
-                                        text: '149 Nguyễn Đệ, Phường An Hòa, Quận Ninh Kiều, Cần Thơ',
+                                    ),
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment
+                                        .start,
+                                    children: [
+                                      const SizedBox(height: 10,),
+                                      Text("${logicCart.getCartRsp.value?.data
+                                          ?.name}",
                                         style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w400,
-                                            color: Colors.black,
-                                            height: 1.5
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w500
                                         ),
 
                                       ),
-                                    ]
-                                ),
-                              ),
-                              const SizedBox(height: 10,),
-                              RichText(
-                                text: TextSpan(
-                                    children: [
-                                      TextSpan(
-                                          text: 'Điện thoại: ',
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.black
-                                          )
+                                      RichText(
+                                        text: TextSpan(
+                                            children: [
+                                              TextSpan(
+                                                  text: 'Địa chỉ: ',
+                                                  style: TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight: FontWeight
+                                                          .w500,
+                                                      color: Colors.black
+                                                  )
+                                              ),
+                                              TextSpan(
+                                                spellOut: true,
+                                                text: '${logicCart.getCartRsp
+                                                    .value?.data?.address}',
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w400,
+                                                    color: Colors.black,
+                                                    height: 1.5
+                                                ),
+
+                                              ),
+                                            ]
+                                        ),
                                       ),
-                                      TextSpan(
-                                          text: '(+84)776506112',
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w400,
-                                              color: Colors.black,
-                                              height: 1.5
-                                          )
+                                      const SizedBox(height: 10,),
+                                      RichText(
+                                        text: TextSpan(
+                                            children: [
+                                              TextSpan(
+                                                  text: 'Điện thoại: ',
+                                                  style: TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight: FontWeight
+                                                          .w500,
+                                                      color: Colors.black
+                                                  )
+                                              ),
+                                              TextSpan(
+                                                  text: '${logicCart.getCartRsp
+                                                      .value?.data?.phone}',
+                                                  style: TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight: FontWeight
+                                                          .w400,
+                                                      color: Colors.black,
+                                                      height: 1.5
+                                                  )
+                                              )
+                                            ]
+                                        ),
                                       )
-                                    ]
-                                ),
-                              )
+                                    ],
+                                  ),
+                                );
+                              })
                             ],
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
+                        const Padding(
+                          padding: EdgeInsets.all(8.0),
                           child: Center(child: Icon(Icons
                               .arrow_forward_ios_outlined, color: Colors.grey,
                             size: 18,)),
@@ -360,72 +387,81 @@ class OrderPage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 10,),
-              Container(
-                color: Colors.white,
-                child: Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      // Icon(
-                      //   size: 18,
-                      //   Icons.location_on_outlined,color: XColor.primary,),
-                      // SizedBox(width: 5,),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
+              Obx(() {
+                return Visibility(
+                  visible: logic.totalFee.value!=0,
+                  child: Container(
+                    color: Colors.white,
+                    child: Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          // Icon(
+                          //   size: 18,
+                          //   Icons.location_on_outlined,color: XColor.primary,),
+                          // SizedBox(width: 5,),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Icon(Icons.local_shipping_outlined,
-                                  color: XColor.primary,),
-                                const SizedBox(width: 5,),
-                                Text("Phương thức vận chuyển",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 15,
+                                Row(
+                                  children: [
+                                    Icon(Icons.local_shipping_outlined,
+                                      color: XColor.primary,),
+                                    const SizedBox(width: 5,),
+                                    Text("Đơn vị vận chuyển",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 15,
 
-                                  ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
+                                const SizedBox(height: 10,),
+                                Text("Vận chuyển nội địa",
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w700
+                                  ),
+
+                                ),
+                                Text(
+                                    'Giao hàng nhanh',
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.black,
+                                        height: 1.5
+                                    )
+                                ),
+
+
                               ],
                             ),
-                            const SizedBox(height: 10,),
-                            Text("Vận chuyển nội địa",
-                              style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w700
-                              ),
-
-                            ),
-                            Text(
-                                'Giao hàng nhanh',
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.black,
-                                    height: 1.5
-                                )
-                            ),
+                          ),
+                          Row(
+                            children: [
+                                Text(logic.totalFee.value != 0
+                                  ? NumberFormat.simpleCurrency(locale: 'VI')
+                                  .format(
+                                   logic.totalFee.value)
+                                  : "chưa chọn địa chỉ"),
+                              // Center(child: Icon(Icons
+                              //     .arrow_forward_ios_outlined, color: Colors.grey,
+                              //   size: 18,)),
+                            ],
+                          ),
 
 
-                          ],
-                        ),
-                      ),
-                      Row(
-                        children: [
-                          Text("40.000đ"),
-                          Center(child: Icon(Icons
-                              .arrow_forward_ios_outlined, color: Colors.grey,
-                            size: 18,)),
                         ],
                       ),
-
-
-                    ],
+                    ),
                   ),
-                ),
-              ),
+                );
+              }),
               const SizedBox(height: 10,),
               Container(
                 color: Colors.white,
@@ -448,9 +484,9 @@ class OrderPage extends StatelessWidget {
                                   TextSpan(
                                     text: '  Phương thức thanh toán',
                                     style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w700,
-                                        fontSize: 15,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 15,
 
                                     ),
                                   )
@@ -502,9 +538,9 @@ class OrderPage extends StatelessWidget {
                               TextSpan(
                                 text: '  Chi tiết thanh toán',
                                 style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 15,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 15,
 
                                 ),
                               )
@@ -518,34 +554,41 @@ class OrderPage extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text("Tổng tiền hàng"),
-                            Text("${NumberFormat.simpleCurrency(
-                                locale: "VI").format(
-                                logicCart.getCartRsp.value?.data
-                                    ?.info?.first.value)}",
+                            Text("${logicCart.getCartRsp.value?.data
+                                ?.info?.first.value}",
 
                             )
                           ],
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text("Tổng tiền phí vận chuyển"),
-                            Text("40.000đ")
-                          ],
+                      Visibility(
+                        visible: logic.totalFee.value!=0,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text("Tổng tiền phí vận chuyển"),
+                              Text(NumberFormat.simpleCurrency(locale: 'VI')
+                                  .format(
+                                  logic.totalFee.value))
+                            ],
+                          ),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text("Tổng tiền giảm giá"),
-                            Text("${
-                                logicCart.voucherValue.value}")
-                          ],
+                      Visibility(
+                        visible: logicCart.voucherValue.value?.isNotEmpty ==
+                            true,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text("Tổng tiền giảm giá"),
+                              Text("${
+                                  logicCart.voucherValue.value}")
+                            ],
+                          ),
                         ),
                       ),
                       Padding(
@@ -554,10 +597,8 @@ class OrderPage extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text("Tổng thanh toán"),
-                            Text("${NumberFormat.simpleCurrency(
-                                locale: "VI").format(
-                                logicCart.getCartRsp.value?.data
-                                    ?.info?.last.value)}",
+                            Text("${logicCart.getCartRsp.value?.data
+                                ?.info?.last.text}",
                               style: TextStyle(
                                   color: Colors.redAccent
                               ),
@@ -595,9 +636,8 @@ class OrderPage extends StatelessWidget {
                               letterSpacing: 0.5),
                         ),
                         Text(
-                          "${NumberFormat.simpleCurrency(locale: "VI").format(
-                              (logicCart.getCartRsp.value?.data?.info?.last
-                                  .value) ?? 0)}",
+                          "${logicCart.getCartRsp.value?.data?.info?.last
+                              .text}",
                           style: TextStyle(
                               color: Colors.redAccent,
                               fontSize: 16,
@@ -629,8 +669,24 @@ class OrderPage extends StatelessWidget {
                                       borderRadius:
                                       BorderRadius.circular(8)),
                                 ),
-                                onPressed: () {
-                                  Get.to(OrderPage());
+                                onPressed: () async {
+                                  if( logicCart.getCartRsp.value?.data
+                                      ?.address==null){
+                                    Fluttertoast.showToast(msg: "Vui lòng chọn địa chỉ nhận hàng!",
+
+                                    );
+                                    Get.to(const AddressBookPage(intoOrder: true,));
+                                  }
+                                  else{
+                                    await logic.postConfirmOrder(
+                                        cartId: logicCart.getCartRsp.value?.data
+                                            ?.id ?? 0,
+                                        address: logicCart.getCartRsp.value?.data
+                                            ?.address
+                                    );
+                                  }
+
+                                  // await logicCart.getCart();
                                 },
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(

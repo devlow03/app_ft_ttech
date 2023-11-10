@@ -45,7 +45,7 @@ class HomeLogic extends GetxController {
     Icons.tablet_mac_outlined,
     Icons.watch_outlined
   ];
-  final logicCart = Get.put(CartLogic(Get.find()));
+  final logicCart = Get.put(CartLogic());
 
   @override
   void onReady() async{

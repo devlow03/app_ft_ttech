@@ -2,9 +2,11 @@ import 'package:app_ft_tmart/src/data/repositories/get_product_rsp.dart';
 import 'package:app_ft_tmart/src/data/repositories/get_voucher_rsp.dart';
 import 'package:app_ft_tmart/src/data/repositories/post_add_voucher.dart';
 import 'package:app_ft_tmart/src/data/repositories/post_check_phone_rqst_bodies.dart';
+import 'package:app_ft_tmart/src/data/repositories/post_confirm_order_rqst_bodies.dart';
 import 'package:app_ft_tmart/src/data/repositories/post_register_rqst_bodies.dart';
 import 'package:app_ft_tmart/src/data/repositories/post_signin_rqst.dart';
 import 'package:app_ft_tmart/src/data/repositories/post_update_cart_detail_rqst.dart';
+import 'package:app_ft_tmart/src/data/repositories/put_update_address_book_rqst.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 
@@ -24,6 +26,8 @@ import '../repositories/get_user_profile_rsp.dart';
 import '../repositories/post_cart_rqst.dart';
 import '../repositories/post_check_phone_rsp.dart';
 import '../repositories/post_create_address_book_rqst_bodies.dart';
+import '../repositories/post_create_shipping_order.dart';
+import '../repositories/post_create_shipping_order_rsp.dart';
 import '../repositories/post_signin_rsp.dart';
 part 'service.g.dart';
 
@@ -96,6 +100,19 @@ abstract class Services {
 
   @GET("api/auth/get_address_books")
   Future<GetAddressBookRsp>getAddressBookRsp();
+
+  @PUT("/api/auth/update_address_books/{id}")
+  Future putUpdateAddressBook({@Path("id") required String id, @Body() required PutUpdateAddressBookRqst body });
+
+  @POST("/api/auth/confirm_address_books")
+  Future confirmAddressBook({@Body() required PutUpdateAddressBookRqst? body});
+
+  @POST("/api/auth/create_shipping_order")
+  Future<PostCreateShippingOrderRsp>postCreateShippingOrder({@Body() required PostCreateShippingOrder body});
+
+  @POST("api/auth/confirm_order")
+  Future postConfirmOrder({@Body() required PostConfirmOrderRqstBodies body});
+
 
 
 

@@ -28,7 +28,7 @@ class VoucherLogic extends GetxController {
     getVoucherRsp.value = await tMartServices.getVoucherRsp();
     return getVoucherRsp.value;
   }
-  final logicCart = Get.put(CartLogic(Get.find()));
+  final logicCart = Get.put(CartLogic());
   Future<void>addVoucher({required int cartId, required String voucherCode})async{
     await tMartServices.postAddVoucher(
       body: PostAddVoucher(

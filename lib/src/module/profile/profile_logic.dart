@@ -30,7 +30,7 @@ class ProfileLogic extends GetxController {
   Future<void>checkSignIn()async{
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     if(( prefs.getString(GlobalData.token)??"")==''){
-      Get.to(const SignInPage());
+      Get.to(const SignInPage(intoCart: false,));
     }
     else{
       onSignIn.value = true;

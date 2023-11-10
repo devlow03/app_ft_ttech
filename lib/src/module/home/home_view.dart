@@ -25,7 +25,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final logic = Get.put(HomeLogic(Get.find(), Get.find()));
-    final logicCart = Get.put(CartLogic(Get.find()));
+    final logicCart = Get.put(CartLogic());
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(

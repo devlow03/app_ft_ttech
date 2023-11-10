@@ -11,7 +11,7 @@ class TicketWidget extends StatefulWidget {
     this.color = Colors.white,
     this.isCornerRounded = false,
     this.shadow,
-    required this.borderColor
+    this.borderColor
   }) : super(key: key);
 
   final double width;
@@ -22,7 +22,7 @@ class TicketWidget extends StatefulWidget {
   final EdgeInsetsGeometry? padding;
   final EdgeInsetsGeometry? margin;
   final List<BoxShadow>? shadow;
-  final Color borderColor;
+  final Color? borderColor;
 
   @override
   _TicketWidgetState createState() => _TicketWidgetState();
@@ -46,7 +46,7 @@ class _TicketWidgetState extends State<TicketWidget> {
             borderRadius: widget.isCornerRounded
                 ? BorderRadius.circular(20.0)
                 : BorderRadius.circular(10),
-            border: Border.all(color: widget.borderColor)
+            // border: Border.all(color: widget?.borderColor)
         ),
       ),
     );

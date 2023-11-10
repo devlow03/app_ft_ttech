@@ -48,11 +48,11 @@ class SearchPage extends StatelessWidget {
                   // logic.keyController.text=value;
                   logicSearch.getSearch(name: value);
                 },
-                // onSubmitted: (value) {
-                //   logic.keyController.text=value;
-                //   Get.to(ListProductPage(name: value,)
-                //   );
-                // },
+                onSubmitted: (value) {
+                  logic.keyController.text=value;
+                  Get.to(ListProductPage(name: value,)
+                  );
+                },
                 decoration: InputDecoration(
                   contentPadding: EdgeInsets.symmetric(
                       vertical: 5, horizontal: 10),

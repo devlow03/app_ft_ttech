@@ -17,18 +17,27 @@ class AddressBottomSheetLogic extends GetxController {
   Rxn<String>cityTxt = Rxn();
   Rxn<String>disTxt = Rxn();
   Rxn<String>wardTxt = Rxn();
+  Rxn<String>cityOld = Rxn();
+  Rxn<String>disOld = Rxn();
+  Rxn<String>wardOld = Rxn();
   TextEditingController addressControl = TextEditingController();
   final logicAdd = Get.put(AddAddressBookLogic());
+  Rxn<String>cityName = Rxn();
+  Rxn<bool>onCityOld = Rxn(false);
+  Rxn<bool>onDisOld = Rxn(false);
 
 
 
   AddressBottomSheetLogic(this.dio, );
 
+  @override
   void onReady()async{
     super.onReady();
 
     await getProvince();
   }
+
+  @override
   Future<GetProvinceRsp?> getProvince() async {
     final response = await dio.get("https://api.mysupership.vn/v1/partner/areas/province");
 
@@ -68,19 +77,22 @@ class AddressBottomSheetLogic extends GetxController {
     }
   }
 
-  Future<void>setCity({required String cityName, required String cityId})async{
-    logicAdd.cityName.value = cityName;
-    logicAdd.cityId.value = cityId;
+
+
+  Future<void>setAddress()async{
+
+    if(cityOld.isNotEmpty==true){
+      // onCityOld.value = true;
+      await getDistrict(logicAdd.cityId.value.toString());
+      await getWard(logicAdd.districtId.value.toString());
+      // ignore: use_build_context_synchronously
+      // DefaultTabController.of(context).animateTo(1);
+    }
+
   }
 
-  Future<void>setDistrict({required String districtName, required String districtId})async{
-    logicAdd.districtName.value = districtName;
-    logicAdd.districtId.value = districtId;
-  }
 
-  Future<void>setWard({required String wardName, required String wardId})async{
-    logicAdd.wardName.value = wardName;
-    logicAdd.wardId.value = wardId;
-    logicAdd.fullAddressControl.text = "${logicAdd.wardName.value}, ${logicAdd.districtName.value}, ${logicAdd.cityName.value}";
-  }
+
+
+
 }

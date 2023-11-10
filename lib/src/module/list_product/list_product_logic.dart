@@ -6,9 +6,11 @@ import '../../data/repositories/get_product_by_category_rsp.dart';
 import '../../data/repositories/get_product_rsp.dart';
 import '../../data/repositories/get_search_rsp.dart';
 import '../../data/services/service.dart';
+import 'filter/filter_logic.dart';
 
 class ListProductLogic extends GetxController {
   final Services tMartServices;
+  final logic = Get.put(FilterLogic());
   ListProductLogic(this.tMartServices);
   TextEditingController keyController = TextEditingController();
   Rxn<GetProductRsp>getSearchRsp = Rxn();
@@ -16,6 +18,7 @@ class ListProductLogic extends GetxController {
   Rxn<bool>isLoading = Rxn(false);
   final ScrollController controller = ScrollController();
   Rx<int>indexPage = Rx(0);
+
 
 
 
@@ -49,7 +52,12 @@ class ListProductLogic extends GetxController {
           isLoading.value=true;
           print(">>>>>>>>>>>>>>>>>>>>>>>>>AAAAAAAAAAAAAAAAAA");
           page.value+=10;
-          await getSearch(name: keyController.text);
+          await getSearch(
+              name: keyController.text,
+            price: logic.selectedPriceRange,
+            category: logic.selectedCategoryTypes,
+            brand: logic.selectedBrandTypes
+          );
         }
 
 

@@ -28,7 +28,9 @@ class DependencyInjections implements GET.Bindings {
 
   Future<Dio> _dio(EncryptedSharedPreferences encryptedSharedPreferences) async {
     var dio = Dio();
-    dio.interceptors.add(CurlLoggerDioInterceptor());
+    dio.interceptors.add(CurlLoggerDioInterceptor(
+      printOnSuccess: true
+    ));
     dio.interceptors.add(PrettyDioLogger(
         requestHeader: true,
         requestBody: true,
