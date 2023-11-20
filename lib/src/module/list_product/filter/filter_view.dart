@@ -1,3 +1,4 @@
+import 'package:app_ft_tmart/src/module/search/search_logic.dart';
 import 'package:app_ft_tmart/src/widget/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -13,7 +14,8 @@ class FilterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final logic = Get.put(FilterLogic());
-    final logicSearch = Get.put(ListProductLogic(Get.find()));
+    final logicSearch = Get.put(SearchLogic());
+    final logicList = Get.put(ListProductLogic(Get.find()));
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -48,7 +50,7 @@ class FilterPage extends StatelessWidget {
               ),
               onPressed: ()async{
                 Utils.loading(()async{
-                  await logicSearch.getSearch(
+                  await logicList.getSearch(
                       name: logicSearch.keyController.text,
                       brand: logic.selectedBrandTypes,
                       category: logic.selectedCategoryTypes,

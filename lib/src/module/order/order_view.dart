@@ -600,7 +600,8 @@ class OrderPage extends StatelessWidget {
                             Text("${logicCart.getCartRsp.value?.data
                                 ?.info?.last.text}",
                               style: TextStyle(
-                                  color: Colors.redAccent
+                                  color: Colors.redAccent,
+                                fontWeight: FontWeight.bold
                               ),
                             )
                           ],
@@ -615,99 +616,56 @@ class OrderPage extends StatelessWidget {
           );
         }),
         bottomNavigationBar: BottomAppBar(
-            height: 100,
-            child: Obx(() {
-              return Padding(
-                padding:
-                const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+            child: Padding(
+              padding:
+              const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              child: Container(
+                padding: EdgeInsets.symmetric(vertical: 5),
+                width: MediaQuery
+                    .of(context)
+                    .size
+                    .width * .5,
+                child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 5, vertical: 3),
+                      shape: RoundedRectangleBorder(
+                          borderRadius:
+                          BorderRadius.circular(8)),
+                    ),
+                    onPressed: () async {
+                      if( logicCart.getCartRsp.value?.data
+                          ?.address==null){
+                        Fluttertoast.showToast(msg: "Vui lòng chọn địa chỉ nhận hàng!",
 
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "Tổng thanh toán: ",
-                          style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                              letterSpacing: 0.5),
+                        );
+                        Get.to(const AddressBookPage(intoOrder: true,));
+                      }
+                      else{
+                        await logic.postConfirmOrder(
+                            cartId: logicCart.getCartRsp.value?.data
+                                ?.id ?? 0,
+                            address: logicCart.getCartRsp.value?.data
+                                ?.address
+                        );
+                      }
+
+                      // await logicCart.getCart();
+                    },
+                    child: const Padding(
+                      padding:  EdgeInsets.symmetric(
+                          vertical: 15),
+                      child:Text(
+                        'Đặt hàng',
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w600,
                         ),
-                        Text(
-                          "${logicCart.getCartRsp.value?.data?.info?.last
-                              .text}",
-                          style: TextStyle(
-                              color: Colors.redAccent,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                              letterSpacing: 0.5),
-                        )
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      // crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-
-                        Expanded(
-                          child: Container(
-                            padding: EdgeInsets.symmetric(vertical: 5),
-                            width: MediaQuery
-                                .of(context)
-                                .size
-                                .width * .5,
-                            child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 5, vertical: 3),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                      BorderRadius.circular(8)),
-                                ),
-                                onPressed: () async {
-                                  if( logicCart.getCartRsp.value?.data
-                                      ?.address==null){
-                                    Fluttertoast.showToast(msg: "Vui lòng chọn địa chỉ nhận hàng!",
-
-                                    );
-                                    Get.to(const AddressBookPage(intoOrder: true,));
-                                  }
-                                  else{
-                                    await logic.postConfirmOrder(
-                                        cartId: logicCart.getCartRsp.value?.data
-                                            ?.id ?? 0,
-                                        address: logicCart.getCartRsp.value?.data
-                                            ?.address
-                                    );
-                                  }
-
-                                  // await logicCart.getCart();
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 15),
-                                  child: Text(
-                                    'Đặt hàng',
-                                    style: TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w600,
-                                        letterSpacing: 0.5
-                                    ),
-                                  ),
-                                )),
-                          ),
-                        )
-                      ],
-                    ),
-                  ],
-                ),
-              );
-            }))
+                      ),
+                    )),
+              ),
+            )
+        )
 
     );
   }

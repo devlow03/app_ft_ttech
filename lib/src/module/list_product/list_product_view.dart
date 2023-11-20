@@ -7,6 +7,7 @@ import '../../widget/global_product.dart';
 import '../cart/cart_logic.dart';
 import '../cart/cart_view.dart';
 import '../product/product_view.dart';
+import '../search/search_logic.dart';
 import '../search/search_view.dart';
 import 'list_product_logic.dart';
 
@@ -20,15 +21,14 @@ class ListProductPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final logic = Get.put(ListProductLogic(Get.find()));
     final logicCart = Get.put(CartLogic());
+    final logicSearch = Get.put(SearchLogic());
     final GlobalKey<ScaffoldState> key = GlobalKey<ScaffoldState>();
-    logic.keyController.text = name??'';
-    logic.keyController.text=name??"";
     logic.getSearch(name: name??"");
+
 
     return WillPopScope(
       onWillPop: ()async{
-        logic.keyController.text ="";
-        logic.getSearchRsp.value =null;
+        logicSearch.keyController.text = "";
         logic.page.value=10;
         return true;
 
@@ -41,6 +41,7 @@ class ListProductPage extends StatelessWidget {
           // backgroundColor: Colors.grey.shade200,
           leading: IconButton(
             onPressed: () {
+
               Get.back();
             },
             icon: Icon(Icons.arrow_back, color: Colors.white,),
@@ -54,10 +55,11 @@ class ListProductPage extends StatelessWidget {
             height: 40,
             child: TextField(
               autofocus: false,
-              controller: logic.keyController,
+              controller: logicSearch.keyController,
               readOnly: true,
               onTap: () {
-                Get.to(SearchPage());
+
+                Get.to(const SearchPage());
               },
               onChanged: (value) {
                 // logic.getProduct(name: value);
@@ -151,7 +153,8 @@ class ListProductPage extends StatelessWidget {
           child: FilterPage(),
         ),
         body: Obx(() {
-          if(logic.getSearchRsp.value?.data?.isEmpty??true){
+
+          if(logic.getSearchRsp.value?.data?.isEmpty==true || logic.getSearchRsp.value == null ){
             if(logic.getSearchRsp.value?.data?.length==0){
               return Center(
                 child: Text("Sản phẩm không tồn tại",

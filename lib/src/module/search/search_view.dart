@@ -15,12 +15,13 @@ class SearchPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final logic = Get.put(SearchLogic());
-    final logicSearch = Get.put(ListProductLogic(Get.find()));
+    logic.keyController.clear();
+    // logic.getSearchRsp.value = null;
     // logic.showKeyboard(context);
 
     return WillPopScope(
       onWillPop: ()async{
-        // logic.focusNode.unfocus();
+
         return true;
 
       },
@@ -45,13 +46,10 @@ class SearchPage extends StatelessWidget {
 
                 },
                 onChanged: (value) {
-                  // logic.keyController.text=value;
-                  logicSearch.getSearch(name: value);
+                  logic.getSearch(name: logic.keyController.text);
                 },
                 onSubmitted: (value) {
-                  logic.keyController.text=value;
-                  Get.to(ListProductPage(name: value,)
-                  );
+                  Get.to(const ListProductPage());
                 },
                 decoration: InputDecoration(
                   contentPadding: EdgeInsets.symmetric(
@@ -120,13 +118,13 @@ class SearchPage extends StatelessWidget {
             children: [
               ListView.separated(
                 shrinkWrap: true,
-                itemCount: (logicSearch.getSearchRsp.value?.data
-                    ?.length ?? 0)>5?5:(logicSearch.getSearchRsp.value?.data
+                itemCount: (logic.getSearchRsp.value?.data
+                    ?.length ?? 0)>5?5:(logic.getSearchRsp.value?.data
                     ?.length ?? 0),
                 itemBuilder: (context, index) {
                   return InkWell(
                     onTap: (){
-                      Get.to(ProductPage(id: logicSearch.getSearchRsp.value?.data?[index]
+                      Get.to(ProductPage(id: logic.getSearchRsp.value?.data?[index]
                           .id.toString() ?? ""));
 
                     },
@@ -135,18 +133,18 @@ class SearchPage extends StatelessWidget {
                         padding: const EdgeInsets.all(8.0),
                         child: ListTile(
                           leading: GlobalImage(
-                            imageUrl: logicSearch.getSearchRsp.value?.data?[index]
+                            imageUrl: logic.getSearchRsp.value?.data?[index]
                                 .thumpnailUrl ?? "",
                             width: MediaQuery.of(context).size.width*.2,
                             height: 50,
                             boxFit: BoxFit.contain,
                           ),
-                          title: Text(logicSearch.getSearchRsp.value?.data?[index]
+                          title: Text(logic.getSearchRsp.value?.data?[index]
                               .productName ?? ""),
                           subtitle: Text(
                             NumberFormat.simpleCurrency(locale: 'VI')
                                 .format(
-                                logicSearch.getSearchRsp.value?.data?[index]
+                                logic.getSearchRsp.value?.data?[index]
                                     .price ??
                                     0),
                             style: const TextStyle(
@@ -176,7 +174,7 @@ class SearchPage extends StatelessWidget {
               ),
               const SizedBox(height: 10,),
               Visibility(
-                visible: (logicSearch.getSearchRsp.value?.data
+                visible: (logic.getSearchRsp.value?.data
               ?.length ?? 0)>5,
                 child: TextButton(
                     onPressed: (){

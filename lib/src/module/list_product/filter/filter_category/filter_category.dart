@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../search/search_logic.dart';
 import '../../list_product_logic.dart';
 import '../filter_logic.dart';
 
@@ -10,7 +11,7 @@ class FilterCategory extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final logic = Get.put(FilterLogic());
-    final logicSearch = Get.put(ListProductLogic(Get.find()));
+    final logicSearch = Get.put(SearchLogic());
     return Obx(() {
       return Visibility(
         visible: logicSearch.keyController.text!=logicSearch.getSearchRsp.value?.data?[0].categoryName,

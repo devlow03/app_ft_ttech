@@ -64,7 +64,7 @@ class CategoryPage extends StatelessWidget {
                               .of(context)
                               .size
                               .width *
-                              .25,
+                              .28,
                           height: 20,
                           decoration: BoxDecoration(
                               border: Border.all(
@@ -128,7 +128,7 @@ class CategoryPage extends StatelessWidget {
                                 .of(context)
                                 .size
                                 .width *
-                                .25,
+                                .28,
                             decoration: BoxDecoration(
                               // border: Border.all(
                               //     color: Colors.grey.shade200),

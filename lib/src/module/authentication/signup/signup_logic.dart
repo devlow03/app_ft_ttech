@@ -27,25 +27,30 @@ class SignupLogic extends GetxController {
 
   Future<void>sendOtp()async{
     try{
-      await auth.verifyPhoneNumber(
-        phoneNumber: "+84${phoneController.text}",
-        verificationCompleted: (PhoneAuthCredential credential)async{
-          await auth.signInWithCredential(credential);
-        },
-        verificationFailed: (FirebaseAuthException e){
-          if (e.code == 'invalid-phone-number') {
-            print('The provided phone number is not valid.');
-          }
-        },
-        codeSent: (String verificationId, int? resendToken) async {
-          // Update the UI - wait for the user to enter the SMS code
-          verifyId.value = verificationId;
 
-        },
-        codeAutoRetrievalTimeout: (String verificationId) {
-          // Auto-resolution timed out...
-        },
-      );
+      if(phoneController.text.startsWith('0')==true){
+        String? phone = "+84${phoneController.text.substring(1)}";
+        print(">>>>>>>>>$phone");
+        await auth.verifyPhoneNumber(
+          phoneNumber: phone,
+          verificationCompleted: (PhoneAuthCredential credential)async{
+            await auth.signInWithCredential(credential);
+          },
+          verificationFailed: (FirebaseAuthException e){
+            if (e.code == 'invalid-phone-number') {
+              print('The provided phone number is not valid.');
+            }
+          },
+          codeSent: (String verificationId, int? resendToken) async {
+            // Update the UI - wait for the user to enter the SMS code
+            verifyId.value = verificationId;
+
+          },
+          codeAutoRetrievalTimeout: (String verificationId) {
+            // Auto-resolution timed out...
+          },
+        );
+      }
       Get.to(OtpPage(phoneNumber: phoneController.text,));
     }catch(e){
       Get.back();

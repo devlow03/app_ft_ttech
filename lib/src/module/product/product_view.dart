@@ -532,31 +532,31 @@ class ProductPage extends StatelessWidget {
                                           ),
                                         ],
                                       ),
-                                      const SizedBox(
-                                        height: 30,
-                                      ),
-                                      Row(
-                                        // mainAxisAlignment: MainAxisAlignment
-                                        //     .spaceBetween,
-                                        children: [
-                                          Text("Màu sắc: "),
-                                          const SizedBox(width: 5,),
-                                          Icon(
-                                            Icons.circle, color: Colors.black,),
-                                          const SizedBox(width: 5,),
-                                          Icon(Icons.circle, color: Colors.grey,),
-                                          const SizedBox(width: 5,),
-                                          Icon(Icons.circle,
-                                            color: Colors.yellowAccent,),
-                                          const SizedBox(width: 5,),
-                                          Icon(Icons.circle,
-                                            color: Colors.pinkAccent,),
-
-                                        ],
-                                      ),
-                                      const SizedBox(
-                                        height: 20,
-                                      ),
+                                      // const SizedBox(
+                                      //   height: 30,
+                                      // ),
+                                      // Row(
+                                      //   // mainAxisAlignment: MainAxisAlignment
+                                      //   //     .spaceBetween,
+                                      //   children: [
+                                      //     Text("Màu sắc: "),
+                                      //     const SizedBox(width: 5,),
+                                      //     Icon(
+                                      //       Icons.circle, color: Colors.black,),
+                                      //     const SizedBox(width: 5,),
+                                      //     Icon(Icons.circle, color: Colors.grey,),
+                                      //     const SizedBox(width: 5,),
+                                      //     Icon(Icons.circle,
+                                      //       color: Colors.yellowAccent,),
+                                      //     const SizedBox(width: 5,),
+                                      //     Icon(Icons.circle,
+                                      //       color: Colors.pinkAccent,),
+                                      //
+                                      //   ],
+                                      // ),
+                                      // const SizedBox(
+                                      //   height: 20,
+                                      // ),
                                       // Row(
                                       //   // mainAxisAlignment: MainAxisAlignment
                                       //   //     .spaceBetween,
@@ -862,7 +862,7 @@ class ProductPage extends StatelessWidget {
                                             MediaQuery
                                                 .of(context)
                                                 .size
-                                                .height * .35,
+                                                .height * .4,
                                             child: ListView.separated(
                                               shrinkWrap: true,
                                               scrollDirection: Axis.horizontal,
@@ -1014,7 +1014,7 @@ class ProductPage extends StatelessWidget {
                                             MediaQuery
                                                 .of(context)
                                                 .size
-                                                .height * .35,
+                                                .height * .4,
                                             child: ListView.separated(
                                               shrinkWrap: true,
                                               scrollDirection: Axis.horizontal,

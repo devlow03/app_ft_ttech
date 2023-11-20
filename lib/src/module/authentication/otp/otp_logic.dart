@@ -27,7 +27,7 @@ class OtpLogic extends GetxController {
     Timer.periodic(Duration(seconds: 1), (Timer timer) {
       if (seconds.value > 0) {
         seconds.value--;
-        print('Remaining time: $seconds seconds');
+        // print('Remaining time: $seconds seconds');
       } else {
         timer.cancel();
         seconds.value=0;
@@ -36,32 +36,26 @@ class OtpLogic extends GetxController {
   }
 
   Future<void>verifyOtp()async{
-    if (codeController.text.isEmpty) {
-      Get.snackbar('Thông báo', 'Vui lòng nhập mã xác thực');
-    }
-    else {
-      Utils.loading(()async{
-        try{
-          PhoneAuthCredential credential = await PhoneAuthProvider.credential(
-            verificationId: logic.verifyId.value ?? '',
-            smsCode: codeController.text,
-          );
-          await auth.signInWithCredential(credential).then((value) async {
-            phoneNumber.value = value.user?.phoneNumber;
+    Utils.loading(()async{
+      try{
+        PhoneAuthCredential credential = await PhoneAuthProvider.credential(
+          verificationId: logic.verifyId.value ?? '',
+          smsCode: codeController.text,
+        );
+        await auth.signInWithCredential(credential).then((value) async {
+          phoneNumber.value = value.user?.phoneNumber;
 
-          });
-          if(phoneNumber.value?.startsWith('+84')==true){
-            String? phone = "0${phoneNumber.substring(3)}";
-            Get.offAll( FormSignUpPage(phoneNumber: phone) );
-          }
-
-        }catch(e){
-          Get.back();
-          Get.snackbar("Hệ thộng xác thực thất bại","Vui lòng thử lại");
+        });
+        if(phoneNumber.value?.startsWith('+84')==true){
+          String? phone = "0${phoneNumber.substring(3)}";
+          Get.offAll( FormSignUpPage(phoneNumber: phone) );
         }
-      });
 
-    }
+      }catch(e){
+        Get.back();
+        Get.snackbar("Hệ thộng xác thực thất bại","Vui lòng thử lại");
+      }
+    });
   }
   Future<void>resendOtp(String? phone)async{
 
@@ -69,25 +63,29 @@ class OtpLogic extends GetxController {
       try{
         seconds.value=59;
         await startTimer();
-        await auth.verifyPhoneNumber(
-          phoneNumber: "+84$phone",
-          verificationCompleted: (PhoneAuthCredential credential)async{
-            await auth.signInWithCredential(credential);
-          },
-          verificationFailed: (FirebaseAuthException e){
-            if (e.code == 'invalid-phone-number') {
-              print('The provided phone number is not valid.');
-            }
-          },
-          codeSent: (String verificationId, int? resendToken) async {
-            // Update the UI - wait for the user to enter the SMS code
-            verifyId.value = verificationId;
+        if(phone?.startsWith('0')==true){
+          String? phoneNumber = "+84${phone?.substring(1)}";
+          print(">>>>>>>>>$phoneNumber");
+          await auth.verifyPhoneNumber(
+            phoneNumber: phoneNumber,
+            verificationCompleted: (PhoneAuthCredential credential)async{
+              await auth.signInWithCredential(credential);
+            },
+            verificationFailed: (FirebaseAuthException e){
+              if (e.code == 'invalid-phone-number') {
+                print('The provided phone number is not valid.');
+              }
+            },
+            codeSent: (String verificationId, int? resendToken) async {
+              // Update the UI - wait for the user to enter the SMS code
+              verifyId.value = verificationId;
 
-          },
-          codeAutoRetrievalTimeout: (String verificationId) {
-            // Auto-resolution timed out...
-          },
-        );
+            },
+            codeAutoRetrievalTimeout: (String verificationId) {
+              // Auto-resolution timed out...
+            },
+          );
+        }
         Fluttertoast.showToast(msg: "Mã xác thực đã được gửi lại");
 
       }catch(e){

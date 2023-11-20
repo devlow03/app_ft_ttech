@@ -16,6 +16,7 @@ import '../repositories/get_banner_rsp.dart';
 import '../repositories/get_brand_rsp.dart';
 import '../repositories/get_cart_rsp.dart';
 import '../repositories/get_category_rsp.dart';
+import '../repositories/get_order_rsp.dart';
 import '../repositories/get_product_by_category_rsp.dart';
 import '../repositories/get_product_by_id_rsp.dart';
 import '../repositories/get_product_rq_query.dart';
@@ -101,17 +102,20 @@ abstract class Services {
   @GET("api/auth/get_address_books")
   Future<GetAddressBookRsp>getAddressBookRsp();
 
-  @PUT("/api/auth/update_address_books/{id}")
+  @PUT("api/auth/update_address_books/{id}")
   Future putUpdateAddressBook({@Path("id") required String id, @Body() required PutUpdateAddressBookRqst body });
 
-  @POST("/api/auth/confirm_address_books")
+  @POST("api/auth/confirm_address_books")
   Future confirmAddressBook({@Body() required PutUpdateAddressBookRqst? body});
 
-  @POST("/api/auth/create_shipping_order")
+  @POST("api/auth/create_shipping_order")
   Future<PostCreateShippingOrderRsp>postCreateShippingOrder({@Body() required PostCreateShippingOrder body});
 
   @POST("api/auth/confirm_order")
   Future postConfirmOrder({@Body() required PostConfirmOrderRqstBodies body});
+
+  @GET("api/auth/get_order")
+  Future<GetOrderRsp>getOrderRsp();
 
 
 

@@ -47,6 +47,7 @@ class VoucherLogic extends GetxController {
     await logicCart.getCart();
     logicCart.getVoucher();
     logicCart.voucherTitle.value=null;
+    logicCart.voucherValue.value=null;
     Get.back();
 
 

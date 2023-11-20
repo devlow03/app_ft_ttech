@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 
 import '../../core/xcolor.dart';
 import '../authentication/sign_in/sign_in_logic.dart';
+import '../order_history/order_history_view.dart';
 import 'profile_logic.dart';
 
 
@@ -37,7 +38,7 @@ class ProfilePage extends StatelessWidget {
       {
         'icon':Icons.list_alt_outlined,
         'title': "Đơn hàng",
-        'onTap': const OrderPage()
+        'onTap': const OrderHistoryPage()
       },
 
       {
@@ -155,6 +156,9 @@ class ProfilePage extends StatelessWidget {
                             fontWeight: FontWeight.bold
                           ),
                           ),
+                          subtitle: Visibility(
+                              visible: index==2,
+                              child: Text("Xem lịch sử mua hàng")),
                           trailing: const Icon(Icons.keyboard_arrow_right),
                         );
                       }, separatorBuilder: (BuildContext context, int index) {

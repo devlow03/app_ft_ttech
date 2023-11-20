@@ -42,7 +42,7 @@ class AddressBookPage extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 10),
               child: Obx(() {
                 if(logic.getAddressBookRsp.value?.data?.isEmpty==true){
-                  return Center(
+                  return const Center(
                     child: Text("chưa có sổ địa chỉ!"),
                   );
                 }
@@ -51,91 +51,176 @@ class AddressBookPage extends StatelessWidget {
                   children: logic.getAddressBookRsp.value?.data?.map((e ){
                     return Column(
                       children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10),
+                        Visibility(
+                          visible: logic.intoOrder.value==true,
+                          replacement: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(10),
 
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+                                child:Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(e.fullName??"",
+                                          style:const TextStyle(
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 16,
+                                              color: Colors.black,
+                                              letterSpacing: 1
+                                          ),
+                                        ),
+                                        TextButton(
+                                            onPressed: (){
+                                              Get.to(AddAddressBookPage(data: e,onUpdate: true,));
+                                            },
+                                            child: Text("Sửa")
+                                        )
+                                      ],
+                                    ),
+                                    RichText(
+                                      text: TextSpan(
+                                          children: [
+                                            TextSpan(
+                                                text: 'Địa chỉ: ',
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Colors.black
+                                                )
+                                            ),
+                                            TextSpan(
+                                                text: "${e.fullAddress}",
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w400,
+                                                    color: Colors.black,
+                                                    height: 1.5
+                                                )
+                                            )
+                                          ]
+                                      ),
+                                    ),
+                                    const SizedBox(height: 10,),
+                                    RichText(
+                                      text: TextSpan(
+                                          children: [
+                                            TextSpan(
+                                                text: 'Điện thoại: ',
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Colors.black
+                                                )
+                                            ),
+                                            TextSpan(
+                                                text: "${e.phone}",
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w400,
+                                                    color: Colors.black,
+                                                    height: 1.5
+                                                )
+                                            )
+                                          ]
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                            ),
                           ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: RadioListTile(
-                                value: e,
-                                groupValue: logic.selectAddressBook.value,
-                                onChanged: (value)async{
-                                 await logic.selectAddress(value);
-                                },
-                              title: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                 Row(
-                                   crossAxisAlignment: CrossAxisAlignment.center,
-                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                   children: [
-                                     Text(e.fullName??"",
-                                       style:const TextStyle(
-                                           fontWeight: FontWeight.w700,
-                                           fontSize: 16,
-                                           color: Colors.black,
-                                           letterSpacing: 1
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(10),
+
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: RadioListTile(
+                                  value: e,
+                                  groupValue: logic.selectAddressBook.value,
+                                  onChanged: (value)async{
+                                   await logic.selectAddress(value);
+                                  },
+                                title: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                   Row(
+                                     crossAxisAlignment: CrossAxisAlignment.center,
+                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                     children: [
+                                       Text(e.fullName??"",
+                                         style:const TextStyle(
+                                             fontWeight: FontWeight.w700,
+                                             fontSize: 16,
+                                             color: Colors.black,
+                                             letterSpacing: 1
+                                         ),
                                        ),
-                                     ),
-                                     TextButton(
-                                         onPressed: (){
-                                           Get.to(AddAddressBookPage(data: e,onUpdate: true,));
-                                         },
-                                         child: Text("Sửa")
-                                     )
-                                   ],
-                                 ),
-                                  RichText(
-                                    text: TextSpan(
-                                        children: [
-                                          TextSpan(
-                                              text: 'Địa chỉ: ',
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Colors.black
-                                              )
-                                          ),
-                                          TextSpan(
-                                              text: "${e.fullAddress}",
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w400,
-                                                  color: Colors.black,
-                                                  height: 1.5
-                                              )
-                                          )
-                                        ]
+                                       TextButton(
+                                           onPressed: (){
+                                             Get.to(AddAddressBookPage(data: e,onUpdate: true,));
+                                           },
+                                           child: Text("Sửa")
+                                       )
+                                     ],
+                                   ),
+                                    RichText(
+                                      text: TextSpan(
+                                          children: [
+                                            TextSpan(
+                                                text: 'Địa chỉ: ',
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Colors.black
+                                                )
+                                            ),
+                                            TextSpan(
+                                                text: "${e.fullAddress}",
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w400,
+                                                    color: Colors.black,
+                                                    height: 1.5
+                                                )
+                                            )
+                                          ]
+                                      ),
                                     ),
-                                  ),
-                                  const SizedBox(height: 10,),
-                                  RichText(
-                                    text: TextSpan(
-                                        children: [
-                                          TextSpan(
-                                              text: 'Điện thoại: ',
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Colors.black
-                                              )
-                                          ),
-                                          TextSpan(
-                                              text: "${e.phone}",
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w400,
-                                                  color: Colors.black,
-                                                  height: 1.5
-                                              )
-                                          )
-                                        ]
+                                    const SizedBox(height: 10,),
+                                    RichText(
+                                      text: TextSpan(
+                                          children: [
+                                            TextSpan(
+                                                text: 'Điện thoại: ',
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Colors.black
+                                                )
+                                            ),
+                                            TextSpan(
+                                                text: "${e.phone}",
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w400,
+                                                    color: Colors.black,
+                                                    height: 1.5
+                                                )
+                                            )
+                                          ]
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
                           ),

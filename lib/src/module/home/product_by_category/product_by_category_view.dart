@@ -84,7 +84,7 @@ class ProductByCategoryPage extends StatelessWidget {
                             MediaQuery
                                 .of(context)
                                 .size
-                                .height * .35,
+                                .height * .4,
                             child: ListView.separated(
                               shrinkWrap: true,
                               scrollDirection: Axis.horizontal,
@@ -161,7 +161,7 @@ class ProductByCategoryPage extends StatelessWidget {
                             MediaQuery
                                 .of(context)
                                 .size
-                                .height * .35,
+                                .height * .4,
                             child: Obx(() {
                               return ListView.separated(
                                 shrinkWrap: true,

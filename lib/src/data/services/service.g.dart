@@ -501,7 +501,7 @@ class _Services implements Services {
     )
         .compose(
           _dio.options,
-          '/api/auth/update_address_books/${id}',
+          'api/auth/update_address_books/${id}',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -525,7 +525,7 @@ class _Services implements Services {
     )
         .compose(
           _dio.options,
-          '/api/auth/confirm_address_books',
+          'api/auth/confirm_address_books',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -550,7 +550,7 @@ class _Services implements Services {
     )
             .compose(
               _dio.options,
-              '/api/auth/create_shipping_order',
+              'api/auth/create_shipping_order',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -579,6 +579,29 @@ class _Services implements Services {
         )
         .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = _result.data;
+    return value;
+  }
+
+  @override
+  Future<GetOrderRsp> getOrderRsp() async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<GetOrderRsp>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              'api/auth/get_order',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = GetOrderRsp.fromJson(_result.data!);
     return value;
   }
 
