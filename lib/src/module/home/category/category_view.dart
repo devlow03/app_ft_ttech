@@ -13,7 +13,7 @@ class CategoryPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final logic = Get.put(HomeLogic(Get.find(), Get.find()));
+    final logic = Get.put(HomeLogic());
     return Obx(() {
       return Container(
         width: MediaQuery
@@ -112,13 +112,6 @@ class CategoryPage extends StatelessWidget {
                         return InkWell(
                           onTap: () {
                             Get.to(ListProductPage(
-                              id: logic
-                                  .getCategoryRsp
-                                  .value
-                                  ?.data?[index]
-                                  .id
-                                  .toString() ??
-                                  "",
                               name: logic.getCategoryRsp.value
                                   ?.data?[index].name,
                             ));

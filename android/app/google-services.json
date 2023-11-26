@@ -1,51 +1,26 @@
 {
   "project_info": {
-    "project_number": "392911829696",
-    "project_id": "apptmart-9ff47",
-    "storage_bucket": "apptmart-9ff47.appspot.com"
+    "project_number": "117161893776",
+    "project_id": "appfttmart-3c6e3",
+    "storage_bucket": "appfttmart-3c6e3.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:392911829696:android:af88031f3dc18343744b25",
+        "mobilesdk_app_id": "1:117161893776:android:ce2f1df2bc8cf095171d15",
         "android_client_info": {
           "package_name": "com.example.app_ft_tmart"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "392911829696-k7nv4b8c6cm0p3gi4jcmite6cj59vo5a.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.app_ft_tmart",
-            "certificate_hash": "2b76b11086e34cf3cb1502aa3ef3a04da6558647"
-          }
-        },
-        {
-          "client_id": "392911829696-o382tofrgvf64v6qb6t18pki6dd5df4m.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCqTAMGGG3VXVRHbuVfq5YM7GrqPnCqzJM"
+          "current_key": "AIzaSyCoK31BiMdLQekQFCxh_L2YSUNqGVC1MmY"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "392911829696-o382tofrgvf64v6qb6t18pki6dd5df4m.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "392911829696-91arnd03hpmv7lhnpghj4gnu2ucbd5v2.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.example.appFtTmart.RunnerTests"
-              }
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }

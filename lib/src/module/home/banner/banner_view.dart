@@ -14,7 +14,7 @@ class BannerPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final logic = Get.put(HomeLogic(Get.find(), Get.find()));
+    final logic = Get.put(HomeLogic());
     return Obx(() {
       return Column(
         children: [

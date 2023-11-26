@@ -18,10 +18,10 @@ import '../cart/cart_logic.dart';
 
 
 class HomeLogic extends GetxController {
-  final Services tMartServices;
-  final EncryptedSharedPreferences sharedPreferences;
+  final Services tMartServices = Get.find();
+  final EncryptedSharedPreferences sharedPreferences= Get.find();
 
-  HomeLogic(this.tMartServices,this.sharedPreferences);
+  HomeLogic();
   Rxn<GetBannerRsp> getBannerRsp = Rxn();
   Rxn<GetProductRsp>getProductRsp = Rxn();
   Rx<Map<int, GetProductRsp>> getProductByIdCategoryRsp = Rx({});

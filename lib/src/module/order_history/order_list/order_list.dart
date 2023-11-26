@@ -51,7 +51,7 @@ class OrderList extends StatelessWidget {
                               )
                             ],
                           ),
-                          Text("Chờ xác nhận",
+                          Text("${data?.statusName}",
                           style: TextStyle(
                             color: XColor.primary
                           ),

@@ -34,6 +34,7 @@ class ProductLogic extends GetxController {
   Rx<int> quantity = Rx(1);
   final logicCart = Get.put(CartLogic());
   Rxn<GetProductRsp>getProductRsp = Rxn();
+  Rxn<GetProductRsp>getProductByBrandRsp = Rxn();
 
 
   final dio = Dio();
@@ -42,8 +43,9 @@ class ProductLogic extends GetxController {
     // TODO: implement refresh
     super.refresh();
     await logicCart.getCart();
-    await getProductById;
-    await getProductByIdCategory();
+    getProductByBrands();
+      getProductByIdCategory();
+    
   }
   @override
   void onReady() async{
@@ -51,15 +53,18 @@ class ProductLogic extends GetxController {
     // await getSliderProd;
     super.onReady();
     await logicCart.getCart();
-    await getProductById;
     await getProductByIdCategory();
 
 
   }
 
   Future<GetProductByIdRsp?>getProductById({required String id})async{
+    if(id!=''){
     getProductByIdRsp.value = await tMartServices.getProductByIdRsp(id: id);
+    }
+    getProductByIdRsp.refresh();
     return getProductByIdRsp.value;
+    
   }
 
   Future<void>postAddCart({required String productId, required String quantity })async{
@@ -112,7 +117,29 @@ class ProductLogic extends GetxController {
         )
 
     );
+    getProductRsp.refresh();
     return getProductRsp.value;
+  }
+
+  Future<GetProductRsp?>getProductByBrands()async{
+    final brands = (getProductByIdRsp.value?.data?.manufacturerId)??0;
+    getProductByBrandRsp.value = await tMartServices.getProductRsp(
+        query: GetProductRqQuery(
+            manufacturerId: [brands.toString()]
+        )
+
+    );
+    getProductByBrandRsp.refresh();
+    return getProductByBrandRsp.value;
+  }
+
+
+  Future<void>getProduct(String? id)async{
+  
+      await getProductById(id: id ??"");
+      await getProductByBrands();
+      await getProductByIdCategory();
+    
   }
 
 }

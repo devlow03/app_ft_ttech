@@ -1,4 +1,5 @@
 import 'package:app_ft_tmart/src/module/authentication/sign_in/sign_in_view.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_ui_auth/firebase_ui_auth.dart' as ui;
@@ -11,7 +12,8 @@ import 'form_sign_up_logic.dart';
 
 class FormSignUpPage extends StatelessWidget {
   final String? phoneNumber;
-  const FormSignUpPage({Key? key, this.phoneNumber, }) : super(key: key);
+  final PhoneAuthCredential credential;
+  const FormSignUpPage({Key? key, this.phoneNumber, required this.credential, }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -114,7 +116,7 @@ class FormSignUpPage extends StatelessWidget {
                         child: ElevatedButton(
                           onPressed:()async{
                             if(logic.formKey.currentState?.validate()==true){
-                              await logic.register();
+                              await logic.register(credential);
                             }
                           },
                           style: ElevatedButton.styleFrom(
@@ -244,8 +246,8 @@ class FormSignUpPage extends StatelessWidget {
             const SizedBox(height: 5,),
             InkWell(
               onTap: (){
-                Get.back();
-                // Get.offAll(IndexPage());
+                // Get.back();
+                Get.offAll(IndexPage());
               },
               child: Center(
                   child: Text("Trở về",

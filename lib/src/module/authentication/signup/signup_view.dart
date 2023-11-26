@@ -43,7 +43,9 @@ class SignupPage extends StatelessWidget {
                   padding: const EdgeInsets.all(10),
                   child: GlobalTextField(
                     onChanged: (value)async{
-                      await logic.postCheckPhone();
+                      if(value.length>=10){
+                        await logic.postCheckPhone();
+                      }
                     },
                     controller: logic.phoneController,
                     hint: 'Số điện thoại',

@@ -26,9 +26,12 @@ import '../repositories/get_slider_prod_rsp.dart';
 import '../repositories/get_user_profile_rsp.dart';
 import '../repositories/post_cart_rqst.dart';
 import '../repositories/post_check_phone_rsp.dart';
+import '../repositories/post_confirm_order_rsp.dart';
 import '../repositories/post_create_address_book_rqst_bodies.dart';
 import '../repositories/post_create_shipping_order.dart';
 import '../repositories/post_create_shipping_order_rsp.dart';
+import '../repositories/post_create_vnpay_rqst_bodies.dart';
+import '../repositories/post_create_vnpay_rsp.dart';
 import '../repositories/post_signin_rsp.dart';
 part 'service.g.dart';
 
@@ -112,10 +115,13 @@ abstract class Services {
   Future<PostCreateShippingOrderRsp>postCreateShippingOrder({@Body() required PostCreateShippingOrder body});
 
   @POST("api/auth/confirm_order")
-  Future postConfirmOrder({@Body() required PostConfirmOrderRqstBodies body});
+  Future<PostConfirmOrderRsp> postConfirmOrder({@Body() required PostConfirmOrderRqstBodies body});
 
-  @GET("api/auth/get_order")
+  @GET("api/auth/get_order_by_user_id")
   Future<GetOrderRsp>getOrderRsp();
+
+  @POST("api/auth/vnpay_create_payment")
+  Future<PostCreateVnpayRsp>createVnPay({@Body() required PostCreateVnpayRqstBodies body});
 
 
 

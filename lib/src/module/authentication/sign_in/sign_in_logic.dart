@@ -63,23 +63,43 @@ class SignInLogic extends GetxController {
         msg: "Đăng xuất thành công", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM, timeInSecForIosWeb: 1, textColor: Colors.white, fontSize: 16.0);
   }
 
-  Future signIn()async{
-    Utils.loading(()async{
-      postSignInRsp.value = await tMartServices.postSigninRsp(body:
-      PostSigninRqst(
-          phone: phoneControl.text,
-          password: passControl.text
-      )
-      );
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
-      await prefs.setString(GlobalData.token,"${postSignInRsp.value?.token}" );
-      print(">>>>>>>>>token: ${ await prefs.getString(GlobalData.token )}");
+  Future signIn({String? phone, String? password})async{
+    if(phone!='' && password!=''){
+      Utils.loading(()async{
+        postSignInRsp.value = await tMartServices.postSigninRsp(body:
+        PostSigninRqst(
+            phone: phone,
+            password: password
+        )
+        );
+        final SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString(GlobalData.token,"${postSignInRsp.value?.token}" );
+        print(">>>>>>>>>token: ${ await prefs.getString(GlobalData.token )}");
 
-      print(">>>>>>>>>>>>>>>>>onSignin: ${onSignIn.value}");
-      Fluttertoast.showToast(
-          msg: "Đăng nhập thành công", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM, timeInSecForIosWeb: 1, textColor: Colors.white, fontSize: 16.0);
-      intoCart.value==true?Get.back():Get.offAll(IndexPage());
-    });
+        print(">>>>>>>>>>>>>>>>>onSignin: ${onSignIn.value}");
+        Fluttertoast.showToast(
+            msg: "Đăng nhập thành công", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM, timeInSecForIosWeb: 1, textColor: Colors.white, fontSize: 16.0);
+        Get.offAll(IndexPage());
+      });
+    }
+    else{
+      Utils.loading(()async{
+        postSignInRsp.value = await tMartServices.postSigninRsp(body:
+        PostSigninRqst(
+            phone: phoneControl.text,
+            password: passControl.text
+        )
+        );
+        final SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString(GlobalData.token,"${postSignInRsp.value?.token}" );
+        print(">>>>>>>>>token: ${ await prefs.getString(GlobalData.token )}");
+
+        print(">>>>>>>>>>>>>>>>>onSignin: ${onSignIn.value}");
+        Fluttertoast.showToast(
+            msg: "Đăng nhập thành công", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM, timeInSecForIosWeb: 1, textColor: Colors.white, fontSize: 16.0);
+        intoCart.value==true?Get.back():Get.offAll(IndexPage());
+      });
+    }
   }
 
 

@@ -17,18 +17,19 @@ class SearchLogic extends GetxController {
     getSearchRsp.value = null;
   }
 
-  Future<GetProductRsp?>getSearch({required String name,List<String>? category,List<String>? brand, List<String>? price})async{
-
-    getSearchRsp.value = await tMartServices.getProductRsp(query:
-    GetProductRqQuery(
-        categoryId: (category?.length??0)!=0?category:null,
-        perPage: '6',
-        productName: name,
-        manufacturerId: (brand?.length??0)!=0?brand:null,
-        price:(price?.length??0)!=0?price:null
-    )
-    );
-    getSearchRsp.refresh();
+  Future<GetProductRsp?>getSearch({List<String>? category,List<String>? brand, List<String>? price})async{
+    if(keyController.text!="" ){
+      getSearchRsp.value = null;
+      getSearchRsp.value = await tMartServices.getProductRsp(query:
+      GetProductRqQuery(
+          categoryId: (category?.length??0)!=0?category:null,
+          perPage:"5",
+          productName: keyController.text,
+          manufacturerId: (brand?.length??0)!=0?brand:null,
+          price:(price?.length??0)!=0?price:null
+      )
+      );
+    }
     return getSearchRsp.value;
   }
 

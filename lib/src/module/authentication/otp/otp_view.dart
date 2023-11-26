@@ -17,6 +17,7 @@ class OtpPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final logic = Get.put(OtpLogic());
     final logicPhone = Get.put(SignupLogic());
+    logic.phoneNumber.value = phoneNumber??"";
     final defaultPinTheme = PinTheme(
       width: MediaQuery
           .of(context)

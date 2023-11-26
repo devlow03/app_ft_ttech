@@ -21,6 +21,9 @@ class ListProductLogic extends GetxController {
   final ScrollController controller = ScrollController();
   Rx<int>indexPage = Rx(0);
   final GlobalKey<ScaffoldState> key = GlobalKey<ScaffoldState>();
+  TextEditingController keyController = TextEditingController();
+  Rxn<String>nameProd = Rxn();
+  
 
 
 
@@ -29,7 +32,9 @@ class ListProductLogic extends GetxController {
     // TODO: implement onReady
     super.onReady();
     getSearchRsp.value = null;
-      loadMore();
+     if(controller.position.maxScrollExtent == controller.offset){
+       loadMore();
+     }
   }
   @override
   void dispose() {
@@ -39,30 +44,20 @@ class ListProductLogic extends GetxController {
   }
 
   Future<GetProductRsp?>getSearch({String? name,List<String>? category,List<String>? brand, List<String>? price})async{
-    if(name!=""){
-      logicSearch.keyController.text = name??"";
+    if(name!="" ){
+      getSearchRsp.value = null;
+      nameProd.value = name;
+      keyController.text = name??"";
       getSearchRsp.value = await tMartServices.getProductRsp(query:
       GetProductRqQuery(
           categoryId: (category?.length??0)!=0?category:null,
           perPage: page.value.toString(),
-          productName: logicSearch.keyController.text,
+          productName: nameProd.value,
           manufacturerId: (brand?.length??0)!=0?brand:null,
           price:(price?.length??0)!=0?price:null
       )
       );
     }
-    else{
-      getSearchRsp.value = await tMartServices.getProductRsp(query:
-      GetProductRqQuery(
-          categoryId: (category?.length??0)!=0?category:null,
-          perPage: page.value.toString(),
-          productName: logicSearch.keyController.text,
-          manufacturerId: (brand?.length??0)!=0?brand:null,
-          price:(price?.length??0)!=0?price:null
-      )
-      );
-    }
-    getSearchRsp.refresh();
     return getSearchRsp.value;
   }
 
@@ -74,12 +69,16 @@ class ListProductLogic extends GetxController {
           isLoading.value=true;
           print(">>>>>>>>>>>>>>>>>>>>>>>>>AAAAAAAAAAAAAAAAAA");
           page.value+=10;
-          await getSearch(
-            name: logicSearch.keyController.text,
-            price: logic.selectedPriceRange,
-            category: logic.selectedCategoryTypes,
-            brand: logic.selectedBrandTypes
-          );
+          getSearchRsp.value = await tMartServices.getProductRsp(query:
+      GetProductRqQuery(
+          
+          categoryId: logic.selectedCategoryTypes.isNotEmpty==true?(logic.selectedCategoryTypes):null,
+          perPage: page.value.toString(),
+          productName: nameProd.value,
+          manufacturerId: logic.selectedBrandTypes.isNotEmpty==true?(logic.selectedBrandTypes):null,
+          price:logic.selectedPriceRange.isNotEmpty==true?(logic.selectedPriceRange):null,
+      )
+      );
         }
 
 

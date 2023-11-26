@@ -42,14 +42,12 @@ class OtpLogic extends GetxController {
           verificationId: logic.verifyId.value ?? '',
           smsCode: codeController.text,
         );
-        await auth.signInWithCredential(credential).then((value) async {
-          phoneNumber.value = value.user?.phoneNumber;
 
-        });
-        if(phoneNumber.value?.startsWith('+84')==true){
-          String? phone = "0${phoneNumber.substring(3)}";
-          Get.offAll( FormSignUpPage(phoneNumber: phone) );
-        }
+
+          String? phone = "0${phoneNumber.substring(1)}";
+          print(">>>>>>>$phone");
+          Get.offAll( FormSignUpPage(phoneNumber: phone,credential: credential,) );
+
 
       }catch(e){
         Get.back();
@@ -93,6 +91,8 @@ class OtpLogic extends GetxController {
         Get.snackbar("Gửi mã xác thực thất bại","Vui lòng thử lại");
       }
     }
+
+
 
 
   @override

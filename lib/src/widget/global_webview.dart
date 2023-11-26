@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+
+import '../module/index/index_view.dart';
 class GlobalWebview extends StatefulWidget {
   final String? tittleWeb;
   final String? linkWeb;
@@ -32,8 +35,15 @@ class _GlobalWebviewState extends State<GlobalWebview> {
           onPageStarted: (String url) {
 
           },
-          onPageFinished: (String url) {},
-          onWebResourceError: (WebResourceError error) {},
+          onPageFinished: (String url) {
+            
+          },
+          onWebResourceError: (WebResourceError error) {
+            Get.offAll(IndexPage());
+           Fluttertoast.showToast(msg: "Đặt hàng thành công",
+            backgroundColor: Colors.green
+        );
+          },
 
         ),
       )
@@ -43,7 +53,8 @@ class _GlobalWebviewState extends State<GlobalWebview> {
         elevation: 0.0,
         backgroundColor: Colors.white,
         centerTitle: true,
-        title: Text(widget.tittleWeb??'',style: const TextStyle(color: Colors.black),maxLines: 1,overflow: TextOverflow.ellipsis,),
+        title: Text(widget.tittleWeb??'',style: const TextStyle(color: Colors.black,fontSize: 16,fontWeight: FontWeight.bold),maxLines: 1,overflow: TextOverflow.ellipsis,
+        ),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios,color: Colors.black,),
           onPressed: (){

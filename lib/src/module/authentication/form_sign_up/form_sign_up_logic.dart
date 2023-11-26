@@ -1,6 +1,7 @@
 import 'package:app_ft_tmart/src/data/repositories/post_register_rqst_bodies.dart';
 import 'package:app_ft_tmart/src/module/authentication/sign_in/sign_in_logic.dart';
 import 'package:app_ft_tmart/src/module/authentication/signup/signup_logic.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
@@ -16,8 +17,9 @@ class FormSignUpLogic extends GetxController {
   Rxn<String>phoneNumber = Rxn();
   final logicSignIn = Get.put(SignInLogic());
   final logicSignUp = Get.put(SignupLogic());
+  FirebaseAuth auth = FirebaseAuth.instance;
 
-  Future<void>register()async{
+  Future<void>register(PhoneAuthCredential credential)async{
     Utils.loading(()async{
       await tMartServices.postRegister(body: PostRegisterRqstBodies(
         phone: phoneNumber.value,
@@ -25,8 +27,13 @@ class FormSignUpLogic extends GetxController {
         password: passControl.text,
         email: emailControl.text
       ));
-      await logicSignIn.signIn();
+      await signInPhoneFirebase(credential);
+      await logicSignIn.signIn(phone: phoneNumber.value,password: passControl.text);
 
     });
+  }
+
+  Future<void>signInPhoneFirebase(PhoneAuthCredential credential)async{
+    await auth.signInWithCredential(credential);
   }
 }

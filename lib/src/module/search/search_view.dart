@@ -15,13 +15,13 @@ class SearchPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final logic = Get.put(SearchLogic());
-    logic.keyController.clear();
+    
     // logic.getSearchRsp.value = null;
     // logic.showKeyboard(context);
 
     return WillPopScope(
       onWillPop: ()async{
-
+        logic.keyController.clear();
         return true;
 
       },
@@ -46,10 +46,11 @@ class SearchPage extends StatelessWidget {
 
                 },
                 onChanged: (value) {
-                  logic.getSearch(name: logic.keyController.text);
+                  logic.getSearch();
                 },
                 onSubmitted: (value) {
-                  Get.to(const ListProductPage());
+                  Get.to(ListProductPage(name: logic.keyController.text,));
+                  
                 },
                 decoration: InputDecoration(
                   contentPadding: EdgeInsets.symmetric(

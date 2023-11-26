@@ -11,7 +11,7 @@ class ProductSuggestPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final logic = Get.put(HomeLogic(Get.find(), Get.find()));
+    final logic = Get.put(HomeLogic());
     return Obx(() {
       return Visibility(
         visible: logic.getProductRsp.value?.data?.isNotEmpty == true,
@@ -32,7 +32,7 @@ class ProductSuggestPage extends StatelessWidget {
                   MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Gợi ý hôm nay',
+                      'Có thể bạn cũng thích',
                       style: TextStyle(
                           color: XColor.primary,
                           fontSize: 16,

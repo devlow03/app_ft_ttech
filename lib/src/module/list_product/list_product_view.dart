@@ -12,10 +12,9 @@ import '../search/search_view.dart';
 import 'list_product_logic.dart';
 
 class ListProductPage extends StatelessWidget {
-  final String? id;
   final String? name;
 
-  const ListProductPage({Key? key, this.id,  this.name}) : super(key: key);
+  const ListProductPage({Key? key, this.name}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,11 +23,13 @@ class ListProductPage extends StatelessWidget {
     final logicSearch = Get.put(SearchLogic());
     final GlobalKey<ScaffoldState> key = GlobalKey<ScaffoldState>();
     logic.getSearch(name: name??"");
+    name?.isEmpty;
 
 
     return WillPopScope(
       onWillPop: ()async{
-        logicSearch.keyController.text = "";
+        logic.keyController.clear();
+        logic.nameProd.close();
         logic.page.value=10;
         return true;
 
@@ -55,7 +56,7 @@ class ListProductPage extends StatelessWidget {
             height: 40,
             child: TextField(
               autofocus: false,
-              controller: logicSearch.keyController,
+              controller: logic.keyController,
               readOnly: true,
               onTap: () {
 

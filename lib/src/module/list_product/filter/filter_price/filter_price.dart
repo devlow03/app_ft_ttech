@@ -39,8 +39,7 @@ class FilterPrice extends StatelessWidget {
                   }
                 },
               );
-            }).toList() ??
-                [],
+            }).toList(),
           ),
         ],
       );

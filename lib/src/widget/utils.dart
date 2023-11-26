@@ -9,25 +9,24 @@ class Utils{
    Utils._();
 
    static Future<void> loading(Function onLoading) async {
-     Get.dialog(
-       AlertDialog(
-         contentPadding: EdgeInsets.zero, // Loại bỏ khoảng trắng xung quanh nội dung
-         icon: Center(
-           child: CircularProgressIndicator(
-             color: XColor.primary,
-             strokeWidth: 2,
-           ),
-         ),
-         title:  Text(
-           "Đang tải",
-           style: TextStyle(),
-           textAlign: TextAlign.center,
-         ),
-       ),
-     );
-
 
      try {
+       Get.dialog(
+         AlertDialog(
+           contentPadding: EdgeInsets.zero, // Loại bỏ khoảng trắng xung quanh nội dung
+           icon: Center(
+             child: CircularProgressIndicator(
+               color: XColor.primary,
+               strokeWidth: 2,
+             ),
+           ),
+           title:  Text(
+             "Đang tải",
+             style: TextStyle(),
+             textAlign: TextAlign.center,
+           ),
+         ),
+       );
        await onLoading();
        Get.back();
      } catch (e) {

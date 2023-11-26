@@ -51,7 +51,7 @@ class FilterPage extends StatelessWidget {
               onPressed: ()async{
                 Utils.loading(()async{
                   await logicList.getSearch(
-                      name: logicSearch.keyController.text,
+                      name: logicList.nameProd.value,
                       brand: logic.selectedBrandTypes,
                       category: logic.selectedCategoryTypes,
                       price: logic.selectedPriceRange

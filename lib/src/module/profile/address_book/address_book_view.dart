@@ -1,7 +1,3 @@
-import 'dart:convert';
-
-import 'package:app_ft_tmart/src/data/repositories/get_address_book_rsp.dart';
-import 'package:app_ft_tmart/src/data/repositories/put_update_address_book_rqst.dart';
 import 'package:app_ft_tmart/src/module/profile/address_book/add_address_book/add_address_book_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -23,7 +19,7 @@ class AddressBookPage extends StatelessWidget {
       appBar: AppBar(
         elevation: 0.0,
         backgroundColor: Colors.white,
-        title: Text(
+        title: const Text(
           'Sổ địa chỉ',
           style: TextStyle(
               fontSize: 18,
@@ -80,14 +76,14 @@ class AddressBookPage extends StatelessWidget {
                                             onPressed: (){
                                               Get.to(AddAddressBookPage(data: e,onUpdate: true,));
                                             },
-                                            child: Text("Sửa")
+                                            child: const Text("Sửa")
                                         )
                                       ],
                                     ),
                                     RichText(
                                       text: TextSpan(
                                           children: [
-                                            TextSpan(
+                                            const TextSpan(
                                                 text: 'Địa chỉ: ',
                                                 style: TextStyle(
                                                     fontSize: 14,
@@ -97,7 +93,7 @@ class AddressBookPage extends StatelessWidget {
                                             ),
                                             TextSpan(
                                                 text: "${e.fullAddress}",
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                     fontSize: 14,
                                                     fontWeight: FontWeight.w400,
                                                     color: Colors.black,
@@ -111,7 +107,7 @@ class AddressBookPage extends StatelessWidget {
                                     RichText(
                                       text: TextSpan(
                                           children: [
-                                            TextSpan(
+                                            const TextSpan(
                                                 text: 'Điện thoại: ',
                                                 style: TextStyle(
                                                     fontSize: 14,
@@ -121,7 +117,7 @@ class AddressBookPage extends StatelessWidget {
                                             ),
                                             TextSpan(
                                                 text: "${e.phone}",
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                     fontSize: 14,
                                                     fontWeight: FontWeight.w400,
                                                     color: Colors.black,
@@ -168,14 +164,14 @@ class AddressBookPage extends StatelessWidget {
                                            onPressed: (){
                                              Get.to(AddAddressBookPage(data: e,onUpdate: true,));
                                            },
-                                           child: Text("Sửa")
+                                           child: const Text("Sửa")
                                        )
                                      ],
                                    ),
                                     RichText(
                                       text: TextSpan(
                                           children: [
-                                            TextSpan(
+                                            const TextSpan(
                                                 text: 'Địa chỉ: ',
                                                 style: TextStyle(
                                                     fontSize: 14,
@@ -185,7 +181,7 @@ class AddressBookPage extends StatelessWidget {
                                             ),
                                             TextSpan(
                                                 text: "${e.fullAddress}",
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                     fontSize: 14,
                                                     fontWeight: FontWeight.w400,
                                                     color: Colors.black,
@@ -199,7 +195,7 @@ class AddressBookPage extends StatelessWidget {
                                     RichText(
                                       text: TextSpan(
                                           children: [
-                                            TextSpan(
+                                            const TextSpan(
                                                 text: 'Điện thoại: ',
                                                 style: TextStyle(
                                                     fontSize: 14,
@@ -209,7 +205,7 @@ class AddressBookPage extends StatelessWidget {
                                             ),
                                             TextSpan(
                                                 text: "${e.phone}",
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                     fontSize: 14,
                                                     fontWeight: FontWeight.w400,
                                                     color: Colors.black,
@@ -245,7 +241,7 @@ class AddressBookPage extends StatelessWidget {
               primary: Colors.white
           ),
           onPressed: () {
-            Get.to(AddAddressBookPage(onUpdate: false,));
+            Get.to(const AddAddressBookPage(onUpdate: false,));
           },
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 15),

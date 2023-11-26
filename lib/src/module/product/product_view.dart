@@ -24,27 +24,28 @@ import 'product_logic.dart';
 class ProductPage extends StatelessWidget {
   final String? id;
 
-
-  const ProductPage({Key? key, required this.id, }) : super(key: key);
+  const ProductPage({
+    Key? key,
+    required this.id,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final logicCart = Get.put(CartLogic());
     final logic = Get.put(ProductLogic(Get.find()));
-    // logicCart.getCart();
-    logic.getProductById(id: id ?? "");
-
+    logic.getProduct(id);
 
     return WillPopScope(
       onWillPop: () async {
         logic.quantity.value = 1;
+        logic.getProductByIdRsp.value = null;
         return true;
       },
       child: Scaffold(
         backgroundColor: Colors.grey.shade100,
         extendBodyBehindAppBar: true,
         body: RefreshIndicator(
-          onRefresh: ()async{
+          onRefresh: () async {
             logic.refresh();
           },
           child: CustomScrollView(
@@ -62,19 +63,16 @@ class ProductPage extends StatelessWidget {
                   backgroundColor: Colors.white,
                   systemOverlayStyle: const SystemUiOverlayStyle(
                       statusBarBrightness: Brightness.dark),
-                  expandedHeight: MediaQuery
-                      .of(context)
-                      .size
-                      .height * .45,
+                  expandedHeight: MediaQuery.of(context).size.height * .45,
                   flexibleSpace: FlexibleSpaceBar(
                     background: Stack(
                       alignment: Alignment.bottomCenter,
                       children: [
                         CarouselSlider.builder(
                           carouselController: logic.carouselControl,
-                          itemCount:
-                          logic.getProductByIdRsp.value?.data?.galleryImagesUrl
-                              ?.length ?? 0,
+                          itemCount: logic.getProductByIdRsp.value?.data
+                                  ?.galleryImagesUrl?.length ??
+                              0,
                           options: CarouselOptions(
                             aspectRatio: 25 / 25,
                             // autoPlay: true,
@@ -85,13 +83,12 @@ class ProductPage extends StatelessWidget {
                               double targetPosition = index * itemsPerPage * 10;
                               logic.scrollController.animateTo(
                                 targetPosition,
-                                duration: Duration(milliseconds: 500),
+                                duration: const Duration(milliseconds: 500),
                                 curve: Curves.easeInOut,
                               );
 
                               // print(">>>>>>>>>>>>indexSlider: ${logic.indexSlider.value}");
                             },
-
 
                             viewportFraction: 1,
                             // enlargeCenterPage: true,
@@ -101,37 +98,28 @@ class ProductPage extends StatelessWidget {
                             // logic.indexSlider.value = index;
 
                             return Visibility(
-                              visible:
-                              logic.getProductByIdRsp.value?.data
-                                  ?.galleryImagesUrl?.isEmpty ==
+                              visible: logic.getProductByIdRsp.value?.data
+                                      ?.galleryImagesUrl?.isEmpty ==
                                   false,
                               replacement: Shimmer.fromColors(
-                                child: Container(
-                                  width: MediaQuery
-                                      .of(context)
-                                      .size
-                                      .width,
-                                  color: Colors.grey.shade300,
-                                ),
                                 baseColor: Colors.grey.shade300,
                                 highlightColor: Colors.grey.shade100,
+                                child: Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  color: Colors.grey.shade300,
+                                ),
                               ),
                               child: InkWell(
                                 onTap: () {
                                   Get.to(PhotoPage(
                                     data: logic.getProductByIdRsp.value?.data,
-
                                   ));
                                 },
                                 child: GlobalImage(
                                   imageUrl: logic.getProductByIdRsp.value?.data
-                                      ?.galleryImagesUrl?[index]
-                                      .largeUrl ??
+                                          ?.galleryImagesUrl?[index].largeUrl ??
                                       '',
-                                  width: MediaQuery
-                                      .of(context)
-                                      .size
-                                      .width * .6,
+                                  width: MediaQuery.of(context).size.width * .6,
                                   boxFit: BoxFit.contain,
                                   // height: MediaQuery
                                   //     .of(context)
@@ -143,8 +131,8 @@ class ProductPage extends StatelessWidget {
                           },
                         ),
                         Visibility(
-                          visible:logic.getProductByIdRsp.value?.data
-                              ?.galleryImagesUrl?.isEmpty ==
+                          visible: logic.getProductByIdRsp.value?.data
+                                  ?.galleryImagesUrl?.isEmpty ==
                               false,
                           child: Positioned(
                             // right: 20,
@@ -154,16 +142,15 @@ class ProductPage extends StatelessWidget {
                               child: Container(
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(20),
-                                    border: Border.all(color: Colors.grey.shade200)
-                                ),
+                                    border: Border.all(
+                                        color: Colors.grey.shade200)),
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 15, vertical: 5),
                                   child: Row(
                                     children: [
-                                      Text("${logic.indexSlider.value + 1}/${logic
-                                          .getProductByIdRsp.value?.data
-                                          ?.galleryImagesUrl?.length ?? 0}")
+                                      Text(
+                                          "${logic.indexSlider.value + 1}/${logic.getProductByIdRsp.value?.data?.galleryImagesUrl?.length ?? 0}")
                                     ],
                                   ),
                                 ),
@@ -171,7 +158,6 @@ class ProductPage extends StatelessWidget {
                             ),
                           ),
                         )
-
                       ],
                     ),
                     stretchModes: const [
@@ -199,31 +185,26 @@ class ProductPage extends StatelessWidget {
                         children: [
                           IconButton(
                             onPressed: () {
-                              Get.to(
-                                  CartPage());
+                              Get.to(const CartPage());
                             },
-                            icon:
-                            Icon(Icons.shopping_cart_outlined)
-                            ,
+                            icon: const Icon(Icons.shopping_cart_outlined),
                           ),
                           Visibility(
-                            visible: logicCart.getCartRsp.value?.data?.cartDetails?.isNotEmpty==true,
+                            visible: logicCart.getCartRsp.value?.data
+                                    ?.cartDetails?.isNotEmpty ==
+                                true,
                             child: Positioned(
                               right: 5,
                               bottom: 25,
                               child: Container(
                                 decoration: BoxDecoration(
                                     shape: BoxShape.circle,
-                                    color: XColor.primary
-                                ),
+                                    color: XColor.primary),
                                 child: Padding(
                                   padding: const EdgeInsets.all(5),
                                   child: Text(
-                                    "${logicCart.getCartRsp.value?.data?.cartDetails
-                                        ?.length}",
-                                    style: TextStyle(
-                                        color: Colors.white
-                                    ),
+                                    "${logicCart.getCartRsp.value?.data?.cartDetails?.length}",
+                                    style: const TextStyle(color: Colors.white),
                                   ),
                                 ),
                               ),
@@ -233,701 +214,694 @@ class ProductPage extends StatelessWidget {
                       );
                     })
                   ],
-
                 );
               }),
-              SliverToBoxAdapter(
-                  child: Obx(() {
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        const SizedBox(height: 10,),
-                        Container(
-                          width: MediaQuery
-                              .of(context)
-                              .size
-                              .width,
-                          color: Colors.white,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Visibility(
-                              visible: logic.getProductByIdRsp.value?.data
-                                  ?.galleryImagesUrl?.isEmpty == false,
-                              replacement: SizedBox(
-                                height: 50,
-                                child: ListView.separated(
-                                  physics: const AlwaysScrollableScrollPhysics(),
-                                  scrollDirection: Axis.horizontal,
-                                  shrinkWrap: true,
-                                  itemCount: 5,
-                                  itemBuilder: (context, index) {
-                                    return Shimmer.fromColors(
-                                      baseColor: Colors.grey.shade300,
-                                      highlightColor: Colors.grey.shade100,
-                                      child: Container(
-                                        decoration: BoxDecoration(
-
-                                          color: Colors.grey.shade300,
-                                          borderRadius: BorderRadius.circular(5),
-                                        ),
-                                        width: MediaQuery
-                                            .of(context)
-                                            .size
-                                            .width *
-                                            .15,
-                                        height: 30,
-
-                                      ),
-                                    );
-                                  },
-                                  separatorBuilder: (context, index) {
-                                    return const SizedBox(
-                                      width: 10,
-                                    );
-                                  },
-                                ),
-                              ),
-                              child: SizedBox(
-                                height: 50,
-                                child: ListView.separated(
-                                  controller: logic.scrollController,
-                                  physics: const AlwaysScrollableScrollPhysics(),
-                                  scrollDirection: Axis.horizontal,
-                                  shrinkWrap: true,
-
-                                  itemCount:
-                                  logic.getProductByIdRsp.value?.data
-                                      ?.galleryImagesUrl?.length ??
-                                      0,
-                                  itemBuilder: (context, index) {
-                                    return Obx(() {
-                                      return GestureDetector(
-                                        onTap: () {
-                                          logic.indexSlider.value = index;
-                                          logic.carouselControl.animateToPage(
-                                              logic.indexSlider.value);
-
-                                          print(">>>>>>>>>>>>>>>>>>>${logic
-                                              .indexSlider.value}");
-                                        },
-                                        child: Visibility(
-                                          visible: logic.indexSlider.value ==
-                                              index,
-                                          replacement: Container(
-                                            decoration: BoxDecoration(
-                                              border: Border.all(
-                                                  color: Colors.grey.shade200),
-                                              borderRadius: BorderRadius.circular(
-                                                  5),
-                                            ),
-
-                                            child: Padding(
-                                              padding: const EdgeInsets.symmetric(
-                                                  vertical: 5, horizontal: 3),
-                                              child: GlobalImage(
-                                                imageUrl: logic.getProductByIdRsp
-                                                    .value?.data
-                                                    ?.galleryImagesUrl?[index]
-                                                    .smallUrl ??
-                                                    '',
-                                                width: MediaQuery
-                                                    .of(context)
-                                                    .size
-                                                    .width *
-                                                    .1,
-                                                height: 30,
-                                                // boxFit: BoxFit.cover,
-                                              ),
-                                            ),
-                                          ),
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              border: Border.all(
-                                                  color: XColor.primary,
-                                                  width: 2),
-                                              borderRadius: BorderRadius.circular(
-                                                  5),
-                                            ),
-                                            child: Padding(
-                                              padding: const EdgeInsets.symmetric(
-                                                  vertical: 5, horizontal: 3),
-                                              child: GlobalImage(
-                                                imageUrl: logic.getProductByIdRsp
-                                                    .value?.data
-                                                    ?.galleryImagesUrl?[index]
-                                                    .smallUrl ??
-                                                    '',
-                                                width: MediaQuery
-                                                    .of(context)
-                                                    .size
-                                                    .width *
-                                                    .1,
-                                                height: 30,
-
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      );
-                                    });
-                                  },
-                                  separatorBuilder: (context, index) {
-                                    return const SizedBox(
-                                      width: 10,
-                                    );
-                                  },
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Visibility(
-                          visible: logic.getProductByIdRsp.value?.data.isNull ==
+              SliverToBoxAdapter(child: Obx(() {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      color: Colors.white,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Visibility(
+                          visible: logic.getProductByIdRsp.value?.data
+                                  ?.galleryImagesUrl?.isEmpty ==
                               false,
-                          replacement: Center(
-                            child: CircularProgressIndicator(
-                              color: XColor.primary,
-                            ),
-                          ),
-                          child: Column(
-                            children: [
-                              Container(
-                                color: Colors.white,
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 20, vertical: 10),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment
-                                            .spaceBetween,
-                                        children: [
-                                          Expanded(
-                                            child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment
-                                                  .start,
-                                              children: [
-                                                Text(
-                                                  "Thương hiệu",
-                                                  style: const TextStyle(
-                                                      fontSize: 14,
-                                                      fontWeight: FontWeight
-                                                          .w300),
-                                                ),
-                                                const SizedBox(
-                                                  height: 10,
-                                                ),
-                                                Text(
-                                                  logic.getProductByIdRsp.value
-                                                      ?.data
-                                                      ?.productName ?? "",
-                                                  style: const TextStyle(
-                                                      fontSize: 16,
-                                                      fontWeight: FontWeight
-                                                          .w600),
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                          Row(
-                                            children: [
-                                              Icon(
-                                                Icons.star,
-                                                color: Colors.orange.shade300,
-                                              ),
-                                              const Text('4.5(231)')
-                                            ],
-                                          )
-                                        ],
-                                      ),
-
-
-                                      const SizedBox(
-                                        height: 15,
-                                      ),
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment
-                                            .spaceBetween,
-                                        children: [
-                                          Text(
-                                            NumberFormat.simpleCurrency(
-                                                locale: 'VI')
-                                                .format(
-                                                logic.getProductByIdRsp.value
-                                                    ?.data
-                                                    ?.price ??
-                                                    0),
-                                            style: const TextStyle(
-                                                color: Colors.redAccent,
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w700,
-                                                letterSpacing: 1
-                                            ),
-                                          ),
-
-
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 20),
-                                            child: Row(
-                                              children: [
-                                                Text("Số lượng: "),
-                                                const SizedBox(width: 5,),
-                                                Container(
-                                                  height: 30,
-                                                  decoration: BoxDecoration(
-                                                      border: Border.all(
-                                                          color: Colors.grey
-                                                              .shade300),
-                                                      borderRadius: BorderRadius
-                                                          .circular(
-                                                          20)),
-                                                  child: Row(
-                                                    children: [
-                                                      Visibility(
-                                                        visible: logic.quantity
-                                                            .value >= 2,
-                                                        replacement: IconButton(
-                                                            icon: Icon(Icons
-                                                                .remove,
-                                                              size: 15,
-                                                              color: Colors.grey
-                                                                  .shade200,),
-                                                            onPressed: null
-                                                        ),
-                                                        child: IconButton(
-                                                          icon: Icon(Icons.remove,
-                                                              size: 15),
-                                                          onPressed: () {
-                                                            logic.quantity
-                                                                .value--;
-                                                          },
-                                                        ),
-                                                      ),
-                                                      Padding(
-                                                        padding: EdgeInsets
-                                                            .symmetric(
-                                                            horizontal: 1),
-                                                        child: Text(
-                                                            logic.quantity.value
-                                                                .toString()),
-                                                      ),
-                                                      IconButton(
-                                                        icon: Icon(
-                                                            Icons.add, size: 15),
-                                                        onPressed: () {
-                                                          logic.quantity.value++;
-                                                        },
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      // const SizedBox(
-                                      //   height: 30,
-                                      // ),
-                                      // Row(
-                                      //   // mainAxisAlignment: MainAxisAlignment
-                                      //   //     .spaceBetween,
-                                      //   children: [
-                                      //     Text("Màu sắc: "),
-                                      //     const SizedBox(width: 5,),
-                                      //     Icon(
-                                      //       Icons.circle, color: Colors.black,),
-                                      //     const SizedBox(width: 5,),
-                                      //     Icon(Icons.circle, color: Colors.grey,),
-                                      //     const SizedBox(width: 5,),
-                                      //     Icon(Icons.circle,
-                                      //       color: Colors.yellowAccent,),
-                                      //     const SizedBox(width: 5,),
-                                      //     Icon(Icons.circle,
-                                      //       color: Colors.pinkAccent,),
-                                      //
-                                      //   ],
-                                      // ),
-                                      // const SizedBox(
-                                      //   height: 20,
-                                      // ),
-                                      // Row(
-                                      //   // mainAxisAlignment: MainAxisAlignment
-                                      //   //     .spaceBetween,
-                                      //   children: [
-                                      //     Text("Phiên bản: "),
-                                      //     const SizedBox(width: 5,),
-                                      //     Container(
-                                      //       width: MediaQuery.of(context).size.width*.15,
-                                      //       height: 30,
-                                      //       decoration: BoxDecoration(
-                                      //           border: Border.all(
-                                      //               color: Colors.black
-                                      //           ),
-                                      //           borderRadius: BorderRadius.circular(5)
-                                      //       ),
-                                      //       child: Center(child: Text('64GB')),
-                                      //     ),
-                                      //     const SizedBox(width: 10,),
-                                      //     Container(
-                                      //       width: MediaQuery.of(context).size.width*.15,
-                                      //       height: 30,
-                                      //       decoration: BoxDecoration(
-                                      //           border: Border.all(
-                                      //               color: XColor.primary
-                                      //           ),
-                                      //           borderRadius: BorderRadius.circular(5)
-                                      //       ),
-                                      //       child: Center(child: Text('128GB')),
-                                      //     ),
-                                      //     const SizedBox(width: 10,),
-                                      //     Container(
-                                      //       width: MediaQuery.of(context).size.width*.15,
-                                      //       height: 30,
-                                      //       decoration: BoxDecoration(
-                                      //           border: Border.all(
-                                      //               color: Colors.black
-                                      //           ),
-                                      //           borderRadius: BorderRadius.circular(5)
-                                      //       ),
-                                      //       child: Center(child: Text('256GB')),
-                                      //     ),
-                                      //     const SizedBox(width: 10,),
-                                      //     Container(
-                                      //       width: MediaQuery.of(context).size.width*.15,
-                                      //       height: 30,
-                                      //       decoration: BoxDecoration(
-                                      //           border: Border.all(
-                                      //               color: Colors.black
-                                      //           ),
-                                      //           borderRadius: BorderRadius.circular(5)
-                                      //       ),
-                                      //       child: Center(child: Text('512GB')),
-                                      //     ),
-                                      //
-                                      //
-                                      //     // Row(
-                                      //     //   mainAxisAlignment: MainAxisAlignment
-                                      //     //       .start,
-                                      //     //   children: [
-                                      //     //     const Text('Phiên bản: '),
-                                      //     //     const SizedBox(
-                                      //     //       width: 2,
-                                      //     //     ),
-                                      //     //     Container(
-                                      //     //       padding: const EdgeInsets.symmetric(
-                                      //     //           horizontal: 10, vertical: 5),
-                                      //     //       decoration: BoxDecoration(
-                                      //     //           border: Border.all(
-                                      //     //               color: XColor.primary),
-                                      //     //           borderRadius: BorderRadius
-                                      //     //               .circular(
-                                      //     //               5)),
-                                      //     //       child: Text(
-                                      //     //         '256GB',
-                                      //     //         style: TextStyle(
-                                      //     //             color: XColor.primary),
-                                      //     //       ),
-                                      //     //     ),
-                                      //     //     const SizedBox(width: 5),
-                                      //     //     Container(
-                                      //     //       padding: const EdgeInsets.symmetric(
-                                      //     //           horizontal: 10, vertical: 5),
-                                      //     //       decoration: BoxDecoration(
-                                      //     //           border: Border.all(
-                                      //     //               color: Colors.black),
-                                      //     //           borderRadius: BorderRadius
-                                      //     //               .circular(
-                                      //     //               8)),
-                                      //     //       child: const Text(
-                                      //     //         '128GB',
-                                      //     //       ),
-                                      //     //     ),
-                                      //     //   ],
-                                      //     // )
-                                      //   ],
-                                      // ),
-
-
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(height: 10,),
-                              Container(
-                                color: Colors.white,
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 20, vertical: 20),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text('Thông số kĩ thuật',
-                                          style: TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w700
-                                          )
-                                      ),
-                                      const SizedBox(height: 20,),
-                                      HtmlWidget(
-                                          logic.getProductByIdRsp.value?.data
-                                              ?.detail ??
-                                              ""
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              SizedBox(height: 10,),
-                              Obx(() {
-                                return Container(
-                                  color: Colors.white,
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 10, vertical: 20),
-                                    child: Column(
-                                      children: [
-
-                                        Visibility(
-                                          visible: logic.viewAll.value == false,
-                                          replacement: HtmlWidget(
-                                            logic.getProductByIdRsp.value?.data
-                                                ?.desctiption ??
-                                                "",
-                                          ),
-                                          child: Stack(
-                                            alignment: Alignment.bottomCenter,
-                                            children: [
-                                              SizedBox(
-                                                height: MediaQuery
-                                                    .of(context)
-                                                    .size
-                                                    .height * .6,
-                                                child: ClipRRect(
-                                                  child: HtmlWidget(
-                                                    logic.getProductByIdRsp.value
-                                                        ?.data
-                                                        ?.desctiption ??
-                                                        "",
-
-
-                                                  ),
-                                                ),
-                                              ),
-                                              Positioned(
-                                                right: 0,
-                                                left: 0,
-                                                bottom: 0,
-                                                child: AnimatedOpacity(
-                                                  duration: Duration(seconds: 2),
-                                                  opacity: 1,
-                                                  child: Container(
-                                                    height: 128,
-                                                    decoration: BoxDecoration(
-                                                      color: Colors.white,
-                                                      gradient: LinearGradient(
-                                                        colors: [
-                                                          Color(0x00ffffff),
-                                                          Colors.white,
-                                                          Colors.white,
-                                                        ],
-                                                        stops: [
-                                                          0,
-                                                          0.9,
-                                                          1,
-                                                        ],
-                                                        begin: Alignment
-                                                            .topCenter,
-                                                        end: Alignment
-                                                            .bottomCenter,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-
-
-                                            ],
-                                          ),
-                                        ),
-                                        Center(
-                                          child: Visibility(
-                                            visible: logic.viewAll.value == false,
-                                            replacement: TextButton(
-                                                onPressed: () {
-                                                  logic.viewAll.value = false;
-                                                },
-                                                child: Row(
-                                                  mainAxisAlignment: MainAxisAlignment
-                                                      .center,
-                                                  children: [
-                                                    const Text("Thu gọn",
-                                                      style: TextStyle(
-
-                                                          fontSize: 14
-                                                      ),
-                                                    ),
-                                                    Icon(Icons.keyboard_arrow_up,
-                                                      color: XColor.primary,)
-                                                  ],
-                                                )),
-                                            child: TextButton(
-                                                onPressed: () {
-                                                  logic.viewAll.value = true;
-                                                },
-                                                child: Row(
-                                                  mainAxisAlignment: MainAxisAlignment
-                                                      .center,
-                                                  children: [
-                                                    const Text("Xem thêm",
-                                                      style: TextStyle(
-
-                                                          fontSize: 14
-                                                      ),
-                                                    ),
-                                                    Icon(
-                                                      Icons.keyboard_arrow_down,
-                                                      color: XColor.primary,)
-                                                  ],
-                                                )),
-                                          ),
-                                        ),
-                                      ],
+                          replacement: SizedBox(
+                            height: 50,
+                            child: ListView.separated(
+                              physics: const AlwaysScrollableScrollPhysics(),
+                              scrollDirection: Axis.horizontal,
+                              shrinkWrap: true,
+                              itemCount: 5,
+                              itemBuilder: (context, index) {
+                                return Shimmer.fromColors(
+                                  baseColor: Colors.grey.shade300,
+                                  highlightColor: Colors.grey.shade100,
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: Colors.grey.shade300,
+                                      borderRadius: BorderRadius.circular(5),
                                     ),
+                                    width:
+                                        MediaQuery.of(context).size.width * .15,
+                                    height: 30,
                                   ),
                                 );
-                              }),
-                              SizedBox(height: 10,),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 10),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                  ),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                              },
+                              separatorBuilder: (context, index) {
+                                return const SizedBox(
+                                  width: 10,
+                                );
+                              },
+                            ),
+                          ),
+                          child: SizedBox(
+                            height: 50,
+                            child: ListView.separated(
+                              controller: logic.scrollController,
+                              physics: const AlwaysScrollableScrollPhysics(),
+                              scrollDirection: Axis.horizontal,
+                              shrinkWrap: true,
+                              itemCount: logic.getProductByIdRsp.value?.data
+                                      ?.galleryImagesUrl?.length ??
+                                  0,
+                              itemBuilder: (context, index) {
+                                return Obx(() {
+                                  return GestureDetector(
+                                    onTap: () {
+                                      logic.indexSlider.value = index;
+                                      logic.carouselControl.animateToPage(
+                                          logic.indexSlider.value);
+
+                                      print(
+                                          ">>>>>>>>>>>>>>>>>>>${logic.indexSlider.value}");
+                                    },
+                                    child: Visibility(
+                                      visible: logic.indexSlider.value == index,
+                                      replacement: Container(
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                              color: Colors.grey.shade200),
+                                          borderRadius:
+                                              BorderRadius.circular(5),
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 5, horizontal: 3),
+                                          child: GlobalImage(
+                                            imageUrl: logic
+                                                    .getProductByIdRsp
+                                                    .value
+                                                    ?.data
+                                                    ?.galleryImagesUrl?[index]
+                                                    .smallUrl ??
+                                                '',
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                .1,
+                                            height: 30,
+                                            // boxFit: BoxFit.cover,
+                                          ),
+                                        ),
+                                      ),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                              color: XColor.primary, width: 2),
+                                          borderRadius:
+                                              BorderRadius.circular(5),
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 5, horizontal: 3),
+                                          child: GlobalImage(
+                                            imageUrl: logic
+                                                    .getProductByIdRsp
+                                                    .value
+                                                    ?.data
+                                                    ?.galleryImagesUrl?[index]
+                                                    .smallUrl ??
+                                                '',
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                .1,
+                                            height: 30,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                });
+                              },
+                              separatorBuilder: (context, index) {
+                                return const SizedBox(
+                                  width: 10,
+                                );
+                              },
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Visibility(
+                      visible:
+                          logic.getProductByIdRsp.value?.data.isNull == false,
+                      replacement: Center(
+                        child: CircularProgressIndicator(
+                          color: XColor.primary,
+                        ),
+                      ),
+                      child: Column(
+                        children: [
+                          Container(
+                            color: Colors.white,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 10),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
-                                      const SizedBox(
-                                        height: 5,
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              logic
+                                                      .getProductByIdRsp
+                                                      .value
+                                                      ?.data
+                                                      ?.manufacturerName ??
+                                                  "",
+                                              style: const TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w300),
+                                            ),
+                                            const SizedBox(
+                                              height: 10,
+                                            ),
+                                            Text(
+                                              logic.getProductByIdRsp.value
+                                                      ?.data?.productName ??
+                                                  "",
+                                              style: const TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w600),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+
+                                  const SizedBox(
+                                    height: 15,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        NumberFormat.simpleCurrency(
+                                                locale: 'VI')
+                                            .format(logic.getProductByIdRsp
+                                                    .value?.data?.price ??
+                                                0),
+                                        style: const TextStyle(
+                                            color: Colors.redAccent,
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w700,
+                                            letterSpacing: 1),
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.symmetric(
-                                            vertical: 10, horizontal: 15),
+                                            horizontal: 10),
                                         child: Row(
-                                          mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Text(
-                                              'Sản phẩm cùng loại',
-                                              style: TextStyle(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: XColor.primary
-                                              ),
+                                            const Text("Số lượng: "),
+                                            const SizedBox(
+                                              width: 5,
                                             ),
-                                            InkWell(
-                                              onTap: () {
-                                                Get.to(
-                                                    ListProductPage(name: logic.getProductRsp.value?.data?.first.categoryName??"",));
-                                              },
+                                            Container(
+                                              height: 30,
+                                              decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                      color:
+                                                          Colors.grey.shade300),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          20)),
                                               child: Row(
                                                 children: [
-                                                  Text(
-                                                    'Xem thêm',
-                                                    style: TextStyle(
-                                                        color: Colors.black,
-                                                        fontSize: 14,
-                                                        fontWeight: FontWeight.w500),
+                                                  Visibility(
+                                                    visible:
+                                                        logic.quantity.value >=
+                                                            2,
+                                                    replacement: IconButton(
+                                                        icon: Icon(
+                                                          Icons.remove,
+                                                          size: 15,
+                                                          color: Colors
+                                                              .grey.shade200,
+                                                        ),
+                                                        onPressed: null),
+                                                    child: IconButton(
+                                                      icon: const Icon(
+                                                          Icons.remove,
+                                                          size: 15),
+                                                      onPressed: () {
+                                                        logic.quantity.value--;
+                                                      },
+                                                    ),
                                                   ),
-                                                  Icon(Icons.arrow_forward_ios_outlined,size: 12,)
+                                                  Padding(
+                                                    padding: const EdgeInsets
+                                                            .symmetric(
+                                                        horizontal: 1),
+                                                    child: Text(logic
+                                                        .quantity.value
+                                                        .toString()),
+                                                  ),
+                                                  IconButton(
+                                                    icon: const Icon(Icons.add,
+                                                        size: 15),
+                                                    onPressed: () {
+                                                      logic.quantity.value++;
+                                                    },
+                                                  ),
                                                 ],
                                               ),
                                             ),
                                           ],
                                         ),
                                       ),
-                                      Visibility(
-                                        visible: logic.getProductRsp.value?.data
-                                            ?.isNotEmpty == true,
+                                    ],
+                                  ),
+                                  // const SizedBox(
+                                  //   height: 30,
+                                  // ),
+                                  // Row(
+                                  //   // mainAxisAlignment: MainAxisAlignment
+                                  //   //     .spaceBetween,
+                                  //   children: [
+                                  //     Text("Màu sắc: "),
+                                  //     const SizedBox(width: 5,),
+                                  //     Icon(
+                                  //       Icons.circle, color: Colors.black,),
+                                  //     const SizedBox(width: 5,),
+                                  //     Icon(Icons.circle, color: Colors.grey,),
+                                  //     const SizedBox(width: 5,),
+                                  //     Icon(Icons.circle,
+                                  //       color: Colors.yellowAccent,),
+                                  //     const SizedBox(width: 5,),
+                                  //     Icon(Icons.circle,
+                                  //       color: Colors.pinkAccent,),
+                                  //
+                                  //   ],
+                                  // ),
+                                  // const SizedBox(
+                                  //   height: 20,
+                                  // ),
+                                  // Row(
+                                  //   // mainAxisAlignment: MainAxisAlignment
+                                  //   //     .spaceBetween,
+                                  //   children: [
+                                  //     Text("Phiên bản: "),
+                                  //     const SizedBox(width: 5,),
+                                  //     Container(
+                                  //       width: MediaQuery.of(context).size.width*.15,
+                                  //       height: 30,
+                                  //       decoration: BoxDecoration(
+                                  //           border: Border.all(
+                                  //               color: Colors.black
+                                  //           ),
+                                  //           borderRadius: BorderRadius.circular(5)
+                                  //       ),
+                                  //       child: Center(child: Text('64GB')),
+                                  //     ),
+                                  //     const SizedBox(width: 10,),
+                                  //     Container(
+                                  //       width: MediaQuery.of(context).size.width*.15,
+                                  //       height: 30,
+                                  //       decoration: BoxDecoration(
+                                  //           border: Border.all(
+                                  //               color: XColor.primary
+                                  //           ),
+                                  //           borderRadius: BorderRadius.circular(5)
+                                  //       ),
+                                  //       child: Center(child: Text('128GB')),
+                                  //     ),
+                                  //     const SizedBox(width: 10,),
+                                  //     Container(
+                                  //       width: MediaQuery.of(context).size.width*.15,
+                                  //       height: 30,
+                                  //       decoration: BoxDecoration(
+                                  //           border: Border.all(
+                                  //               color: Colors.black
+                                  //           ),
+                                  //           borderRadius: BorderRadius.circular(5)
+                                  //       ),
+                                  //       child: Center(child: Text('256GB')),
+                                  //     ),
+                                  //     const SizedBox(width: 10,),
+                                  //     Container(
+                                  //       width: MediaQuery.of(context).size.width*.15,
+                                  //       height: 30,
+                                  //       decoration: BoxDecoration(
+                                  //           border: Border.all(
+                                  //               color: Colors.black
+                                  //           ),
+                                  //           borderRadius: BorderRadius.circular(5)
+                                  //       ),
+                                  //       child: Center(child: Text('512GB')),
+                                  //     ),
+                                  //
+                                  //
+                                  //     // Row(
+                                  //     //   mainAxisAlignment: MainAxisAlignment
+                                  //     //       .start,
+                                  //     //   children: [
+                                  //     //     const Text('Phiên bản: '),
+                                  //     //     const SizedBox(
+                                  //     //       width: 2,
+                                  //     //     ),
+                                  //     //     Container(
+                                  //     //       padding: const EdgeInsets.symmetric(
+                                  //     //           horizontal: 10, vertical: 5),
+                                  //     //       decoration: BoxDecoration(
+                                  //     //           border: Border.all(
+                                  //     //               color: XColor.primary),
+                                  //     //           borderRadius: BorderRadius
+                                  //     //               .circular(
+                                  //     //               5)),
+                                  //     //       child: Text(
+                                  //     //         '256GB',
+                                  //     //         style: TextStyle(
+                                  //     //             color: XColor.primary),
+                                  //     //       ),
+                                  //     //     ),
+                                  //     //     const SizedBox(width: 5),
+                                  //     //     Container(
+                                  //     //       padding: const EdgeInsets.symmetric(
+                                  //     //           horizontal: 10, vertical: 5),
+                                  //     //       decoration: BoxDecoration(
+                                  //     //           border: Border.all(
+                                  //     //               color: Colors.black),
+                                  //     //           borderRadius: BorderRadius
+                                  //     //               .circular(
+                                  //     //               8)),
+                                  //     //       child: const Text(
+                                  //     //         '128GB',
+                                  //     //       ),
+                                  //     //     ),
+                                  //     //   ],
+                                  //     // )
+                                  //   ],
+                                  // ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Container(
+                            color: Colors.white,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 20),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Text('Thông số kĩ thuật',
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w700)),
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
+                                  HtmlWidget(logic.getProductByIdRsp.value?.data
+                                          ?.detail ??
+                                      ""),
+                                ],
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Obx(() {
+                            return Container(
+                              color: Colors.white,
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 20),
+                                child: Column(
+                                  children: [
+                                    Visibility(
+                                      visible: logic.viewAll.value == false,
+                                      replacement: HtmlWidget(
+                                        logic.getProductByIdRsp.value?.data
+                                                ?.desctiption ??
+                                            "",
+                                      ),
+                                      child: Stack(
+                                        alignment: Alignment.bottomCenter,
+                                        children: [
+                                          SizedBox(
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                .6,
+                                            child: ClipRRect(
+                                              child: HtmlWidget(
+                                                logic.getProductByIdRsp.value
+                                                        ?.data?.desctiption ??
+                                                    "",
+                                              ),
+                                            ),
+                                          ),
+                                          Positioned(
+                                            right: 0,
+                                            left: 0,
+                                            bottom: 0,
+                                            child: AnimatedOpacity(
+                                              duration:
+                                                  const Duration(seconds: 2),
+                                              opacity: 1,
+                                              child: Container(
+                                                height: 128,
+                                                decoration: const BoxDecoration(
+                                                  color: Colors.white,
+                                                  gradient: LinearGradient(
+                                                    colors: [
+                                                      Color(0x00ffffff),
+                                                      Colors.white,
+                                                      Colors.white,
+                                                    ],
+                                                    stops: [
+                                                      0,
+                                                      0.9,
+                                                      1,
+                                                    ],
+                                                    begin: Alignment.topCenter,
+                                                    end: Alignment.bottomCenter,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Center(
+                                      child: Visibility(
+                                        visible: logic.viewAll.value == false,
+                                        replacement: TextButton(
+                                            onPressed: () {
+                                              logic.viewAll.value = false;
+                                            },
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                const Text(
+                                                  "Thu gọn",
+                                                  style:
+                                                      TextStyle(fontSize: 14),
+                                                ),
+                                                Icon(
+                                                  Icons.keyboard_arrow_up,
+                                                  color: XColor.primary,
+                                                )
+                                              ],
+                                            )),
+                                        child: TextButton(
+                                            onPressed: () {
+                                              logic.viewAll.value = true;
+                                            },
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                const Text(
+                                                  "Xem thêm",
+                                                  style:
+                                                      TextStyle(fontSize: 14),
+                                                ),
+                                                Icon(
+                                                  Icons.keyboard_arrow_down,
+                                                  color: XColor.primary,
+                                                )
+                                              ],
+                                            )),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          }),
+                          const SizedBox(height: 10,),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 10),
+                            child: Container(
+                              decoration: const BoxDecoration(
+                                color: Colors.white,
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const SizedBox(
+                                    height: 5,
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10, horizontal: 15),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          'Các sản phẩm khác của ${logic.getProductByIdRsp.value?.data?.manufacturerName}',
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.bold,
+                                              color: XColor.primary),
+                                        ),
+                                        InkWell(
+                                          onTap: () {
+                                            Get.to(ListProductPage(
+                                              name: logic
+                                                      .getProductByBrandRsp
+                                                      .value
+                                                      ?.data
+                                                      ?.first
+                                                      .manufacturerName ??
+                                                  "",
+                                            ));
+                                          },
+                                          child: Row(
+                                            children: [
+                                              const Text(
+                                                'Xem thêm',
+                                                style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 14,
+                                                    fontWeight:
+                                                        FontWeight.w500),
+                                              ),
+                                              const Icon(
+                                                Icons
+                                                    .arrow_forward_ios_outlined,
+                                                size: 12,
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Obx(() => Visibility(
+                                        visible: logic.getProductByBrandRsp.value?.data
+                                                ?.isNotEmpty ==
+                                            true ,
                                         replacement: Padding(
-                                          padding: const EdgeInsets.symmetric(horizontal: 5),
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 5),
                                           child: SizedBox(
-                                            height:
-                                            MediaQuery
-                                                .of(context)
-                                                .size
-                                                .height * .4,
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                .4,
                                             child: ListView.separated(
                                               shrinkWrap: true,
                                               scrollDirection: Axis.horizontal,
                                               itemCount: 3,
                                               itemBuilder: (context, ind) {
                                                 return Padding(
-                                                    padding: const EdgeInsets.symmetric(vertical: 8,horizontal: 2),
+                                                    padding: const EdgeInsets
+                                                            .symmetric(
+                                                        vertical: 8,
+                                                        horizontal: 2),
                                                     child: Container(
-                                                      height: MediaQuery
-                                                          .of(context)
-                                                          .size
-                                                          .height *
-                                                          .25,
+                                                      height:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .height *
+                                                              .25,
                                                       // padding: EdgeInsets.symmetric(vertical: 20),
-                                                      width: MediaQuery
-                                                          .of(context)
-                                                          .size
-                                                          .width *
-                                                          .4,
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width *
+                                                              .4,
                                                       decoration: BoxDecoration(
                                                         borderRadius:
-                                                        BorderRadius.circular(10),
+                                                            BorderRadius
+                                                                .circular(10),
                                                         // border: Border.all(color: Colors.red),
                                                         border: Border.all(
-                                                          color: Colors.grey.shade300,
+                                                          color: Colors
+                                                              .grey.shade300,
                                                         ),
-                                                        color: Colors.grey.shade200,
+                                                        color: Colors
+                                                            .grey.shade200,
                                                       ),
                                                       child: Column(
                                                         // mainAxisAlignment: MainAxisAlignment.,
                                                         crossAxisAlignment:
-                                                        CrossAxisAlignment.start,
+                                                            CrossAxisAlignment
+                                                                .start,
                                                         children: [
                                                           // const SizedBox(height: 5,),
                                                           Column(
                                                             crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .stretch,
+                                                                CrossAxisAlignment
+                                                                    .stretch,
                                                             children: [
-                                                              Shimmer.fromColors(
-                                                                baseColor:
-                                                                Colors.grey.shade300,
+                                                              Shimmer
+                                                                  .fromColors(
+                                                                baseColor: Colors
+                                                                    .grey
+                                                                    .shade300,
                                                                 highlightColor:
-                                                                Colors.grey.shade100,
-                                                                child: Container(
-                                                                  width: MediaQuery
-                                                                      .of(
-                                                                      context)
-                                                                      .size
-                                                                      .width *
+                                                                    Colors.grey
+                                                                        .shade100,
+                                                                child:
+                                                                    Container(
+                                                                  width: MediaQuery.of(
+                                                                              context)
+                                                                          .size
+                                                                          .width *
                                                                       .1,
                                                                   height: 190,
                                                                   decoration:
-                                                                  BoxDecoration(
+                                                                      const BoxDecoration(
                                                                     color: Colors
                                                                         .grey,
-                                                                    borderRadius:
-                                                                    const BorderRadius
-                                                                        .only(
-                                                                        topLeft: Radius
-                                                                            .circular(
-                                                                            10),
-                                                                        topRight: Radius
-                                                                            .circular(
-                                                                            10)),
+                                                                    borderRadius: BorderRadius.only(
+                                                                        topLeft:
+                                                                            Radius.circular(
+                                                                                10),
+                                                                        topRight:
+                                                                            Radius.circular(10)),
                                                                   ),
                                                                 ),
                                                               ),
@@ -935,27 +909,34 @@ class ProductPage extends StatelessWidget {
                                                           ),
 
                                                           Padding(
-                                                            padding: const EdgeInsets
-                                                                .symmetric(
-                                                                horizontal: 8.0,
-                                                                vertical: 5),
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .symmetric(
+                                                                    horizontal:
+                                                                        8.0,
+                                                                    vertical:
+                                                                        5),
                                                             child: Column(
                                                               children: [
                                                                 const SizedBox(
                                                                   height: 5,
                                                                 ),
-                                                                Shimmer.fromColors(
+                                                                Shimmer
+                                                                    .fromColors(
                                                                   baseColor: Colors
-                                                                      .grey.shade300,
-                                                                  highlightColor: Colors
-                                                                      .grey.shade100,
-                                                                  child: Container(
+                                                                      .grey
+                                                                      .shade300,
+                                                                  highlightColor:
+                                                                      Colors
+                                                                          .grey
+                                                                          .shade100,
+                                                                  child:
+                                                                      Container(
                                                                     color: Colors
                                                                         .grey,
                                                                     height: 30,
-                                                                    width: MediaQuery
-                                                                        .of(
-                                                                        context)
+                                                                    width: MediaQuery.of(
+                                                                            context)
                                                                         .size
                                                                         .width,
                                                                     // boxFit: BoxFit.cover,
@@ -968,24 +949,31 @@ class ProductPage extends StatelessWidget {
                                                             height: 3,
                                                           ),
                                                           Padding(
-                                                            padding: const EdgeInsets
-                                                                .symmetric(
-                                                                horizontal: 8.0,
-                                                                vertical: 2),
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .symmetric(
+                                                                    horizontal:
+                                                                        8.0,
+                                                                    vertical:
+                                                                        2),
                                                             child: Column(
                                                               children: [
-                                                                Shimmer.fromColors(
+                                                                Shimmer
+                                                                    .fromColors(
                                                                   baseColor: Colors
-                                                                      .grey.shade300,
-                                                                  highlightColor: Colors
-                                                                      .grey.shade100,
-                                                                  child: Container(
+                                                                      .grey
+                                                                      .shade300,
+                                                                  highlightColor:
+                                                                      Colors
+                                                                          .grey
+                                                                          .shade100,
+                                                                  child:
+                                                                      Container(
                                                                     color: Colors
                                                                         .grey,
                                                                     height: 20,
-                                                                    width: MediaQuery
-                                                                        .of(
-                                                                        context)
+                                                                    width: MediaQuery.of(
+                                                                            context)
                                                                         .size
                                                                         .width,
                                                                     // boxFit: BoxFit.cover,
@@ -999,7 +987,8 @@ class ProductPage extends StatelessWidget {
                                                     ));
                                               },
                                               separatorBuilder:
-                                                  (BuildContext context, int index) {
+                                                  (BuildContext context,
+                                                      int index) {
                                                 return const SizedBox(
                                                   width: 2,
                                                 );
@@ -1008,49 +997,61 @@ class ProductPage extends StatelessWidget {
                                           ),
                                         ),
                                         child: Padding(
-                                          padding: const EdgeInsets.symmetric(horizontal: 5),
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 5),
                                           child: SizedBox(
-                                            height:
-                                            MediaQuery
-                                                .of(context)
-                                                .size
-                                                .height * .4,
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                .4,
                                             child: ListView.separated(
                                               shrinkWrap: true,
                                               scrollDirection: Axis.horizontal,
-                                              itemCount: 10,
+                                              itemCount:  (logic.getProductByBrandRsp
+                                                            .value?.data?.length??0)>=10?10:logic.getProductByBrandRsp
+                                                            .value?.data?.length??0,
                                               itemBuilder: (context, ind) {
-                                                return InkWell(
-                                                  onTap: () async {
-                                                    Get.back();
-                                                    Get.to(ProductPage(
-                                                      id: logic.getProductRsp.value
-                                                          ?.data?[ind].id.toString(),
-
-                                                    ));
-                                                  },
-                                                  child: Padding(
-                                                    padding: const EdgeInsets.symmetric(vertical: 8,horizontal: 2),
-                                                    child: GlobalProduct(
-                                                      imageLink: logic.getProductRsp.value
-                                                          ?.data?[ind].thumpnailUrl,
-
-                                                      defaultPrice: '${logic.getProductRsp
-                                                          .value?.data?[ind]
-                                                          .defaultPrice}',
-                                                      price:
-                                                      '${logic.getProductRsp.value
-                                                          ?.data?[ind].price}',
-                                                      nameProduct: logic.getProductRsp.value
-                                                          ?.data?[ind].productName,
-                                                      numStar: '5.0',
-
+                                                return Visibility(
+                                                  visible: logic.getProductByBrandRsp
+                                                            .value?.data?[ind].id!=logic.getProductByIdRsp.value?.data?.id,
+                                                  child: InkWell(
+                                                    onTap: () async {
+                                                      Get.back();
+                                                      Get.to(ProductPage(
+                                                        id: logic.getProductByBrandRsp
+                                                            .value?.data?[ind].id
+                                                            .toString(),
+                                                      ));
+                                                    },
+                                                    child: Padding(
+                                                      padding: const EdgeInsets
+                                                              .symmetric(
+                                                          vertical: 8,
+                                                          horizontal: 2),
+                                                      child: GlobalProduct(
+                                                        imageLink: logic
+                                                            .getProductByBrandRsp
+                                                            .value
+                                                            ?.data?[ind]
+                                                            .thumpnailUrl,
+                                                        defaultPrice:
+                                                            '${logic.getProductByBrandRsp.value?.data?[ind].defaultPrice}',
+                                                        price:
+                                                            '${logic.getProductByBrandRsp.value?.data?[ind].price}',
+                                                        nameProduct: logic
+                                                            .getProductByBrandRsp
+                                                            .value
+                                                            ?.data?[ind]
+                                                            .productName,
+                                                        numStar: '5.0',
+                                                      ),
                                                     ),
                                                   ),
                                                 );
                                               },
                                               separatorBuilder:
-                                                  (BuildContext context, int index) {
+                                                  (BuildContext context,
+                                                      int index) {
                                                 return const SizedBox(
                                                   width: 2,
                                                 );
@@ -1058,34 +1059,345 @@ class ProductPage extends StatelessWidget {
                                             ),
                                           ),
                                         ),
-                                      ),
-                                      const SizedBox(height: 5,),
-                                    ],
+                                      )),
+                                  const SizedBox(
+                                    height: 5,
                                   ),
-                                ),
+                                ],
                               ),
-                            ],
+                            ),
                           ),
-                        ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 10),
+                            child: Container(
+                              decoration: const BoxDecoration(
+                                color: Colors.white,
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const SizedBox(
+                                    height: 5,
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10, horizontal: 15),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          'Sản phẩm cùng loại',
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.bold,
+                                              color: XColor.primary),
+                                        ),
+                                        InkWell(
+                                          onTap: () {
+                                            Get.to(ListProductPage(
+                                              name: logic
+                                                      .getProductRsp
+                                                      .value
+                                                      ?.data
+                                                      ?.first
+                                                      .categoryName ??
+                                                  "",
+                                            ));
+                                          },
+                                          child: Row(
+                                            children: [
+                                              const Text(
+                                                'Xem thêm',
+                                                style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 14,
+                                                    fontWeight:
+                                                        FontWeight.w500),
+                                              ),
+                                              const Icon(
+                                                Icons
+                                                    .arrow_forward_ios_outlined,
+                                                size: 12,
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Obx(() => Visibility(
+                                        visible: logic.getProductRsp.value?.data
+                                                ?.isNotEmpty ==
+                                            true ,
+                                        replacement: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 5),
+                                          child: SizedBox(
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                .4,
+                                            child: ListView.separated(
+                                              shrinkWrap: true,
+                                              scrollDirection: Axis.horizontal,
+                                              itemCount: 3,
+                                              itemBuilder: (context, ind) {
+                                                return Padding(
+                                                    padding: const EdgeInsets
+                                                            .symmetric(
+                                                        vertical: 8,
+                                                        horizontal: 2),
+                                                    child: Container(
+                                                      height:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .height *
+                                                              .25,
+                                                      // padding: EdgeInsets.symmetric(vertical: 20),
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width *
+                                                              .4,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                        // border: Border.all(color: Colors.red),
+                                                        border: Border.all(
+                                                          color: Colors
+                                                              .grey.shade300,
+                                                        ),
+                                                        color: Colors
+                                                            .grey.shade200,
+                                                      ),
+                                                      child: Column(
+                                                        // mainAxisAlignment: MainAxisAlignment.,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          // const SizedBox(height: 5,),
+                                                          Column(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .stretch,
+                                                            children: [
+                                                              Shimmer
+                                                                  .fromColors(
+                                                                baseColor: Colors
+                                                                    .grey
+                                                                    .shade300,
+                                                                highlightColor:
+                                                                    Colors.grey
+                                                                        .shade100,
+                                                                child:
+                                                                    Container(
+                                                                  width: MediaQuery.of(
+                                                                              context)
+                                                                          .size
+                                                                          .width *
+                                                                      .1,
+                                                                  height: 190,
+                                                                  decoration:
+                                                                      const BoxDecoration(
+                                                                    color: Colors
+                                                                        .grey,
+                                                                    borderRadius: BorderRadius.only(
+                                                                        topLeft:
+                                                                            Radius.circular(
+                                                                                10),
+                                                                        topRight:
+                                                                            Radius.circular(10)),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
 
-                      ],
-                    );
-                  })
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .symmetric(
+                                                                    horizontal:
+                                                                        8.0,
+                                                                    vertical:
+                                                                        5),
+                                                            child: Column(
+                                                              children: [
+                                                                const SizedBox(
+                                                                  height: 5,
+                                                                ),
+                                                                Shimmer
+                                                                    .fromColors(
+                                                                  baseColor: Colors
+                                                                      .grey
+                                                                      .shade300,
+                                                                  highlightColor:
+                                                                      Colors
+                                                                          .grey
+                                                                          .shade100,
+                                                                  child:
+                                                                      Container(
+                                                                    color: Colors
+                                                                        .grey,
+                                                                    height: 30,
+                                                                    width: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width,
+                                                                    // boxFit: BoxFit.cover,
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                          const SizedBox(
+                                                            height: 3,
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .symmetric(
+                                                                    horizontal:
+                                                                        8.0,
+                                                                    vertical:
+                                                                        2),
+                                                            child: Column(
+                                                              children: [
+                                                                Shimmer
+                                                                    .fromColors(
+                                                                  baseColor: Colors
+                                                                      .grey
+                                                                      .shade300,
+                                                                  highlightColor:
+                                                                      Colors
+                                                                          .grey
+                                                                          .shade100,
+                                                                  child:
+                                                                      Container(
+                                                                    color: Colors
+                                                                        .grey,
+                                                                    height: 20,
+                                                                    width: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width,
+                                                                    // boxFit: BoxFit.cover,
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ));
+                                              },
+                                              separatorBuilder:
+                                                  (BuildContext context,
+                                                      int index) {
+                                                return const SizedBox(
+                                                  width: 2,
+                                                );
+                                              },
+                                            ),
+                                          ),
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 5),
+                                          child: SizedBox(
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                .4,
+                                            child: ListView.separated(
+                                              shrinkWrap: true,
+                                              scrollDirection: Axis.horizontal,
+                                              itemCount: 10,
+                                              itemBuilder: (context, ind) {
+                                                return Visibility(
+                                                  visible: logic.getProductRsp
+                                                            .value?.data?[ind].id!=logic.getProductByIdRsp.value?.data?.id,
+                                                  child: InkWell(
+                                                    onTap: () async {
+                                                      Get.back();
+                                                      Get.to(ProductPage(
+                                                        id: logic.getProductRsp
+                                                            .value?.data?[ind].id
+                                                            .toString(),
+                                                      ));
+                                                    },
+                                                    child: Padding(
+                                                      padding: const EdgeInsets
+                                                              .symmetric(
+                                                          vertical: 8,
+                                                          horizontal: 2),
+                                                      child: GlobalProduct(
+                                                        imageLink: logic
+                                                            .getProductRsp
+                                                            .value
+                                                            ?.data?[ind]
+                                                            .thumpnailUrl,
+                                                        defaultPrice:
+                                                            '${logic.getProductRsp.value?.data?[ind].defaultPrice}',
+                                                        price:
+                                                            '${logic.getProductRsp.value?.data?[ind].price}',
+                                                        nameProduct: logic
+                                                            .getProductRsp
+                                                            .value
+                                                            ?.data?[ind]
+                                                            .productName,
+                                                        numStar: '5.0',
+                                                      ),
+                                                    ),
+                                                  ),
+                                                );
+                                              },
+                                              separatorBuilder:
+                                                  (BuildContext context,
+                                                      int index) {
+                                                return const SizedBox(
+                                                  width: 2,
+                                                );
+                                              },
+                                            ),
+                                          ),
+                                        ),
+                                      )),
+                                  const SizedBox(
+                                    height: 5,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                );
+              })
               )
             ],
           ),
         ),
         bottomNavigationBar: Obx(() {
           return Visibility(
-            visible: logic.getProductByIdRsp.value?.data?.thumpnailUrl
-                ?.isNotEmpty == true,
+            visible:
+                logic.getProductByIdRsp.value?.data?.thumpnailUrl?.isNotEmpty ==
+                    true,
             child: BottomAppBar(
               height: 150,
               // color: Colors.transparent,
               elevation: 0.0,
               child: Padding(
-                padding: const EdgeInsets.symmetric(
-                    vertical: 20, horizontal: 5),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 20, horizontal: 5),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -1094,27 +1406,30 @@ class ProductPage extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text("Tổng tiền: "),
-                          const SizedBox(width: 10,),
+                          const Text("Tổng tiền: "),
+                          const SizedBox(
+                            width: 10,
+                          ),
                           Expanded(
                             child: Text(
-                              NumberFormat.simpleCurrency(locale: 'VI')
-                                  .format(
+                              NumberFormat.simpleCurrency(locale: 'VI').format(
                                   ((logic.getProductByIdRsp.value?.data
-                                      ?.price ?? 0) *
+                                              ?.price ??
+                                          0) *
                                       (logic.quantity.value))),
                               style: const TextStyle(
                                   color: Colors.redAccent,
                                   fontSize: 16,
                                   fontWeight: FontWeight.w700,
-                                  letterSpacing: 1
-                              ),
+                                  letterSpacing: 1),
                             ),
                           ),
                         ],
                       ),
                     ),
-                    const SizedBox(height: 15,),
+                    const SizedBox(
+                      height: 15,
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -1123,26 +1438,14 @@ class ProductPage extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(horizontal: 5),
                             child: ElevatedButton(
                               onPressed: () async {
-
                                 await logic.postAddCart(
-                                    productId: logic.getProductByIdRsp.value
-                                        ?.data
-                                        ?.id
-                                        .toString() ?? "",
-                                    quantity: logic.quantity.value.toString() ??
-                                        ""
-                                );
-
+                                    productId: logic
+                                            .getProductByIdRsp.value?.data?.id
+                                            .toString() ??
+                                        "",
+                                    quantity:
+                                        logic.quantity.value.toString() ?? "");
                               },
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 10),
-                                child: Text('Thêm vào giỏ hàng',
-                                  style: TextStyle(
-                                      color: XColor.primary
-                                  ),
-                                ),
-                              ),
                               style: ElevatedButton.styleFrom(
                                 primary: Colors.white,
                                 padding: const EdgeInsets.symmetric(
@@ -1150,7 +1453,14 @@ class ProductPage extends StatelessWidget {
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(5),
                                   side: BorderSide(color: XColor.primary),
-
+                                ),
+                              ),
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 10),
+                                child: Text(
+                                  'Thêm vào giỏ hàng',
+                                  style: TextStyle(color: XColor.primary),
                                 ),
                               ),
                             ),
@@ -1161,18 +1471,21 @@ class ProductPage extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(horizontal: 5),
                             child: ElevatedButton(
                               onPressed: () async {
-
                                 await logic.buyNow(
-                                    productId: logic.getProductByIdRsp.value
-                                        ?.data
-                                        ?.id
-                                        .toString() ?? "",
-                                    quantity: logic.quantity.value.toString() ??
-                                        ""
-                                );
-
-
+                                    productId: logic
+                                            .getProductByIdRsp.value?.data?.id
+                                            .toString() ??
+                                        "",
+                                    quantity:
+                                        logic.quantity.value.toString() ?? "");
                               },
+                              style: ElevatedButton.styleFrom(
+                                primary: XColor.primary,
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 5, vertical: 3),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(5)),
+                              ),
                               child: const Padding(
                                 padding: EdgeInsets.symmetric(vertical: 10),
                                 child: Text(
@@ -1180,13 +1493,6 @@ class ProductPage extends StatelessWidget {
                                   style: TextStyle(
                                       fontSize: 14, color: Colors.white),
                                 ),
-                              ),
-                              style: ElevatedButton.styleFrom(
-                                primary: XColor.primary,
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 5, vertical: 3),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(5)),
                               ),
                             ),
                           ),
