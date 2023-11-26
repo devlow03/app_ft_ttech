@@ -184,7 +184,8 @@ class ProductPage extends StatelessWidget {
                         alignment: Alignment.centerRight,
                         children: [
                           IconButton(
-                            onPressed: () {
+                            onPressed: () async{
+                              await logicCart.getCart();
                               Get.to(const CartPage());
                             },
                             icon: const Icon(Icons.shopping_cart_outlined),

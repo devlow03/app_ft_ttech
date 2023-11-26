@@ -60,8 +60,7 @@ class OrderLogic extends GetxController {
 
   Future<void>postConfirmOrder({required num cartId, required String address, required String payment})async{
 
-      Utils.loading(()async{
-        await postCreateShipping(action: "c");
+      await postCreateShipping(action: "c");
         
         postOrderRsp.value = await tMartServices.postConfirmOrder(
             body: PostConfirmOrderRqstBodies(
@@ -77,15 +76,15 @@ class OrderLogic extends GetxController {
           createVnPay();
         }
         else{
-          Get.offAll(IndexPage());
+          Get.back();
+          final logicCart = Get.put(CartLogic());
+          logicCart.getCart();
+          Get.back();
+          Get.to(const OrderHistoryPage());
           Fluttertoast.showToast(msg: "Đặt hàng thành công",
             backgroundColor: Colors.green
         );
         }
-        // Get.back();
-        
-        
-      });
   }
 
   Future<void>createVnPay()async{

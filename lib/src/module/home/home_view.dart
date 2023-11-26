@@ -41,12 +41,12 @@ class HomePage extends StatelessWidget {
 
                     },
                     icon:
-                    Icon(Icons.notifications_none_outlined,size: 25,color: Colors.white,)
+                    const Icon(Icons.notifications_none_outlined,size: 25,color: Colors.white,)
                     ,
                   ),
                 ],
               )),
-          title: Text("TMART",
+          title: const Text("TMART",
           style: TextStyle(
             color: Colors.white,
             fontSize: 20,

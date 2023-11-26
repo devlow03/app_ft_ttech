@@ -92,7 +92,7 @@ class AddressBookPage extends StatelessWidget {
                                                 )
                                             ),
                                             TextSpan(
-                                                text: "${e.fullAddress}",
+                                                text: "${e.fullAddress}, ${e.wardName}, ${e.districtName}, ${e.cityName}",
                                                 style: const TextStyle(
                                                     fontSize: 14,
                                                     fontWeight: FontWeight.w400,
@@ -180,7 +180,7 @@ class AddressBookPage extends StatelessWidget {
                                                 )
                                             ),
                                             TextSpan(
-                                                text: "${e.fullAddress}",
+                                                text: "${e.fullAddress}, ${e.wardName}, ${e.districtName}, ${e.cityName}",
                                                 style: const TextStyle(
                                                     fontSize: 14,
                                                     fontWeight: FontWeight.w400,

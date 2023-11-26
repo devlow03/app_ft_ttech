@@ -133,7 +133,7 @@ class HomeLogic extends GetxController {
 
       }
     });
-    isLoading.value=false;
+    
   }
   Future getProductByIdCategory()async{
     final category = getCategoryRsp.value?.data;

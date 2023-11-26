@@ -3,7 +3,9 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+import '../module/cart/cart_logic.dart';
 import '../module/index/index_view.dart';
+import '../module/order_history/order_history_view.dart';
 class GlobalWebview extends StatefulWidget {
   final String? tittleWeb;
   final String? linkWeb;
@@ -39,7 +41,11 @@ class _GlobalWebviewState extends State<GlobalWebview> {
             
           },
           onWebResourceError: (WebResourceError error) {
-            Get.offAll(IndexPage());
+            final logicCart = Get.put(CartLogic());
+          logicCart.getCart();
+          Get.back();
+          Get.to(const OrderHistoryPage());
+           Get.to(const OrderHistoryPage());
            Fluttertoast.showToast(msg: "Đặt hàng thành công",
             backgroundColor: Colors.green
         );

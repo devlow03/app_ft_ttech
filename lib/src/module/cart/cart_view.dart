@@ -1,5 +1,6 @@
 import 'package:app_ft_tmart/src/module/cart/voucher/voucher_logic.dart';
 import 'package:app_ft_tmart/src/module/cart/voucher/voucher_view.dart';
+import 'package:app_ft_tmart/src/module/order_history/order_list/not_order/not_order.dart';
 import 'package:app_ft_tmart/src/module/product/product_view.dart';
 import 'package:app_ft_tmart/src/module/search/search_view.dart';
 import 'package:app_ft_tmart/src/widget/global_image.dart';
@@ -16,24 +17,26 @@ class CartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final logic = Get.put(CartLogic());
+    logic.getCart();
     final logicVoucher = Get.put(VoucherLogic(Get.find()));
+    
 
     print(
         ">>>>>>>>>>>>>>>${logic.getCartRsp.value?.data?.cartDetails?.length ?? 0}");
     return WillPopScope(
       onWillPop: () async {
         // await logicVoucher.deleteVoucher(cartId: int.parse((logic.getCartRsp.value?.data?.id??0).toString()));
-        logic.voucherTitle.value=null;
+        logic.voucherTitle.value = null;
         return true;
       },
       child: Scaffold(
-        resizeToAvoidBottomInset: false,
+          resizeToAvoidBottomInset: false,
           backgroundColor: Colors.white,
           appBar: AppBar(
             elevation: 0.0,
             backgroundColor: Colors.white,
             automaticallyImplyLeading: true,
-            title: Text(
+            title: const Text(
               'Giỏ hàng',
               style: TextStyle(
                   fontSize: 18,
@@ -44,19 +47,22 @@ class CartPage extends StatelessWidget {
             actions: [
               IconButton(
                   onPressed: () {
-                    Get.to(SearchPage());
+                    Get.to(const SearchPage());
                   },
-                  icon: Icon(Icons.search))
+                  icon: const Icon(Icons.search))
             ],
           ),
           body: Obx(() {
+            if(logic.getCartRsp.value?.data?.cartDetails?.isEmpty==true || logic.getCartRsp.value?.data == null){
+              return const NotOrder();
+            }
             return ListView(
               children: [
                 const SizedBox(
                   height: 20,
                 ),
                 ListView.separated(
-                  physics: NeverScrollableScrollPhysics(),
+                  physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   itemCount:
                       logic.getCartRsp.value?.data?.cartDetails?.length ?? 0,
@@ -67,7 +73,6 @@ class CartPage extends StatelessWidget {
                           id: logic.getCartRsp.value?.data?.cartDetails?[index]
                               .productId
                               .toString(),
-
                         ));
                       },
                       child: Padding(
@@ -91,7 +96,7 @@ class CartPage extends StatelessWidget {
                                 children: [
                                   Text(
                                     '${logic.getCartRsp.value?.data?.cartDetails?[index].productName}',
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w600,
                                         height: 1.2),
@@ -155,7 +160,7 @@ class CartPage extends StatelessWidget {
                                                             "");
                                                   }
                                                 },
-                                                icon: Icon(
+                                                icon: const Icon(
                                                   Icons.remove,
                                                   size: 10,
                                                 )),
@@ -190,7 +195,7 @@ class CartPage extends StatelessWidget {
                                                         quantity: quantity);
                                                   }
                                                 },
-                                                icon: Icon(
+                                                icon: const Icon(
                                                   Icons.add,
                                                   size: 10,
                                                 ))
@@ -207,8 +212,8 @@ class CartPage extends StatelessWidget {
                                             borderRadius:
                                                 BorderRadius.circular(5),
                                             color: Colors.grey.shade100),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(5),
+                                        child: const Padding(
+                                          padding: EdgeInsets.all(5),
                                           child: Icon(
                                             Icons.favorite_border_outlined,
                                             color: Colors.black,
@@ -237,8 +242,8 @@ class CartPage extends StatelessWidget {
                                               borderRadius:
                                                   BorderRadius.circular(5),
                                               color: Colors.grey.shade100),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(5),
+                                          child: const Padding(
+                                            padding: EdgeInsets.all(5),
                                             child: Icon(
                                               Icons.delete_outline,
                                               color: Colors.black,
@@ -253,7 +258,7 @@ class CartPage extends StatelessWidget {
                                         vertical: 10),
                                     child: Text(
                                       "Tổng: ${NumberFormat.simpleCurrency(locale: "VI").format(logic.getCartRsp.value?.data?.cartDetails?[index].total)}",
-                                      style: TextStyle(color: Colors.black),
+                                      style: const TextStyle(color: Colors.black),
                                     ),
                                   ),
                                 ],
@@ -282,31 +287,6 @@ class CartPage extends StatelessWidget {
             return Visibility(
               visible:
                   (logic.getCartRsp.value?.data?.cartDetails?.length ?? 0) >= 1,
-              replacement: Center(
-                child: Visibility(
-                  visible: logic.getCartRsp.value?.data?.cartDetails?.isEmpty ??
-                      true,
-                  child: Center(
-                    child: Text("Không có sản phẩm nào"),
-                  ),
-                  replacement: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      CircularProgressIndicator(
-                        color: XColor.primary,
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        "Đang tải",
-                        style: TextStyle(color: Colors.black),
-                      )
-                    ],
-                  ),
-                ),
-              ),
               child: BottomAppBar(
                   height: 160,
                   child: Padding(
@@ -321,25 +301,26 @@ class CartPage extends StatelessWidget {
                           children: [
                             Row(
                               children: [
-                                Image.asset("assets/images/coupon.png",
-                                width: 30,
+                                Image.asset(
+                                  "assets/images/coupon.png",
+                                  width: 30,
                                   height: 30,
                                 ),
                                 const SizedBox(
                                   width: 5,
                                 ),
-                                Text(
+                                const Text(
                                   "Khuyến mãi",
                                   style: TextStyle(
-                                      fontSize: 14,
-                                      // fontWeight: FontWeight.w500,
-                                      // letterSpacing: 0.5
+                                    fontSize: 14,
+                                    // fontWeight: FontWeight.w500,
+                                    // letterSpacing: 0.5
                                   ),
                                 ),
                               ],
                             ),
                             Visibility(
-                              visible: logic.voucherTitle.value!=null,
+                              visible: logic.voucherTitle.value != null,
                               replacement: Container(
                                 // decoration: BoxDecoration(
                                 //     border: Border.all(color: Colors.grey),
@@ -349,14 +330,12 @@ class CartPage extends StatelessWidget {
                                   padding: const EdgeInsets.all(8.0),
                                   child: Row(
                                     children: [
-                                      Text(
+                                      const Text(
                                         'Chưa áp mã giảm giá',
                                         style: TextStyle(
                                             color: Colors.grey,
-                                            fontWeight: FontWeight.w700
-                                        ),
+                                            fontWeight: FontWeight.w700),
                                       ),
-
                                     ],
                                   ),
                                 ),
@@ -364,8 +343,7 @@ class CartPage extends StatelessWidget {
                               child: Container(
                                 decoration: BoxDecoration(
                                     border: Border.all(color: XColor.primary),
-                                  borderRadius: BorderRadius.circular(5)
-                                ),
+                                    borderRadius: BorderRadius.circular(5)),
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Row(
@@ -373,17 +351,14 @@ class CartPage extends StatelessWidget {
                                       Text(
                                         logic.voucherTitle.value ?? "",
                                         style: TextStyle(
-                                          color: XColor.primary,
-                                          fontWeight: FontWeight.w700
-                                        ),
+                                            color: XColor.primary,
+                                            fontWeight: FontWeight.w700),
                                       ),
-
                                     ],
                                   ),
                                 ),
                               ),
                             ),
-
                           ],
                         ),
                         const SizedBox(
@@ -392,7 +367,7 @@ class CartPage extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
+                            const Text(
                               "Tổng: ",
                               style: TextStyle(
                                   fontSize: 16,
@@ -401,8 +376,8 @@ class CartPage extends StatelessWidget {
                             ),
                             Text(
                               "${NumberFormat.simpleCurrency(locale: "VI").format((logic.getCartRsp.value?.data?.info?.last.value) ?? 0)}",
-                              style: TextStyle(
-                                color: Colors.redAccent,
+                              style: const TextStyle(
+                                  color: Colors.redAccent,
                                   fontSize: 16,
                                   fontWeight: FontWeight.w700,
                                   letterSpacing: 0.5),
@@ -423,7 +398,7 @@ class CartPage extends StatelessWidget {
                               child: ElevatedButton(
                                   style: ElevatedButton.styleFrom(
                                     primary: Colors.white,
-                                    padding: EdgeInsets.symmetric(
+                                    padding: const EdgeInsets.symmetric(
                                         horizontal: 5, vertical: 3),
                                     shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(8),
@@ -432,15 +407,21 @@ class CartPage extends StatelessWidget {
                                   ),
                                   onPressed: () {
                                     Get.bottomSheet(
-                                      isScrollControlled: true,
-                                      enableDrag: true,
+                                        isScrollControlled: true,
+                                        enableDrag: true,
                                         SizedBox(
-                                          height: MediaQuery.of(context).size.height*.6,
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              .6,
                                           child: VoucherPage(
-                                          cartId: int.parse((logic
-                                                  .getCartRsp.value?.data?.id
-                                                  .toString() ??
-                                              ""))),
+                                              cartId: int.parse((logic
+                                                      .getCartRsp
+                                                      .value
+                                                      ?.data
+                                                      ?.id
+                                                      .toString() ??
+                                                  ""))),
                                         ));
                                   },
                                   child: Row(
@@ -448,7 +429,7 @@ class CartPage extends StatelessWidget {
                                     children: [
                                       Visibility(
                                         visible:
-                                            logic.voucherTitle.value==null,
+                                            logic.voucherTitle.value == null,
                                         replacement: Icon(
                                           Icons.verified,
                                           color: XColor.primary,
@@ -467,7 +448,7 @@ class CartPage extends StatelessWidget {
                                           color: Colors.black,
                                         ),
                                       ),
-                                      Expanded(
+                                      const Expanded(
                                         child: Text(
                                           'Mã giảm giá',
                                           style: TextStyle(
@@ -484,21 +465,21 @@ class CartPage extends StatelessWidget {
                             ),
                             Expanded(
                               child: Container(
-                                padding: EdgeInsets.symmetric(vertical: 5),
+                                padding: const EdgeInsets.symmetric(vertical: 5),
                                 width: MediaQuery.of(context).size.width * .5,
                                 child: ElevatedButton(
                                     style: ElevatedButton.styleFrom(
-                                      padding: EdgeInsets.symmetric(
+                                      padding: const EdgeInsets.symmetric(
                                           horizontal: 5, vertical: 3),
                                       shape: RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(8)),
                                     ),
                                     onPressed: () {
-                                     Get.to(OrderPage());
+                                      Get.to(const OrderPage());
                                     },
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
+                                    child: const Padding(
+                                      padding: EdgeInsets.symmetric(
                                           vertical: 15),
                                       child: Text(
                                         'Mua hàng',

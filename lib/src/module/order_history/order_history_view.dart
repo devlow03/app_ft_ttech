@@ -8,7 +8,7 @@ import '../../core/xcolor.dart';
 import '../../widget/global_image.dart';
 import '../search/search_view.dart';
 import 'order_history_logic.dart';
-import 'order_list/not_order.dart';
+import 'order_list/not_order/not_order.dart';
 
 class OrderHistoryPage extends StatelessWidget {
   const OrderHistoryPage({Key? key}) : super(key: key);
@@ -73,7 +73,6 @@ class OrderHistoryPage extends StatelessWidget {
                 Expanded(child: Builder(
                   builder: (context) {
                     DefaultTabController.of(context).addListener(() {
-                      // Lấy index khi tab thay đổi
                       logic.tabIndex.value =
                           DefaultTabController.of(context).index;
                       print('Current Tab Index: ${logic.tabIndex.value}');
@@ -83,7 +82,7 @@ class OrderHistoryPage extends StatelessWidget {
                       return Obx(() => Visibility(
                           visible: logic.tabIndex.value == 0,
                           replacement: const NotOrder(),
-                          child: OrderList()));
+                          child: const OrderList()));
                     }).toList());
                   },
                 ))

@@ -54,7 +54,7 @@ class AddAddressBookLogic extends GetxController {
         districtId: num.parse(districtId.value??""),
         wardName: wardName.value,
         wardId: wardId.value,
-        fullAddress: "${streetControl.text}, ${fullAddressControl.text}"
+        fullAddress: "${streetControl.text}"
       ));
       await logicAddressBook.getAddressBook();
       Get.back();
@@ -72,6 +72,7 @@ class AddAddressBookLogic extends GetxController {
     wardName.value = data.value?.wardName??"";
     wardId.value = data.value?.wardId.toString()??"";
     fullAddressControl.text = data.value?.cityName!=null?"${data.value?.wardName}, ${data.value?.districtName}, ${data.value?.cityName}":'';
+    streetControl.text = data.value?.fullAddress??"";
 
   }
 
@@ -88,7 +89,7 @@ class AddAddressBookLogic extends GetxController {
              districtId: num.parse(districtId.value??""),
              wardName: wardName.value,
              wardId: num.parse(wardId.value??""),
-             fullAddress: "${streetControl.text}, ${fullAddressControl.text}"
+             fullAddress: "${streetControl.text}"
          )
      );
      await logicAddressBook.getAddressBook();
