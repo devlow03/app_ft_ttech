@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:app_ft_tmart/src/core/config.dart';
+import 'package:app_ft_tmart/src/core/global_data.dart';
 import 'package:app_ft_tmart/src/data/repositories/get_banner_rsp.dart';
 import 'package:app_ft_tmart/src/data/repositories/get_category_rsp.dart';
 import 'package:app_ft_tmart/src/data/repositories/get_product_by_category_rsp.dart';

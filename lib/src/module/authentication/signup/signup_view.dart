@@ -93,7 +93,7 @@ class SignupPage extends StatelessWidget {
                           padding: EdgeInsets.symmetric(
                               horizontal: 5, vertical: 3),
                           shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(4)),
+                              borderRadius: BorderRadius.circular(10)),
                           ),
                     ),
                   ),

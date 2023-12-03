@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../home/home_logic.dart';
+import '../../home/home_logic.dart';
 
 class NotOrderLogic extends GetxController{
   final ScrollController controller = ScrollController();

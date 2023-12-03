@@ -7,12 +7,13 @@ import 'package:app_ft_tmart/src/module/index/index_view.dart';
 import 'package:app_ft_tmart/src/module/order/payments/payments_logic.dart';
 import 'package:app_ft_tmart/src/widget/global_html.dart';
 import 'package:app_ft_tmart/src/widget/global_webview.dart';
-import 'package:app_ft_tmart/src/widget/utils.dart';
+import 'package:app_ft_tmart/src/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
+import '../../core/realtime_database.dart';
 import '../../data/repositories/post_confirm_order_rqst_bodies.dart';
 import '../../data/repositories/post_create_vnpay_rsp.dart';
 import '../cart/cart_logic.dart';
@@ -28,6 +29,7 @@ class OrderLogic extends GetxController {
   Rxn<PostConfirmOrderRsp>postOrderRsp = Rxn();
   Rxn<PostCreateVnpayRsp>postVnpayRsp = Rxn();
   // final logicCart = Get.put(CartLogic());
+  final realTimeDataBase = Get.put(RealTimeDataBase(Get.find()));
   
 
 
@@ -78,8 +80,14 @@ class OrderLogic extends GetxController {
         else{
           Get.back();
           final logicCart = Get.put(CartLogic());
-          logicCart.getCart();
-          Get.back();
+          logicCart.onReady();
+          await realTimeDataBase.addData(
+            orderId: postOrderRsp.value?.data?.orderId??0,
+            title: "Đặt hàng thành công",
+             content: "${logicCart.getCartRsp.value?.data?.cartDetails?.first.productName}",
+              image: "${logicCart.getCartRsp.value?.data?.cartDetails?.first.thumpnailUrl}"
+          );
+          
           Get.to(const OrderHistoryPage());
           Fluttertoast.showToast(msg: "Đặt hàng thành công",
             backgroundColor: Colors.green
@@ -88,10 +96,13 @@ class OrderLogic extends GetxController {
   }
 
   Future<void>createVnPay()async{
+    
     postVnpayRsp.value=await tMartServices.createVnPay(body: PostCreateVnpayRqstBodies(
       orderId: postOrderRsp.value?.data?.orderId,
     ));
+    Get.back();
     Get.to(GlobalWebview(
+      intoOrder: true,
       tittleWeb: "Thanh toán VNPAY",
       linkWeb: "${postVnpayRsp.value?.data}",));
   }

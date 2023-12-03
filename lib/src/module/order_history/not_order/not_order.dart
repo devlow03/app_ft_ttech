@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../home/product_suggest/product_suggest_view.dart';
+import '../../home/product_suggest/product_suggest_view.dart';
 import 'not_order_logic.dart';
 class NotOrder extends StatefulWidget {
   const NotOrder({super.key});
@@ -43,6 +43,7 @@ class _NotOrderState extends State<NotOrder> {
              const  ProductSuggestPage()
           ]),
         ),
+        bottomNavigationBar: null,
       ),
     );
   }

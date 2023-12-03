@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:app_ft_tmart/src/data/repositories/get_order_by_id_rsp.dart';
 import 'package:app_ft_tmart/src/data/repositories/get_product_rsp.dart';
 import 'package:app_ft_tmart/src/data/repositories/get_voucher_rsp.dart';
 import 'package:app_ft_tmart/src/data/repositories/post_add_voucher.dart';
@@ -10,12 +13,13 @@ import 'package:app_ft_tmart/src/data/repositories/put_update_address_book_rqst.
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 
-import '../../core/config.dart';
+import '../../core/global_data.dart';
 import '../repositories/get_address_book_rsp.dart';
 import '../repositories/get_banner_rsp.dart';
 import '../repositories/get_brand_rsp.dart';
 import '../repositories/get_cart_rsp.dart';
 import '../repositories/get_category_rsp.dart';
+import '../repositories/get_order_rqst.dart';
 import '../repositories/get_order_rsp.dart';
 import '../repositories/get_product_by_category_rsp.dart';
 import '../repositories/get_product_by_id_rsp.dart';
@@ -24,6 +28,7 @@ import '../repositories/get_search_rsp.dart';
 import '../repositories/get_session_rsp.dart';
 import '../repositories/get_slider_prod_rsp.dart';
 import '../repositories/get_user_profile_rsp.dart';
+import '../repositories/post_add_favorite_rqst.dart';
 import '../repositories/post_cart_rqst.dart';
 import '../repositories/post_check_phone_rsp.dart';
 import '../repositories/post_confirm_order_rsp.dart';
@@ -32,7 +37,11 @@ import '../repositories/post_create_shipping_order.dart';
 import '../repositories/post_create_shipping_order_rsp.dart';
 import '../repositories/post_create_vnpay_rqst_bodies.dart';
 import '../repositories/post_create_vnpay_rsp.dart';
+import '../repositories/post_repurchase_rqst.dart';
+import '../repositories/post_set_default_address_rqst.dart';
 import '../repositories/post_signin_rsp.dart';
+import '../repositories/put_change_password_rqst.dart';
+import '../repositories/put_update_user_rqst.dart';
 part 'service.g.dart';
 
 @RestApi(baseUrl: GlobalData.baseUrl)
@@ -118,12 +127,42 @@ abstract class Services {
   Future<PostConfirmOrderRsp> postConfirmOrder({@Body() required PostConfirmOrderRqstBodies body});
 
   @GET("api/auth/get_order_by_user_id")
-  Future<GetOrderRsp>getOrderRsp();
+  Future<GetOrderRsp>getOrderRsp({@Queries() required GetOrderRqst query});
 
   @POST("api/auth/vnpay_create_payment")
   Future<PostCreateVnpayRsp>createVnPay({@Body() required PostCreateVnpayRqstBodies body});
 
+  @DELETE("api/normal/remove_cart/{id}")
+  Future deleteRemoveCart({@Path('id') required String id});
 
+  @PUT("api/auth/cancel_order/{id}")
+  Future cancelOrder({@Path('id') required String id});
 
+  @POST("api/auth/upload_avatar")
+  @MultiPart()
+  Future uploadImage(@Part() File image);
+  
+  @PUT("api/auth/update-user")
+  Future putUpdateUser({@Body() required PutUpdateUserRqst body });
 
+  @POST("api/auth/add_to_favorite")
+  Future postAddFavorite({@Body() required PostAddFavoriteRqst body  });
+
+  @DELETE("api/auth/remove_product_from_favorites")
+  Future deleteFavorite({@Body() required PostAddFavoriteRqst body  });
+
+  @GET("api/auth/get_favorite_product")
+  Future<GetProductRsp> getProductFavoriteRsp({@Body() required GetProductRqQuery query});
+
+  @PUT("api/auth/users/change-password")
+  Future putChangePassword({@Body() required PutChangePasswordRqst body});
+
+  @POST("api/auth/set_default_address")
+  Future postSetDefaultAddress({@Body() required PostSetDefaultAddressRqst body});
+
+  @POST("api/normal/add_to_product_cart")
+  Future postRepurchase({@Body() required PostRepurchaseRqst body});
+
+  @GET("api/auth/get_order_by_id/{id}")
+  Future<GetOrderByIdRsp>getOrderByIdRsp({@Path('id') required String? id});
 }

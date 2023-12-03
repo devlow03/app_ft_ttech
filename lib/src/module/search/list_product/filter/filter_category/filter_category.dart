@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../search/search_logic.dart';
+import '../../../search_logic.dart';
 import '../../list_product_logic.dart';
 import '../filter_logic.dart';
 

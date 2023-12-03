@@ -4,7 +4,7 @@ import 'package:app_ft_tmart/src/data/repositories/get_slider_prod_rsp.dart';
 import 'package:app_ft_tmart/src/data/repositories/post_cart_rqst.dart';
 import 'package:app_ft_tmart/src/data/services/service.dart';
 import 'package:app_ft_tmart/src/module/cart/cart_view.dart';
-import 'package:app_ft_tmart/src/widget/utils.dart';
+import 'package:app_ft_tmart/src/utils/utils.dart';
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -12,11 +12,12 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../core/config.dart';
+import '../../core/global_data.dart';
 import '../../data/repositories/get_cart_rsp.dart';
 import '../../data/repositories/get_product_by_id_rsp.dart';
 import '../../data/repositories/get_product_rq_query.dart';
 import '../../data/repositories/get_product_rsp.dart';
+import '../../data/repositories/post_add_favorite_rqst.dart';
 import '../authentication/sign_in/sign_in_view.dart';
 import '../cart/cart_logic.dart';
 
@@ -84,13 +85,31 @@ class ProductLogic extends GetxController {
 
     }
 
-
-
+    
 
 
 
 
   }
+
+  Future<void>postAddFavorite()async{
+      await tMartServices.postAddFavorite(body: 
+      PostAddFavoriteRqst(
+        productId: int.parse(getProductByIdRsp.value?.data?.id.toString()??"")
+      )
+      );
+      Fluttertoast.showToast(msg: "Đã thêm vào bộ sưu tập");
+    }
+
+    Future<void>deleteFavorite()async{
+      await tMartServices.deleteFavorite(body: 
+      PostAddFavoriteRqst(
+        productId: int.parse(getProductByIdRsp.value?.data?.id.toString()??"")
+      )
+      );
+      Fluttertoast.showToast(msg: "Đã thêm vào bộ sưu tập");
+    }
+
 
   Future<void>buyNow({required String productId, required String quantity })async{
     final SharedPreferences prefs = await SharedPreferences.getInstance();

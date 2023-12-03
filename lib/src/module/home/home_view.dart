@@ -11,9 +11,10 @@ import '../../core/xcolor.dart';
 import '../../widget/global_image.dart';
 import '../../widget/global_product.dart';
 import '../../widget/search_widget.dart';
-import '../badge_cart.dart';
+import 'badge_notification.dart';
 import '../cart/cart_logic.dart';
-import '../list_product/list_product_view.dart';
+import '../notification/notification_view.dart';
+import '../search/list_product/list_product_view.dart';
 import '../product/product_view.dart';
 import 'banner/banner_view.dart';
 import 'home_logic.dart';
@@ -33,17 +34,9 @@ class HomePage extends StatelessWidget {
           bottom: PreferredSize(
               preferredSize: const Size.fromHeight(50),
               child: Row(
-                children: [
-                  const Expanded(child: SearchWidget()),
-                  const BadgeCart(),
-                  IconButton(
-                    onPressed: () {
-
-                    },
-                    icon:
-                    const Icon(Icons.notifications_none_outlined,size: 25,color: Colors.white,)
-                    ,
-                  ),
+                children: const[
+                   Expanded(child: SearchWidget()),
+                  BadgeNofication(),
                 ],
               )),
           title: const Text("TMART",

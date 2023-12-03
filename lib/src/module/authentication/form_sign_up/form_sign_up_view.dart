@@ -144,82 +144,82 @@ class FormSignUpPage extends StatelessWidget {
               ),
             ),
 
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
-                  child: Container(
-                    height: 2,
-                    width: MediaQuery
-                        .of(context)
-                        .size
-                        .width * .4,
-                    color: Colors.grey.shade200,
-                  ),
-                ),
-                Text("Hoặc",
-                  style: TextStyle(
-                      fontSize: 15,
-                      color: Colors.black
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
-                  child: Container(
-                    height: 2,
-                    width: MediaQuery
-                        .of(context)
-                        .size
-                        .width * .4,
-                    color: Colors.grey.shade200,
-                  ),
-                ),
-              ],
-            ),
-            // const SizedBox(height: 5,),
-            ui.AuthStateListener(
-              listener: (oldState, state, controller) {
-                if (state is ui.UserCreated) {
-                  // logic.socialSignin(state.credential.user,);
-                }
-                if (state is ui.SignedIn) {
-                  // logic.socialSignin(state.user,);
-                }
-              },
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: Column(
-                  children: [
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.center,
+            //   children: [
+            //     Padding(
+            //       padding: const EdgeInsets.symmetric(horizontal: 8),
+            //       child: Container(
+            //         height: 2,
+            //         width: MediaQuery
+            //             .of(context)
+            //             .size
+            //             .width * .4,
+            //         color: Colors.grey.shade200,
+            //       ),
+            //     ),
+            //     Text("Hoặc",
+            //       style: TextStyle(
+            //           fontSize: 15,
+            //           color: Colors.black
+            //       ),
+            //     ),
+            //     Padding(
+            //       padding: const EdgeInsets.symmetric(horizontal: 8),
+            //       child: Container(
+            //         height: 2,
+            //         width: MediaQuery
+            //             .of(context)
+            //             .size
+            //             .width * .4,
+            //         color: Colors.grey.shade200,
+            //       ),
+            //     ),
+            //   ],
+            // ),
+            // // const SizedBox(height: 5,),
+            // ui.AuthStateListener(
+            //   listener: (oldState, state, controller) {
+            //     if (state is ui.UserCreated) {
+            //       // logic.socialSignin(state.credential.user,);
+            //     }
+            //     if (state is ui.SignedIn) {
+            //       // logic.socialSignin(state.user,);
+            //     }
+            //   },
+            //   child: Padding(
+            //     padding: const EdgeInsets.symmetric(horizontal: 10),
+            //     child: Column(
+            //       children: [
 
-                    Container(
-                      width: MediaQuery
-                          .of(context)
-                          .size
-                          .width * .92,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(30)
-                      ),
+            //         Container(
+            //           width: MediaQuery
+            //               .of(context)
+            //               .size
+            //               .width * .92,
+            //           decoration: BoxDecoration(
+            //               borderRadius: BorderRadius.circular(30)
+            //           ),
 
-                      child: ui.OAuthProviderButton(
-                        provider: uigg.GoogleProvider(
-                            clientId: '392911829696-k7nv4b8c6cm0p3gi4jcmite6cj59vo5a.apps.googleusercontent.com'),
+            //           child: ui.OAuthProviderButton(
+            //             provider: uigg.GoogleProvider(
+            //                 clientId: '392911829696-k7nv4b8c6cm0p3gi4jcmite6cj59vo5a.apps.googleusercontent.com'),
 
-                      ),
-                    ),
+            //           ),
+            //         ),
 
-                    // Container(
-                    //   width: MediaQuery.of(context).size.width*.95,
-                    //   child: ui.OAuthProviderButton(
-                    //     provider: uifb.FacebookProvider(clientId: '277551901591822', redirectUri: 'https://gas-luxen.firebaseapp.com/__/auth/handler'),
-                    //   ),
-                    // ),
+            //         // Container(
+            //         //   width: MediaQuery.of(context).size.width*.95,
+            //         //   child: ui.OAuthProviderButton(
+            //         //     provider: uifb.FacebookProvider(clientId: '277551901591822', redirectUri: 'https://gas-luxen.firebaseapp.com/__/auth/handler'),
+            //         //   ),
+            //         // ),
 
 
-                  ],
-                ),
-              ),
-            ),
+            //       ],
+            //     ),
+            //   ),
+            // ),
 
             Row(
               mainAxisAlignment: MainAxisAlignment.center,

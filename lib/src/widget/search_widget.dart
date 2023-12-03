@@ -1,4 +1,4 @@
-import 'package:app_ft_tmart/src/module/list_product/list_product_view.dart';
+import 'package:app_ft_tmart/src/module/search/list_product/list_product_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

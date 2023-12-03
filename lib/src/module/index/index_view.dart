@@ -17,22 +17,37 @@ class IndexPage extends StatelessWidget {
 
     List<Map<String, dynamic>> bottomNavigationBarItems = [
       {
-        'icon': Icon(Icons.home_outlined),
+        'icon': Icon(Icons.home),
         'label': 'Trang chủ',
         'screen': HomePage(),
       },
       {
-        'icon': Icon(Icons.newspaper_outlined),
-        'label': 'Tin tức',
+        'icon': Icon(Icons.list_alt),
+        'label': 'Bảng tin',
         'screen': NewsPage(),
       },
       {
-        'icon':Icon(Icons.favorite_border_outlined),
-        'label': 'Yêu thích',
+        'icon':Container(
+          padding: EdgeInsets.all(15),
+          decoration: BoxDecoration(
+            color: XColor.primary,
+            shape: BoxShape.circle
+          ),
+          child: Icon(Icons.shopping_cart_outlined,
+          color: Colors.white,
+          )
+        ),
+        'label': '',
+        'screen': '',
+      
+      },
+      {
+        'icon':Icon(Icons.favorite),
+        'label': 'Bộ sưu tập',
         'screen': FavouritesPage(),
       },
       {
-        'icon':Icon(Icons.person_outline_outlined),
+        'icon':Icon(Icons.person),
         'label': 'Tài khoản',
         'screen': ProfilePage(),
       },
@@ -42,14 +57,16 @@ class IndexPage extends StatelessWidget {
       return Scaffold(
         bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
-          iconSize: 20,
+          iconSize: 25,
           selectedLabelStyle: TextStyle(
               color: XColor.primary
           ),
 
           elevation: 0,
           showSelectedLabels: true,
-          onTap: logic.tabSelect,
+          onTap: (tab)async{
+            logic.tabSelect(tab);
+          },
           currentIndex: logic.tabIndex.value,
 
           // showSelectedLabels: true,

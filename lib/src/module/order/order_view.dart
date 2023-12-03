@@ -289,70 +289,43 @@ class OrderPage extends StatelessWidget {
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: InkWell(
-                        onTap: () {
-                          Get.bottomSheet(
-                              isScrollControlled: true,
-                              enableDrag: true,
-                              SizedBox(
-                                height: MediaQuery.of(context).size.height * .6,
-                                child: VoucherPage(
-                                    cartId: int.parse((logicCart
-                                            .getCartRsp.value?.data?.id
-                                            .toString() ??
-                                        ""))),
-                              ));
-                        },
-                        child: Visibility(
-                          visible: logicCart.voucherTitle.value != null,
-                          replacement: Container(
-                            // decoration: BoxDecoration(
-                            //     border: Border.all(color: Colors.grey),
-                            //     borderRadius: BorderRadius.circular(5)
-                            // ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                children: [
-                                  const Text(
-                                    'Chưa áp mã giảm giá',
-                                    style: TextStyle(
-                                      color: Colors.grey,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          child: Row(
-                            children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                    border: Border.all(color: XColor.primary),
-                                    borderRadius: BorderRadius.circular(5)),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        logicCart.voucherTitle.value ?? "",
-                                        style: TextStyle(
-                                            color: XColor.primary,
-                                            fontWeight: FontWeight.w700),
-                                      ),
-                                    ],
+                      child: Visibility(
+                        visible: logicCart.voucherTitle.value != null,
+                        replacement: Container(
+                          // decoration: BoxDecoration(
+                          //     border: Border.all(color: Colors.grey),
+                          //     borderRadius: BorderRadius.circular(5)
+                          // ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              children: [
+                                const Text(
+                                  'Chưa áp mã giảm giá',
+                                  style: TextStyle(
+                                    color: Colors.grey,
                                   ),
                                 ),
-                              ),
-                              const SizedBox(
-                                width: 5,
-                              ),
-                              const Icon(
-                                Icons.arrow_forward_ios_outlined,
-                                size: 18,
-                                color: Colors.grey,
-                              )
-                            ],
+                              ],
+                            ),
+                          ),
+                        ),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              border: Border.all(color: XColor.primary),
+                              borderRadius: BorderRadius.circular(5)),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              children: [
+                                Text(
+                                  logicCart.voucherTitle.value ?? "",
+                                  style: TextStyle(
+                                      color: XColor.primary,
+                                      fontWeight: FontWeight.w700),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
@@ -555,7 +528,7 @@ class OrderPage extends StatelessWidget {
                           children: [
                             const Text("Tổng tiền hàng"),
                             Text(
-                              "${logicCart.getCartRsp.value?.data?.info?.first.value}",
+                              "${logicCart.getCartRsp.value?.data?.info?.first.text}",
                             )
                           ],
                         ),
@@ -583,7 +556,7 @@ class OrderPage extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               const Text("Tổng tiền giảm giá"),
-                              Text("${logicCart.voucherValue.value}")
+                              Text("- ${logicCart.voucherValue.value}")
                             ],
                           ),
                         ),
@@ -611,56 +584,134 @@ class OrderPage extends StatelessWidget {
           );
         }),
         bottomNavigationBar: BottomAppBar(
-            child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-          child: Container(
-            padding: const EdgeInsets.symmetric(vertical: 5),
-            width: MediaQuery.of(context).size.width * .5,
-            child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 5, vertical: 3),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8)),
-                ),
-                onPressed: () async {
-                  if (logicCart.getCartRsp.value?.data?.address == null) {
-                    Fluttertoast.showToast(
-                      msg: "Vui lòng chọn địa chỉ nhận hàng!",
-                    );
-                    Get.to(const AddressBookPage(
-                      intoOrder: true,
-                    ));
-                  }
-                  else if (logicPay.selectPayment.value == null) {
-                    Fluttertoast.showToast(
-                      msg: "Vui lòng chọn phương thức thanh toán!",
-                    );
-                    Get.bottomSheet(
-                        isScrollControlled: true,
-                        SizedBox(
-                            height: MediaQuery.of(context).size.height * .3,
-                            child: PaymentsPage()));
-                  } else {
-                    await logic.postConfirmOrder(
-                        cartId: logicCart.getCartRsp.value?.data?.id ?? 0,
-                        address: logicCart.getCartRsp.value?.data?.address,
-                        payment: logicPay.selectPayment.value?["value"]);
-                  }
-
-                  // await logicCart.getCart();
-                },
-                child: const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 15),
-                  child: Text(
-                    'Đặt hàng',
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w600,
+          child: Obx(() => Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  // crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Container(
+                      // padding: EdgeInsets.symmetric(vertical: 3),
+                      width: MediaQuery.of(context).size.width * .23,
+                      height: 50,
+                      child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            primary: Colors.white,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 5, vertical: 3),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                side: BorderSide(color: Colors.grey.shade200)),
+                          ),
+                          onPressed: () {
+                            Get.bottomSheet(
+                                isScrollControlled: true,
+                                enableDrag: true,
+                                SizedBox(
+                                  height:
+                                      MediaQuery.of(context).size.height * .6,
+                                  child: VoucherPage(
+                                      cartId: int.parse((logicCart
+                                              .getCartRsp.value?.data?.id
+                                              .toString() ??
+                                          ""))),
+                                ));
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Visibility(
+                                visible: logicCart.voucherTitle.value == null,
+                                replacement: Icon(
+                                  Icons.verified,
+                                  color: XColor.primary,
+                                ),
+                                child: Image.asset(
+                                  "assets/images/voucher.png",
+                                  height: 25,
+                                  width: 25,
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(5),
+                                child: Container(
+                                  width: 2,
+                                  height: 30,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              const Expanded(
+                                child: Text(
+                                  'Mã giảm giá',
+                                  style: TextStyle(
+                                      fontSize: 11,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.black),
+                                ),
+                              ),
+                            ],
+                          )),
                     ),
-                  ),
-                )),
-          ),
-        )));
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Expanded(
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(vertical: 5),
+                        width: MediaQuery.of(context).size.width * .5,
+                        child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 5, vertical: 3),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8)),
+                            ),
+                            onPressed: () async {
+                              if (logicCart.getCartRsp.value?.data?.address ==
+                                  null) {
+                                Fluttertoast.showToast(
+                                  msg: "Vui lòng chọn địa chỉ nhận hàng!",
+                                );
+                                Get.to(const AddressBookPage(
+                                  intoOrder: true,
+                                ));
+                              } else if (logicPay.selectPayment.value == null) {
+                                Fluttertoast.showToast(
+                                  msg: "Vui lòng chọn phương thức thanh toán!",
+                                );
+                                Get.bottomSheet(
+                                    isScrollControlled: true,
+                                    SizedBox(
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                .3,
+                                        child: PaymentsPage()));
+                              } else {
+                                await logic.postConfirmOrder(
+                                    cartId:
+                                        logicCart.getCartRsp.value?.data?.id ??
+                                            0,
+                                    address: logicCart
+                                        .getCartRsp.value?.data?.address,
+                                    payment:
+                                        logicPay.selectPayment.value?["value"]);
+                              }
+                            },
+                            child: const Padding(
+                              padding: EdgeInsets.symmetric(vertical: 15),
+                              child: Text(
+                                'Đặt hàng',
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            )),
+                      ),
+                    )
+                  ],
+                ),
+              )),
+        ));
   }
 }

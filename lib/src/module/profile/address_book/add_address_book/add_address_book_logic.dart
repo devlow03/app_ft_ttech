@@ -1,14 +1,17 @@
 import 'package:app_ft_tmart/src/data/repositories/post_create_address_book_rqst_bodies.dart';
+import 'package:app_ft_tmart/src/data/repositories/post_set_default_address_rqst.dart';
 import 'package:app_ft_tmart/src/data/repositories/put_update_address_book_rqst.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
 import '../../../../data/services/service.dart';
-import '../../../../widget/utils.dart';
+import '../../../../utils/utils.dart';
 import '../address_book_logic.dart';
 import '../../../../data/repositories/get_address_book_rsp.dart';
 
 class AddAddressBookLogic extends GetxController {
+  Rx<bool>onDefault = Rx(false);
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   TextEditingController addressControl = TextEditingController();
   final Services tMartServices = Get.find();
@@ -111,5 +114,26 @@ class AddAddressBookLogic extends GetxController {
   void onReady()async{
     super.onReady();
     await setAddressBook();
+  }
+
+  Future<void>postSetDefaultAddress(int? id)async{
+   Utils.loading(()async{
+     await tMartServices.postSetDefaultAddress(
+      body: PostSetDefaultAddressRqst(
+        id: id
+      )
+    );
+    await logicAddressBook.getAddressBook();
+    Fluttertoast.showToast(msg: "Đã thiết lập thành địa chỉ mặc định");
+   });
+  }
+
+  Future<void>setOnDefault(int isDefault)async{
+    if(isDefault==1){
+      onDefault.value = true;
+    }
+    else{
+      onDefault.value = false;
+    }
   }
 }

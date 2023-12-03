@@ -1,12 +1,11 @@
 import 'package:app_ft_tmart/src/module/index/index_view.dart';
-import 'package:app_ft_tmart/src/module/list_product/list_product_view.dart';
 import 'package:app_ft_tmart/src/module/product/product_view.dart';
 import 'package:app_ft_tmart/src/widget/global_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import '../../core/xcolor.dart';
-import '../list_product/list_product_logic.dart';
+import 'list_product/list_product_view.dart';
 import 'search_logic.dart';
 
 class SearchPage extends StatelessWidget {
@@ -49,7 +48,7 @@ class SearchPage extends StatelessWidget {
                   logic.getSearch();
                 },
                 onSubmitted: (value) {
-                  Get.to(ListProductPage(name: logic.keyController.text,));
+                  Get.to(const ListProductPage());
                   
                 },
                 decoration: InputDecoration(
@@ -76,7 +75,7 @@ class SearchPage extends StatelessWidget {
                       child: IconButton(
                           onPressed: () {
                             Get.to(
-                                ListProductPage(name: logic.keyController.text,));
+                               const  ListProductPage());
                           },
                           icon: Icon(Icons.search,
                             color: Colors.white,
@@ -179,7 +178,7 @@ class SearchPage extends StatelessWidget {
               ?.length ?? 0)>5,
                 child: TextButton(
                     onPressed: (){
-                      Get.to(ListProductPage(name: logic.keyController.text));
+                      Get.to(const ListProductPage());
                     },
                     child: Text("Xem thêm sản phẩm")
                 ),

@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:app_ft_tmart/src/data/repositories/put_update_address_book_rqst.dart';
-import 'package:app_ft_tmart/src/widget/utils.dart';
+import 'package:app_ft_tmart/src/utils/utils.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
@@ -47,7 +47,7 @@ class AddressBookLogic extends GetxController {
             districtId: mapAddressBook.value?["district_id"],
             wardName: mapAddressBook.value?["ward_name"],
             wardId: mapAddressBook.value?["ward_id"],
-            fullAddress: mapAddressBook.value?["full_address"],
+            fullAddress: "${mapAddressBook.value?["full_address"]}, ${mapAddressBook.value?["ward_name"]}, ${mapAddressBook.value?["district_name"]}, ${mapAddressBook.value?["city_name"]} ",
             phone: mapAddressBook.value?["phone"],
 
           )

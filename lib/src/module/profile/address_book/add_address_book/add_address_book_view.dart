@@ -18,10 +18,12 @@ class AddAddressBookPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final logic = Get.put(AddAddressBookLogic());
     final logicBottom = Get.put(AddressBottomSheetLogic(Get.find()));
+    logic.setOnDefault(data?.isDefault??0);
     logic.data.value = data;
     logic.onUpdate.value = onUpdate;
+    
     return WillPopScope(
-      onWillPop: ()async{
+      onWillPop: () async {
         logic.onUpdate.isFalse;
         logic.fullAddressControl.text = "";
         return true;
@@ -63,8 +65,8 @@ class AddAddressBookPage extends StatelessWidget {
                 child: Text("Thông tin liên hệ"),
               ),
               TextFormField(
-                validator: (value){
-                  if(value?.isEmpty==true){
+                validator: (value) {
+                  if (value?.isEmpty == true) {
                     return "Vui lòng nhập họ tên";
                   }
                   return null;
@@ -89,15 +91,15 @@ class AddAddressBookPage extends StatelessWidget {
                 color: Colors.black,
               ),
               TextFormField(
-                validator: (value){
-                  if (value?.isEmpty==true) {
+                validator: (value) {
+                  if (value?.isEmpty == true) {
                     return 'Vui lòng nhập số điện thoại Việt Nam';
                   }
                   if (value?.trim().length != 10) {
                     return 'Vui lòng nhập đúng 10 số điện thoại';
                   }
                   if (!RegExp(r'^0?[3|5|7|8|9][0-9]{8}$')
-                      .hasMatch(value??"")) {
+                      .hasMatch(value ?? "")) {
                     return 'Vui lòng nhập đúng số điện thoại Việt Nam';
                   }
                   return null;
@@ -126,8 +128,8 @@ class AddAddressBookPage extends StatelessWidget {
                 child: Text("Địa chỉ"),
               ),
               TextFormField(
-                validator: (value){
-                  if(value?.isEmpty==true){
+                validator: (value) {
+                  if (value?.isEmpty == true) {
                     return "Vui lòng chọn địa chỉ";
                   }
                   return null;
@@ -138,10 +140,7 @@ class AddAddressBookPage extends StatelessWidget {
                   Get.bottomSheet(
                       isScrollControlled: true,
                       SizedBox(
-                        height: MediaQuery
-                            .of(context)
-                            .size
-                            .height * .7,
+                        height: MediaQuery.of(context).size.height * .7,
                         child: AddressBottomSheetPage(
                           cityName: logic.cityName.value,
                           districtName: logic.districtName.value,
@@ -150,8 +149,7 @@ class AddAddressBookPage extends StatelessWidget {
                           districtId: logic.districtId.value,
                           wardId: logic.wardId.value,
                         ),
-                      )
-                  );
+                      ));
                 },
                 readOnly: true,
                 decoration: const InputDecoration(
@@ -177,8 +175,8 @@ class AddAddressBookPage extends StatelessWidget {
                 color: Colors.black,
               ),
               TextFormField(
-                validator: (value){
-                  if(value?.isEmpty==true){
+                validator: (value) {
+                  if (value?.isEmpty == true) {
                     return "Vui lòng nhập địa chỉ";
                   }
                   return null;
@@ -207,17 +205,55 @@ class AddAddressBookPage extends StatelessWidget {
                 padding: EdgeInsets.all(8.0),
                 child: Text("Thiết lập"),
               ),
-              Container(
-                color: Colors.white,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text("Đặt làm địa chỉ mặc định"),
-                    ),
-                    Switch(value: true, onChanged: (val) {})
-                  ],
+              Visibility(
+                visible: data?.id!=null,
+                child: Container(
+                  color: Colors.white,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text("Đặt làm địa chỉ mặc định"),
+                      ),
+                      Obx(() => Visibility(
+                        visible: data?.isDefault!=1,
+                        replacement: Switch(
+                            value: true,
+                            onChanged: (val) async{
+                              Get.dialog(
+                                AlertDialog(
+                                  content: Text("Để hủy địa chỉ mặc định này, vui lòng chọn địa chỉ khác làm địa chỉ mặc định mới",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold
+                                  ),
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: ()=>Get.back(),
+                                       child: Text("Đồng ý")
+                                       )
+                                  ],
+                                )
+                              );
+                            }),
+                        child: Switch(
+                            value: logic.onDefault.value,
+                            onChanged: (val) async{
+                              if(logic.onDefault.value==true){
+                                logic.onDefault.value = false;
+                                print(">>>>>>>>>>>>>${logic.onDefault.value}");
+                              }
+                              else {
+                                logic.onDefault.value = true;
+                                await logic.postSetDefaultAddress(data?.id);
+                                 print(">>>>>>>>>>>>>${logic.onDefault.value}");
+                              }
+                            }),
+                      ))
+                    ],
+                  ),
                 ),
               ),
               const SizedBox(
@@ -227,7 +263,7 @@ class AddAddressBookPage extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: ElevatedButton(
                     onPressed: () async {
-                      if(logic.formKey.currentState?.validate()==true){
+                      if (logic.formKey.currentState?.validate() == true) {
                         await logic.onPressed();
                       }
                     },

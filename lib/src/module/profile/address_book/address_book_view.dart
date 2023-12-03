@@ -29,211 +29,216 @@ class AddressBookPage extends StatelessWidget {
         centerTitle: true,
       ),
 
-      body: ListView(
-        // shrinkWrap: true,
-        children: [
-          const SizedBox(height: 10,),
-
-          Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10),
-              child: Obx(() {
-                if(logic.getAddressBookRsp.value?.data?.isEmpty==true){
-                  return const Center(
-                    child: Text("chưa có sổ địa chỉ!"),
-                  );
-                }
-
-                return Column(
-                  children: logic.getAddressBookRsp.value?.data?.map((e ){
-                    return Column(
-                      children: [
-                        Visibility(
-                          visible: logic.intoOrder.value==true,
-                          replacement: Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10),
-
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
-                                child:Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(e.fullName??"",
-                                          style:const TextStyle(
-                                              fontWeight: FontWeight.w700,
-                                              fontSize: 16,
-                                              color: Colors.black,
-                                              letterSpacing: 1
+      body: RefreshIndicator(
+        onRefresh: ()async{
+           logic.onReady();
+        },
+        child: ListView(
+          // shrinkWrap: true,
+          children: [
+            const SizedBox(height: 10,),
+      
+            Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: Obx(() {
+                  if(logic.getAddressBookRsp.value?.data?.isEmpty==true){
+                    return const Center(
+                      child: Text("chưa có sổ địa chỉ!"),
+                    );
+                  }
+      
+                  return Column(
+                    children: logic.getAddressBookRsp.value?.data?.map((e ){
+                      return Column(
+                        children: [
+                          Visibility(
+                            visible: logic.intoOrder.value==true,
+                            replacement: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(10),
+      
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+                                  child:Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(e.fullName??"",
+                                            style:const TextStyle(
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: 16,
+                                                color: Colors.black,
+                                                letterSpacing: 1
+                                            ),
                                           ),
+                                          TextButton(
+                                              onPressed: (){
+                                                Get.to(AddAddressBookPage(data: e,onUpdate: true,));
+                                              },
+                                              child: const Text("Sửa")
+                                          )
+                                        ],
+                                      ),
+                                      RichText(
+                                        text: TextSpan(
+                                            children: [
+                                              const TextSpan(
+                                                  text: 'Địa chỉ: ',
+                                                  style: TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight: FontWeight.w500,
+                                                      color: Colors.black
+                                                  )
+                                              ),
+                                              TextSpan(
+                                                  text: "${e.fullAddress}, ${e.wardName}, ${e.districtName}, ${e.cityName}",
+                                                  style: const TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight: FontWeight.w400,
+                                                      color: Colors.black,
+                                                      height: 1.5
+                                                  )
+                                              )
+                                            ]
                                         ),
-                                        TextButton(
-                                            onPressed: (){
-                                              Get.to(AddAddressBookPage(data: e,onUpdate: true,));
-                                            },
-                                            child: const Text("Sửa")
-                                        )
-                                      ],
-                                    ),
-                                    RichText(
-                                      text: TextSpan(
-                                          children: [
-                                            const TextSpan(
-                                                text: 'Địa chỉ: ',
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.w500,
-                                                    color: Colors.black
-                                                )
-                                            ),
-                                            TextSpan(
-                                                text: "${e.fullAddress}, ${e.wardName}, ${e.districtName}, ${e.cityName}",
-                                                style: const TextStyle(
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.w400,
-                                                    color: Colors.black,
-                                                    height: 1.5
-                                                )
-                                            )
-                                          ]
                                       ),
-                                    ),
-                                    const SizedBox(height: 10,),
-                                    RichText(
-                                      text: TextSpan(
-                                          children: [
-                                            const TextSpan(
-                                                text: 'Điện thoại: ',
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.w500,
-                                                    color: Colors.black
-                                                )
-                                            ),
-                                            TextSpan(
-                                                text: "${e.phone}",
-                                                style: const TextStyle(
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.w400,
-                                                    color: Colors.black,
-                                                    height: 1.5
-                                                )
-                                            )
-                                          ]
+                                      const SizedBox(height: 10,),
+                                      RichText(
+                                        text: TextSpan(
+                                            children: [
+                                              const TextSpan(
+                                                  text: 'Điện thoại: ',
+                                                  style: TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight: FontWeight.w500,
+                                                      color: Colors.black
+                                                  )
+                                              ),
+                                              TextSpan(
+                                                  text: "${e.phone}",
+                                                  style: const TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight: FontWeight.w400,
+                                                      color: Colors.black,
+                                                      height: 1.5
+                                                  )
+                                              )
+                                            ]
+                                        ),
                                       ),
-                                    ),
-                                  ],
-                                ),
+                                    ],
+                                  ),
+                              ),
                             ),
-                          ),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10),
-
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: RadioListTile(
-                                  value: e,
-                                  groupValue: logic.selectAddressBook.value,
-                                  onChanged: (value)async{
-                                   await logic.selectAddress(value);
-                                  },
-                                title: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                   Row(
-                                     crossAxisAlignment: CrossAxisAlignment.center,
-                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                     children: [
-                                       Text(e.fullName??"",
-                                         style:const TextStyle(
-                                             fontWeight: FontWeight.w700,
-                                             fontSize: 16,
-                                             color: Colors.black,
-                                             letterSpacing: 1
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(10),
+      
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: RadioListTile(
+                                    value: e,
+                                    groupValue: logic.selectAddressBook.value,
+                                    onChanged: (value)async{
+                                     await logic.selectAddress(value);
+                                    },
+                                  title: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                     Row(
+                                       crossAxisAlignment: CrossAxisAlignment.center,
+                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                       children: [
+                                         Text(e.fullName??"",
+                                           style:const TextStyle(
+                                               fontWeight: FontWeight.w700,
+                                               fontSize: 16,
+                                               color: Colors.black,
+                                               letterSpacing: 1
+                                           ),
                                          ),
-                                       ),
-                                       TextButton(
-                                           onPressed: (){
-                                             Get.to(AddAddressBookPage(data: e,onUpdate: true,));
-                                           },
-                                           child: const Text("Sửa")
-                                       )
-                                     ],
-                                   ),
-                                    RichText(
-                                      text: TextSpan(
-                                          children: [
-                                            const TextSpan(
-                                                text: 'Địa chỉ: ',
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.w500,
-                                                    color: Colors.black
-                                                )
-                                            ),
-                                            TextSpan(
-                                                text: "${e.fullAddress}, ${e.wardName}, ${e.districtName}, ${e.cityName}",
-                                                style: const TextStyle(
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.w400,
-                                                    color: Colors.black,
-                                                    height: 1.5
-                                                )
-                                            )
-                                          ]
+                                         TextButton(
+                                             onPressed: (){
+                                               Get.to(AddAddressBookPage(data: e,onUpdate: true,));
+                                             },
+                                             child: const Text("Sửa")
+                                         )
+                                       ],
+                                     ),
+                                      RichText(
+                                        text: TextSpan(
+                                            children: [
+                                              const TextSpan(
+                                                  text: 'Địa chỉ: ',
+                                                  style: TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight: FontWeight.w500,
+                                                      color: Colors.black
+                                                  )
+                                              ),
+                                              TextSpan(
+                                                  text: "${e.fullAddress}, ${e.wardName}, ${e.districtName}, ${e.cityName}",
+                                                  style: const TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight: FontWeight.w400,
+                                                      color: Colors.black,
+                                                      height: 1.5
+                                                  )
+                                              )
+                                            ]
+                                        ),
                                       ),
-                                    ),
-                                    const SizedBox(height: 10,),
-                                    RichText(
-                                      text: TextSpan(
-                                          children: [
-                                            const TextSpan(
-                                                text: 'Điện thoại: ',
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.w500,
-                                                    color: Colors.black
-                                                )
-                                            ),
-                                            TextSpan(
-                                                text: "${e.phone}",
-                                                style: const TextStyle(
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.w400,
-                                                    color: Colors.black,
-                                                    height: 1.5
-                                                )
-                                            )
-                                          ]
+                                      const SizedBox(height: 10,),
+                                      RichText(
+                                        text: TextSpan(
+                                            children: [
+                                              const TextSpan(
+                                                  text: 'Điện thoại: ',
+                                                  style: TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight: FontWeight.w500,
+                                                      color: Colors.black
+                                                  )
+                                              ),
+                                              TextSpan(
+                                                  text: "${e.phone}",
+                                                  style: const TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight: FontWeight.w400,
+                                                      color: Colors.black,
+                                                      height: 1.5
+                                                  )
+                                              )
+                                            ]
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                        Divider(
-                          height: 1,
-                          color: Colors.grey.shade300,
-                        )
-                      ],
-                    );
-                  }).toList()??[],
-                );
-
-
-              })
-          )
-        ],
+                          Divider(
+                            height: 1,
+                            color: Colors.grey.shade300,
+                          )
+                        ],
+                      );
+                    }).toList()??[],
+                  );
+      
+      
+                })
+            )
+          ],
+        ),
       ),
       bottomNavigationBar: BottomAppBar(
         child: ElevatedButton(

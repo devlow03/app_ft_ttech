@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 
 import '../../../core/xcolor.dart';
@@ -15,11 +16,11 @@ class ProductSuggestPage extends StatelessWidget {
     return Obx(() {
       return Visibility(
         visible: logic.getProductRsp.value?.data?.isNotEmpty == true,
-        replacement: Center(
-          child: CircularProgressIndicator(
-            color: XColor.primary,
-          ),
-        ),
+        // replacement: Center(
+        //   child: CircularProgressIndicator(
+        //     color: XColor.primary,
+        //   ),
+        // ),
         child: Container(
           color: Colors.grey.shade100,
           child: Column(
@@ -116,10 +117,9 @@ class ProductSuggestPage extends StatelessWidget {
                             0),
                     replacement: Center(),
                     child: Center(
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2,
-                        color: XColor.primary,
-                      ),
+                      child: SpinKitCircle(size: 40,
+                      color: Colors.grey,
+                      )
                     ),
                   ),
                   const SizedBox(height: 30,),

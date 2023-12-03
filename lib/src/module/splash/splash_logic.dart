@@ -3,7 +3,7 @@ import 'package:app_ft_tmart/src/module/index/index_view.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../core/config.dart';
+import '../../core/global_data.dart';
 
 class SplashLogic extends GetxController {
 

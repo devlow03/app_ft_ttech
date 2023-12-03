@@ -8,7 +8,7 @@ import '../../core/xcolor.dart';
 import '../../widget/global_image.dart';
 import '../search/search_view.dart';
 import 'order_history_logic.dart';
-import 'order_list/not_order/not_order.dart';
+import 'not_order/not_order.dart';
 
 class OrderHistoryPage extends StatelessWidget {
   const OrderHistoryPage({Key? key}) : super(key: key);
@@ -19,6 +19,8 @@ class OrderHistoryPage extends StatelessWidget {
     logic.getOrder();
     return WillPopScope(
       onWillPop: () async {
+        logic.page.value = 10;
+        logic.tabIndex.value = 0;
         // Get.offAll(IndexPage());
         return true;
       },
@@ -65,7 +67,7 @@ class OrderHistoryPage extends StatelessWidget {
                         ),
                         tabs: logic.tabOrder.map((e) {
                           return Tab(
-                            text: e,
+                            text: e["name"],
                           );
                         }).toList()),
                   ),
@@ -75,14 +77,13 @@ class OrderHistoryPage extends StatelessWidget {
                     DefaultTabController.of(context).addListener(() {
                       logic.tabIndex.value =
                           DefaultTabController.of(context).index;
+                          logic.getOrder();
                       print('Current Tab Index: ${logic.tabIndex.value}');
                     });
+
                     return TabBarView(
                         children: logic.tabOrder.map((e) {
-                      return Obx(() => Visibility(
-                          visible: logic.tabIndex.value == 0,
-                          replacement: const NotOrder(),
-                          child: const OrderList()));
+                      return  const OrderList();
                     }).toList());
                   },
                 ))

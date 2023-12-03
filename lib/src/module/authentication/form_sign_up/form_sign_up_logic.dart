@@ -6,7 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 import '../../../data/services/service.dart';
-import '../../../widget/utils.dart';
+import '../../../utils/utils.dart';
 
 class FormSignUpLogic extends GetxController {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();

@@ -1,7 +1,7 @@
 import 'package:app_ft_tmart/src/core/xcolor.dart';
 import 'package:app_ft_tmart/src/data/repositories/post_check_phone_rqst_bodies.dart';
 import 'package:app_ft_tmart/src/data/services/service.dart';
-import 'package:app_ft_tmart/src/widget/utils.dart';
+import 'package:app_ft_tmart/src/utils/utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

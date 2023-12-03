@@ -1,14 +1,16 @@
 import 'package:app_ft_tmart/src/core/xcolor.dart';
-import 'package:app_ft_tmart/src/module/list_product/filter/filter_view.dart';
+import 'package:app_ft_tmart/src/module/search/list_product/filter/filter_logic.dart';
+import 'package:app_ft_tmart/src/module/search/list_product/filter/filter_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 
-import '../../widget/global_product.dart';
-import '../cart/cart_logic.dart';
-import '../cart/cart_view.dart';
-import '../product/product_view.dart';
-import '../search/search_logic.dart';
-import '../search/search_view.dart';
+import '../../../widget/global_product.dart';
+import '../../cart/cart_logic.dart';
+import '../../cart/cart_view.dart';
+import '../../product/product_view.dart';
+import '../search_logic.dart';
+import '../search_view.dart';
 import 'list_product_logic.dart';
 
 class ListProductPage extends StatelessWidget {
@@ -18,22 +20,21 @@ class ListProductPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final logic = Get.put(ListProductLogic(Get.find()));
+    
     final logicCart = Get.put(CartLogic());
-    final logicSearch = Get.put(SearchLogic());
+    final logic = Get.put(SearchLogic());
+    final logicFilter = Get.put(FilterLogic());
     final GlobalKey<ScaffoldState> key = GlobalKey<ScaffoldState>();
-    logic.getSearch(name: name??"");
-    name?.isEmpty;
+    // logic.getSearch(name: name??"");
+    if(name!=null) {
+      logic.getSearch(name: name);
+      logic.keyController.text = name??"";
 
+    };
+    
 
     return WillPopScope(
-      onWillPop: ()async{
-        logic.keyController.clear();
-        logic.nameProd.close();
-        logic.page.value=10;
-        return true;
-
-      },
+      onWillPop: logic.onWillPop,
       child: Scaffold(
         key: key,
         appBar: AppBar(
@@ -155,8 +156,8 @@ class ListProductPage extends StatelessWidget {
         ),
         body: Obx(() {
 
-          if(logic.getSearchRsp.value?.data?.isEmpty==true || logic.getSearchRsp.value == null ){
-            if(logic.getSearchRsp.value?.data?.length==0){
+          if(logic.getSearchRsp.value?.data?.isEmpty==true){
+            if((logic.getSearchRsp.value?.data?.length??0)<1){
               return Center(
                 child: Text("Sản phẩm không tồn tại",
                 style: TextStyle(
@@ -165,7 +166,7 @@ class ListProductPage extends StatelessWidget {
                 ),
               );
             }
-
+            else{
               return Center(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -179,6 +180,9 @@ class ListProductPage extends StatelessWidget {
                   ],
                 ),
               );
+            }
+
+              
 
           }
           return ListView(
@@ -232,10 +236,9 @@ class ListProductPage extends StatelessWidget {
                         (logic.getSearchRsp.value?.meta?.total ?? 0),
                     replacement: Center(),
                     child: Center(
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2,
-                        color: XColor.primary,
-                      ),
+                      child: SpinKitCircle(size: 40,
+                      color: Colors.grey,
+                      )
                     ),
                   ),
                   const SizedBox(height: 30,),

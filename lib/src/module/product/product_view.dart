@@ -17,7 +17,7 @@ import '../../data/repositories/get_product_rsp.dart';
 import '../../widget/global_product.dart';
 import '../cart/cart_logic.dart';
 import '../cart/cart_view.dart';
-import '../list_product/list_product_view.dart';
+import '../search/list_product/list_product_view.dart';
 import '../photo/photo_view.dart';
 import 'product_logic.dart';
 
@@ -169,11 +169,14 @@ class ProductPage extends StatelessWidget {
                   stretch: true,
                   actions: [
                     IconButton(
-                        onPressed: () {
-                          // Fluttertoast.showToast(
-                          //     msg: "Đã thêm sản phẩm vào yêu thích", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM, timeInSecForIosWeb: 1, textColor: Colors.white, fontSize: 16.0);
-                        },
-                        icon: const Icon(Icons.favorite_border)),
+                        onPressed: logic.postAddFavorite,
+                        icon: Visibility(
+                          visible: logic.getProductByIdRsp.value?.data?.favorite==true,
+                          replacement: const Icon(Icons.favorite_border),
+                          child: const Icon(Icons.favorite,color: Colors.red,),
+                          )
+                          
+                          ),
                     IconButton(
                         onPressed: () {
                           Get.to(const SearchPage());
@@ -359,11 +362,6 @@ class ProductPage extends StatelessWidget {
                     Visibility(
                       visible:
                           logic.getProductByIdRsp.value?.data.isNull == false,
-                      replacement: Center(
-                        child: CircularProgressIndicator(
-                          color: XColor.primary,
-                        ),
-                      ),
                       child: Column(
                         children: [
                           Container(
