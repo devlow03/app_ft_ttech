@@ -30,6 +30,7 @@ class FilterAllLogic extends GetxController {
       "id": "7-13",
       "title": "Từ 7 - 13 triệu",
     },
+
     {
       "id": "13-20",
       "title": "Từ 13 - 20 triệu",
