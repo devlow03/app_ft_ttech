@@ -8,35 +8,31 @@ import '../core/xcolor.dart';
 class Utils{
    Utils._();
 
-   static Future<void> loading(Function onLoading) async {
+   static Future<void> loading(Function onLoading, {Function? onSuccess}) async {
 
-     try {
-      //  Get.dialog(
-      //    AlertDialog(
-      //      contentPadding: EdgeInsets.zero, // Loại bỏ khoảng trắng xung quanh nội dung
-      //      icon: Center(
-      //        child: CircularProgressIndicator(
-      //          color: XColor.primary,
-      //          strokeWidth: 2,
-      //        ),
-      //      ),
-      //      title:  Text(
-      //        "Đang tải",
-      //        style: TextStyle(),
-      //        textAlign: TextAlign.center,
-      //      ),
-      //    ),
-      //  );
-       Get.dialog(
-         SpinKitDualRing(
-           size: 60,
-           color: Colors.white,
-           
-         )
-     );
-       await onLoading();
-       Get.back();
-     } catch (e) {
+    try {
+    Get.dialog(
+      SpinKitDualRing(
+        size: 60,
+        color: Colors.white,
+      ),
+    );
+
+    await onLoading();
+    if (onSuccess != null) {
+      onSuccess();
+    }
+    // Đảm bảo dialog đã đóng trước khi chuyển trang mới
+    // await Future.delayed(Duration(milliseconds: 500)); // Hoặc sử dụng await Future.delayed(Duration.zero);
+
+    // Get.back();
+
+    // // Kiểm tra xem dialog đã đóng chưa
+    // print("Dialog closed");
+
+    // Sau đó chuyển đến trang mới
+    
+  } catch (e) {
       // Get.back();
        if (e is DioError) {
          if (e.response != null && e.response!.data is Map) {
@@ -80,6 +76,9 @@ class Utils{
          }
        }
      }
+    //  finally{
+    //   Get.back();
+    //  }
    }
 
 }

@@ -1,105 +1,86 @@
-/// user_id : 1
-/// full_name : "ABC"
-/// phone : "0379086872"
-/// ward_id : "1"
-/// ward_name : "test"
-/// district_id : 2
-/// district_name : "test"
-/// city_id : 3
-/// city_name : "test"
-/// full_address : "test"
+// To parse this JSON data, do
+//
+//     final postCreateAddressBookRqstBodies = postCreateAddressBookRqstBodiesFromJson(jsonString);
+
+import 'dart:convert';
+
+PostCreateAddressBookRqstBodies postCreateAddressBookRqstBodiesFromJson(String str) => PostCreateAddressBookRqstBodies.fromJson(json.decode(str));
+
+String postCreateAddressBookRqstBodiesToJson(PostCreateAddressBookRqstBodies data) => json.encode(data.toJson());
 
 class PostCreateAddressBookRqstBodies {
-  PostCreateAddressBookRqstBodies({
-      num? userId, 
-      String? fullName, 
-      String? phone, 
-      String? wardId, 
-      String? wardName, 
-      num? districtId, 
-      String? districtName, 
-      num? cityId, 
-      String? cityName, 
-      String? fullAddress,}){
-    _userId = userId;
-    _fullName = fullName;
-    _phone = phone;
-    _wardId = wardId;
-    _wardName = wardName;
-    _districtId = districtId;
-    _districtName = districtName;
-    _cityId = cityId;
-    _cityName = cityName;
-    _fullAddress = fullAddress;
-}
+    dynamic userId;
+    String? fullName;
+    String? phone;
+    String? wardId;
+    String? wardName;
+    int? districtId;
+    String? districtName;
+    int? cityId;
+    String? cityName;
+    String? street;
 
-  PostCreateAddressBookRqstBodies.fromJson(dynamic json) {
-    _userId = json['user_id'];
-    _fullName = json['full_name'];
-    _phone = json['phone'];
-    _wardId = json['ward_id'];
-    _wardName = json['ward_name'];
-    _districtId = json['district_id'];
-    _districtName = json['district_name'];
-    _cityId = json['city_id'];
-    _cityName = json['city_name'];
-    _fullAddress = json['full_address'];
-  }
-  num? _userId;
-  String? _fullName;
-  String? _phone;
-  String? _wardId;
-  String? _wardName;
-  num? _districtId;
-  String? _districtName;
-  num? _cityId;
-  String? _cityName;
-  String? _fullAddress;
-PostCreateAddressBookRqstBodies copyWith({  num? userId,
-  String? fullName,
-  String? phone,
-  String? wardId,
-  String? wardName,
-  num? districtId,
-  String? districtName,
-  num? cityId,
-  String? cityName,
-  String? fullAddress,
-}) => PostCreateAddressBookRqstBodies(  userId: userId ?? _userId,
-  fullName: fullName ?? _fullName,
-  phone: phone ?? _phone,
-  wardId: wardId ?? _wardId,
-  wardName: wardName ?? _wardName,
-  districtId: districtId ?? _districtId,
-  districtName: districtName ?? _districtName,
-  cityId: cityId ?? _cityId,
-  cityName: cityName ?? _cityName,
-  fullAddress: fullAddress ?? _fullAddress,
-);
-  num? get userId => _userId;
-  String? get fullName => _fullName;
-  String? get phone => _phone;
-  String? get wardId => _wardId;
-  String? get wardName => _wardName;
-  num? get districtId => _districtId;
-  String? get districtName => _districtName;
-  num? get cityId => _cityId;
-  String? get cityName => _cityName;
-  String? get fullAddress => _fullAddress;
+    PostCreateAddressBookRqstBodies({
+        this.userId,
+        this.fullName,
+        this.phone,
+        this.wardId,
+        this.wardName,
+        this.districtId,
+        this.districtName,
+        this.cityId,
+        this.cityName,
+        this.street,
+    });
 
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['user_id'] = _userId;
-    map['full_name'] = _fullName;
-    map['phone'] = _phone;
-    map['ward_id'] = _wardId;
-    map['ward_name'] = _wardName;
-    map['district_id'] = _districtId;
-    map['district_name'] = _districtName;
-    map['city_id'] = _cityId;
-    map['city_name'] = _cityName;
-    map['full_address'] = _fullAddress;
-    return map;
-  }
+    PostCreateAddressBookRqstBodies copyWith({
+        dynamic userId,
+        String? fullName,
+        String? phone,
+        String? wardId,
+        String? wardName,
+        int? districtId,
+        String? districtName,
+        int? cityId,
+        String? cityName,
+        String? street,
+    }) => 
+        PostCreateAddressBookRqstBodies(
+            userId: userId ?? this.userId,
+            fullName: fullName ?? this.fullName,
+            phone: phone ?? this.phone,
+            wardId: wardId ?? this.wardId,
+            wardName: wardName ?? this.wardName,
+            districtId: districtId ?? this.districtId,
+            districtName: districtName ?? this.districtName,
+            cityId: cityId ?? this.cityId,
+            cityName: cityName ?? this.cityName,
+            street: street ?? this.street,
+        );
 
+    factory PostCreateAddressBookRqstBodies.fromJson(Map<String, dynamic> json) => PostCreateAddressBookRqstBodies(
+        userId: json["user_id"],
+        fullName: json["full_name"],
+        phone: json["phone"],
+        wardId: json["ward_id"],
+        wardName: json["ward_name"],
+        districtId: json["district_id"],
+        districtName: json["district_name"],
+        cityId: json["city_id"],
+        cityName: json["city_name"],
+        street: json["street"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "user_id": userId,
+        "full_name": fullName,
+        "phone": phone,
+        "ward_id": wardId,
+        "ward_name": wardName,
+        "district_id": districtId,
+        "district_name": districtName,
+        "city_id": cityId,
+        "city_name": cityName,
+        "street": street,
+    };
 }

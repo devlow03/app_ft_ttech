@@ -1,24 +1,25 @@
+import 'package:app_ft_tmart/src/module/all_product_by_category/all_product_by_category_logic.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get/get_core/get_core.dart';
 
-import '../../../search_logic.dart';
-import '../../list_product_logic.dart';
+
 import '../filter_logic.dart';
 
-class FilterCategory extends StatelessWidget {
-  const FilterCategory({super.key});
+class FilterBrand extends StatelessWidget {
+  const FilterBrand({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final logic = Get.put(FilterLogic());
-    final logicSearch = Get.put(SearchLogic());
+    final logic = Get.put(FilterAllLogic());
+    final logicSearch = Get.put(AllProductByCategoryLogic());
     return Obx(() {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Padding(
             padding: EdgeInsets.all(8.0),
-            child: Text("Danh mục sản phẩm",
+            child: Text("Thương thiệu",
               style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold
@@ -27,20 +28,18 @@ class FilterCategory extends StatelessWidget {
           ),
           Column(
             mainAxisSize: MainAxisSize.min,
-            children: logic.getCategoryRsp.value?.data?.map((categoryType) {
+            children: logic.getBrandRsp.value?.data?.map((brandType) {
               return CheckboxListTile(
-                title: Text(categoryType.name ?? ""),
-                value: logic.selectedCategoryTypes.contains(categoryType.id
+                title: Text(brandType.name ?? ""),
+                value: logic.selectedBrandTypes.contains(brandType.id
                     .toString()),
                 onChanged: (newValue) {
                   if (newValue == true) {
-                    logic.selectedCategoryTypes.add(
-                        categoryType.id.toString());
-                    print("select >>>>>>>>>>>>>>>>${logic
-                        .selectedCategoryTypes}");
+                    logic.selectedBrandTypes.add(brandType.id.toString());
+                    print(
+                        "select >>>>>>>>>>>>>>>>${logic.selectedBrandTypes}");
                   } else {
-                    logic.selectedCategoryTypes.remove(
-                        categoryType.id.toString());
+                    logic.selectedBrandTypes.remove(brandType.id.toString());
                   }
                 },
               );

@@ -17,6 +17,7 @@ import '../../core/realtime_database.dart';
 import '../../data/repositories/post_confirm_order_rqst_bodies.dart';
 import '../../data/repositories/post_create_vnpay_rsp.dart';
 import '../cart/cart_logic.dart';
+import '../order_history/order_history_logic.dart';
 import '../order_history/order_history_view.dart';
 
 class OrderLogic extends GetxController {
@@ -60,9 +61,10 @@ class OrderLogic extends GetxController {
 
   }
 
-  Future<void>postConfirmOrder({required num cartId, required String address, required String payment})async{
+   Future<void>postConfirmOrder({required num cartId, required String address, required String payment})async{
 
-      await postCreateShipping(action: "c");
+     Utils.loading(()async{
+       await postCreateShipping(action: "c");
         
         postOrderRsp.value = await tMartServices.postConfirmOrder(
             body: PostConfirmOrderRqstBodies(
@@ -75,6 +77,7 @@ class OrderLogic extends GetxController {
         );
         
         if(payment=="vnpay"){
+          Get.back();
           createVnPay();
         }
         else{
@@ -87,14 +90,12 @@ class OrderLogic extends GetxController {
              content: "${logicCart.getCartRsp.value?.data?.cartDetails?.first.productName}",
               image: "${logicCart.getCartRsp.value?.data?.cartDetails?.first.thumpnailUrl}"
           );
-          
+          Get.back();
           Get.to(const OrderHistoryPage());
-          Fluttertoast.showToast(msg: "Đặt hàng thành công",
-            backgroundColor: Colors.green
-        );
+         
         }
+     });
   }
-
   Future<void>createVnPay()async{
     
     postVnpayRsp.value=await tMartServices.createVnPay(body: PostCreateVnpayRqstBodies(

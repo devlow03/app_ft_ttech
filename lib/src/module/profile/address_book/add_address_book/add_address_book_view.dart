@@ -201,59 +201,65 @@ class AddAddressBookPage extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
-              const Padding(
+              
+              Visibility(
+                visible: data?.id!=null,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Padding(
                 padding: EdgeInsets.all(8.0),
                 child: Text("Thiết lập"),
               ),
-              Visibility(
-                visible: data?.id!=null,
-                child: Container(
-                  color: Colors.white,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text("Đặt làm địa chỉ mặc định"),
+                    Container(
+                      color: Colors.white,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text("Đặt làm địa chỉ mặc định"),
+                          ),
+                          Obx(() => Visibility(
+                            visible: data?.isDefault!=1,
+                            replacement: Switch(
+                                value: true,
+                                onChanged: (val) async{
+                                  Get.dialog(
+                                    AlertDialog(
+                                      content: Text("Để hủy địa chỉ mặc định này, vui lòng chọn địa chỉ khác làm địa chỉ mặc định mới",
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold
+                                      ),
+                                      ),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: ()=>Get.back(),
+                                           child: Text("Đồng ý")
+                                           )
+                                      ],
+                                    )
+                                  );
+                                }),
+                            child: Switch(
+                                value: logic.onDefault.value,
+                                onChanged: (val) async{
+                                  if(logic.onDefault.value==true){
+                                    logic.onDefault.value = false;
+                                    print(">>>>>>>>>>>>>${logic.onDefault.value}");
+                                  }
+                                  else {
+                                    logic.onDefault.value = true;
+                                    await logic.postSetDefaultAddress(data?.id);
+                                     print(">>>>>>>>>>>>>${logic.onDefault.value}");
+                                  }
+                                }),
+                          ))
+                        ],
                       ),
-                      Obx(() => Visibility(
-                        visible: data?.isDefault!=1,
-                        replacement: Switch(
-                            value: true,
-                            onChanged: (val) async{
-                              Get.dialog(
-                                AlertDialog(
-                                  content: Text("Để hủy địa chỉ mặc định này, vui lòng chọn địa chỉ khác làm địa chỉ mặc định mới",
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold
-                                  ),
-                                  ),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: ()=>Get.back(),
-                                       child: Text("Đồng ý")
-                                       )
-                                  ],
-                                )
-                              );
-                            }),
-                        child: Switch(
-                            value: logic.onDefault.value,
-                            onChanged: (val) async{
-                              if(logic.onDefault.value==true){
-                                logic.onDefault.value = false;
-                                print(">>>>>>>>>>>>>${logic.onDefault.value}");
-                              }
-                              else {
-                                logic.onDefault.value = true;
-                                await logic.postSetDefaultAddress(data?.id);
-                                 print(">>>>>>>>>>>>>${logic.onDefault.value}");
-                              }
-                            }),
-                      ))
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
               const SizedBox(

@@ -95,47 +95,24 @@ class RealTimeDataBase extends GetxController {
     
 
     userNotificationsRef.orderByKey().limitToLast(1).once().then((event)async{
-       Map data = event.snapshot.value as Map;
-       final String? key = data.keys.first;
+       Map dataList = event.snapshot.value as Map;
+       final String? key = dataList.keys.first;
+       final data = dataList[key];
       print(">>>>>>>>>>>>>>>>>>onAdd:${jsonEncode(data)}");
-      print(">>>>>>>>>>>>>>>>>>title:${data[key]["title"]}");
-      await postPushNotify(
-          title: data[key]["title"].toString(),
-          content: data[key]["content"].toString(),
-          image: data[key]["image"].toString(),
-          orderId: data[key]["orderId"].toString(),
-          productId: data[key]["productId"].toString());
+     
+      if(data["title"]!=null){
+        await postPushNotify(
+          title: data["title"].toString(),
+          content: data["content"].toString(),
+          image: data["image"].toString(),
+          orderId: data["orderId"].toString(),
+          productId: data["productId"].toString());
+    
+      }
     });
   }
 
-  // Future<void> pushNotifyOnValue() async {
-  //   final SharedPreferences sharedPreferences =
-  //       await SharedPreferences.getInstance();
-  //   String? userId = sharedPreferences.getString(GlobalData.userIdNotify);
-  //   String? notifyChildKey =
-  //       sharedPreferences.getString(GlobalData.notifyChildKey);
-
-  //   final SharedPreferences prefs = await SharedPreferences.getInstance();
-
-  //   DatabaseReference notifyList =
-  //       FirebaseDatabase.instance.ref("notifications");
-  //   DatabaseReference userNotificationsRef = notifyList.child(userId ?? "");
-
-  //   userNotificationsRef.onValue.listen((event) async {
-  //     Map data = event.snapshot.value as Map;
-  //     print(">>>>>>>>>>>>>>>>>>data:${jsonEncode(data)}");
-  //     print(">>>>>>>>>>>>>>>>>>>>>>>>1");
-  //     print(">>>>>>>>>>>>>>>>>>title:${data["title"]}");
-  //     await postPushNotify(
-  //         title: data["title"].toString(),
-  //         content: data["content"].toString(),
-  //         image: data["image"].toString(),
-  //         orderId: data["orderId"].toString(),
-  //         productId: data["productId"].toString());
-  //   });
-  // }
-
-  Future<void> pushNotifyOnChilChanged() async {
+  Future<void> pushNotifyOnValue() async {
     final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();
     String? userId = sharedPreferences.getString(GlobalData.userIdNotify);
@@ -148,18 +125,50 @@ class RealTimeDataBase extends GetxController {
         FirebaseDatabase.instance.ref("notifications");
     DatabaseReference userNotificationsRef = notifyList.child(userId ?? "");
 
-    userNotificationsRef.onChildChanged.listen((event) async {
-      Map data = event.snapshot.value as Map;
-       print(">>>>>>>>>>>>>>>>>>onChanged:${jsonEncode(data)}");
-      print(">>>>>>>>>>>>>>>>>>title:${data["title"]}");
-      await postPushNotify(
+    userNotificationsRef.onValue.listen((event) async {
+      Map dataList = event.snapshot.value as Map;
+       final String? key = dataList.keys.first;
+       final data = dataList[key];
+      if(data["title"]!=null){
+        await postPushNotify(
           title: data["title"].toString(),
           content: data["content"].toString(),
           image: data["image"].toString(),
           orderId: data["orderId"].toString(),
           productId: data["productId"].toString());
-    });
+    
+      }
+      });
   }
+
+  // Future<void> pushNotifyOnChilChanged() async {
+  //   final SharedPreferences sharedPreferences =
+  //       await SharedPreferences.getInstance();
+  //   String? userId = sharedPreferences.getString(GlobalData.userIdNotify);
+  //   String? notifyChildKey =
+  //       sharedPreferences.getString(GlobalData.notifyChildKey);
+
+  //   final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+  //   DatabaseReference notifyList =
+  //       FirebaseDatabase.instance.ref("notifications");
+  //   DatabaseReference userNotificationsRef = notifyList.child(userId ?? "");
+
+  //   userNotificationsRef.onChildChanged.listen((event) async {
+  //    Map dataList = event.snapshot.value as Map;
+  //      final String? key = dataList.keys.first;
+  //      final data = dataList[key];
+  //     if(data["title"]!=null){
+  //       await postPushNotify(
+  //         title: data["title"].toString(),
+  //         content: data["content"].toString(),
+  //         image: data["image"].toString(),
+  //         orderId: data["orderId"].toString(),
+  //         productId: data["productId"].toString());
+    
+  //     }
+  //   });
+  // }
 
   Future<void> postPushNotify(
       {required String? title,

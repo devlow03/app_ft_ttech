@@ -26,7 +26,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final logic = Get.put(HomeLogic());
-    final logicCart = Get.put(CartLogic());
+    
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
@@ -57,7 +57,7 @@ class HomePage extends StatelessWidget {
           strokeWidth: 3,
           onRefresh: () async {
             logic.refresh();
-            logicCart.getCart();
+            
           },
           child:ListView(
             controller: logic.controller,

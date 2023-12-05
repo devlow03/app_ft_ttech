@@ -38,8 +38,8 @@ class SignInLogic extends GetxController {
   void onReady() async{
     // TODO: implement onReady
     super.onReady();
-    phoneControl.text = "0776541959";
-    passControl.text = "11111aA@";
+    
+    passControl.text = "12345678aA@";
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     if(prefs.getString("biometric")=="finger"){
           biometric.value = "finger";
@@ -72,7 +72,8 @@ class SignInLogic extends GetxController {
   Future signOut()async{
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await auth.signOut();
-    prefs.remove('token');
+    prefs.remove(GlobalData.token);
+    prefs.remove(GlobalData.userIdNotify);
     uid.value=null;
     Get.offAll(SignInPage());
     Fluttertoast.showToast(
@@ -109,8 +110,8 @@ class SignInLogic extends GetxController {
         await prefs.setString(GlobalData.token,"${postSignInRsp.value?.token}" );
         await prefs.setString("password", passControl.text);
         await prefs.setString("phone", phoneControl.text);
-
-        
+  
+        Get.back();
         Fluttertoast.showToast(
             msg: "Đăng nhập thành công", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM, timeInSecForIosWeb: 1, textColor: Colors.white, fontSize: 16.0);
         intoCart.value==true?Get.back():Get.offAll(IndexPage());

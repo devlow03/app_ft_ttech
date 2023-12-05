@@ -54,8 +54,10 @@ class ProfilePage extends StatelessWidget {
     return Scaffold(
         backgroundColor: Colors.grey.shade100,
         body: Obx(() {
-          return Visibility(
-            visible: logic.onSignIn.value == true,
+          return RefreshIndicator(
+            onRefresh: ()async{
+              logic.onReady();
+            },
             child: ListView(
               children: [
                 Padding(
@@ -84,14 +86,14 @@ class ProfilePage extends StatelessWidget {
                               letterSpacing: 0.5,
                               height: 1),
                         ),
-                        
-                           
-                          
+
+
+
                       ],
                     ),
                   ),
                 ),
-              
+
                 Padding(
                   padding:
                       const EdgeInsets.symmetric(vertical: 20, horizontal: 10),

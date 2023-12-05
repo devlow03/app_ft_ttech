@@ -115,7 +115,7 @@ abstract class Services {
   Future<GetAddressBookRsp>getAddressBookRsp();
 
   @PUT("api/auth/update_address_books/{id}")
-  Future putUpdateAddressBook({@Path("id") required String id, @Body() required PutUpdateAddressBookRqst body });
+  Future putUpdateAddressBook({@Path("id") required String id, @Body() required PostCreateAddressBookRqstBodies body });
 
   @POST("api/auth/confirm_address_books")
   Future confirmAddressBook({@Body() required PutUpdateAddressBookRqst? body});

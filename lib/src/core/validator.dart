@@ -136,9 +136,9 @@ class Validator {
     if (value.isEmpty) {
       return 'Vui lòng chọn ngày sinh';
     }
-    if (!RegExp(r'^\d{2}/\d{2}/\d{4}$').hasMatch(value)) {
-      return 'Vui lòng nhập ngày theo định dạng "mm/dd/yyy"';
-    }
+    // if (!RegExp(r'^\d{2}/\d{2}/\d{4}$').hasMatch(value)) {
+    //   return 'Vui lòng nhập ngày theo định dạng "mm/dd/yyy"';
+    // }
     return null;
   }
 
@@ -147,9 +147,9 @@ class Validator {
     if (value.isEmpty) {
       return 'Vui lòng chọn ngày sinh';
     }
-    if (!RegExp(r'\d{2}.\d{2}.\d{4}').hasMatch(value)) {
-      return 'Vui lòng nhập ngày theo định dạng "dd/MM/yyyy"';
-    }
+    // if (!RegExp(r'\d{2}.\d{2}.\d{4}').hasMatch(value)) {
+    //   return 'Vui lòng nhập ngày theo định dạng "dd/MM/yyyy"';
+    // }
     return null;
   }
 

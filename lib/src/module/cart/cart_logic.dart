@@ -55,6 +55,7 @@ class CartLogic extends GetxController {
       await tMartServices.postUpdateCartDetailRsp(
           idCart: idCart, body: PostUpdateCartDetailRqst(quantity: quantity));
       await getCart();
+      Get.back();
     });
   }
 
@@ -84,10 +85,12 @@ class CartLogic extends GetxController {
                 await refresh();
                 if(getCartRsp.value?.data?.cartDetails?.isEmpty==true){
                   onClearCart.value = true;
+                  Get.back();
                   
                 }
                 else{
                   onClearCart.value = false;
+                  Get.back();
                   
                 }
                 
@@ -139,6 +142,8 @@ class CartLogic extends GetxController {
                     id: getCartRsp.value?.data?.id.toString() ?? "");
                     onClearCart.value = true;
                 await refresh();
+                Get.back();
+                Get.back();
                 
               });
             },

@@ -100,7 +100,7 @@ class ProfileDetailPage extends StatelessWidget {
                         TextFieldProfile(
                           title: "Ngày sinh",
                           controller: logic.birthdayController,
-                           readOnly: logic.readOnly.value,
+                           readOnly: true,
                            validator: Validator.birthday,
                            suffix: Visibility(
                             visible: logic.readOnly.value == false,

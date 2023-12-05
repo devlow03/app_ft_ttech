@@ -71,6 +71,7 @@ class IndexPage extends StatelessWidget {
 
           // showSelectedLabels: true,
           items: bottomNavigationBarItems.map((e) {
+            
             return BottomNavigationBarItem(
               icon: e['icon'],
               // activeIcon: e['active'],

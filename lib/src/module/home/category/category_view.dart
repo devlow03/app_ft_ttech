@@ -1,3 +1,4 @@
+import 'package:app_ft_tmart/src/module/all_product_by_category/all_product_by_category_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
@@ -111,9 +112,13 @@ class CategoryPage extends StatelessWidget {
                       itemBuilder: (context, index) {
                         return InkWell(
                           onTap: () {
-                            Get.to(ListProductPage(
-                              name: logic.getCategoryRsp.value
-                                  ?.data?[index].name,
+                            Get.to(AllProductByCategoryPage(
+                              id: logic.getCategoryRsp
+                                  .value?.data?[index]
+                                  .id,
+                              categoryName: logic.getCategoryRsp
+                                  .value?.data?[index]
+                                  .name ?? "",
                             ));
                           },
                           child: Container(

@@ -52,13 +52,14 @@ class OrderHistoryLogic extends GetxController {
   void onReady() async{
     // TODO: implement onReady
     super.onReady();
-    
-     await getOrderRsp();
+      tabIndex.value = 0;
+      //  getOrderRsp.value = null;
+     await getOrder();
   }
 
   Future<GetOrderRsp?>getOrder()async{
    
-      
+      getOrderRsp.value = null;
       getOrderRsp.value = await tMartServices.getOrderRsp(query: GetOrderRqst(
       perPage: page.value.toString(),
       statusCode: "${tabIndex.value!=null?(tabOrder[tabIndex.value??0]["value"]):(tabOrder[0]["value"])}"

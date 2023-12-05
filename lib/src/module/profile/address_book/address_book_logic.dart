@@ -29,6 +29,7 @@ class AddressBookLogic extends GetxController {
   Future<GetAddressBookRsp?>getAddressBook()async{
     Utils.loading(()async{
       getAddressBookRsp.value = await tMartServices.getAddressBookRsp();
+      Get.back();
 
     });
     return getAddressBookRsp.value;
@@ -47,7 +48,7 @@ class AddressBookLogic extends GetxController {
             districtId: mapAddressBook.value?["district_id"],
             wardName: mapAddressBook.value?["ward_name"],
             wardId: mapAddressBook.value?["ward_id"],
-            fullAddress: "${mapAddressBook.value?["full_address"]}, ${mapAddressBook.value?["ward_name"]}, ${mapAddressBook.value?["district_name"]}, ${mapAddressBook.value?["city_name"]} ",
+            fullAddress: "${mapAddressBook.value?["full_address"]}",
             phone: mapAddressBook.value?["phone"],
 
           )
@@ -57,10 +58,11 @@ class AddressBookLogic extends GetxController {
           await logicCart.getCart();
           await logic.postCreateShipping(action: "p");
           Get.back();
+          Get.back();
           Fluttertoast.showToast(msg: "Đã chọn địa chỉ nhận hàng",gravity: ToastGravity.CENTER,toastLength: Toast.LENGTH_SHORT);
         }
         else{
-
+           Get.back();
           Fluttertoast.showToast(msg: "Đã chọn địa chỉ nhận hàng",gravity: ToastGravity.CENTER,toastLength: Toast.LENGTH_SHORT);
         }
 

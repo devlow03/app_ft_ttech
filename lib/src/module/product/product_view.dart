@@ -1,4 +1,5 @@
 import 'package:app_ft_tmart/src/data/repositories/get_product_by_category_rsp.dart';
+import 'package:app_ft_tmart/src/module/all_product_by_category/all_product_by_category_view.dart';
 import 'package:app_ft_tmart/src/module/search/search_view.dart';
 import 'package:app_ft_tmart/src/widget/global_html.dart';
 import 'package:app_ft_tmart/src/widget/global_image.dart';
@@ -177,11 +178,11 @@ class ProductPage extends StatelessWidget {
                           )
                           
                           ),
-                    IconButton(
-                        onPressed: () {
-                          Get.to(const SearchPage());
-                        },
-                        icon: const Icon(Icons.search)),
+                    // IconButton(
+                    //     onPressed: () {
+                    //       Get.to(const SearchPage());
+                    //     },
+                    //     icon: const Icon(Icons.search)),
                     Obx(() {
                       return Stack(
                         alignment: Alignment.centerRight,
@@ -786,14 +787,9 @@ class ProductPage extends StatelessWidget {
                                         ),
                                         InkWell(
                                           onTap: () {
-                                            Get.to(ListProductPage(
-                                              name: logic
-                                                      .getProductByBrandRsp
-                                                      .value
-                                                      ?.data
-                                                      ?.first
-                                                      .manufacturerName ??
-                                                  "",
+                                            Get.to(AllProductByCategoryPage(
+                                              idBrand: logic.getProductByIdRsp.value?.data?.manufacturerId,
+                                              categoryName: logic.getProductByIdRsp.value?.data?.manufacturerName,
                                             ));
                                           },
                                           child: Row(
@@ -1097,14 +1093,9 @@ class ProductPage extends StatelessWidget {
                                         ),
                                         InkWell(
                                           onTap: () {
-                                            Get.to(ListProductPage(
-                                              name: logic
-                                                      .getProductRsp
-                                                      .value
-                                                      ?.data
-                                                      ?.first
-                                                      .categoryName ??
-                                                  "",
+                                            Get.to(AllProductByCategoryPage(
+                                              id: logic.getProductRsp.value?.data?.first.categoryId,
+                                              categoryName: logic.getProductRsp.value?.data?.first.categoryName,
                                             ));
                                           },
                                           child: Row(

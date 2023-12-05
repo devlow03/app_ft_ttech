@@ -13,7 +13,7 @@ class FavouritesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final logic = Get.put(FavouritesLogic());
-
+    
     return Obx(() {
       return Scaffold(
         appBar: AppBar(
@@ -27,9 +27,20 @@ class FavouritesPage extends StatelessWidget {
       ),
         body: Visibility(
           visible: logic.getProductFavoriteRsp.value?.data?.isNotEmpty == true,
-          replacement: Center(
-            child: CircularProgressIndicator(
-              color: XColor.primary,
+          replacement: Visibility(
+            visible: logic.getProductFavoriteRsp.value==null,
+            replacement: Center(
+              child: Text("Chưa có sản phẩm nào",
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold
+              ),
+              ),
+            ),
+            child: Center(
+              child: CircularProgressIndicator(
+                color: XColor.primary,
+              ),
             ),
           ),
           child: RefreshIndicator(

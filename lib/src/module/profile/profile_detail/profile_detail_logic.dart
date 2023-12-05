@@ -31,6 +31,7 @@ class ProfileDetailLogic extends GetxController{
     // TODO: implement onReady
     super.onReady();
     await logicProfile.getUserProfile();
+
     setProfile();
     setImage();
 
@@ -52,11 +53,14 @@ class ProfileDetailLogic extends GetxController{
   }
 
   void postUpdateAvatar()async{
-    await pickImage.selectImage();
-    await tMartServices.uploadImage(pickImage.image.value!);
-    await logicProfile.getUserProfile();
-    logicProfile.onReady();
-    Fluttertoast.showToast(msg: "Cập nhật ảnh đại diện thành công");
+    Utils.loading(()async{
+      await pickImage.selectImage();
+      await tMartServices.uploadImage(pickImage.image.value!);
+      await logicProfile.getUserProfile();
+      logicProfile.onReady();
+      Get.back();
+      Fluttertoast.showToast(msg: "Cập nhật ảnh đại diện thành công");
+    });
   }
 
   void setImage(){
@@ -88,19 +92,35 @@ class ProfileDetailLogic extends GetxController{
   }
 
   Future<void>putUpdateUser()async{
+    final String? birthdayString = logicProfile.getUserProfileRsp.value?.data?.birthday;
+    print(">>>>>>>>>>>>>>$birthdayString");
+
+    final birthday = DateFormat("M/d/y").format(convertStringToDate(birthdayString ?? ""));
+    print("Formatted Date: $birthday");
+    // final dateApi = DateFormat('M/d/y').format();
+    // print(">>>>>>>>>>>dateApi: ${dateApi}");
      Utils.loading(()async{
       await tMartServices.putUpdateUser(
         body: PutUpdateUserRqst(
           fullName: fullNameController.text,
-          birthday: "${logicProfile.getUserProfileRsp.value?.data?.birthday!=null?logicProfile.getUserProfileRsp.value?.data?.birthday:(DateFormat('M/d/y').format(selectedDate.value!))}",
+          birthday: selectedDate.value!=null?DateFormat('M/d/y').format(selectedDate.value!):birthdayString,
           phone: phoneController.text,
           email: emailController.text
         )
       );
       readOnly.value = true;
       await logicProfile.getUserProfile();
+      Get.back();
       Fluttertoast.showToast(msg: "Cập nhật thông tin thành công");
      });
+  }
+
+  DateTime convertStringToDate(String dateString) {
+    List<String> parts = dateString.split('/');
+    int day = int.parse(parts[0]);
+    int month = int.parse(parts[1]);
+    int year = int.parse(parts[2]);
+    return DateTime(year, month, day);
   }
 
 

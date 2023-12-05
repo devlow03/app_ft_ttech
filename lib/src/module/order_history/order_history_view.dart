@@ -21,6 +21,7 @@ class OrderHistoryPage extends StatelessWidget {
       onWillPop: () async {
         logic.page.value = 10;
         logic.tabIndex.value = 0;
+         
         // Get.offAll(IndexPage());
         return true;
       },
@@ -78,7 +79,7 @@ class OrderHistoryPage extends StatelessWidget {
                       logic.tabIndex.value =
                           DefaultTabController.of(context).index;
                           logic.getOrder();
-                      print('Current Tab Index: ${logic.tabIndex.value}');
+                     
                     });
 
                     return TabBarView(

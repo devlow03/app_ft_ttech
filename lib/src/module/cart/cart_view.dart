@@ -1,8 +1,10 @@
 import 'package:app_ft_tmart/src/module/cart/voucher/voucher_logic.dart';
 import 'package:app_ft_tmart/src/module/cart/voucher/voucher_view.dart';
+import 'package:app_ft_tmart/src/module/order/order_logic.dart';
 import 'package:app_ft_tmart/src/module/order_history/not_order/not_order.dart';
 import 'package:app_ft_tmart/src/module/product/product_view.dart';
 import 'package:app_ft_tmart/src/module/search/search_view.dart';
+import 'package:app_ft_tmart/src/utils/utils.dart';
 import 'package:app_ft_tmart/src/widget/global_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -300,6 +302,9 @@ class CartPage extends StatelessWidget {
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 5, vertical: 3),
                                     shape: RoundedRectangleBorder(
+                                        side: BorderSide(
+                                          color: XColor.primary
+                                        ),
                                         borderRadius: BorderRadius.circular(8)),
                                     primary: Colors.white),
                                 onPressed: () async {
@@ -331,8 +336,26 @@ class CartPage extends StatelessWidget {
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(8)),
                                 ),
-                                onPressed: () {
-                                  Get.to(const OrderPage());
+                                onPressed: () async{
+                                  if(logic.getCartRsp.value?.data?.address!=null){
+                                    final order = Get.put(OrderLogic());
+                                    Utils.loading(()async{
+                                      await order.postCreateShipping(action: "p");
+                                       Get.back();
+                                      Get.to(const OrderPage());
+                                    
+                                    },
+                                    // onSuccess: ()async{
+                                     
+                                    // }
+                                    
+                                    );
+                                    
+                                  }
+                                  else{
+                                    Get.to(const OrderPage());
+                                  }
+                                  
                                 },
                                 child: const Padding(
                                   padding: EdgeInsets.symmetric(vertical: 15),

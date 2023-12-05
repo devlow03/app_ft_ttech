@@ -14,24 +14,20 @@ import '../search_view.dart';
 import 'list_product_logic.dart';
 
 class ListProductPage extends StatelessWidget {
-  final String? name;
 
-  const ListProductPage({Key? key, this.name}) : super(key: key);
+
+  const ListProductPage({Key? key, }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    
+
     final logicCart = Get.put(CartLogic());
     final logic = Get.put(SearchLogic());
     final logicFilter = Get.put(FilterLogic());
     final GlobalKey<ScaffoldState> key = GlobalKey<ScaffoldState>();
     // logic.getSearch(name: name??"");
-    if(name!=null) {
-      logic.getSearch(name: name);
-      logic.keyController.text = name??"";
 
-    };
-    
+
 
     return WillPopScope(
       onWillPop: logic.onWillPop,
@@ -39,117 +35,116 @@ class ListProductPage extends StatelessWidget {
         key: key,
         appBar: AppBar(
           // backgroundColor: Colors.white,
-          automaticallyImplyLeading: false,
-          // backgroundColor: Colors.grey.shade200,
-          leading: IconButton(
-            onPressed: () {
+            automaticallyImplyLeading: false,
+            // backgroundColor: Colors.grey.shade200,
+            leading: IconButton(
+              onPressed: () {
 
-              Get.back();
-            },
-            icon: Icon(Icons.arrow_back, color: Colors.white,),
-
-          ),
-          title: Container(
-            decoration: BoxDecoration(
+                Get.back();
+              },
+              icon: Icon(Icons.arrow_back, color: Colors.white,),
 
             ),
-            width: MediaQuery.of(context).size.width*.85,
-            height: 40,
-            child: TextField(
-              autofocus: false,
-              controller: logic.keyController,
-              readOnly: true,
-              onTap: () {
-
-                Get.to(const SearchPage());
-              },
-              onChanged: (value) {
-                // logic.getProduct(name: value);
-              },
-              onSubmitted: (value){
-                // logic.getProduct(name: value);
-              },
-              decoration: InputDecoration(
-                contentPadding: EdgeInsets.symmetric(vertical: 5,horizontal: 10),
-                hintText: 'Tìm sản phẩm',
-
-                filled: true,
-                fillColor: Colors.white,
-                border: OutlineInputBorder(
-
-                  borderRadius: BorderRadius.circular(5),
-                  borderSide: BorderSide(
-                      color: Colors.transparent
-                  ),
-
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(5),
-                  borderSide: BorderSide(
-                      color: Colors.transparent
-                  ),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(5),
-                  borderSide: BorderSide(
-                      color: Colors.transparent
-                  ),
-                ),
+            title: Container(
+              decoration: BoxDecoration(
 
               ),
-            ),
-          ),
+              width: MediaQuery.of(context).size.width*.85,
+              height: 40,
+              child: TextField(
+                autofocus: false,
+                controller: logic.keyController,
+                readOnly: true,
+                onTap: () {
+                  Get.to(const SearchPage());
+                },
+                onChanged: (value) {
+                  // logic.getProduct(name: value);
+                },
+                onSubmitted: (value){
+                  // logic.getProduct(name: value);
+                },
+                decoration: InputDecoration(
+                  contentPadding: EdgeInsets.symmetric(vertical: 5,horizontal: 10),
+                  hintText: 'Tìm sản phẩm',
 
-          actions:[
-            Obx(() {
-              return Stack(
-                alignment: Alignment.centerRight,
-                children: [
-                  IconButton(
-                    onPressed: () {
-                      Get.to(
-                          CartPage());
-                    },
-                    icon:
-                    Icon(Icons.shopping_cart_outlined,color: Colors.white,)
-                    ,
+                  filled: true,
+                  fillColor: Colors.white,
+                  border: OutlineInputBorder(
+
+                    borderRadius: BorderRadius.circular(5),
+                    borderSide: BorderSide(
+                        color: Colors.transparent
+                    ),
+
                   ),
-                  Visibility(
-                    visible: logicCart.getCartRsp.value?.data?.cartDetails
-                        ?.isNotEmpty == true,
-                    child: Positioned(
-                      right: 5,
-                      bottom: 25,
-                      child: Container(
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: XColor.primary
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(5),
-                          child: Text(
-                            "${logicCart.getCartRsp.value?.data
-                                ?.cartDetails
-                                ?.length}",
-                            style: TextStyle(
-                                color: Colors.white
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(5),
+                    borderSide: BorderSide(
+                        color: Colors.transparent
+                    ),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(5),
+                    borderSide: BorderSide(
+                        color: Colors.transparent
+                    ),
+                  ),
+
+                ),
+              ),
+            ),
+
+            actions:[
+              Obx(() {
+                return Stack(
+                  alignment: Alignment.centerRight,
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        Get.to(
+                            CartPage());
+                      },
+                      icon:
+                      Icon(Icons.shopping_cart_outlined,color: Colors.white,)
+                      ,
+                    ),
+                    Visibility(
+                      visible: logicCart.getCartRsp.value?.data?.cartDetails
+                          ?.isNotEmpty == true,
+                      child: Positioned(
+                        right: 5,
+                        bottom: 25,
+                        child: Container(
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: XColor.primary
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(5),
+                            child: Text(
+                              "${logicCart.getCartRsp.value?.data
+                                  ?.cartDetails
+                                  ?.length}",
+                              style: TextStyle(
+                                  color: Colors.white
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                  )
-                ],
-              );
-            }),
-            IconButton(
-                onPressed: (){
-                  key.currentState?.openEndDrawer();
-                },
-                icon: Icon(Icons.filter_alt_outlined,color: Colors.white,)
-            )
+                    )
+                  ],
+                );
+              }),
+              IconButton(
+                  onPressed: (){
+                    key.currentState?.openEndDrawer();
+                  },
+                  icon: Icon(Icons.filter_alt_outlined,color: Colors.white,)
+              )
 
-          ]
+            ]
         ),
         endDrawer: const Drawer(
           child: FilterPage(),
@@ -160,9 +155,9 @@ class ListProductPage extends StatelessWidget {
             if((logic.getSearchRsp.value?.data?.length??0)<1){
               return Center(
                 child: Text("Sản phẩm không tồn tại",
-                style: TextStyle(
-                  color: Colors.black
-                ),
+                  style: TextStyle(
+                      color: Colors.black
+                  ),
                 ),
               );
             }
@@ -182,7 +177,7 @@ class ListProductPage extends StatelessWidget {
               );
             }
 
-              
+
 
           }
           return ListView(
@@ -236,9 +231,9 @@ class ListProductPage extends StatelessWidget {
                         (logic.getSearchRsp.value?.meta?.total ?? 0),
                     replacement: Center(),
                     child: Center(
-                      child: SpinKitCircle(size: 40,
-                      color: Colors.grey,
-                      )
+                        child: SpinKitCircle(size: 40,
+                          color: Colors.grey,
+                        )
                     ),
                   ),
                   const SizedBox(height: 30,),

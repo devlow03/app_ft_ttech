@@ -61,6 +61,7 @@ class Data {
     String? districtName;
     int? cityId;
     String? cityName;
+    dynamic street;
     String? fullAddress;
 
     Data({
@@ -75,6 +76,7 @@ class Data {
         this.districtName,
         this.cityId,
         this.cityName,
+        this.street,
         this.fullAddress,
     });
 
@@ -90,6 +92,7 @@ class Data {
         String? districtName,
         int? cityId,
         String? cityName,
+        dynamic street,
         String? fullAddress,
     }) => 
         Data(
@@ -104,6 +107,7 @@ class Data {
             districtName: districtName ?? this.districtName,
             cityId: cityId ?? this.cityId,
             cityName: cityName ?? this.cityName,
+            street: street ?? this.street,
             fullAddress: fullAddress ?? this.fullAddress,
         );
 
@@ -119,6 +123,7 @@ class Data {
         districtName: json["district_name"],
         cityId: json["city_id"],
         cityName: json["city_name"],
+        street: json["street"],
         fullAddress: json["full_address"],
     );
 
@@ -134,6 +139,7 @@ class Data {
         "district_name": districtName,
         "city_id": cityId,
         "city_name": cityName,
+        "street": street,
         "full_address": fullAddress,
     };
 }

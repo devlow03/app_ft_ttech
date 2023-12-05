@@ -1,8 +1,6 @@
+import 'package:app_ft_tmart/src/module/all_product_by_category/all_product_by_category_logic.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../../../search_logic.dart';
-import '../../list_product_logic.dart';
 import '../filter_logic.dart';
 
 class FilterCategory extends StatelessWidget {
@@ -10,8 +8,8 @@ class FilterCategory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final logic = Get.put(FilterLogic());
-    final logicSearch = Get.put(SearchLogic());
+    final logic = Get.put(FilterAllLogic());
+    final logicAll = Get.put(AllProductByCategoryLogic());
     return Obx(() {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,

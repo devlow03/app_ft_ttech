@@ -27,13 +27,15 @@ class FormSignUpLogic extends GetxController {
         password: passControl.text,
         email: emailControl.text
       ));
-      await signInPhoneFirebase(credential);
       await logicSignIn.signIn(phone: phoneNumber.value,password: passControl.text);
+      Get.back();
+      
 
     });
+
+   
+    
   }
 
-  Future<void>signInPhoneFirebase(PhoneAuthCredential credential)async{
-    await auth.signInWithCredential(credential);
-  }
+  
 }

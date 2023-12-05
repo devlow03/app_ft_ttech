@@ -52,14 +52,15 @@ class AddAddressBookLogic extends GetxController {
         fullName: fullNameControl.text,
         phone: phoneControl.text,
         cityName: cityName.value,
-        cityId: num.parse(cityId.value??""),
+        cityId: int.parse(cityId.value??""),
         districtName: districtName.value,
-        districtId: num.parse(districtId.value??""),
+        districtId: int.parse(districtId.value??""),
         wardName: wardName.value,
         wardId: wardId.value,
-        fullAddress: "${streetControl.text}"
+        street: "${streetControl.text}"
       ));
       await logicAddressBook.getAddressBook();
+      Get.back();
       Get.back();
     });
   }
@@ -75,7 +76,7 @@ class AddAddressBookLogic extends GetxController {
     wardName.value = data.value?.wardName??"";
     wardId.value = data.value?.wardId.toString()??"";
     fullAddressControl.text = data.value?.cityName!=null?"${data.value?.wardName}, ${data.value?.districtName}, ${data.value?.cityName}":'';
-    streetControl.text = data.value?.fullAddress??"";
+    streetControl.text = data.value?.street??"";
 
   }
 
@@ -83,19 +84,21 @@ class AddAddressBookLogic extends GetxController {
    Utils.loading(()async{
      await tMartServices.putUpdateAddressBook(
          id: idAddressBook.value??"",
-         body: PutUpdateAddressBookRqst(
+         body: PostCreateAddressBookRqstBodies(
              fullName: fullNameControl.text,
              phone: phoneControl.text,
              cityName: cityName.value,
-             cityId: num.parse(cityId.value??""),
+             cityId: int.parse(cityId.value??""),
              districtName: districtName.value,
-             districtId: num.parse(districtId.value??""),
+             districtId: int.parse(districtId.value??""),
              wardName: wardName.value,
-             wardId: num.parse(wardId.value??""),
-             fullAddress: "${streetControl.text}"
+             wardId:wardId.value??"",
+             street: "${streetControl.text}"
          )
      );
      await logicAddressBook.getAddressBook();
+     Get.back();
+     Fluttertoast.showToast(msg: "Đã cập nhật địa chỉ!");
      Get.back();
    });
   }
@@ -124,6 +127,7 @@ class AddAddressBookLogic extends GetxController {
       )
     );
     await logicAddressBook.getAddressBook();
+    Get.back();
     Fluttertoast.showToast(msg: "Đã thiết lập thành địa chỉ mặc định");
    });
   }

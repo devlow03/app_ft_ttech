@@ -5,6 +5,7 @@ import 'package:app_ft_tmart/src/data/repositories/get_banner_rsp.dart';
 import 'package:app_ft_tmart/src/data/repositories/get_category_rsp.dart';
 import 'package:app_ft_tmart/src/data/repositories/get_product_by_category_rsp.dart';
 import 'package:app_ft_tmart/src/data/repositories/get_product_rq_query.dart';
+import 'package:app_ft_tmart/src/module/notification/notification_logic.dart';
 import 'package:dio/dio.dart';
 import 'package:encrypted_shared_preferences/encrypted_shared_preferences.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +21,7 @@ import '../cart/cart_logic.dart';
 class HomeLogic extends GetxController {
   final Services tMartServices = Get.find();
   final EncryptedSharedPreferences sharedPreferences= Get.find();
-
+  final notification = Get.put(NotificationLogic());
   HomeLogic();
   Rxn<GetBannerRsp> getBannerRsp = Rxn();
   Rxn<GetProductRsp>getProductRsp = Rxn();
@@ -51,8 +52,8 @@ class HomeLogic extends GetxController {
   void onReady() async{
     // TODO: implement onReady
     super.onReady();
+    await notification.getNotifications();
     await getBanner();
-    await logicCart.getCart();
     print(">>>>>>>>>>>>>>>>>>>session:${await sharedPreferences.getString("session")}");
     await getCategory();
     await getProductByIdCategory();

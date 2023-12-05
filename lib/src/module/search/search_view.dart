@@ -14,13 +14,14 @@ class SearchPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final logic = Get.put(SearchLogic());
-    
+
     // logic.getSearchRsp.value = null;
     // logic.showKeyboard(context);
 
     return WillPopScope(
       onWillPop: ()async{
         logic.keyController.clear();
+        logic.getSearchRsp.value = null;
         return true;
 
       },
@@ -30,7 +31,7 @@ class SearchPage extends StatelessWidget {
             // backgroundColor: Colors.grey.shade200,
             leading: IconButton(
               onPressed: () {
-                Get.offAll(IndexPage());
+                Get.back();
               },
               icon: Icon(Icons.arrow_back, color: Colors.white,),
 
@@ -45,11 +46,13 @@ class SearchPage extends StatelessWidget {
 
                 },
                 onChanged: (value) {
+
                   logic.getSearch();
                 },
                 onSubmitted: (value) {
+
                   Get.to(const ListProductPage());
-                  
+
                 },
                 decoration: InputDecoration(
                   contentPadding: EdgeInsets.symmetric(
@@ -75,7 +78,7 @@ class SearchPage extends StatelessWidget {
                       child: IconButton(
                           onPressed: () {
                             Get.to(
-                               const  ListProductPage());
+                                const  ListProductPage());
                           },
                           icon: Icon(Icons.search,
                             color: Colors.white,
@@ -130,31 +133,31 @@ class SearchPage extends StatelessWidget {
                     },
                     child: Container(
                       child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: ListTile(
-                          leading: GlobalImage(
-                            imageUrl: logic.getSearchRsp.value?.data?[index]
-                                .thumpnailUrl ?? "",
-                            width: MediaQuery.of(context).size.width*.2,
-                            height: 50,
-                            boxFit: BoxFit.contain,
-                          ),
-                          title: Text(logic.getSearchRsp.value?.data?[index]
-                              .productName ?? ""),
-                          subtitle: Text(
-                            NumberFormat.simpleCurrency(locale: 'VI')
-                                .format(
-                                logic.getSearchRsp.value?.data?[index]
-                                    .price ??
-                                    0),
-                            style: const TextStyle(
-                                color: Colors.redAccent,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w700,
-                                letterSpacing: 1
+                          padding: const EdgeInsets.all(8.0),
+                          child: ListTile(
+                            leading: GlobalImage(
+                              imageUrl: logic.getSearchRsp.value?.data?[index]
+                                  .thumpnailUrl ?? "",
+                              width: MediaQuery.of(context).size.width*.2,
+                              height: 50,
+                              boxFit: BoxFit.contain,
                             ),
-                          ),
-                        )
+                            title: Text(logic.getSearchRsp.value?.data?[index]
+                                .productName ?? ""),
+                            subtitle: Text(
+                              NumberFormat.simpleCurrency(locale: 'VI')
+                                  .format(
+                                  logic.getSearchRsp.value?.data?[index]
+                                      .price ??
+                                      0),
+                              style: const TextStyle(
+                                  color: Colors.redAccent,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700,
+                                  letterSpacing: 1
+                              ),
+                            ),
+                          )
                       ),
                     ),
                   );
@@ -175,7 +178,7 @@ class SearchPage extends StatelessWidget {
               const SizedBox(height: 10,),
               Visibility(
                 visible: (logic.getSearchRsp.value?.data
-              ?.length ?? 0)>5,
+                    ?.length ?? 0)>5,
                 child: TextButton(
                     onPressed: (){
                       Get.to(const ListProductPage());

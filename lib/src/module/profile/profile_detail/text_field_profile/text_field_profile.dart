@@ -10,7 +10,7 @@ class TextFieldProfile extends StatelessWidget {
   final bool? readOnly;
   final Widget? suffix;
   final TextEditingController? controller;
-  final Function? onTap;
+  final GestureTapCallback? onTap;
   final FormFieldValidator? validator;
   final TextInputType? textInputType;
 
@@ -33,9 +33,7 @@ class TextFieldProfile extends StatelessWidget {
                         height: 5,
                       ),
           TextFormField(
-            onTap: (){
-              onTap!();
-            },
+            onTap: onTap,
             maxLines: 1,
             readOnly: readOnly!,
             validator: validator,

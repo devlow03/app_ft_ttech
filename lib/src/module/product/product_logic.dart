@@ -61,6 +61,7 @@ class ProductLogic extends GetxController {
 
   Future<GetProductByIdRsp?>getProductById({required String id})async{
     if(id!=''){
+    getProductByIdRsp.value = null;
     getProductByIdRsp.value = await tMartServices.getProductByIdRsp(id: id);
     }
     getProductByIdRsp.refresh();
@@ -136,7 +137,7 @@ class ProductLogic extends GetxController {
         )
 
     );
-    getProductRsp.refresh();
+    // getProductRsp.refresh();
     return getProductRsp.value;
   }
 

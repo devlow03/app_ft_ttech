@@ -1,3 +1,4 @@
+import 'package:app_ft_tmart/src/module/all_product_by_category/all_product_by_category_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
@@ -50,9 +51,7 @@ class ProductByCategoryPage extends StatelessWidget {
                         ),
                         InkWell(
                           onTap: () {
-                            Get.to(
-                                ListProductPage(
-                                  name: "${dataCategory?.name}",));
+                            Get.to(AllProductByCategoryPage(id: dataCategory?.id,categoryName: dataCategory?.name,));
                           },
                           child: Row(
                             children: [

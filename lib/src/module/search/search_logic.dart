@@ -32,21 +32,12 @@ class SearchLogic extends GetxController {
   }
 
   Future<GetProductRsp?> getSearch(
-      {String? name,
-      List<String>? category,
-      List<String>? brand,
-      List<String>? price}) async {
-    if (name != null) {
-      print(">>>>>>>$name");
-      getSearchRsp.value = null;
-      getSearchRsp.value = await tMartServices.getProductRsp(
-          query: GetProductRqQuery(
-              categoryId: (category?.length ?? 0) != 0 ? category : null,
-              perPage: page.value.toString(),
-              productName: name ?? "",
-              manufacturerId: (brand?.length ?? 0) != 0 ? brand : null,
-              price: (price?.length ?? 0) != 0 ? price : null));
-    } else {
+      {
+        List<String>? category,
+        List<String>? brand,
+        List<String>? price}) async {
+
+
       getSearchRsp.value = null;
       getSearchRsp.value = await tMartServices.getProductRsp(
           query: GetProductRqQuery(
@@ -55,7 +46,7 @@ class SearchLogic extends GetxController {
               productName: keyController.text,
               manufacturerId: (brand?.length ?? 0) != 0 ? brand : null,
               price: (price?.length ?? 0) != 0 ? price : null));
-    }
+
     return getSearchRsp.value;
   }
 
@@ -68,18 +59,18 @@ class SearchLogic extends GetxController {
           page.value += 10;
           getSearchRsp.value = await tMartServices.getProductRsp(
               query: GetProductRqQuery(
-            categoryId: logic.selectedCategoryTypes.isNotEmpty == true
-                ? (logic.selectedCategoryTypes)
-                : null,
-            perPage: page.value.toString(),
-            productName: keyController.text,
-            manufacturerId: logic.selectedBrandTypes.isNotEmpty == true
-                ? (logic.selectedBrandTypes)
-                : null,
-            price: logic.selectedPriceRange.isNotEmpty == true
-                ? (logic.selectedPriceRange)
-                : null,
-          ));
+                categoryId: logic.selectedCategoryTypes.isNotEmpty == true
+                    ? (logic.selectedCategoryTypes)
+                    : null,
+                perPage: page.value.toString(),
+                productName: keyController.text,
+                manufacturerId: logic.selectedBrandTypes.isNotEmpty == true
+                    ? (logic.selectedBrandTypes)
+                    : null,
+                price: logic.selectedPriceRange.isNotEmpty == true
+                    ? (logic.selectedPriceRange)
+                    : null,
+              ));
         }
       }
     });
@@ -87,6 +78,7 @@ class SearchLogic extends GetxController {
   }
 
   Future<bool> onWillPop() async {
+    getSearchRsp.value = null;
     keyController.clear();
     logic.selectedBrandTypes.clear();
     logic.selectedCategoryTypes.clear();
