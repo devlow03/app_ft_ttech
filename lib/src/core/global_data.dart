@@ -1,3 +1,4 @@
+
 import 'package:encrypted_shared_preferences/encrypted_shared_preferences.dart';
 
 class GlobalData {
@@ -15,4 +16,5 @@ class GlobalData {
   static const String reCapChaKey = '6LessCQpAAAAAFatAUM_kkxguEckvHXjpp2OlOjM';
 
 }
+
 
