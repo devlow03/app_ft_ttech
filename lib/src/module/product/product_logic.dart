@@ -4,6 +4,8 @@ import 'package:app_ft_tmart/src/data/repositories/get_slider_prod_rsp.dart';
 import 'package:app_ft_tmart/src/data/repositories/post_cart_rqst.dart';
 import 'package:app_ft_tmart/src/data/services/service.dart';
 import 'package:app_ft_tmart/src/module/cart/cart_view.dart';
+import 'package:app_ft_tmart/src/module/favourites/favourites_view.dart';
+import 'package:app_ft_tmart/src/module/product/product_view.dart';
 import 'package:app_ft_tmart/src/utils/utils.dart';
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:dio/dio.dart';
@@ -36,6 +38,7 @@ class ProductLogic extends GetxController {
   final logicCart = Get.put(CartLogic());
   Rxn<GetProductRsp>getProductRsp = Rxn();
   Rxn<GetProductRsp>getProductByBrandRsp = Rxn();
+  Rxn<bool>isFavorites = Rxn(false);
 
 
   final dio = Dio();
@@ -55,6 +58,7 @@ class ProductLogic extends GetxController {
     super.onReady();
     await logicCart.getCart();
     await getProductByIdCategory();
+
 
 
   }
@@ -94,12 +98,22 @@ class ProductLogic extends GetxController {
   }
 
   Future<void>postAddFavorite()async{
-      await tMartServices.postAddFavorite(body: 
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    if(( prefs.getString(GlobalData.token)??"")==''){
+      Fluttertoast.showToast(msg: "Đăng nhập để sử dụng chức năng này!");
+      Get.to(const SignInPage(intoCart: true,));
+    }
+    else{
+      await tMartServices.postAddFavorite(body:
       PostAddFavoriteRqst(
-        productId: int.parse(getProductByIdRsp.value?.data?.id.toString()??"")
+          productId: int.parse(getProductByIdRsp.value?.data?.id.toString()??"")
       )
       );
+      isFavorites.value = true;
+
+      // Get.to(FavouritesPage());
       Fluttertoast.showToast(msg: "Đã thêm vào bộ sưu tập");
+    }
     }
 
     Future<void>deleteFavorite()async{
@@ -119,9 +133,12 @@ class ProductLogic extends GetxController {
       Get.to(const SignInPage(intoCart: true,));
     }
     else{
-      await postAddCart(productId: productId, quantity: quantity);
-      await logicCart.getCart();
-      Get.to(CartPage());
+      Utils.loading(()async{
+        await postAddCart(productId: productId, quantity: quantity);
+        await logicCart.getCart();
+        Get.back();
+        Get.to(CartPage());
+      });
     }
 
 

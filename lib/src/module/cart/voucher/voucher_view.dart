@@ -3,6 +3,7 @@ import 'package:app_ft_tmart/src/widget/search_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import '../../../utils/utils.dart';
 import '../../../widget/ticket_widget.dart';
 import 'voucher_logic.dart';
 
@@ -48,15 +49,17 @@ class VoucherPage extends StatelessWidget {
                   contentPadding: EdgeInsets.symmetric(vertical: 5,horizontal: 10),
                     suffixIcon: InkWell(
                       onTap: (){
-                        if(logic.voucherCodeController.text==""){
-                          Fluttertoast.showToast(msg: "Vui lòng nhập mã giảm giá");
-                        }
-                        else{
-                          logic.addVoucher(
-                              cartId: cartId,
-                              voucherCode: logic.voucherCodeController.text
-                          );
-                        }
+                        Utils.loading(()async{
+                          if(logic.voucherCodeController.text==""){
+                            Fluttertoast.showToast(msg: "Vui lòng nhập mã giảm giá");
+                          }
+                          else{
+                           await  logic.addVoucher(
+                                cartId: cartId,
+                                voucherCode: logic.voucherCodeController.text
+                            );
+                          }
+                        });
                       },
                       child: Container(
                         // height: 60,
@@ -128,8 +131,8 @@ class VoucherPage extends StatelessWidget {
               itemCount: logic.getVoucherRsp.value?.data?.length ?? 0,
               itemBuilder: (context, index) {
                 return InkWell(
-                  onTap: (){
-                    logic.addVoucher(
+                  onTap: ()async{
+                    await logic.addVoucher(
                         cartId: cartId,
                         voucherCode: logic.getVoucherRsp.value?.data?[index]
                             .voucherCode??""

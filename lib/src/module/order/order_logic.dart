@@ -75,12 +75,14 @@ class OrderLogic extends GetxController {
 
             )
         );
-        
+       await clearFee();
         if(payment=="vnpay"){
+
           Get.back();
           createVnPay();
         }
         else{
+
           Get.back();
           final logicCart = Get.put(CartLogic());
           logicCart.onReady();
@@ -108,5 +110,10 @@ class OrderLogic extends GetxController {
       linkWeb: "${postVnpayRsp.value?.data}",));
   }
 
-  
+  Future<void>clearFee()async{
+    final cart = Get.put(CartLogic());
+    cart.voucherValue.value = "";
+
+  }
+
 }

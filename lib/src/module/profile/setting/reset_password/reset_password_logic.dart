@@ -24,9 +24,10 @@ class ResetPasswordLogic extends GetxController{
           passwordNewConfirmation: rePasswordController.text
         )
       );
+      Get.back();
+      Get.back();
       Fluttertoast.showToast(msg: "Đổi mật khẩu thành công");
-      Get.back();
-      Get.back();
+
     });
   }
    

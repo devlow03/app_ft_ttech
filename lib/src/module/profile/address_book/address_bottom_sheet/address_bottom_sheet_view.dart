@@ -33,23 +33,32 @@ class AddressBottomSheetPage extends StatelessWidget {
 
 
 
-    return WillPopScope(
-      onWillPop: ()async{
-        // logic.cityTxt.value = '';
-        // logic.disTxt.value = '';
-        // logic.wardTxt.value = '';
-        return true;
-      },
+    return ClipRRect(
+      borderRadius: const BorderRadius.only(
+        topLeft: Radius.circular(20),
+        topRight: Radius.circular(20),
+      ),
       child: Scaffold(
-
+          resizeToAvoidBottomInset: false,
+          // extendBodyBehindAppBar: true,
+          extendBody: true,
           appBar: AppBar(
+            automaticallyImplyLeading: false,
             elevation: 0.0,
             backgroundColor: Colors.white,
             centerTitle: true,
-            title: const Text("Địa chỉ",
-              style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700
+            title: InkWell(
+              onTap: (){
+                Get.back();
+              },
+              child: Container(
+                width: 30,
+                height: 5,
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade300,
+                  borderRadius: BorderRadius.circular(10)
+                ),
+
               ),
             ),
           ),

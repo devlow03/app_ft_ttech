@@ -152,100 +152,91 @@ class ListProductPage extends StatelessWidget {
         body: Obx(() {
 
           if(logic.getSearchRsp.value?.data?.isEmpty==true){
-            if((logic.getSearchRsp.value?.data?.length??0)<1){
-              return Center(
-                child: Text("Sản phẩm không tồn tại",
-                  style: TextStyle(
-                      color: Colors.black
-                  ),
+            return Center(
+              child: Text("Sản phẩm không tồn tại",
+                style: TextStyle(
+                    color: Colors.black
                 ),
-              );
-            }
-            else{
-              return Center(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    CircularProgressIndicator(
-                      color: XColor.primary,
-                    ),
-                    const SizedBox(height: 5,),
-                    Text("Đang tải")
-                  ],
-                ),
-              );
-            }
+              ),
+            );
 
 
 
           }
-          return ListView(
-            controller: logic.controller,
-            children: [
-              const SizedBox(height: 10,),
-              Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: GridView.builder(
-                      shrinkWrap: true,
-                      itemCount: logic.getSearchRsp.value?.data?.length??0,
-                      physics:
-                      const NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, ind) {
-                        logic.indexPage.value=ind;
-                        return InkWell(
-                          onTap: () {
-                            Get.to(ProductPage(
-                              id: logic.getSearchRsp.value?.data?[ind].id.toString(),
+          return Visibility(
+            visible: logic.getSearchRsp.value?.data?.isNotEmpty==true,
+            replacement: const LinearProgressIndicator(
 
-                            ));
-                          },
-                          child: GlobalProduct(
-                            imageLink:logic.getSearchRsp.value?.data?[ind].thumpnailUrl,
-                            defaultPrice: '${logic.getSearchRsp.value?.data?[ind].defaultPrice}',
-                            // price:NumberFormat("###,###.# đ").format(snapshot.data?.products?[index].price),
-                            price:
-                            '${ logic.getSearchRsp.value?.data?[ind].price}',
-                            nameProduct:
-                            logic.getSearchRsp.value?.data?[ind].productName,
-                            numStar: '5.0',
-                          ),
-                        );
+              backgroundColor: Colors.white,
+              valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+            ),
+            child: ListView(
+              controller: logic.controller,
+              children: [
+                const SizedBox(height: 10,),
+                Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: GridView.builder(
+                        shrinkWrap: true,
+                        itemCount: logic.getSearchRsp.value?.data?.length??0,
+                        physics:
+                        const NeverScrollableScrollPhysics(),
+                        itemBuilder: (context, ind) {
+                          logic.indexPage.value=ind;
+                          return InkWell(
+                            onTap: () {
+                              Get.to(ProductPage(
+                                id: logic.getSearchRsp.value?.data?[ind].id.toString(),
 
-                      },
-                      gridDelegate:
-                      const SliverGridDelegateWithFixedCrossAxisCount(
+                              ));
+                            },
+                            child: GlobalProduct(
+                              imageLink:logic.getSearchRsp.value?.data?[ind].thumpnailUrl,
+                              defaultPrice: '${logic.getSearchRsp.value?.data?[ind].defaultPrice}',
+                              // price:NumberFormat("###,###.# đ").format(snapshot.data?.products?[index].price),
+                              price:
+                              '${ logic.getSearchRsp.value?.data?[ind].price}',
+                              nameProduct:
+                              logic.getSearchRsp.value?.data?[ind].productName,
+                              numStar: '5.0',
+                            ),
+                          );
 
-                        crossAxisCount: 2,
-                        crossAxisSpacing: 5,
-                        mainAxisSpacing: 5,
-                        childAspectRatio: 3 / 5,
+                        },
+                        gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 5,
+                          mainAxisSpacing: 5,
+                          childAspectRatio: 3 / 5,
+                        ),
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 30,),
-                  Visibility(
-                    visible: (logic.getSearchRsp.value?.meta?.perPage ?? 0) <
-                        (logic.getSearchRsp.value?.meta?.total ?? 0),
-                    replacement: Center(),
-                    child: Center(
-                        child: SpinKitCircle(size: 40,
-                          color: Colors.grey,
-                        )
+                    const SizedBox(height: 30,),
+                    Visibility(
+                      visible: (logic.getSearchRsp.value?.meta?.perPage ?? 0) <
+                          (logic.getSearchRsp.value?.meta?.total ?? 0),
+                      replacement: Center(),
+                      child: Center(
+                          child: SpinKitCircle(size: 40,
+                            color: Colors.grey,
+                          )
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 30,),
-                  // TextButton(
-                  //     onPressed: (){
-                  //       print(">>>>>>>>>>>>>>>>>>>${logic.isLoading.value}");
-                  //     },
-                  //     child: Text('a')
-                  // )
-                ],
-              ),
-            ],
+                    const SizedBox(height: 30,),
+                    // TextButton(
+                    //     onPressed: (){
+                    //       print(">>>>>>>>>>>>>>>>>>>${logic.isLoading.value}");
+                    //     },
+                    //     child: Text('a')
+                    // )
+                  ],
+                ),
+              ],
+            ),
           );
         }),
       ),

@@ -70,8 +70,8 @@ class ProfileDetailPage extends StatelessWidget {
                                   logic.networkImage.value ?? "",
                                 ),
                           child: IconButton(
-                              onPressed: () {
-                                logic.postUpdateAvatar();
+                              onPressed: () async{
+                                 logic.postUpdateAvatar();
                               },
                               icon: const Icon(
                                 Icons.camera_alt,
@@ -102,6 +102,7 @@ class ProfileDetailPage extends StatelessWidget {
                           controller: logic.birthdayController,
                            readOnly: true,
                            validator: Validator.birthday,
+                           textInputType: TextInputType.text,
                            suffix: Visibility(
                             visible: logic.readOnly.value == false,
                              child: InkWell(

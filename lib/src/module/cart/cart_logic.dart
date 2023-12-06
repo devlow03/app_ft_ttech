@@ -143,7 +143,8 @@ class CartLogic extends GetxController {
                     onClearCart.value = true;
                 await refresh();
                 Get.back();
-                Get.back();
+                // Get.back();
+                Fluttertoast.showToast(msg: "Đã xóa giỏ hàng!");
                 
               });
             },

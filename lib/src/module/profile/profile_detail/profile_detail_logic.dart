@@ -53,14 +53,13 @@ class ProfileDetailLogic extends GetxController{
   }
 
   void postUpdateAvatar()async{
-    Utils.loading(()async{
-      await pickImage.selectImage();
-      await tMartServices.uploadImage(pickImage.image.value!);
-      await logicProfile.getUserProfile();
-      logicProfile.onReady();
-      Get.back();
-      Fluttertoast.showToast(msg: "Cập nhật ảnh đại diện thành công");
-    });
+    await pickImage.selectImage();
+    await tMartServices.uploadImage(pickImage.image.value!);
+    await logicProfile.getUserProfile();
+    logicProfile.onReady();
+    Get.back();
+    Fluttertoast.showToast(msg: "Cập nhật ảnh đại diện thành công");
+
   }
 
   void setImage(){
@@ -68,7 +67,7 @@ class ProfileDetailLogic extends GetxController{
       networkImage.value = logicProfile.getUserProfileRsp.value?.data?.avatar??"";
     }
     else{
-      networkImage.value = "https://cdn-icons-png.flaticon.com/128/3033/3033143.png";
+      networkImage.value = "https://cdn-icons-png.flaticon.com/128/3177/3177440.png";
     }
   }
 
@@ -79,6 +78,7 @@ class ProfileDetailLogic extends GetxController{
       initialDate: DateTime.now(),
       firstDate: DateTime(2000),
       lastDate: DateTime(2100),
+      keyboardType: TextInputType.text
     );
     if (pickedDate != null && pickedDate != selectedDate.value) {
       selectedDate.value = pickedDate;
@@ -95,15 +95,21 @@ class ProfileDetailLogic extends GetxController{
     final String? birthdayString = logicProfile.getUserProfileRsp.value?.data?.birthday;
     print(">>>>>>>>>>>>>>$birthdayString");
 
-    final birthday = DateFormat("M/d/y").format(convertStringToDate(birthdayString ?? ""));
-    print("Formatted Date: $birthday");
+    if(birthdayString!=null){
+      final birthday = DateFormat("M/d/y").format(convertStringToDate(birthdayString ?? ""));
+      print("Formatted Date: $birthday");
+    }
+    else{
+      final birthday = null;
+
+    }
     // final dateApi = DateFormat('M/d/y').format();
     // print(">>>>>>>>>>>dateApi: ${dateApi}");
      Utils.loading(()async{
       await tMartServices.putUpdateUser(
         body: PutUpdateUserRqst(
           fullName: fullNameController.text,
-          birthday: selectedDate.value!=null?DateFormat('M/d/y').format(selectedDate.value!):birthdayString,
+          birthday: selectedDate.value!=null?DateFormat('M/d/y').format(selectedDate.value!):'',
           phone: phoneController.text,
           email: emailController.text
         )

@@ -39,7 +39,7 @@ class SignInLogic extends GetxController {
     // TODO: implement onReady
     super.onReady();
     
-    passControl.text = "12345678aA@";
+    // passControl.text = "12345678aA@";
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     if(prefs.getString("biometric")=="finger"){
           biometric.value = "finger";
