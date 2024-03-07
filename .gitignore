@@ -33,8 +33,6 @@ migrate_working_dir/
 /build/
 .env
 
-
-
 # Symbolication related
 app.*.symbols
 
@@ -47,3 +45,5 @@ app.*.map.json
 /android/app/release
 /lib/src/core/global_data.dart
 
+# FVM Version Cache
+.fvm/

@@ -1,12 +1,12 @@
-import 'package:app_ft_tmart/src/module/order_history/order_history_logic.dart';
+import 'package:app_ft_tmart/src/modules/order_history/order_history_logic.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 // import 'package:webview_flutter/webview_flutter.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import '../module/cart/cart_logic.dart';
-import '../module/index/index_view.dart';
-import '../module/order_history/order_history_view.dart';
+import '../modules/cart/cart_logic.dart';
+import '../modules/index/index_view.dart';
+import '../modules/order_history/order_history_view.dart';
 
 class GlobalWebview extends StatelessWidget {
   final String? tittleWeb;

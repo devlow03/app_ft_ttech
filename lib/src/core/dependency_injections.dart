@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:app_ft_tmart/src/core/global_data.dart';
 import 'package:app_ft_tmart/src/data/services/service.dart';
-import 'package:app_ft_tmart/src/module/authentication/sign_in/sign_in_view.dart';
+import 'package:app_ft_tmart/src/modules/authentication/sign_in/sign_in_view.dart';
 import 'package:curl_logger_dio_interceptor/curl_logger_dio_interceptor.dart';
 import 'package:dio/dio.dart';
 import 'package:dio/dio.dart';
@@ -14,7 +14,7 @@ import 'package:encrypted_shared_preferences/encrypted_shared_preferences.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../module/index/index_view.dart';
+import '../modules/index/index_view.dart';
 
 
 class DependencyInjections implements GET.Bindings {
