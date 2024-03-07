@@ -8,9 +8,13 @@ workflows:
       - name: Clean CocoaPods
         script: |
           cd ios
-          pod clean
+          pod cache clean --all
+          pod deintegrate
+          pod setup
       - name: Install CocoaPods
         script: |
           cd ios
           pod install
+      - name: Install specific version of cached_network_image
+        script: flutter pub add cached_network_image:3.2.2
       - flutter build ios --release --no-codesign
