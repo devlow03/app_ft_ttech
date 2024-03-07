@@ -11,11 +11,12 @@ import '../../core/xcolor.dart';
 import '../../widget/global_image.dart';
 import '../../widget/global_product.dart';
 import '../../widget/search_widget.dart';
-import 'badge_notification.dart';
+
 import '../cart/cart_logic.dart';
 import '../notification/notification_view.dart';
 import '../search/list_product/list_product_view.dart';
 import '../product_detail/product_detail_view.dart';
+import 'badge_notify/badge_notification.dart';
 import 'banner/banner_view.dart';
 import 'home_logic.dart';
 import 'product_by_category/product_by_category_view.dart';
