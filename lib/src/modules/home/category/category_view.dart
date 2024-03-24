@@ -40,9 +40,9 @@ class CategoryPage extends StatelessWidget {
                 child: Text(
                   'Danh mục sản phẩm',
                   style: TextStyle(
-                      color: XColor.primary,
+                      color: Colors.black,
                       fontSize: 16,
-                      fontWeight: FontWeight.w500),
+                      fontWeight: FontWeight.bold),
                 ),
               ),
               Visibility(
@@ -68,8 +68,7 @@ class CategoryPage extends StatelessWidget {
                               .28,
                           height: 20,
                           decoration: BoxDecoration(
-                              border: Border.all(
-                                  color: Colors.grey.shade200),
+
                               color: Colors.grey.shade200,
                               borderRadius:
                               BorderRadius.circular(5)),

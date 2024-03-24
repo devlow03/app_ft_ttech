@@ -28,61 +28,53 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final logic = Get.put(HomeLogic());
     
-    return Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          backgroundColor: XColor.primary.shade400,
-          bottom: PreferredSize(
-              preferredSize: const Size.fromHeight(50),
-              child: Row(
-                children: const[
-                   Expanded(child: SearchWidget()),
-                  BadgeNofication(),
-                ],
-              )),
-          title: const Text("TMART",
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 20,
-            fontWeight: FontWeight.bold
-          ),
-          ),
-          elevation: 0.0,
-          actions: [
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10),
+      child: Scaffold(
+          backgroundColor: Colors.white,
+          appBar: AppBar(
 
+            backgroundColor: Colors.white,
+            leading: null,
+            title: Expanded(child: SearchWidget()),
+            centerTitle: false,
+            elevation: 0.0,
+            actions: [
+              BadgeNofication(),
 
-          ],
-        ),
-        body: RefreshIndicator(
-          color: Colors.black,
-          strokeWidth: 3,
-          onRefresh: () async {
-            logic.refresh();
-            
-          },
-          child:ListView(
-            controller: logic.controller,
-            children: [
-              const BannerPage(),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  CategoryPage(),
-                  ProductByCategoryPage(),
-                  SizedBox(height: 20,),
-                  ProductSuggestPage()
-
-                ],
-              ),
-
-
-              const SizedBox(
-                height: 30,
-              ),
             ],
-          )
+          ),
+          body: RefreshIndicator(
+            color: Colors.black,
+            strokeWidth: 3,
+            onRefresh: () async {
+              logic.refresh();
 
-          // body: Text('a'),
-        ));
+            },
+            child:ListView(
+              controller: logic.controller,
+              children: [
+                const BannerPage(),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: const [
+                    CategoryPage(),
+                    ProductByCategoryPage(),
+                    SizedBox(height: 20,),
+                    ProductSuggestPage()
+
+                  ],
+                ),
+
+
+                const SizedBox(
+                  height: 30,
+                ),
+              ],
+            )
+
+            // body: Text('a'),
+          )),
+    );
   }
 }

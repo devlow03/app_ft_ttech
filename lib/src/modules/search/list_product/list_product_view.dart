@@ -34,15 +34,17 @@ class ListProductDetailPage extends StatelessWidget {
       child: Scaffold(
         key: key,
         appBar: AppBar(
-          // backgroundColor: Colors.white,
+          elevation: 0.0,
+          backgroundColor: Colors.white,
             automaticallyImplyLeading: false,
+
             // backgroundColor: Colors.grey.shade200,
             leading: IconButton(
               onPressed: () {
 
                 Get.back();
               },
-              icon: Icon(Icons.arrow_back, color: Colors.white,),
+              icon: Icon(Icons.arrow_back, color: XColor.primary,),
 
             ),
             title: Container(
@@ -50,7 +52,7 @@ class ListProductDetailPage extends StatelessWidget {
 
               ),
               width: MediaQuery.of(context).size.width*.85,
-              height: 40,
+              height: 45,
               child: TextField(
                 autofocus: false,
                 controller: logic.keyController,
@@ -74,20 +76,23 @@ class ListProductDetailPage extends StatelessWidget {
 
                     borderRadius: BorderRadius.circular(5),
                     borderSide: BorderSide(
-                        color: Colors.transparent
+                        color: XColor.primary,
+                        width: 2
                     ),
 
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(5),
                     borderSide: BorderSide(
-                        color: Colors.transparent
+                        color: XColor.primary,
+                        width: 2
                     ),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(5),
                     borderSide: BorderSide(
-                        color: Colors.transparent
+                        color: XColor.primary,
+                        width: 2
                     ),
                   ),
 
@@ -96,52 +101,19 @@ class ListProductDetailPage extends StatelessWidget {
             ),
 
             actions:[
-              Obx(() {
-                return Stack(
-                  alignment: Alignment.centerRight,
-                  children: [
-                    IconButton(
-                      onPressed: () {
-                        Get.to(
-                            CartPage());
-                      },
-                      icon:
-                      Icon(Icons.shopping_cart_outlined,color: Colors.white,)
-                      ,
-                    ),
-                    Visibility(
-                      visible: logicCart.getCartRsp.value?.data?.cartDetails
-                          ?.isNotEmpty == true,
-                      child: Positioned(
-                        right: 5,
-                        bottom: 25,
-                        child: Container(
-                          decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: XColor.primary
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(5),
-                            child: Text(
-                              "${logicCart.getCartRsp.value?.data
-                                  ?.cartDetails
-                                  ?.length}",
-                              style: TextStyle(
-                                  color: Colors.white
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    )
-                  ],
-                );
-              }),
-              IconButton(
-                  onPressed: (){
-                    key.currentState?.openEndDrawer();
-                  },
-                  icon: Icon(Icons.filter_alt_outlined,color: Colors.white,)
+
+              InkWell(
+                onTap: ()=>key.currentState?.openEndDrawer(),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Icon(Icons.filter_alt_outlined,color: XColor.primary),
+                      Text('Lọc',style: TextStyle(color:XColor.primary),)
+                    ],
+                  ),
+                ),
               )
 
             ]

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import '../../core/xcolor.dart';
 import 'splash_logic.dart';
 
@@ -31,12 +31,10 @@ class SplashPage extends StatelessWidget {
           children: [
             const SizedBox(height: 300,),
             Center(
-              child: CircularProgressIndicator(
-                // backgroundColor: Color(0xff72FFFF),
+              child: SpinKitWaveSpinner(
+                size: 60,
                 color: XColor.primary,
-
-                strokeWidth: 12,
-              ),
+              )
             ),
           ],
         ),

@@ -26,19 +26,22 @@ class SearchPage extends StatelessWidget {
 
       },
       child: Scaffold(
+        backgroundColor: Colors.white,
         appBar: AppBar(
+          elevation: 0.0,
             automaticallyImplyLeading: false,
-            // backgroundColor: Colors.grey.shade200,
+            backgroundColor: Colors.white,
             leading: IconButton(
               onPressed: () {
                 Get.back();
               },
-              icon: Icon(Icons.arrow_back, color: Colors.white,),
+              icon: Icon(Icons.arrow_back, color: XColor.primary,),
 
             ),
+
             title: SizedBox(
               width: double.infinity,
-              height: 40,
+              height: 45,
               child: TextField(
                 autofocus: true,
                 controller: logic.keyController,
@@ -57,7 +60,7 @@ class SearchPage extends StatelessWidget {
                 decoration: InputDecoration(
                   contentPadding: EdgeInsets.symmetric(
                       vertical: 5, horizontal: 10),
-                  hintText: 'Tìm sản phẩm',
+                  hintText: 'Tìm kiếm trên TMART',
                   // suffixIcon: InkWell(
                   //     onTap: () {
                   //       logic.onSearch.value = true;
@@ -69,41 +72,37 @@ class SearchPage extends StatelessWidget {
                   suffixIcon: Padding(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 2, vertical: 2),
-                    child: Container(
-                      decoration: BoxDecoration(
+                    child: IconButton(
+                        onPressed: () {
+                          Get.to(
+                              const  ListProductDetailPage());
+                        },
+                        icon: Icon(Icons.search,
                           color: XColor.primary,
-                          borderRadius: BorderRadius.circular(2)
-
-                      ),
-                      child: IconButton(
-                          onPressed: () {
-                            Get.to(
-                                const  ListProductDetailPage());
-                          },
-                          icon: Icon(Icons.search,
-                            color: Colors.white,
-                          )
-                      ),
+                        )
                     ),
                   ),
                   border: OutlineInputBorder(
 
-                    borderRadius: BorderRadius.circular(5),
+                    borderRadius: BorderRadius.circular(8),
                     borderSide: BorderSide(
-                        color: Colors.transparent
+                        color: XColor.primary,
+                        width: 2
                     ),
 
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(5),
+                    borderRadius: BorderRadius.circular(8),
                     borderSide: BorderSide(
-                        color: Colors.transparent
+                        color: XColor.primary,
+                      width: 2
                     ),
                   ),
                   enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(5),
+                    borderRadius: BorderRadius.circular(8),
                     borderSide: BorderSide(
-                        color: Colors.transparent
+                        color: XColor.primary,
+                        width: 2
                     ),
                   ),
 
@@ -170,7 +169,7 @@ class SearchPage extends StatelessWidget {
                         .of(context)
                         .size
                         .width,
-                    color: Colors.grey.shade200,
+                    color: Colors.grey.shade100,
                   ),
                 );
               },

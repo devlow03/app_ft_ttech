@@ -16,13 +16,12 @@ class BadgeNofication  extends StatelessWidget {
     return Stack(
         alignment: Alignment.centerRight,
         children: [
-          IconButton(
-            onPressed: () {
-              Get.to(NotificationPage());
-            },
-            icon:
-            Icon(Icons.notifications,color: Colors.white,size: 28,)
-            ,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 5),
+            child: GestureDetector(
+              onTap: ()=>Get.to(const NotificationPage()),
+              child: Image.asset('assets/images/icons/bell.png',width: 25,height: 25,)
+            ),
           ),
           Visibility(
             visible: logic.dataNotification
@@ -33,9 +32,9 @@ class BadgeNofication  extends StatelessWidget {
               child: Container(
                 decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Colors.red),
+                    color: XColor.primary),
                 child: Padding(
-                  padding: const EdgeInsets.all(3),
+                  padding: const EdgeInsets.all(5),
                   child: Text(
                     "${logic.dataNotification.length}",
                     style: TextStyle(

@@ -74,7 +74,7 @@ class Info extends StatelessWidget {
                           height: 30,
                           decoration: BoxDecoration(
                               border: Border.all(color: Colors.grey.shade300),
-                              borderRadius: BorderRadius.circular(20)),
+                              borderRadius: BorderRadius.circular(5)),
                           child: Row(
                             children: [
                               Visibility(

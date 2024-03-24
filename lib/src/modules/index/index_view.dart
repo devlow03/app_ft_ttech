@@ -17,7 +17,7 @@ class IndexPage extends StatelessWidget {
 
     List<Map<String, dynamic>> bottomNavigationBarItems = [
       {
-        'icon': Icon(Icons.home),
+        'icon': Icon(Icons.home_filled),
         'label': 'Trang chủ',
         'screen': HomePage(),
       },

@@ -45,25 +45,20 @@ class ProductByCategoryPage extends StatelessWidget {
                           '${dataCategory?.name} bán chạy',
                           style: TextStyle(
                               fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                              color: XColor.primary
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black
                           ),
                         ),
                         InkWell(
                           onTap: () {
                             Get.to(AllProductByCategoryPage(id: dataCategory?.id,categoryName: dataCategory?.name,));
                           },
-                          child: Row(
-                            children: [
-                              Text(
-                                'Xem thêm',
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500),
-                              ),
-                              Icon(Icons.arrow_forward_ios_outlined, size: 12,)
-                            ],
+                          child: Text(
+                            'Xem thêm',
+                            style: TextStyle(
+                                color: XColor.primary,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500),
                           ),
                         ),
                       ],
@@ -108,9 +103,7 @@ class ProductByCategoryPage extends StatelessWidget {
                                         borderRadius:
                                         BorderRadius.circular(10),
                                         // border: Border.all(color: Colors.red),
-                                        border: Border.all(
-                                          color: Colors.grey.shade300,
-                                        ),
+
                                         color: Colors.grey.shade200,
                                       ),
                                       child: Shimmer.fromColors(

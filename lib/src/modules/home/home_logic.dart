@@ -147,12 +147,13 @@ class HomeLogic extends GetxController {
             perPage: "5"
           )
       );
+      getProductByIdCategoryRsp.refresh();
 
 
 
 
     }
-    getProductByIdCategoryRsp.refresh();
+
 
 
 

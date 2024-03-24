@@ -12,7 +12,7 @@ class Utils{
 
     try {
     Get.dialog(
-      SpinKitDualRing(
+      SpinKitRing(
         size: 60,
         color: Colors.white,
       ),
