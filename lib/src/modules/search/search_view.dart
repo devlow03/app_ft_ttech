@@ -57,52 +57,36 @@ class SearchPage extends StatelessWidget {
                   Get.to(const ListProductDetailPage());
 
                 },
+
+
                 decoration: InputDecoration(
-                  contentPadding: EdgeInsets.symmetric(
-                      vertical: 5, horizontal: 10),
-                  hintText: 'Tìm kiếm trên TMART',
-                  // suffixIcon: InkWell(
-                  //     onTap: () {
-                  //       logic.onSearch.value = true;
-                  //       logic.getSearch(name: logic.name);
-                  //     },
-                  //     child: Icon(Icons.search, color: Colors.black, size: 30,)),
-                  filled: true,
-                  fillColor: Colors.white,
-                  suffixIcon: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 2, vertical: 2),
-                    child: IconButton(
-                        onPressed: () {
-                          Get.to(
-                              const  ListProductDetailPage());
-                        },
-                        icon: Icon(Icons.search,
-                          color: XColor.primary,
-                        )
-                    ),
+                  hintText: 'Tìm kiếm sản phẩm',
+                  hintStyle: const TextStyle(
+                    color: Colors.grey,
+
                   ),
+                  contentPadding: const EdgeInsets.symmetric(vertical: 10,horizontal: 20),
+                  suffixIcon:  Image.asset('assets/images/icons/search.png',width: 10,height: 10),
+                  filled: true,
+                  fillColor: Colors.grey.shade200,
                   border: OutlineInputBorder(
 
-                    borderRadius: BorderRadius.circular(8),
-                    borderSide: BorderSide(
-                        color: XColor.primary,
-                        width: 2
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: const BorderSide(
+                        color: Colors.transparent
                     ),
 
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    borderSide: BorderSide(
-                        color: XColor.primary,
-                      width: 2
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: const BorderSide(
+                        color: Colors.transparent
                     ),
                   ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    borderSide: BorderSide(
-                        color: XColor.primary,
-                        width: 2
+                  enabledBorder:  OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: const BorderSide(
+                        color: Colors.transparent
                     ),
                   ),
 

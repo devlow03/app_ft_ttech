@@ -1,5 +1,6 @@
 import 'package:app_ft_tmart/src/modules/all_product_by_category/all_product_by_category_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -16,204 +17,218 @@ class ProductByCategoryPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final logic = Get.put(HomeLogic());
     return Obx(() {
-      return ListView.separated(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemCount: logic.getCategoryRsp.value?.data?.length ?? 0,
-        itemBuilder: (context, index) {
-          final dataCategory = logic.getCategoryRsp.value?.data?[index];
-          return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10),
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 10, horizontal: 15),
-                    child: Row(
-                      mainAxisAlignment:
-                      MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          '${dataCategory?.name} bán chạy',
-                          style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black
-                          ),
-                        ),
-                        InkWell(
-                          onTap: () {
-                            Get.to(AllProductByCategoryPage(id: dataCategory?.id,categoryName: dataCategory?.name,));
-                          },
-                          child: Text(
-                            'Xem thêm',
-                            style: TextStyle(
-                                color: XColor.primary,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500),
-                          ),
-                        ),
-                      ],
+      return Visibility(
+        visible: logic.getProductByCategoryRsp.value?.data?.isNotEmpty == true,
+        replacement: Column(
+          children: [
+            Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 5),
+                  child: GridView.builder(
+                    shrinkWrap: true,
+                    itemCount: 6,
+                    physics:
+                    const NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, ind) {
+
+                      return Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 8, horizontal: 2),
+                          child: Container(
+                            height: MediaQuery
+                                .of(context)
+                                .size
+                                .height *
+                                .25,
+                            // padding: EdgeInsets.symmetric(vertical: 20),
+                            width: MediaQuery
+                                .of(context)
+                                .size
+                                .width *
+                                .4,
+                            decoration: BoxDecoration(
+                              borderRadius:
+                              BorderRadius.circular(10),
+                              // border: Border.all(color: Colors.red),
+
+                              color: Colors.grey.shade200,
+                            ),
+                            child: Shimmer.fromColors(
+                              baseColor:
+                              Colors.grey.shade300,
+                              highlightColor:
+                              Colors.grey.shade100,
+                              child: Container(
+                                width: MediaQuery
+                                    .of(
+                                    context)
+                                    .size
+                                    .width *
+                                    .1,
+                                height: 190,
+                                decoration:
+                                BoxDecoration(
+                                  color: Colors
+                                      .grey,
+
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                            ),
+                          ));
+                      // else{
+                      //   // logic.loadMore();
+                      //
+                      //   return Padding(
+                      //     padding: const EdgeInsets.symmetric(horizontal: 50),
+                      //     child: Column(
+                      //       crossAxisAlignment: CrossAxisAlignment.center,
+                      //       mainAxisAlignment: MainAxisAlignment.center,
+                      //       children: [
+                      //         CircularProgressIndicator(),
+                      //         TextButton(
+                      //             onPressed:(){
+                      //               logic.loadMore();
+                      //             },
+                      //             child: Text("load")
+                      //         )
+                      //       ],
+                      //     ),
+                      //   );
+                      //
+                      // }
+                    },
+                    gridDelegate:
+                    const SliverGridDelegateWithFixedCrossAxisCount(
+
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 5,
+                      mainAxisSpacing: 5,
+                      childAspectRatio: 3 / 5,
                     ),
                   ),
+                ),
+                const SizedBox(height: 30,),
+                Visibility(
+                  visible: logic.page.value <
+                      (logic.getProductByCategoryRsp.value?.meta?.total ??
+                          0),
+                  replacement: Center(),
+                  child: Center(
+                      child: SpinKitCircle(size: 40,
+                        color: Colors.grey,
+                      )
+                  ),
+                ),
+                const SizedBox(height: 30,),
+                // TextButton(
+                //     onPressed: (){
+                //       print(">>>>>>>>>>>>>>>>>>>${logic.isLoading.value}");
+                //     },
+                //     child: Text('a')
+                // )
+              ],
+            ),
+          ],
+        ),
+        child: Container(
+          color: Colors.grey.shade100,
+          child: Column(
+            children: [
+              Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 5),
+                    child: GridView.builder(
+                      shrinkWrap: true,
+                      itemCount: logic.getProductByCategoryRsp.value?.data
+                          ?.length ?? 0,
+                      physics:
+                      const NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, ind) {
+                        logic.indexPage.value = ind;
+                        return InkWell(
+                          onTap: () {
+                            Get.to(ProductDetailPage(
+                              id: logic.getProductByCategoryRsp.value
+                                  ?.data?[ind].id.toString(),
 
-
-                  Obx(() {
-                    return Visibility(
-                        visible: logic.getProductByIdCategoryRsp.value[logic
-                            .getCategoryRsp.value?.data?[index].id]?.data
-                            ?.isNotEmpty == true,
-                        replacement: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 5),
-                          child: SizedBox(
-                            height:
-                            MediaQuery
-                                .of(context)
-                                .size
-                                .height * .4,
-                            child: ListView.separated(
-                              shrinkWrap: true,
-                              scrollDirection: Axis.horizontal,
-                              itemCount: 3,
-                              itemBuilder: (context, ind) {
-                                return Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 8, horizontal: 2),
-                                    child: Container(
-                                      height: MediaQuery
-                                          .of(context)
-                                          .size
-                                          .height *
-                                          .25,
-                                      // padding: EdgeInsets.symmetric(vertical: 20),
-                                      width: MediaQuery
-                                          .of(context)
-                                          .size
-                                          .width *
-                                          .4,
-                                      decoration: BoxDecoration(
-                                        borderRadius:
-                                        BorderRadius.circular(10),
-                                        // border: Border.all(color: Colors.red),
-
-                                        color: Colors.grey.shade200,
-                                      ),
-                                      child: Shimmer.fromColors(
-                                        baseColor:
-                                        Colors.grey.shade300,
-                                        highlightColor:
-                                        Colors.grey.shade100,
-                                        child: Container(
-                                          width: MediaQuery
-                                              .of(
-                                              context)
-                                              .size
-                                              .width *
-                                              .1,
-                                          height: 190,
-                                          decoration:
-                                          BoxDecoration(
-                                            color: Colors
-                                                .grey,
-                                            borderRadius:
-                                            const BorderRadius
-                                                .only(
-                                                topLeft: Radius
-                                                    .circular(
-                                                    10),
-                                                topRight: Radius
-                                                    .circular(
-                                                    10)),
-                                          ),
-                                        ),
-                                      ),
-                                    ));
-                              },
-                              separatorBuilder:
-                                  (BuildContext context, int index) {
-                                return const SizedBox(
-                                  width: 2,
-                                );
-                              },
-                            ),
+                            ));
+                          },
+                          child: GlobalProduct(
+                            imageLink: logic.getProductByCategoryRsp.value
+                                ?.data?[ind].thumpnailUrl,
+                            defaultPrice: '${logic.getProductByCategoryRsp
+                                .value?.data?[ind].defaultPrice}',
+                            // price:NumberFormat("###,###.# đ").format(snapshot.data?.products?[index].price),
+                            price:
+                            '${ logic.getProductByCategoryRsp.value
+                                ?.data?[ind].price}',
+                            nameProduct:
+                            logic.getProductByCategoryRsp.value?.data?[ind]
+                                .productName,
+                            numStar: '5.0',
                           ),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 5),
-                          child: SizedBox(
-                            height:
-                            MediaQuery
-                                .of(context)
-                                .size
-                                .height * .4,
-                            child: Obx(() {
-                              return ListView.separated(
-                                shrinkWrap: true,
-                                scrollDirection: Axis.horizontal,
-                                itemCount: logic
-                                    .getProductByIdCategoryRsp
-                                    .value[logic.getCategoryRsp.value
-                                    ?.data?[index].id]
-                                    ?.data?.length??0,
-                                itemBuilder: (context, ind) {
-                                  final dataProduct = logic
-                                      .getProductByIdCategoryRsp
-                                      .value[logic.getCategoryRsp.value
-                                      ?.data?[index].id]
-                                      ?.data?[ind];
-                                  return InkWell(
-                                    onTap: () async {
-                                      Get.to(ProductDetailPage(
-                                        id: dataProduct?.id.toString(),
+                        );
+                        // else{
+                        //   // logic.loadMore();
+                        //
+                        //   return Padding(
+                        //     padding: const EdgeInsets.symmetric(horizontal: 50),
+                        //     child: Column(
+                        //       crossAxisAlignment: CrossAxisAlignment.center,
+                        //       mainAxisAlignment: MainAxisAlignment.center,
+                        //       children: [
+                        //         CircularProgressIndicator(),
+                        //         TextButton(
+                        //             onPressed:(){
+                        //               logic.loadMore();
+                        //             },
+                        //             child: Text("load")
+                        //         )
+                        //       ],
+                        //     ),
+                        //   );
+                        //
+                        // }
+                      },
+                      gridDelegate:
+                      const SliverGridDelegateWithFixedCrossAxisCount(
 
-                                      ));
-                                    },
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 8, horizontal: 2),
-                                      child: GlobalProduct(
-                                        imageLink: dataProduct?.thumpnailUrl,
-                                        defaultPrice: '${dataProduct
-                                            ?.defaultPrice}',
-                                        // // price:NumberFormat("###,###.# đ").format(snapshot.data?.products?[index].price),
-                                        price:
-                                        '${dataProduct?.price.toString()}',
-                                        nameProduct: dataProduct?.productName,
-                                        numStar: '5.0',
-
-                                      ),
-                                    ),
-                                  );
-                                },
-                                separatorBuilder:
-                                    (BuildContext context, int index) {
-                                  return const SizedBox(
-                                    width: 2,
-                                  );
-                                },
-                              );
-                            }),
-                          ),
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 5,
+                        mainAxisSpacing: 5,
+                        childAspectRatio: 3 / 5,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 30,),
+                  Visibility(
+                    visible: logic.page.value <
+                        (logic.getProductByCategoryRsp.value?.meta?.total ??
+                            0),
+                    replacement: Center(),
+                    child: Center(
+                        child: SpinKitCircle(size: 40,
+                          color: Colors.grey,
                         )
-                    );
-                  }),
-                  const SizedBox(height: 5,)
+                    ),
+                  ),
+                  const SizedBox(height: 30,),
+                  // TextButton(
+                  //     onPressed: (){
+                  //       print(">>>>>>>>>>>>>>>>>>>${logic.isLoading.value}");
+                  //     },
+                  //     child: Text('a')
+                  // )
                 ],
               ),
-            ),
-          );
-        },
-        separatorBuilder: (BuildContext context, int index) {
-          return const SizedBox(height: 20,);
-        },
+            ],
+          ),
+        ),
       );
     });
   }

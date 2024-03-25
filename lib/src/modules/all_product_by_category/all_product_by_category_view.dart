@@ -1,4 +1,6 @@
+
 import 'package:app_ft_tmart/src/modules/all_product_by_category/filter/filter_view.dart';
+import 'package:app_ft_tmart/src/modules/product_detail/product_detail_view.dart';
 import 'package:app_ft_tmart/src/modules/search/search_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -8,7 +10,7 @@ import '../../core/xcolor.dart';
 import '../../widget/global_product.dart';
 import '../cart/cart_logic.dart';
 import '../cart/cart_view.dart';
-import '../product_detail/product_detail_view.dart';
+
 import 'all_product_by_category_logic.dart';
 
 class AllProductByCategoryPage extends StatelessWidget {
@@ -42,9 +44,9 @@ class AllProductByCategoryPage extends StatelessWidget {
           ),
           title: Text(categoryName??"",
             style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: Colors.white
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors.white
             ),
           ),
           // centerTitle: true,
@@ -115,100 +117,92 @@ class AllProductByCategoryPage extends StatelessWidget {
       body: Obx(() {
 
         if(logic.getProductByCategory.value?.data?.isEmpty==true){
-          if((logic.getProductByCategory.value?.data?.length??0)<1){
-            return Center(
-              child: Text("Sản phẩm không tồn tại",
-                style: TextStyle(
-                    color: Colors.black
-                ),
+
+          return Center(
+            child: Text("Sản phẩm không tồn tại",
+              style: TextStyle(
+                  color: Colors.black
               ),
-            );
-          }
-          else{
-            return Center(
-              child: ListView(
-                // crossAxisAlignment: CrossAxisAlignment.center,
-                // mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  CircularProgressIndicator(
-                    color: XColor.primary,
-                  ),
-                  const SizedBox(height: 5,),
-                  const Text("Đang tải")
-                ],
-              ),
-            );
-          }
+            ),
+          );
 
 
 
         }
-        return ListView(
-          controller: logic.controller,
-          children: [
-            const SizedBox(height: 10,),
-            Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: GridView.builder(
-                    shrinkWrap: true,
-                    itemCount: logic.getProductByCategory.value?.data?.length??0,
-                    physics:
-                    const NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, ind) {
-                      logic.indexPage.value=ind;
-                      return InkWell(
-                        onTap: () {
-                          Get.to(ProductDetailPage(
-                            id: logic.getProductByCategory.value?.data?[ind].id.toString(),
+        return Visibility(
+          replacement: LinearProgressIndicator(
 
-                          ));
-                        },
-                        child: GlobalProduct(
-                          imageLink:logic.getProductByCategory.value?.data?[ind].thumpnailUrl,
-                          defaultPrice: '${logic.getProductByCategory.value?.data?[ind].defaultPrice}',
-                          // price:NumberFormat("###,###.# đ").format(snapshot.data?.products?[index].price),
-                          price:
-                          '${ logic.getProductByCategory.value?.data?[ind].price}',
-                          nameProduct:
-                          logic.getProductByCategory.value?.data?[ind].productName,
-                          numStar: '5.0',
-                        ),
-                      );
+            backgroundColor: Colors.white,
+            valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
+          ),
+          visible: logic.getProductByCategory.value?.data?.isNotEmpty==true,
+          child: ListView(
+            controller: logic.controller,
+            children: [
+              const SizedBox(height: 10,),
+              Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: GridView.builder(
+                      shrinkWrap: true,
+                      itemCount: logic.getProductByCategory.value?.data?.length??0,
+                      physics:
+                      const NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, ind) {
+                        logic.indexPage.value=ind;
+                        return InkWell(
+                          onTap: () {
+                            Get.to(ProductDetailPage(
+                              id: logic.getProductByCategory.value?.data?[ind].id.toString(),
 
-                    },
-                    gridDelegate:
-                    const SliverGridDelegateWithFixedCrossAxisCount(
+                            ));
+                          },
+                          child: GlobalProduct(
+                            imageLink:logic.getProductByCategory.value?.data?[ind].thumpnailUrl,
+                            defaultPrice: '${logic.getProductByCategory.value?.data?[ind].defaultPrice}',
+                            // price:NumberFormat("###,###.# đ").format(snapshot.data?.products?[index].price),
+                            price:
+                            '${ logic.getProductByCategory.value?.data?[ind].price}',
+                            nameProduct:
+                            logic.getProductByCategory.value?.data?[ind].productName,
+                            numStar: '5.0',
+                          ),
+                        );
 
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 5,
-                      mainAxisSpacing: 5,
-                      childAspectRatio: 3 / 5,
+                      },
+                      gridDelegate:
+                      const SliverGridDelegateWithFixedCrossAxisCount(
+
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 5,
+                        mainAxisSpacing: 5,
+                        childAspectRatio: 3 / 5,
+                      ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 30,),
-                Visibility(
-                  visible: (logic.getProductByCategory.value?.meta?.perPage ?? 0) <
-                      (logic.getProductByCategory.value?.meta?.total ?? 0),
-                  replacement: Center(),
-                  child: Center(
-                      child: SpinKitCircle(size: 40,
-                        color: Colors.grey,
-                      )
+                  const SizedBox(height: 30,),
+                  Visibility(
+                    visible: (logic.getProductByCategory.value?.meta?.perPage ?? 0) <
+                        (logic.getProductByCategory.value?.meta?.total ?? 0),
+                    replacement: Center(),
+                    child: Center(
+                        child: SpinKitCircle(size: 40,
+                          color: Colors.grey,
+                        )
+                    ),
                   ),
-                ),
-                const SizedBox(height: 30,),
-                // TextButton(
-                //     onPressed: (){
-                //       print(">>>>>>>>>>>>>>>>>>>${logic.isLoading.value}");
-                //     },
-                //     child: Text('a')
-                // )
-              ],
-            ),
-          ],
+                  const SizedBox(height: 30,),
+                  // TextButton(
+                  //     onPressed: (){
+                  //       print(">>>>>>>>>>>>>>>>>>>${logic.isLoading.value}");
+                  //     },
+                  //     child: Text('a')
+                  // )
+                ],
+              ),
+            ],
+          ),
         );
       }),
     );

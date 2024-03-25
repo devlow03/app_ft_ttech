@@ -47,7 +47,7 @@ class BannerPage extends StatelessWidget {
                       replacement: CarouselSlider.builder(
                         itemCount: 1,
                         options: CarouselOptions(
-                            aspectRatio: 25 / 11,
+                            aspectRatio: 25 / 12,
                             autoPlay: true,
                             autoPlayInterval: const Duration(seconds: 7),
                             viewportFraction: 1,
@@ -79,7 +79,7 @@ class BannerPage extends StatelessWidget {
                             ?.length ??
                             0,
                         options: CarouselOptions(
-                            aspectRatio: 25 / 11,
+                            aspectRatio: 25 / 12,
                             autoPlay: true,
                             autoPlayInterval: const Duration(seconds: 7),
                             viewportFraction: 1,

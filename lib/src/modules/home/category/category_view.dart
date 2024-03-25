@@ -37,14 +37,38 @@ class CategoryPage extends StatelessWidget {
               ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 10),
-                child: Text(
-                  'Danh mục sản phẩm',
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Danh mục',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    GestureDetector(
+                      onTap: () =>
+                          Get.to(AllProductByCategoryPage(
+                            id: logic.getCategoryRsp
+                                .value?.data?[logic.indexCat.value ?? 0]
+                                .id,
+                            categoryName: logic.getCategoryRsp
+                                .value?.data?[logic.indexCat.value ?? 0]
+                                .name ?? "",
+                          )),
+                      child: Text(
+                        'Xem thêm',
+                        style: TextStyle(
+                            color: XColor.primary,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400),
+                      ),
+                    ),
+                  ],
                 ),
               ),
+              const SizedBox(height: 5,),
               Visibility(
                 visible: logic.getCategoryRsp.value?.data
                     ?.isEmpty ==
@@ -65,13 +89,14 @@ class CategoryPage extends StatelessWidget {
                               .of(context)
                               .size
                               .width *
-                              .28,
-                          height: 20,
+                              .3,
+                          height: 15,
                           decoration: BoxDecoration(
 
-                              color: Colors.grey.shade200,
-                              borderRadius:
-                              BorderRadius.circular(5)),
+                            borderRadius:
+                            BorderRadius.circular(15),
+
+                          ),
                           child: Padding(
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 5, vertical: 5),
@@ -80,9 +105,16 @@ class CategoryPage extends StatelessWidget {
                               highlightColor:
                               Colors.grey.shade100,
                               child: Container(
+                                decoration: BoxDecoration(
+
+                                  borderRadius:
+                                  BorderRadius.circular(15),
+                                  color: Colors.white,
+
+                                ),
                                 width: 10,
                                 height: 40,
-                                color: Colors.white,
+
                               ),
                             ),
                           ),
@@ -91,80 +123,78 @@ class CategoryPage extends StatelessWidget {
                       separatorBuilder:
                           (BuildContext context, int index) {
                         return const SizedBox(
-                          width: 20,
+                          width: 10,
                         );
                       },
                     ),
                   ),
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: SizedBox(
-                    height: 50,
-                    child: ListView.separated(
-                      scrollDirection: Axis.horizontal,
-                      shrinkWrap: true,
-                      itemCount: logic.getCategoryRsp.value
-                          ?.data?.length ??
-                          0,
-                      // physics: NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        return InkWell(
-                          onTap: () {
-                            Get.to(AllProductByCategoryPage(
-                              id: logic.getCategoryRsp
+                child: Obx(() {
+                  return Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: SizedBox(
+                      height: 50,
+                      child: ListView.separated(
+                        scrollDirection: Axis.horizontal,
+                        shrinkWrap: true,
+                        itemCount: logic.getCategoryRsp.value
+                            ?.data?.length ??
+                            0,
+                        // physics: NeverScrollableScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          return InkWell(
+                            onTap: () {
+                              logic.indexCat.value = index;
+                              print(">>>>>>>>>>${logic.indexCat.value}");
+                              logic.idCategory.value = logic.getCategoryRsp
                                   .value?.data?[index]
-                                  .id,
-                              categoryName: logic.getCategoryRsp
-                                  .value?.data?[index]
-                                  .name ?? "",
-                            ));
-                          },
-                          child: Container(
-                            width: MediaQuery
-                                .of(context)
-                                .size
-                                .width *
-                                .28,
-                            decoration: BoxDecoration(
-                              // border: Border.all(
-                              //     color: Colors.grey.shade200),
-                                color: Colors.grey.shade200,
-                                borderRadius:
-                                BorderRadius.circular(5)),
-                            child: Padding(
-                              padding: const EdgeInsets
-                                  .symmetric(
-                                  horizontal: 5, vertical: 5),
-                              child: Row(
-                                children: [
-                                  Icon(
-                                    logic.iconCategory[index],
-                                    color: XColor.primary,
-                                    size: 20,),
-                                  const SizedBox(width: 10,),
-                                  Text(logic.getCategoryRsp
-                                      .value?.data?[index]
-                                      .name ?? "",
-                                    style: const TextStyle(
-                                        fontSize: 12
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                        );
-                      },
-                      separatorBuilder:
-                          (BuildContext context, int index) {
-                        return const SizedBox(
-                          width: 15,
-                        );
-                      },
+                                  .id ?? 0;
+                              logic.getProdByCategory();
+                            },
+                            child: Obx(() {
+                              return Container(
+                                alignment: Alignment.center,
+                                width: MediaQuery
+                                    .of(context)
+                                    .size
+                                    .width *
+                                    .3,
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color: logic.indexCat.value == index
+                                          ? Colors.transparent
+                                          : Colors.black, width: 2),
+                                  color: logic.indexCat.value == index ? XColor
+                                      .primary : Colors.white,
+                                  borderRadius:
+                                  BorderRadius.circular(15),
+
+                                ),
+                                child: Text(logic.getCategoryRsp
+                                    .value?.data?[index]
+                                    .name ?? "",
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600,
+                                      color: logic.indexCat.value == index
+                                          ? Colors.white
+                                          : Colors.black
+                                  ),
+                                ),
+                              );
+                            }),
+                          );
+                        },
+                        separatorBuilder:
+                            (BuildContext context, int index) {
+                          return const SizedBox(
+                            width: 10,
+                          );
+                        },
+                      ),
                     ),
-                  ),
-                ),
+                  );
+                }),
               ),
             ],
           ),

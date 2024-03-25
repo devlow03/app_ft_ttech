@@ -25,7 +25,7 @@ class SearchWidget extends StatelessWidget {
 
           ),
           contentPadding: const EdgeInsets.symmetric(vertical: 10,horizontal: 20),
-          suffixIcon:  Icon(Icons.search,color: Colors.grey,size: 30,),
+          suffixIcon:  Image.asset('assets/images/icons/search.png',width: 10,height: 10),
           filled: true,
           fillColor: Colors.grey.shade200,
           border: OutlineInputBorder(

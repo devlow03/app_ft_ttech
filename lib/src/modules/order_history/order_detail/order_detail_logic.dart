@@ -29,9 +29,12 @@ class OrderDetailLogic extends GetxController {
           title: "Đã hủy đơn hàng $orderNumber thành công",
           content: "${productName}",
           image: "${thumbnail}");
+
       Get.back();
       await logic.getOrder().then((value){
+
         Get.back();
+        logic.tabIndex.value=4;
       });
       
       

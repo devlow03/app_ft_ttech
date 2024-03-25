@@ -17,23 +17,25 @@ class IndexPage extends StatelessWidget {
 
     List<Map<String, dynamic>> bottomNavigationBarItems = [
       {
-        'icon': Icon(Icons.home_filled),
+        'icon': const Icon(Icons.home_outlined),
+        'active':const Icon(Icons.home),
         'label': 'Trang chủ',
-        'screen': HomePage(),
+        'screen': const HomePage(),
       },
       {
-        'icon': Icon(Icons.list_alt),
+        'icon': const Icon(Icons.list_alt_outlined),
+        'active':const Icon(Icons.list_alt),
         'label': 'Bảng tin',
-        'screen': NewsPage(),
+        'screen': const NewsPage(),
       },
       {
         'icon':Container(
-          padding: EdgeInsets.all(15),
+          padding: const EdgeInsets.all(15),
           decoration: BoxDecoration(
             color: XColor.primary,
             shape: BoxShape.circle
           ),
-          child: Icon(Icons.shopping_cart_outlined,
+          child: const Icon(Icons.shopping_cart_outlined,
           color: Colors.white,
           )
         ),
@@ -42,14 +44,16 @@ class IndexPage extends StatelessWidget {
       
       },
       {
-        'icon':Icon(Icons.favorite),
+        'icon':const Icon(Icons.favorite_outline),
+        'active':const Icon(Icons.favorite),
         'label': 'Bộ sưu tập',
-        'screen': FavouritesPage(),
+        'screen': const FavouritesPage(),
       },
       {
-        'icon':Icon(Icons.person),
+        'icon':const Icon(Icons.person_outline),
+        'active':const Icon(Icons.person),
         'label': 'Tài khoản',
-        'screen': ProfilePage(),
+        'screen': const ProfilePage(),
       },
 
     ];
@@ -74,7 +78,7 @@ class IndexPage extends StatelessWidget {
             
             return BottomNavigationBarItem(
               icon: e['icon'],
-              // activeIcon: e['active'],
+              activeIcon: e['active'],
               label: e['label'],
 
             );

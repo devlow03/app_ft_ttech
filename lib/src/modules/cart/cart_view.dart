@@ -133,8 +133,8 @@ class CartPage extends StatelessWidget {
                                         children: [
                                           Row(
                                             children: [
-                                              IconButton(
-                                                  onPressed: () async {
+                                              GestureDetector(
+                                                  onTap: () async {
                                                     print(
                                                         ">>>>>>>>>>>>>>>>>>A");
                                                     int? quantity = int.parse(
@@ -175,9 +175,11 @@ class CartPage extends StatelessWidget {
                                                               "");
                                                     }
                                                   },
-                                                  icon: Container(
+                                                  child: Container(
+                                                    margin: const EdgeInsets.only(right: 10),
+                                                    padding: const EdgeInsets.all(5),
                                                     decoration: BoxDecoration(
-                                                      shape: BoxShape.circle,
+                                                      borderRadius: BorderRadius.circular(8),
                                                       border: Border.all(color: Colors.grey.shade200)
                                                     ),
                                                     child:  const Icon(
@@ -193,10 +195,9 @@ class CartPage extends StatelessWidget {
                                                     fontSize: 14
                                                   ),
                                                   ),
-                                              IconButton(
-                                                  onPressed: () async {
-                                                    print(
-                                                        ">>>>>>>>>>>>>>>>>>A");
+                                              GestureDetector(
+                                                  onTap: () async {
+
                                                     int? quantity = int.parse(
                                                             ((logic
                                                                     .getCartRsp
@@ -207,8 +208,7 @@ class CartPage extends StatelessWidget {
                                                                     .quantity)
                                                                 .toString())) +
                                                         1;
-                                                    print(
-                                                        ">>>>>>>>>>>>>>>>>>${quantity}");
+
                                                     if (quantity >= 1) {
                                                       await logic.updateCartDetail(
                                                           idCart: logic
@@ -223,10 +223,12 @@ class CartPage extends StatelessWidget {
                                                           quantity: quantity);
                                                     }
                                                   },
-                                                  icon: Container(
+                                                  child: Container(
+                                                    margin: EdgeInsets.symmetric(horizontal: 10),
+                                                    padding: EdgeInsets.all(5),
                                                     decoration: BoxDecoration(
-                                                      shape: BoxShape.circle,
-                                                      border: Border.all(color: Colors.grey.shade200)
+                                                        borderRadius: BorderRadius.circular(8),
+                                                        border: Border.all(color: XColor.primary)
                                                     ),
                                                     child: const Icon(
                                                       Icons.add,
@@ -287,92 +289,52 @@ class CartPage extends StatelessWidget {
             );
           }),
           bottomNavigationBar: BottomAppBar(
-            child: Obx(() => Visibility(
-                  visible:logic.onClearCart.value==false,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(vertical: 5),
-                            width: MediaQuery.of(context).size.width * .5,
-                            child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 5, vertical: 3),
-                                    shape: RoundedRectangleBorder(
-                                        side: BorderSide(
-                                          color: XColor.primary
-                                        ),
-                                        borderRadius: BorderRadius.circular(8)),
-                                    primary: Colors.white),
-                                onPressed: () async {
-                                  await logic.removeCart();
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 15),
-                                  child: Text(
-                                    'Xóa giỏ hàng',
-                                    style: TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w600,
-                                        color: XColor.primary),
-                                  ),
-                                )),
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 20,
-                        ),
-                        Expanded(
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(vertical: 5),
-                            width: MediaQuery.of(context).size.width * .5,
-                            child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 5, vertical: 3),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8)),
-                                ),
-                                onPressed: () async{
-                                  if(logic.getCartRsp.value?.data?.address!=null){
-                                    final order = Get.put(OrderLogic());
-                                    Utils.loading(()async{
-                                      await order.postCreateShipping(action: "p");
-                                       Get.back();
-                                      Get.to(const OrderPage());
-                                    
-                                    },
-                                    // onSuccess: ()async{
-                                     
-                                    // }
-                                    
-                                    );
-                                    
-                                  }
-                                  else{
-                                    Get.to(const OrderPage());
-                                  }
-                                  
-                                },
-                                child: const Padding(
-                                  padding: EdgeInsets.symmetric(vertical: 15),
-                                  child: Text(
-                                    'Mua hàng',
-                                    style: TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                )),
-                          ),
-                        )
-                      ],
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+              child: Container(
+                padding: const EdgeInsets.symmetric(vertical: 5),
+                width: MediaQuery.of(context).size.width * .5,
+                child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 5, vertical: 5),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15)),
                     ),
-                  ),
-                )),
+                    onPressed: () async{
+                      if(logic.getCartRsp.value?.data?.address!=null){
+                        final order = Get.put(OrderLogic());
+                        Utils.loading(()async{
+                          await order.postCreateShipping(action: "p");
+                          Get.back();
+                          Get.to(const OrderPage());
+
+                        },
+                          // onSuccess: ()async{
+
+                          // }
+
+                        );
+
+                      }
+                      else{
+                        Get.to(const OrderPage());
+                      }
+
+                    },
+                    child: const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 15),
+                      child: Text(
+                        'Thanh toán',
+                        style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white
+                        ),
+                      ),
+                    )),
+              ),
+            )
           ),
         ));
   }

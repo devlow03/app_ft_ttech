@@ -60,7 +60,7 @@ class FilterPage extends StatelessWidget {
                 });
 
               },
-              child: Text("Áp dụng")
+              child: Text("Áp dụng",style: TextStyle(color: Colors.white),)
           ),
         )
       ),

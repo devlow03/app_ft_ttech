@@ -44,6 +44,7 @@ class OrderHistoryPage extends StatelessWidget {
           ],
         ),
         body: DefaultTabController(
+          initialIndex: logic.tabIndex.value??0,
             length: logic.tabOrder.length,
             child: Column(
               children: [

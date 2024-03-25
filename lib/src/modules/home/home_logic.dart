@@ -14,6 +14,7 @@ import 'package:get/get.dart';
 
 import '../../data/repositories/get_product_rsp.dart';
 import '../../data/services/service.dart';
+import '../../utils/utils.dart';
 import '../cart/cart_logic.dart';
 
 
@@ -25,9 +26,11 @@ class HomeLogic extends GetxController {
   HomeLogic();
   Rxn<GetBannerRsp> getBannerRsp = Rxn();
   Rxn<GetProductRsp>getProductRsp = Rxn();
-  Rx<Map<int, GetProductRsp>> getProductByIdCategoryRsp = Rx({});
+  // Rx<Map<int, GetProductRsp>> getProductByIdCategoryRsp = Rx({});
+  Rxn< GetProductRsp> getProductByCategoryRsp = Rxn();
   Rxn<GetCategoryRsp>getCategoryRsp = Rxn();
-
+  Rx<int>idCategory = Rx(4);
+  Rxn<int>indexCat = Rxn(0);
 
   Rxn<int> activeIndex = Rxn();
   Rxn<bool>hasData = Rxn(false);
@@ -56,7 +59,7 @@ class HomeLogic extends GetxController {
     await getBanner();
     print(">>>>>>>>>>>>>>>>>>>session:${await sharedPreferences.getString("session")}");
     await getCategory();
-    await getProductByIdCategory();
+    await getProdByCategory();
 
     // if(hasData.value == false){
     //   getProductByIdCategoryRsp.refresh();
@@ -79,8 +82,8 @@ class HomeLogic extends GetxController {
     super.refresh();
     await getBanner();
     await getCategory();
-    await getProductByIdCategory();
-    await getProduct();
+    // await getProductByIdCategory();
+    await getProdByCategory();
 
 
 
@@ -122,13 +125,19 @@ class HomeLogic extends GetxController {
   Future<void>loadMore()async {
     controller.addListener(() async{
       if(controller.position.maxScrollExtent == controller.offset){
-        if(page.value<(getProductRsp.value?.meta?.total??0)){
+        if(page.value<(getProductByCategoryRsp.value?.meta?.total??0)){
           isLoading.value=true;
           print(">>>>>>>>>>>>>>>>>>>>>>>>>AAAAAAAAAAAAAAAAAA");
           page.value+=10;
           print(">>>>page: ${page.value}");
-          await getProduct();
-        }
+
+            getProductByCategoryRsp.value = await tMartServices.getProductRsp(query: GetProductRqQuery(
+                categoryId: [idCategory.toString()],
+                perPage: page.value.toString()
+            ));
+
+
+          getProductByCategoryRsp.refresh();        }
 
 
 
@@ -136,31 +145,42 @@ class HomeLogic extends GetxController {
     });
     
   }
-  Future getProductByIdCategory()async{
-    final category = getCategoryRsp.value?.data;
-    final categoryLength = category?.length;
-    for(var i=0; i< (categoryLength??0);i++){
-      int? id = category?[i].id;
-      getProductByIdCategoryRsp.value[id??0] = await tMartServices.getProductRsp(
-          query: GetProductRqQuery(
-              categoryId: [id.toString()],
-            perPage: "5"
-          )
-      );
-      getProductByIdCategoryRsp.refresh();
+  // Future getProductByIdCategory()async{
+  //   final category = getCategoryRsp.value?.data;
+  //   final categoryLength = category?.length;
+  //   for(var i=0; i< (categoryLength??0);i++){
+  //     int? id = category?[i].id;
+  //     getProductByIdCategoryRsp.value[id??0] = await tMartServices.getProductRsp(
+  //         query: GetProductRqQuery(
+  //             categoryId: [id.toString()],
+  //           perPage: "5"
+  //         )
+  //     );
+  //     getProductByIdCategoryRsp.refresh();
+  //
+  //
+  //
+  //
+  //   }
+  //
+  //
+  //
+  //
+  //
+  //
+  // }
+  Future<GetProductRsp?>getProdByCategory()async{
+    getProductByCategoryRsp.value = null;
+
+      getProductByCategoryRsp.value = await tMartServices.getProductRsp(query: GetProductRqQuery(
+          categoryId: [idCategory.toString()],
+          perPage: page.value.toString()
+      ));
 
 
-
-
-    }
-
-
-
-
-
-
+    getProductByCategoryRsp.refresh();
+    return getProductByCategoryRsp.value;
   }
-
 
 
 

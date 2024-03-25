@@ -64,7 +64,7 @@ class _GlobalProductState extends State<GlobalProduct> {
 
             ),
           ),
-
+          const SizedBox(height: 10,),
           Visibility(
             visible: widget.badgesLink!=null,
             replacement: const Center(),

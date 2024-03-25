@@ -63,22 +63,12 @@ class OrderPage extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Icon(
-                                    Icons.location_on,
-                                    color: XColor.primary,
-                                    size: 18,
-                                  ),
-                                  const Text(
-                                    "Địa chỉ nhận hàng",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                ],
+                              const Text(
+                                "Địa chỉ nhận hàng",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                ),
                               ),
                               Obx(() {
                                 return Visibility(
@@ -266,25 +256,14 @@ class OrderPage extends StatelessWidget {
                   children: [
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        children: [
-                          Image.asset(
-                            "assets/images/coupon.png",
-                            width: 30,
-                            height: 30,
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          const Text(
-                            "Khuyến mãi",
-                            style: TextStyle(
-                              fontSize: 14,
+                      child: const Text(
+                        "Khuyến mãi",
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold
 
-                              // letterSpacing: 0.5
-                            ),
-                          ),
-                        ],
+                          // letterSpacing: 0.5
+                        ),
                       ),
                     ),
                     Padding(
@@ -704,6 +683,7 @@ class OrderPage extends StatelessWidget {
                                 style: TextStyle(
                                   fontSize: 15,
                                   fontWeight: FontWeight.w600,
+                                  color: Colors.white
                                 ),
                               ),
                             )),

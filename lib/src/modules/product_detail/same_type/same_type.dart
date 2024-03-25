@@ -141,62 +141,8 @@ class SameType extends StatelessWidget {
                                               ],
                                             ),
 
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 8.0,
-                                                      vertical: 5),
-                                              child: Column(
-                                                children: [
-                                                  const SizedBox(
-                                                    height: 5,
-                                                  ),
-                                                  Shimmer.fromColors(
-                                                    baseColor:
-                                                        Colors.grey.shade300,
-                                                    highlightColor:
-                                                        Colors.grey.shade100,
-                                                    child: Container(
-                                                      color: Colors.grey,
-                                                      height: 30,
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                              .size
-                                                              .width,
-                                                      // boxFit: BoxFit.cover,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            const SizedBox(
-                                              height: 3,
-                                            ),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 8.0,
-                                                      vertical: 2),
-                                              child: Column(
-                                                children: [
-                                                  Shimmer.fromColors(
-                                                    baseColor:
-                                                        Colors.grey.shade300,
-                                                    highlightColor:
-                                                        Colors.grey.shade100,
-                                                    child: Container(
-                                                      color: Colors.grey,
-                                                      height: 20,
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                              .size
-                                                              .width,
-                                                      // boxFit: BoxFit.cover,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
+
+
                                           ],
                                         ),
                                       ));
@@ -404,62 +350,7 @@ class SameType extends StatelessWidget {
                                               ],
                                             ),
 
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 8.0,
-                                                      vertical: 5),
-                                              child: Column(
-                                                children: [
-                                                  const SizedBox(
-                                                    height: 5,
-                                                  ),
-                                                  Shimmer.fromColors(
-                                                    baseColor:
-                                                        Colors.grey.shade300,
-                                                    highlightColor:
-                                                        Colors.grey.shade100,
-                                                    child: Container(
-                                                      color: Colors.grey,
-                                                      height: 30,
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                              .size
-                                                              .width,
-                                                      // boxFit: BoxFit.cover,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            const SizedBox(
-                                              height: 3,
-                                            ),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 8.0,
-                                                      vertical: 2),
-                                              child: Column(
-                                                children: [
-                                                  Shimmer.fromColors(
-                                                    baseColor:
-                                                        Colors.grey.shade300,
-                                                    highlightColor:
-                                                        Colors.grey.shade100,
-                                                    child: Container(
-                                                      color: Colors.grey,
-                                                      height: 20,
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                              .size
-                                                              .width,
-                                                      // boxFit: BoxFit.cover,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
+
                                           ],
                                         ),
                                       ));

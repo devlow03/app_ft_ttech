@@ -60,8 +60,8 @@ class HomePage extends StatelessWidget {
                   children: const [
                     CategoryPage(),
                     ProductByCategoryPage(),
-                    SizedBox(height: 20,),
-                    ProductSuggestPage()
+                    // // SizedBox(height: 20,),
+                    // ProductSuggestPage()
 
                   ],
                 ),
