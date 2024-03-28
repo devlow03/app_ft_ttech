@@ -37,7 +37,7 @@ class VoucherLogic extends GetxController {
       )
     );
     await logicCart.getCart();
-    logicCart.getVoucher();
+    // logicCart.getVoucher();
     Get.back();
     Fluttertoast.showToast(msg: "Áp dụng voucher thành công");
 
@@ -45,7 +45,7 @@ class VoucherLogic extends GetxController {
   Future<void>deleteVoucher({required int cartId})async{
     await tMartServices.deleteVoucher(cartId: cartId);
     await logicCart.getCart();
-    logicCart.getVoucher();
+    // logicCart.getVoucher();
     logicCart.voucherTitle.value=null;
     logicCart.voucherValue.value=null;
     Get.back();

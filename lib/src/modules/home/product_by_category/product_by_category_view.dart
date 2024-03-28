@@ -25,7 +25,7 @@ class ProductByCategoryPage extends StatelessWidget {
               children: [
                 Padding(
                   padding: const EdgeInsets.symmetric(
-                      horizontal: 5),
+                      horizontal: 10),
                   child: GridView.builder(
                     shrinkWrap: true,
                     itemCount: 6,
@@ -78,27 +78,7 @@ class ProductByCategoryPage extends StatelessWidget {
                               ),
                             ),
                           ));
-                      // else{
-                      //   // logic.loadMore();
-                      //
-                      //   return Padding(
-                      //     padding: const EdgeInsets.symmetric(horizontal: 50),
-                      //     child: Column(
-                      //       crossAxisAlignment: CrossAxisAlignment.center,
-                      //       mainAxisAlignment: MainAxisAlignment.center,
-                      //       children: [
-                      //         CircularProgressIndicator(),
-                      //         TextButton(
-                      //             onPressed:(){
-                      //               logic.loadMore();
-                      //             },
-                      //             child: Text("load")
-                      //         )
-                      //       ],
-                      //     ),
-                      //   );
-                      //
-                      // }
+
                     },
                     gridDelegate:
                     const SliverGridDelegateWithFixedCrossAxisCount(
@@ -134,6 +114,7 @@ class ProductByCategoryPage extends StatelessWidget {
           ],
         ),
         child: Container(
+
           color: Colors.grey.shade100,
           child: Column(
             children: [
@@ -141,7 +122,7 @@ class ProductByCategoryPage extends StatelessWidget {
                 children: [
                   Padding(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 5),
+                        horizontal: 10),
                     child: GridView.builder(
                       shrinkWrap: true,
                       itemCount: logic.getProductByCategoryRsp.value?.data

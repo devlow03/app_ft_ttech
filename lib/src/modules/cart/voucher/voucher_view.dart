@@ -1,4 +1,5 @@
 import 'package:app_ft_tmart/src/core/xcolor.dart';
+import 'package:app_ft_tmart/src/modules/cart/cart_logic.dart';
 import 'package:app_ft_tmart/src/widget/search_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -128,12 +129,16 @@ class VoucherPage extends StatelessWidget {
               itemCount: logic.getVoucherRsp.value?.data?.length ?? 0,
               itemBuilder: (context, index) {
                 return InkWell(
-                  onTap: (){
-                    logic.addVoucher(
+                  onTap: ()async{
+                    final cart = Get.put(CartLogic());
+
+                    await logic.addVoucher(
                         cartId: cartId,
                         voucherCode: logic.getVoucherRsp.value?.data?[index]
                             .voucherCode??""
                     );
+                    cart.voucherCode.value = logic.getVoucherRsp.value?.data?[index]
+                        .voucherCode;
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -188,8 +193,10 @@ class VoucherPage extends StatelessWidget {
                               visible: logic.logicCart.voucherTitle.value!=logic.getVoucherRsp.value?.data?[index]
                                   .title,
                               replacement: InkWell(
-                                onTap: (){
-                                  logic.deleteVoucher(cartId: cartId);
+                                onTap: ()async{
+                                  await logic.deleteVoucher(cartId: cartId);
+                                  final cart = Get.put(CartLogic());
+                                  cart.voucherCode.value = "Chọn mã giảm giá";
                                 },
                                 child: Container(
                                     decoration: BoxDecoration(
@@ -209,12 +216,17 @@ class VoucherPage extends StatelessWidget {
                                 ),
                               ),
                               child: InkWell(
-                                onTap: (){
-                                  logic.addVoucher(
+                                onTap: ()async{
+                                  await logic.addVoucher(
                                       cartId: cartId,
                                       voucherCode: logic.getVoucherRsp.value?.data?[index]
                                           .voucherCode??""
                                   );
+                                  final cart = Get.put(CartLogic());
+                                  cart.voucherCode.value = logic.getVoucherRsp.value?.data?[index]
+                                      .voucherCode;
+                                  cart.voucherTitle.value =  logic.getVoucherRsp.value?.data?[index]
+                                      .title;
                                 },
                                 child: Container(
                                   decoration: BoxDecoration(

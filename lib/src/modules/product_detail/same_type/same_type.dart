@@ -40,7 +40,7 @@ class SameType extends StatelessWidget {
                             style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,
-                                color: XColor.primary),
+                                color: Colors.black),
                           ),
                           InkWell(
                             onTap: () {
@@ -51,21 +51,13 @@ class SameType extends StatelessWidget {
                                     ?.data?.manufacturerName,
                               ));
                             },
-                            child: Row(
-                              children: [
-                                const Text(
-                                  'Xem thêm',
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500),
+                            child: Text(
+                             'Xem thêm',
+                             style: TextStyle(
+                                 color: XColor.primary,
+                                 fontSize: 16,
+                                 fontWeight: FontWeight.w400),
                                 ),
-                                const Icon(
-                                  Icons.arrow_forward_ios_outlined,
-                                  size: 12,
-                                )
-                              ],
-                            ),
                           ),
                         ],
                       ),
@@ -249,7 +241,7 @@ class SameType extends StatelessWidget {
                             style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,
-                                color: XColor.primary),
+                                color: Colors.black),
                           ),
                           InkWell(
                             onTap: () {
@@ -260,20 +252,12 @@ class SameType extends StatelessWidget {
                                     ?.first.categoryName,
                               ));
                             },
-                            child: Row(
-                              children: const [
-                                Text(
-                                  'Xem thêm',
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                                Icon(
-                                  Icons.arrow_forward_ios_outlined,
-                                  size: 12,
-                                )
-                              ],
+                            child: Text(
+                              'Xem thêm',
+                              style: TextStyle(
+                                  color: XColor.primary,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w400),
                             ),
                           ),
                         ],

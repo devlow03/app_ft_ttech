@@ -142,7 +142,7 @@ class MyApp extends StatelessWidget {
               fontWeight: FontWeight.w400
           ),
           selectedItemColor: XColor.primary,
-          unselectedItemColor: Colors.black,
+          unselectedItemColor: Colors.grey,
           // showUnselectedLabels: true,
         )
         // buttonColor: XColor.primary,

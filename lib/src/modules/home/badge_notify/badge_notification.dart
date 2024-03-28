@@ -17,7 +17,7 @@ class BadgeNofication  extends StatelessWidget {
         alignment: Alignment.centerRight,
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 5),
+            padding: const EdgeInsets.symmetric(horizontal: 10),
             child: GestureDetector(
               onTap: ()=>Get.to(const NotificationPage()),
               child: Image.asset('assets/images/icons/bell.png',width: 25,height: 25,)

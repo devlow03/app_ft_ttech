@@ -2,7 +2,7 @@ import 'package:app_ft_tmart/src/modules/cart/cart_logic.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
-import '../order_logic.dart';
+
 
 class PaymentsLogic extends GetxController{
   final List<Map<String, dynamic>> paymentList = [

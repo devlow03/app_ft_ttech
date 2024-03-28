@@ -62,54 +62,7 @@ class Info extends StatelessWidget {
                         fontWeight: FontWeight.w700,
                         letterSpacing: 1),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: Row(
-                      children: [
-                        const Text("Số lượng: "),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        Container(
-                          height: 30,
-                          decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey.shade300),
-                              borderRadius: BorderRadius.circular(5)),
-                          child: Row(
-                            children: [
-                              Visibility(
-                                visible: logic.quantity.value >= 2,
-                                replacement: IconButton(
-                                    icon: Icon(
-                                      Icons.remove,
-                                      size: 15,
-                                      color: Colors.grey.shade200,
-                                    ),
-                                    onPressed: null),
-                                child: IconButton(
-                                  icon: const Icon(Icons.remove, size: 15),
-                                  onPressed: () {
-                                    logic.quantity.value--;
-                                  },
-                                ),
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 1),
-                                child: Text(logic.quantity.value.toString()),
-                              ),
-                              IconButton(
-                                icon: const Icon(Icons.add, size: 15),
-                                onPressed: () {
-                                  logic.quantity.value++;
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+
                 ],
               ),
             ],

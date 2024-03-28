@@ -44,7 +44,7 @@ class CategoryPage extends StatelessWidget {
                       'Danh mục',
                       style: TextStyle(
                           color: Colors.black,
-                          fontSize: 16,
+                          fontSize: 18,
                           fontWeight: FontWeight.bold),
                     ),
                     GestureDetector(
@@ -94,7 +94,7 @@ class CategoryPage extends StatelessWidget {
                           decoration: BoxDecoration(
 
                             borderRadius:
-                            BorderRadius.circular(15),
+                            BorderRadius.circular(10),
 
                           ),
                           child: Padding(
@@ -160,14 +160,14 @@ class CategoryPage extends StatelessWidget {
                                     .width *
                                     .3,
                                 decoration: BoxDecoration(
-                                  border: Border.all(
-                                      color: logic.indexCat.value == index
-                                          ? Colors.transparent
-                                          : Colors.black, width: 2),
+                                  // border: Border.all(
+                                  //     color: logic.indexCat.value == index
+                                  //         ? Colors.transparent
+                                  //         : Colors.black, width: 2),
                                   color: logic.indexCat.value == index ? XColor
-                                      .primary : Colors.white,
+                                      .primary : Colors.grey.shade200,
                                   borderRadius:
-                                  BorderRadius.circular(15),
+                                  BorderRadius.circular(30),
 
                                 ),
                                 child: Text(logic.getCategoryRsp
@@ -175,10 +175,10 @@ class CategoryPage extends StatelessWidget {
                                     .name ?? "",
                                   style: TextStyle(
                                       fontSize: 14,
-                                      fontWeight: FontWeight.w600,
+                                      fontWeight: logic.indexCat.value == index?FontWeight.w600:FontWeight.w500,
                                       color: logic.indexCat.value == index
                                           ? Colors.white
-                                          : Colors.black
+                                          : Colors.grey
                                   ),
                                 ),
                               );

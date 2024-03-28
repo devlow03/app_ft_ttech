@@ -16,23 +16,23 @@ class CartLogic extends GetxController {
   Rxn<GetCartRsp> getCartRsp = Rxn();
   Rx<int> quantity = Rx(1);
   Rxn<String> voucherValue = Rxn();
-  Rxn<String> voucherTitle = Rxn();
+  Rxn<String> voucherTitle = Rxn('');
   final logic = Get.put(OrderLogic());
-  Rxn<bool>onClearCart = Rxn(false);
+  Rxn<bool> onClearCart = Rxn(false);
+  Rxn<String>voucherCode = Rxn();
   // final logicVoucher = Get.put(VoucherLogic(Get.find()));
   @override
   void onReady() async {
     // TODO: implement onReady
     super.onReady();
     await getCart();
-     if (getCartRsp.value?.data?.cartDetails?.isNotEmpty == true ||
-                getCartRsp.value?.data != null) {
-                onClearCart.value =false;
-    }
-    else{
+    if (getCartRsp.value?.data?.cartDetails?.isNotEmpty == true ||
+        getCartRsp.value?.data != null) {
+      onClearCart.value = false;
+    } else {
       onClearCart.value = true;
     }
-    await getVoucher();
+    // await getVoucher();
   }
 
   @override
@@ -83,72 +83,117 @@ class CartLogic extends GetxController {
               Utils.loading(() async {
                 await tMartServices.deleteCartDetails(idCart: idCart);
                 await refresh();
-                if(getCartRsp.value?.data?.cartDetails?.isEmpty==true){
+                if (getCartRsp.value?.data?.cartDetails?.isEmpty == true) {
                   onClearCart.value = true;
                   Get.back();
-                  
-                }
-                else{
+                } else {
                   onClearCart.value = false;
                   Get.back();
-                  
                 }
-                
               });
             },
-            child: const Text('Đồng ý'))
+            child: const Text('Đồng ý',style: TextStyle(color: Colors.white),))
       ],
     ));
   }
 
-  Future<void> getVoucher() async {
-    try {
-      for (int i = 0; i <= (getCartRsp.value?.data?.info?.length ?? 0); i++) {
-        if (getCartRsp.value?.data?.info?[i].code == "voucher") {
-          voucherValue.value =
-              (getCartRsp.value?.data?.info?[i].text).toString();
-          voucherTitle.value =
-              (getCartRsp.value?.data?.info?[i].title).toString();
+  // Future<void> getVoucher() async {
+  //   try {
+  //     for (int i = 0; i <= (getCartRsp.value?.data?.info?.length ?? 0); i++) {
+  //       if (getCartRsp.value?.data?.info?[i].code == "voucher") {
+  //         voucherValue.value =
+  //             (getCartRsp.value?.data?.info?[i].text).toString();
+  //         voucherTitle.value =
+  //             (getCartRsp.value?.data?.info?[i].title).toString();
+  //       }
+  //     }
+  //   } catch (e) {
+  //     print(e);
+  //   }
+  // }
+
+  // Future<void> removeCart() async {
+  //   Get.dialog(
+  //       AlertDialog(
+  //     content: const Text('Bạn có chắc chắn muốn xóa giỏ hàng ?'),
+  //     actions: [
+  //       ElevatedButton(
+  //           style: ElevatedButton.styleFrom(
+  //               primary: Colors.white,
+  //               side: BorderSide(color: Colors.grey.shade200)),
+  //           onPressed: () {
+  //             Get.back();
+  //           },
+  //           child: const Text(
+  //             'Không',
+  //             style: TextStyle(color: Colors.black),
+  //           )),
+  //       ElevatedButton(
+  //           style: ElevatedButton.styleFrom(
+  //             primary: XColor.primary,
+  //           ),
+  //           onPressed: () async {
+  //             Get.back();
+  //             Utils.loading(() async {
+  //               await tMartServices.deleteRemoveCart(
+  //                   id: getCartRsp.value?.data?.id.toString() ?? "");
+  //               onClearCart.value = true;
+  //               await refresh();
+  //               Get.back();
+  //               Get.back();
+  //             });
+  //           },
+  //           child: const Text('Đồng ý'))
+  //     ],
+  //   ));
+  // }
+
+  Future<void> inCreaseOrDecreaseQuantity(
+      {required int index, required String type}) async {
+    switch (type) {
+      case '-':
+        int? quantity = int.parse(
+                ((getCartRsp.value?.data?.cartDetails?[index].quantity)
+                    .toString())) -
+            1;
+
+        if (quantity >= 1) {
+          await updateCartDetail(
+              idCart:
+                  getCartRsp.value?.data?.cartDetails?[index].id.toString() ??
+                      "",
+              quantity: quantity);
+          await getCart();
+        } else {
+          await deleteCart(
+              idCart:
+                  getCartRsp.value?.data?.cartDetails?[index].id.toString() ??
+                      "");
         }
-      }
-    } catch (e) {
-      print(e);
-    }
-  }
+        break;
+      case '+':
+        int? quantity = int.parse(((
+            getCartRsp
+            .value
+            ?.data
+            ?.cartDetails?[index]
+            .quantity)
+            .toString())) +
+            1;
 
-  Future<void> removeCart() async {
-    Get.dialog(AlertDialog(
-      content: const Text('Bạn có chắc chắn muốn xóa giỏ hàng ?'),
-      actions: [
-        ElevatedButton(
-            style: ElevatedButton.styleFrom(
-                primary: Colors.white,
-                side: BorderSide(color: Colors.grey.shade200)),
-            onPressed: () {
-              Get.back();
-            },
-            child: const Text(
-              'Không',
-              style: TextStyle(color: Colors.black),
-            )),
-        ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              primary: XColor.primary,
-            ),
-            onPressed: () async {
-              Get.back();
-              Utils.loading(() async {
-                await tMartServices.deleteRemoveCart(
-                    id: getCartRsp.value?.data?.id.toString() ?? "");
-                    onClearCart.value = true;
-                await refresh();
-                Get.back();
-                Get.back();
-                
-              });
-            },
-            child: const Text('Đồng ý'))
-      ],
-    ));
+        if (quantity >= 1) {
+          await updateCartDetail(
+              idCart: getCartRsp
+                  .value
+                  ?.data
+                  ?.cartDetails?[index]
+                  .id
+                  .toString() ??
+                  "",
+              quantity: quantity);
+
+        }
+        break;
+    }
   }
 }
