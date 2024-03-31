@@ -76,6 +76,7 @@ class ProfileDetailPage extends StatelessWidget {
                               icon: const Icon(
                                 Icons.camera_alt,
                                 size: 30,
+                                color: Colors.white,
                               )),
                         ),
                         const SizedBox(
@@ -132,11 +133,12 @@ class ProfileDetailPage extends StatelessWidget {
                           child: Visibility(
                             visible: logic.readOnly.value == false,
                             child: SizedBox(
-                              width: MediaQuery.of(context).size.width * .6,
+                              height: 50,
+                              width: MediaQuery.of(context).size.width * .8,
                               child: ElevatedButton(
                                   style: ElevatedButton.styleFrom(
                                       shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(10))),
+                                          borderRadius: BorderRadius.circular(30))),
                                   onPressed: ()async{
                                     if(logic.formKey.currentState?.validate()==true){
                                       await logic.putUpdateUser();
@@ -144,7 +146,9 @@ class ProfileDetailPage extends StatelessWidget {
                                   },
                                   child: const Padding(
                                     padding: EdgeInsets.all(15),
-                                    child: Text("Cập nhật"),
+                                    child: Text("Cập nhật",style: TextStyle(
+                                      color: Colors.white
+                                    ),),
                                   )),
                             ),
                           ),

@@ -18,7 +18,7 @@ class IndexLogic extends GetxController {
     //   return;
     // }
     if(tab == 2){
-      Get.to(const CartPage());
+      Get.to(const CartPage(),transition: Transition.downToUp);
     }
     else if((tab==3 && ( prefs.getString(GlobalData.token)??"")=='') || (tab==4 && ( prefs.getString(GlobalData.token)??"")=='')){
       Fluttertoast.showToast(msg: "Đăng nhập để sử dụng chức năng này");

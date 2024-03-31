@@ -95,9 +95,9 @@ class SettingPage extends StatelessWidget {
                       color: Colors.grey.shade100,
                     ),
                     Obx(() => ListTile(
-                          onTap: () async {
-                            Get.dialog(const ConfirmPasswordDialog());
-                          },
+                          // onTap: () async {
+                          //   Get.dialog(const ConfirmPasswordDialog());
+                          // },
                           leading: Container(
                               decoration: BoxDecoration(
                                   color: Colors.blue.shade50,

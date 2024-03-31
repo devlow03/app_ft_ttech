@@ -76,7 +76,7 @@ class CategoryPage extends StatelessWidget {
                 replacement: Padding(
                   padding: const EdgeInsets.all(10),
                   child: SizedBox(
-                    height: 50,
+                    height: 38,
                     child: ListView.separated(
                       scrollDirection: Axis.horizontal,
                       shrinkWrap: true,
@@ -133,7 +133,7 @@ class CategoryPage extends StatelessWidget {
                   return Padding(
                     padding: const EdgeInsets.all(10),
                     child: SizedBox(
-                      height: 50,
+                      height: 38,
                       child: ListView.separated(
                         scrollDirection: Axis.horizontal,
                         shrinkWrap: true,

@@ -1,6 +1,7 @@
 import 'package:app_ft_tmart/src/modules/index/index_view.dart';
 import 'package:app_ft_tmart/src/modules/product_detail/product_detail_view.dart';
 import 'package:app_ft_tmart/src/widget/global_image.dart';
+import 'package:app_ft_tmart/src/widget/search_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -39,59 +40,18 @@ class SearchPage extends StatelessWidget {
 
             ),
 
-            title: SizedBox(
-              width: double.infinity,
-              height: 45,
-              child: TextField(
-                autofocus: true,
-                controller: logic.keyController,
-                onTap: () {
+            title: SearchWidget(
+              autofocus: true,
+              controller: logic.keyController,
+              onChanged: (value) {
 
-                },
-                onChanged: (value) {
+                logic.getSearch();
+              },
+              onSubmitted: (value) {
 
-                  logic.getSearch();
-                },
-                onSubmitted: (value) {
+                Get.to(const ListProductDetailPage());
 
-                  Get.to(const ListProductDetailPage());
-
-                },
-
-
-                decoration: InputDecoration(
-                  hintText: 'Tìm kiếm sản phẩm',
-                  hintStyle: const TextStyle(
-                    color: Colors.grey,
-
-                  ),
-                  contentPadding: const EdgeInsets.symmetric(vertical: 10,horizontal: 20),
-                  suffixIcon:  Image.asset('assets/images/icons/search.png',width: 10,height: 10),
-                  filled: true,
-                  fillColor: Colors.grey.shade200,
-                  border: OutlineInputBorder(
-
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: const BorderSide(
-                        color: Colors.transparent
-                    ),
-
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: const BorderSide(
-                        color: Colors.transparent
-                    ),
-                  ),
-                  enabledBorder:  OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: const BorderSide(
-                        color: Colors.transparent
-                    ),
-                  ),
-
-                ),
-              ),
+              },
             ),
 
             actions: null

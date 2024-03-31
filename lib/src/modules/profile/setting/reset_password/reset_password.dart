@@ -1,3 +1,4 @@
+import 'package:app_ft_tmart/src/core/xcolor.dart';
 import 'package:app_ft_tmart/src/modules/profile/setting/reset_password/reset_password_logic.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -93,8 +94,8 @@ class ResetPasswordPage extends StatelessWidget {
                             padding: EdgeInsets.symmetric(
                                 horizontal: 5, vertical: 6),
                             shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10)),
-                            primary: Color(0xff3640E0),
+                                borderRadius: BorderRadius.circular(30)),
+                            primary: XColor.primary,
                           ),
                           child: Padding(
                             padding: const EdgeInsets.all(10),

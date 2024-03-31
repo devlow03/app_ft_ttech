@@ -72,6 +72,7 @@ dependencies:
   uuid: ^4.1.0
   firebase_app_check: ^0.2.1+6
   flutter_inappwebview: ^5.7.2+3
+  font_awesome_flutter: ^10.4.0
 
 
 

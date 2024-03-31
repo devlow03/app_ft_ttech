@@ -2,6 +2,7 @@ import 'package:app_ft_tmart/src/data/repositories/get_product_rsp.dart';
 import 'package:app_ft_tmart/src/modules/cart/cart_view.dart';
 import 'package:app_ft_tmart/src/modules/home/category/category_view.dart';
 import 'package:app_ft_tmart/src/modules/home/product_suggest/product_suggest_view.dart';
+import 'package:app_ft_tmart/src/modules/search/search_view.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -36,7 +37,10 @@ class HomePage extends StatelessWidget {
 
             backgroundColor: Colors.white,
             leading: null,
-            title: Expanded(child: SearchWidget()),
+            title: Expanded(child: SearchWidget(
+              onTap: ()=>Get.to(const SearchPage()),
+              readOnly: true,
+            )),
             centerTitle: false,
             elevation: 0.0,
             actions: [

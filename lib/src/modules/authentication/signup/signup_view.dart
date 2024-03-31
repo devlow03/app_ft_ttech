@@ -26,15 +26,15 @@ class SignupPage extends StatelessWidget {
             )),
           ),
           const SizedBox(height: 10,),
-          Padding(
-            padding: const EdgeInsets.all(10),
-            child: Text("Nhập Số Điện Thoại",
-              style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.w600
-              ),
-            ),
-          ),
+          // Padding(
+          //   padding: const EdgeInsets.all(10),
+          //   child: Text("Nhập Số Điện Thoại",
+          //     style: TextStyle(
+          //         fontSize: 24,
+          //         fontWeight: FontWeight.w600
+          //     ),
+          //   ),
+          // ),
           Form(
             key: logic.formKey,
             child: Column(
@@ -48,8 +48,8 @@ class SignupPage extends StatelessWidget {
                       }
                     },
                     controller: logic.phoneController,
-                    hint: 'Số điện thoại',
-                    prefixIcon: Icon(Icons.phone,color: XColor.primary,),
+                    hint: 'Nhập số điện thoại',
+                    title: "Điện thoại",
                     validator:(value){
                       if(logic.postCheckPhoneRsp.value?.data?.status == true){
                         return "Số điện thoại đã tồn tại ở hệ thống";
@@ -76,24 +76,26 @@ class SignupPage extends StatelessWidget {
                     child: ElevatedButton(
                       onPressed: () async {
 
-                        if(logic.formKey.currentState?.validate()==true){
-                          await logic.sendOtp();
-                        }
+                        // if(logic.formKey.currentState?.validate()==true){
+                        //   await logic.sendOtp();
+                        // }
+                        Get.to(OtpPage());
 
                       },
-                      child: Padding(
-                        padding: const EdgeInsets.all(10),
+                      child: const Padding(
+                        padding: EdgeInsets.all(10),
                         child: Text(
                           "Gửi mã xác thực",
                           style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.w500),
+                              fontSize: 18, fontWeight: FontWeight.w500,color: Colors.white),
                         ),
                       ),
                       style: ElevatedButton.styleFrom(
-                          padding: EdgeInsets.symmetric(
+                        primary: XColor.primary,
+                          padding: const EdgeInsets.symmetric(
                               horizontal: 5, vertical: 3),
                           shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10)),
+                              borderRadius: BorderRadius.circular(30)),
                           ),
                     ),
                   ),
@@ -107,7 +109,7 @@ class SignupPage extends StatelessWidget {
               // Get.back();
               Get.back();
             },
-            child: Center(
+            child: const Center(
                 child: Text("Trở về")),
           ),
           const SizedBox(height: 10,),

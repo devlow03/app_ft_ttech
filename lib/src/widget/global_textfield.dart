@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class GlobalTextField extends StatefulWidget {
-
   GlobalTextField({
     Key? key,
     this.contentPadding,
@@ -51,7 +50,6 @@ class GlobalTextField extends StatefulWidget {
 }
 
 class _GlobalTextFieldState extends State<GlobalTextField> {
-
   bool secure = false;
 
   @override
@@ -69,8 +67,14 @@ class _GlobalTextFieldState extends State<GlobalTextField> {
         },
         child: Visibility(
           visible: widget.security,
-          child: const Icon(Icons.visibility, color: Colors.grey,),
-          replacement: const Icon(Icons.visibility_off, color: Colors.grey,),
+          child: const Icon(
+            Icons.visibility,
+            color: Colors.grey,
+          ),
+          replacement: const Icon(
+            Icons.visibility_off,
+            color: Colors.grey,
+          ),
         ),
       );
     }
@@ -87,8 +91,14 @@ class _GlobalTextFieldState extends State<GlobalTextField> {
         },
         child: Visibility(
           visible: widget.security,
-          child: const Icon(Icons.visibility, color: Colors.black54,),
-          replacement: const Icon(Icons.visibility_off, color: Colors.black54,),
+          child: const Icon(
+            Icons.visibility,
+            color: Colors.black54,
+          ),
+          replacement: const Icon(
+            Icons.visibility_off,
+            color: Colors.black54,
+          ),
         ),
       );
     }
@@ -103,11 +113,9 @@ class _GlobalTextFieldState extends State<GlobalTextField> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                widget.title??'',
-                style: TextStyle(
-                  fontSize: 12,
-
-                ),
+                widget.title ?? '',
+                style:
+                    const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
               const SizedBox(
                 height: 8,
@@ -116,38 +124,27 @@ class _GlobalTextFieldState extends State<GlobalTextField> {
           ),
         ),
         TextFormField(
-          autovalidateMode: widget.autovalidateMode ?? AutovalidateMode.onUserInteraction,
+          autovalidateMode:
+              widget.autovalidateMode ?? AutovalidateMode.onUserInteraction,
           expands: false,
           controller: widget.controller,
           obscureText: widget.security,
           keyboardType: widget.textInputType,
           decoration: InputDecoration(
-            filled: true,
-            fillColor: Colors.grey.shade100,
-            hintText: widget.hint ?? '',
-            suffixIcon: widget.suffixIcon,
-            prefixIcon: widget.prefixIcon,
-            contentPadding: widget.contentPadding,
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-              borderSide: BorderSide(
-                color: Colors.grey.shade300
-              )
-            ),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-                borderSide: BorderSide(
-                    color: Colors.grey.shade300
-                )
-            ),
-
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-                borderSide: BorderSide(
-                    color: Colors.grey.shade300
-                )
-            )
-          ),
+              filled: true,
+              fillColor: Colors.white,
+              hintText: widget.hint ?? '',
+              hintStyle:
+                  const TextStyle(color: Color(0xffADADAD), fontSize: 14),
+              suffixIcon: widget.suffixIcon,
+              prefixIcon: widget.prefixIcon,
+              contentPadding: widget.contentPadding,
+              enabledBorder: const UnderlineInputBorder(
+                  borderSide: BorderSide(color: Color(0xffADADAD))),
+              border: const UnderlineInputBorder(
+                  borderSide: BorderSide(color: Color(0xffADADAD))),
+              focusedBorder: const UnderlineInputBorder(
+                  borderSide: BorderSide(color: Color(0xffADADAD)))),
           enabled: widget.enabled,
           maxLines: widget.maxLines,
           minLines: widget.minLines,
@@ -155,8 +152,10 @@ class _GlobalTextFieldState extends State<GlobalTextField> {
           onTap: widget.onTap,
           readOnly: widget.readOnly ?? false,
           onChanged: widget.onChanged,
-          inputFormatters: widget.inputFormatters
-              ?? (TextInputType.phone == widget.textInputType ? [LengthLimitingTextInputFormatter(10)] : null),
+          inputFormatters: widget.inputFormatters ??
+              (TextInputType.phone == widget.textInputType
+                  ? [LengthLimitingTextInputFormatter(10)]
+                  : null),
           onFieldSubmitted: widget.onSubmit,
         ),
       ],
@@ -176,7 +175,6 @@ class Validator {
     return null;
   }
 
-
   static String? pointCanEmpty(valueDy, {int? maxPoint, int? minPoint}) {
     String value = valueDy ?? '';
     if (value.isEmpty) {
@@ -190,8 +188,7 @@ class Validator {
     if (value.isEmpty) {
       return 'Vui lòng nhập điểm';
     }
-    if (!RegExp(r'[0-9]')
-        .hasMatch(value)) {
+    if (!RegExp(r'[0-9]').hasMatch(value)) {
       return 'Vui lòng nhập điểm là số từ 0-9';
     }
     if (null != maxPoint) {
@@ -224,7 +221,6 @@ class Validator {
     }
     return null;
   }
-
 
   static String? fullnameCanEmpty(valueDy) {
     String value = valueDy ?? '';
@@ -290,12 +286,12 @@ class Validator {
     if (value.isEmpty) {
       return 'Vui lòng nhập email';
     }
-    if (!RegExp(r"^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$").hasMatch(value)) {
+    if (!RegExp(r"^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$")
+        .hasMatch(value)) {
       return 'Vui lòng nhập đúng email';
     }
     return null;
   }
-
 
   static String? birthday(valueDy) {
     String value = valueDy ?? '';
@@ -354,8 +350,7 @@ class Validator {
     if (value.trim().length != 10) {
       return 'Vui lòng nhập đúng 10 số điện thoại';
     }
-    if (!RegExp(r'^0?[3|5|7|8|9][0-9]{8}$')
-        .hasMatch(value)) {
+    if (!RegExp(r'^0?[3|5|7|8|9][0-9]{8}$').hasMatch(value)) {
       return 'Vui lòng nhập đúng số điện thoại Việt Nam';
     }
     return null;
@@ -375,7 +370,7 @@ class Validator {
     if (!RegExp(r'[0-9]').hasMatch(value)) {
       return 'Vui lòng nhập ít nhất 1 số từ 0 đến 9';
     }
-    if (!RegExp(r'[!"#$%&'"'"'()*+,-./:;<=>?@[\\]^_`{|}~]').hasMatch(value)) {
+    if (!RegExp(r'[!"#$%&' "'" '()*+,-./:;<=>?@[\\]^_`{|}~]').hasMatch(value)) {
       return 'Vui lòng nhập ít nhất 1 ký tự đặc biệt';
     }
     return null;
@@ -391,5 +386,4 @@ class Validator {
     }
     return null;
   }
-
 }

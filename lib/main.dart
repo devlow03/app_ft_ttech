@@ -132,6 +132,7 @@ class MyApp extends StatelessWidget {
           )
         ),
         bottomNavigationBarTheme: BottomNavigationBarThemeData(
+
           backgroundColor: Colors.white,
           selectedLabelStyle: TextStyle(
             fontSize: 12,
@@ -142,7 +143,7 @@ class MyApp extends StatelessWidget {
               fontWeight: FontWeight.w400
           ),
           selectedItemColor: XColor.primary,
-          unselectedItemColor: Colors.grey,
+          unselectedItemColor: Colors.black,
           // showUnselectedLabels: true,
         )
         // buttonColor: XColor.primary,

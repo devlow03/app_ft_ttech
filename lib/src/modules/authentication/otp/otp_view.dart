@@ -1,3 +1,4 @@
+import 'package:app_ft_tmart/src/core/xcolor.dart';
 import 'package:app_ft_tmart/src/modules/authentication/form_sign_up/form_sign_up_logic.dart';
 import 'package:app_ft_tmart/src/modules/authentication/form_sign_up/form_sign_up_view.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +31,8 @@ class OtpPage extends StatelessWidget {
       decoration: BoxDecoration(
         // border: Border.all(color: Color.fromRGBO(234, 239, 243, 1)),
           borderRadius: BorderRadius.circular(5),
-          color: Colors.grey.shade200
+          color: Colors.white,
+        border: Border.all(color: XColor.primary)
       ),
     );
 
@@ -55,7 +57,7 @@ class OtpPage extends StatelessWidget {
                             height: MediaQuery
                                 .of(context)
                                 .size
-                                .height * .5,
+                                .height * .4,
                           ),
                         ),
                       ),
@@ -73,15 +75,18 @@ class OtpPage extends StatelessWidget {
                       const SizedBox(height: 10,),
                       Center(
                           child: Text(
-                              "Nhập mã xác thực OTP được gửi đến ${phoneNumber}")),
-                      const SizedBox(height: 40,),
+                              "Nhập mã xác thực OTP được gửi đến ${phoneNumber}",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                          )),
+                      const SizedBox(height: 20,),
                       Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 30),
+                        padding: EdgeInsets.symmetric(horizontal: 20),
                         child: Center(
                           child: Pinput(
                             controller: logic.codeController,
                             length: 6,
                             defaultPinTheme: defaultPinTheme,
+
                             // focusedPinTheme: focusedPinTheme,
                             // submittedPinTheme: submittedPinTheme,
                             validator: (value) {
@@ -130,23 +135,26 @@ class OtpPage extends StatelessWidget {
                           child: ElevatedButton(
                             onPressed: () async {
                               //
-                              if(logic.formKey.currentState?.validate()==true){
-                                await logic.verifyOtp();
-                              }
+                              // if(logic.formKey.currentState?.validate()==true){
+                              //   await logic.verifyOtp();
+                              // }
+                              Get.to(FormSignUpPage());
                             },
                             child: Padding(
                               padding: const EdgeInsets.all(10),
                               child: Text(
                                 "Xác thực",
                                 style: TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.w500),
+                                    fontSize: 18, fontWeight: FontWeight.w500,color: Colors.white
+
+                                ),
                               ),
                             ),
                             style: ElevatedButton.styleFrom(
                               padding: EdgeInsets.symmetric(
                                   horizontal: 5, vertical: 3),
                               shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10)),
+                                  borderRadius: BorderRadius.circular(30)),
 
                             ),
                           ),
