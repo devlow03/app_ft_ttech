@@ -56,6 +56,7 @@ class AddAddressBookPage extends StatelessWidget {
         body: Form(
           key: logic.formKey,
           child: ListView(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             children: [
               const SizedBox(
                 height: 10,
@@ -77,18 +78,35 @@ class AddAddressBookPage extends StatelessWidget {
                   filled: true,
                   hintText: 'Họ và tên',
                   focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(10),
+                          topLeft: Radius.circular(10)
+                      ),
                       borderSide: BorderSide(color: Colors.transparent)),
-                  border: OutlineInputBorder(
+                  border:OutlineInputBorder(
+                      borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(10),
+                          topLeft: Radius.circular(10)
+                      ),
                       borderSide: BorderSide(color: Colors.transparent)),
                   enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(10),
+                          topLeft: Radius.circular(10)
+                      ),
                       borderSide: BorderSide(color: Colors.transparent)),
                   errorBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(10),
+                          topLeft: Radius.circular(10)
+                      ),
                       borderSide: BorderSide(color: Colors.transparent)),
                 ),
               ),
               const Divider(
-                height: 2,
-                color: Colors.black,
+                height: 0.1,
+
+                color: Color(0xffADADAD),
               ),
               TextFormField(
                 validator: (value) {
@@ -111,12 +129,28 @@ class AddAddressBookPage extends StatelessWidget {
                   filled: true,
                   hintText: 'Điện thoại',
                   focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.only(
+                          bottomRight: Radius.circular(10),
+                          bottomLeft: Radius.circular(10)
+                      ),
                       borderSide: BorderSide(color: Colors.transparent)),
                   border: OutlineInputBorder(
+                      borderRadius: BorderRadius.only(
+                          bottomRight: Radius.circular(10),
+                          bottomLeft: Radius.circular(10)
+                      ),
                       borderSide: BorderSide(color: Colors.transparent)),
                   enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.only(
+                          bottomRight: Radius.circular(10),
+                          bottomLeft: Radius.circular(10)
+                      ),
                       borderSide: BorderSide(color: Colors.transparent)),
                   errorBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.only(
+                          bottomRight: Radius.circular(10),
+                          bottomLeft: Radius.circular(10)
+                      ),
                       borderSide: BorderSide(color: Colors.transparent)),
                 ),
               ),
@@ -161,18 +195,34 @@ class AddAddressBookPage extends StatelessWidget {
                   filled: true,
                   hintText: 'Tỉnh/Thành phố, Quận/Huyện, Phường/Xã',
                   focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(10),
+                          topLeft: Radius.circular(10)
+                      ),
                       borderSide: BorderSide(color: Colors.transparent)),
-                  border: OutlineInputBorder(
+                  border:OutlineInputBorder(
+                      borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(10),
+                          topLeft: Radius.circular(10)
+                      ),
                       borderSide: BorderSide(color: Colors.transparent)),
                   enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(10),
+                          topLeft: Radius.circular(10)
+                      ),
                       borderSide: BorderSide(color: Colors.transparent)),
                   errorBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(10),
+                          topLeft: Radius.circular(10)
+                      ),
                       borderSide: BorderSide(color: Colors.transparent)),
                 ),
               ),
               const Divider(
-                height: 2,
-                color: Colors.black,
+                height: 0.1,
+                color: Color(0xffADADAD),
               ),
               TextFormField(
                 validator: (value) {
@@ -187,14 +237,28 @@ class AddAddressBookPage extends StatelessWidget {
                   filled: true,
                   hintText: 'Tên đường, Tòa nhà, Số nhà',
                   focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.only(
+                          bottomRight: Radius.circular(10),
+                          bottomLeft: Radius.circular(10)
+                      ),
                       borderSide: BorderSide(color: Colors.transparent)),
                   border: OutlineInputBorder(
+                      borderRadius: BorderRadius.only(
+                          bottomRight: Radius.circular(10),
+                          bottomLeft: Radius.circular(10)
+                      ),
                       borderSide: BorderSide(color: Colors.transparent)),
                   enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.only(
+                          bottomRight: Radius.circular(10),
+                          bottomLeft: Radius.circular(10)
+                      ),
                       borderSide: BorderSide(color: Colors.transparent)),
                   errorBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.transparent)),
-                  disabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.only(
+                          bottomRight: Radius.circular(10),
+                          bottomLeft: Radius.circular(10)
+                      ),
                       borderSide: BorderSide(color: Colors.transparent)),
                 ),
               ),
@@ -212,12 +276,16 @@ class AddAddressBookPage extends StatelessWidget {
                 child: Text("Thiết lập"),
               ),
                     Container(
-                      color: Colors.white,
+                      padding: const EdgeInsets.all(5),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10)
+                      ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
+                          const Padding(
+                            padding: EdgeInsets.all(8.0),
                             child: Text("Đặt làm địa chỉ mặc định"),
                           ),
                           Obx(() => Visibility(
@@ -227,7 +295,7 @@ class AddAddressBookPage extends StatelessWidget {
                                 onChanged: (val) async{
                                   Get.dialog(
                                     AlertDialog(
-                                      content: Text("Để hủy địa chỉ mặc định này, vui lòng chọn địa chỉ khác làm địa chỉ mặc định mới",
+                                      content: const Text("Để hủy địa chỉ mặc định này, vui lòng chọn địa chỉ khác làm địa chỉ mặc định mới",
                                       style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.bold
@@ -236,7 +304,7 @@ class AddAddressBookPage extends StatelessWidget {
                                       actions: [
                                         TextButton(
                                           onPressed: ()=>Get.back(),
-                                           child: Text("Đồng ý")
+                                           child: const Text("Đồng ý")
                                            )
                                       ],
                                     )
@@ -265,17 +333,31 @@ class AddAddressBookPage extends StatelessWidget {
               const SizedBox(
                 height: 40,
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
+              Container(
+
+                margin: const EdgeInsets.symmetric(horizontal: 20,vertical: 5),
+                width: MediaQuery
+                    .of(context)
+                    .size
+                    .width * .85,
                 child: ElevatedButton(
+
+                  style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 3),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30)
+                    )
+                  ),
                     onPressed: () async {
                       if (logic.formKey.currentState?.validate() == true) {
                         await logic.onPressed();
                       }
                     },
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 15),
-                      child: Text("Hoàn thành"),
+                    child: const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 15),
+                      child: Text("Hoàn thành",style: TextStyle(
+                        color: Colors.white
+                      ),),
                     )),
               )
             ],

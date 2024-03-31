@@ -27,26 +27,31 @@ class ProfilePage extends StatelessWidget {
       {
         'icon': Icons.person,
         'title': "Thông tin cá nhân",
+        'sub':"Chỉnh sửa thông tin",
         'onTap': const ProfileDetailPage()
       },
       {
         'icon': Icons.bookmark_border,
         'title': "Sổ địa chỉ",
+        'sub':"Xem sổ địa chỉ",
         'onTap': const AddressBookPage()
       },
       {
         'icon': Icons.list_alt_outlined,
         'title': "Đơn hàng",
+        'sub':"Xem lịch sử mua hàng",
         'onTap': const OrderHistoryPage()
       },
       {
         'icon': Icons.settings_outlined,
         'title': "Thiết lập tài khoản",
+        'sub':"Đổi mật khẩu, vân tay",
         'onTap': const SettingPage()
       },
       {
         'icon': Icons.logout_outlined,
         'title': "Đăng xuất",
+        'sub':'Thoát khỏi tài khoản '
         // 'onTap': logicSignin.signOut()
       },
     ];
@@ -94,58 +99,45 @@ class ProfilePage extends StatelessWidget {
                   ),
                 ),
 
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-                  child: Container(
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(25)),
-                    child: ListView.separated(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: itemListTiTile.length,
-                      itemBuilder: (context, index) {
-                        return ListTile(
-                          onTap: () async {
-                            if (index == 4) {
-                              await logicSignin.signOut();
-                            } else {
-                              Get.to(itemListTiTile[index]['onTap']);
-                            }
-                          },
-                          leading: Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.blue.shade50,
-                                  borderRadius: BorderRadius.circular(15)),
-                              child: Padding(
-                                padding: const EdgeInsets.all(10),
-                                child: Icon(
-                                  itemListTiTile[index]['icon'],
-                                  color: XColor.primary,
-                                  size: 30,
-                                ),
-                              )),
-                          title: Text(
-                            itemListTiTile[index]['title'],
-                            style: const TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.bold),
+                Container(
+                  margin:const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10)),
+                  child: ListView.separated(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: itemListTiTile.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        onTap: () async {
+                          if (index == 4) {
+                            await logicSignin.signOut();
+                          } else {
+                            Get.to(itemListTiTile[index]['onTap']);
+                          }
+                        },
+                        leading: Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: Icon(
+                            itemListTiTile[index]['icon'],
+                            color: Colors.black,
+                            size: 30,
                           ),
-                          subtitle: Visibility(
-                              visible: index == 2,
-                              child: const Text("Xem lịch sử mua hàng")),
-                          trailing: const Icon(Icons.keyboard_arrow_right),
-                        );
-                      },
-                      separatorBuilder: (BuildContext context, int index) {
-                        return Divider(
-                          height: 20,
-                          thickness: 1,
-                          color: Colors.grey.shade100,
-                        );
-                      },
-                    ),
+                        ),
+                        title: Text(
+                          itemListTiTile[index]['title'],
+                          style: const TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.bold),
+                        ),
+                        subtitle:  Text(itemListTiTile[index]['sub']),
+                        trailing: const Icon(Icons.keyboard_arrow_right),
+                      );
+                    },
+                    separatorBuilder: (BuildContext context, int index) {
+                      return const SizedBox(height: 10,);
+                    },
                   ),
                 ),
               ],

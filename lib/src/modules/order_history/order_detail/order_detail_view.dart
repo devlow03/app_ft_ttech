@@ -1,4 +1,6 @@
 import 'package:app_ft_tmart/src/data/repositories/get_order_rsp.dart';
+import 'package:app_ft_tmart/src/modules/order_history/order_detail/delivery_address.dart';
+import 'package:app_ft_tmart/src/modules/order_history/order_detail/detail_items.dart';
 import 'package:app_ft_tmart/src/modules/order_history/order_history_logic.dart';
 import 'package:app_ft_tmart/src/modules/product_detail/product_detail_logic.dart';
 import 'package:flutter/material.dart';
@@ -49,12 +51,17 @@ class OrderDetailPage extends StatelessWidget {
               );
             }
             return ListView(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               children: [
                 const SizedBox(
                   height: 10,
                 ),
                 Container(
-                  color: Colors.white,
+                  padding: const EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10)
+                  ),
                   child: Padding(
                     padding: const EdgeInsets.all(10),
                     child: Row(
@@ -107,262 +114,22 @@ class OrderDetailPage extends StatelessWidget {
                 const SizedBox(
                   height: 10,
                 ),
-                Container(
-                  color: Colors.white,
-                  child: Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        // Icon(
-                        //   size: 18,
-                        //   Icons.location_on_outlined,color: XColor.primary,),
-                        // SizedBox(width: 5,),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Icon(
-                                    Icons.location_on,
-                                    color: XColor.primary,
-                                    size: 18,
-                                  ),
-                                  const Text(
-                                    "Địa chỉ nhận hàng",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  Text(
-                                    "${logic.getOrderByIdRsp.value?.data?.name}",
-                                    style: const TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                  RichText(
-                                    text: TextSpan(children: [
-                                      const TextSpan(
-                                          text: 'Địa chỉ: ',
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.black)),
-                                      TextSpan(
-                                        spellOut: true,
-                                        text:
-                                            '${logic.getOrderByIdRsp.value?.data?.billingAddress}',
-                                        style: const TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w400,
-                                            color: Colors.black,
-                                            height: 1.5),
-                                      ),
-                                    ]),
-                                  ),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  RichText(
-                                    text: TextSpan(children: [
-                                      const TextSpan(
-                                          text: 'Điện thoại: ',
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.black)),
-                                      TextSpan(
-                                          text:
-                                              '${logic.getOrderByIdRsp.value?.data?.phone}',
-                                          style: const TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w400,
-                                              color: Colors.black,
-                                              height: 1.5))
-                                    ]),
-                                  )
-                                ],
-                              )
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                const DeliveryAddress(),
                 const SizedBox(
-                  height: 20,
+                  height: 10,
                 ),
-                Container(
-                    color: Colors.white,
-                    child: ListView.separated(
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: logic.getOrderByIdRsp.value?.data?.orderDetails
-                              ?.length ??
-                          0,
-                      itemBuilder: (context, index) {
-                        logic.addToList(
-                            logic.getOrderByIdRsp.value?.data
-                                ?.orderDetails?[index].productId
-                                .toString(),
-                            logic.getOrderByIdRsp.value?.data
-                                ?.orderDetails?[index].quantity
-                                .toString());
-                        return InkWell(
-                          onTap: () {
-                            Get.to(ProductDetailPage(
-                              id: logic.getOrderByIdRsp.value?.data
-                                  ?.orderDetails?[index].productId
-                                  .toString(),
-                            ));
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                GlobalImage(
-                                  height: 100,
-                                  width: MediaQuery.of(context).size.width * .3,
-                                  imageUrl: logic.getOrderByIdRsp.value?.data
-                                      ?.orderDetails?[index].thumpnailUrl,
-                                ),
-                                const SizedBox(
-                                  width: 20,
-                                ),
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        '${logic.getOrderByIdRsp.value?.data?.orderDetails?[index].productName}',
-                                        style: const TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w600,
-                                            height: 1.2),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 10),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                                "${logic.getOrderByIdRsp.value?.data?.orderDetails?[index].priceFormated}"),
-                                            Padding(
-                                              padding: const EdgeInsets.all(8.0),
-                                              child: Text(
-                                                  "x${logic.getOrderByIdRsp.value?.data?.orderDetails?[index].quantity}"),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 5),
-                                        child: Text(
-                                          "Tổng: ${logic.getOrderByIdRsp.value?.data?.orderDetails?[index].subtotalFormated}",
-                                          style: const TextStyle(
-                                              color: Colors.black),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        );
-                      },
-                      separatorBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8.0),
-                          child: Container(
-                            height: 1,
-                            width: MediaQuery.of(context).size.width,
-                            color: Colors.grey.shade300,
-                          ),
-                        );
-                      },
-                    )),
-                Container(
-                  color: Colors.white,
-                  child: Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text("Tổng tiền hàng"),
-                              Text(
-                                "${logic.getOrderByIdRsp.value?.data?.infoTotalAmount?.first.text}",
-                              )
-                            ],
-                          ),
-                        ),
-                        Visibility(
-                          visible: (logic.getOrderByIdRsp.value?.data
-                                      ?.infoTotalAmount?.length ??
-                                  0) >=
-                              3,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 10),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Text("Tổng tiền giảm giá"),
-                                Text(
-                                    "${logic.getOrderByIdRsp.value?.data?.infoTotalAmount?[1].text}")
-                              ],
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text("Tổng thanh toán"),
-                              Text(
-                                "${logic.getOrderByIdRsp.value?.data?.infoTotalAmount?.last.text}",
-                                style: const TextStyle(
-                                    color: Colors.redAccent,
-                                    fontWeight: FontWeight.bold),
-                              )
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                const DetailItems(),
+
                 const SizedBox(
                   height: 10,
                 ),
                 Container(
-                  color: Colors.white,
+                  padding: EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10)
+                  ),
+
                   child: Padding(
                     padding: const EdgeInsets.all(10),
                     child: Column(
@@ -418,7 +185,9 @@ class OrderDetailPage extends StatelessWidget {
                                   width: 10,
                                 ),
                                 Text(
-                                  "${logic.getOrderByIdRsp.value?.data?.payment?.paymentMethod}",
+                                  logic.getOrderByIdRsp.value?.data
+                                      ?.payment?.paymentMethod ==
+                                      "Thanh toán bằng VNPAY"?"Thanh toán VNPAY":"Thanh toán COD",
                                   style: const TextStyle(
                                       fontWeight: FontWeight.bold),
                                 ),
@@ -440,11 +209,23 @@ class OrderDetailPage extends StatelessWidget {
                                     color: XColor.primary),
                               ),
                               child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  primary: XColor.primary,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30)
+                                  )
+                                ),
                                 onPressed: () async {
                                   await logicHistory.createVnPay(
                                       logic.getOrderByIdRsp.value?.data?.id ?? 0);
                                 },
-                                child: Text("Thanh toán"),
+                                child: const Text("Thanh toán",
+                                  style: TextStyle(
+
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.white
+                                  ),
+                                ),
                               ),
                             ),
                           ],
@@ -453,11 +234,15 @@ class OrderDetailPage extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(
-                  height: 10,
-                ),
+                // const SizedBox(
+                //   height: 10,
+                // ),
                 Container(
-                  color: Colors.white,
+                  padding: EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10)
+                  ),
                   child: Padding(
                     padding: const EdgeInsets.all(10),
                     child: Column(
@@ -514,11 +299,13 @@ class OrderDetailPage extends StatelessWidget {
                                   "")
                             ],
                           ),
-                        )
+                        ),
+
                       ],
                     ),
                   ),
                 ),
+                const SizedBox(height: 30,),
               ],
             );
           }),
@@ -533,67 +320,70 @@ class OrderDetailPage extends StatelessWidget {
                                       "delivered" ||
                                   logic.getOrderByIdRsp.value?.data?.statusCode ==
                                       "returned",
-                          replacement: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 5),
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(vertical: 5),
-                              width: MediaQuery.of(context).size.width * .5,
-                              child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 5, vertical: 3),
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(8)),
-                                      primary: Colors.redAccent),
-                                  onPressed: () async {
-                                    await logic.cancelOrder(
-                                        "${logic.getOrderByIdRsp.value?.data?.id}",
-                                        "${logic.getOrderByIdRsp.value?.data?.orderDetails?.first.productName}",
-                                        "${logic.getOrderByIdRsp.value?.data?.orderDetails?.first.thumpnailUrl}",
-                                        "${logic.getOrderByIdRsp.value?.data?.orderNumber}",
-                                        context
-                                        );
-                                  },
-                                  child: const Padding(
-                                    padding: EdgeInsets.symmetric(vertical: 15),
-                                    child: Text(
-                                      'Hủy đơn hàng',
-                                      style: TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w600,
-                                      ),
+                          replacement: Container(
+                            padding: const EdgeInsets.symmetric(vertical: 5),
+                            margin: const EdgeInsets.symmetric(horizontal: 20,vertical: 5),
+                            width: MediaQuery
+                                .of(context)
+                                .size
+                                .width * .85,
+
+                            child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 5, vertical: 3),
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(30)),
+                                    primary: Colors.redAccent),
+                                onPressed: () async {
+                                  await logic.cancelOrder(
+                                      "${logic.getOrderByIdRsp.value?.data?.id}",
+                                      "${logic.getOrderByIdRsp.value?.data?.orderDetails?.first.productName}",
+                                      "${logic.getOrderByIdRsp.value?.data?.orderDetails?.first.thumpnailUrl}",
+                                      "${logic.getOrderByIdRsp.value?.data?.orderNumber}",
+                                      context
+                                      );
+                                },
+                                child: const Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 15),
+                                  child: Text(
+                                    'Hủy đơn hàng',
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.white
                                     ),
-                                  )),
-                            ),
+                                  ),
+                                )),
                           ),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 5),
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(vertical: 5),
-                              width: MediaQuery.of(context).size.width * .5,
-                              child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 5, vertical: 3),
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(8)),
-                                      primary: XColor.primary),
-                                  onPressed: () async {
-                                    await logic.rePurchase();
-                                  },
-                                  child: const Padding(
-                                    padding: EdgeInsets.symmetric(vertical: 15),
-                                    child: Text(
-                                      'Mua lại',
-                                      style: TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w600,
-                                      ),
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(vertical: 5),
+                            margin: const EdgeInsets.symmetric(horizontal: 20,vertical: 5),
+                            width: MediaQuery
+                                .of(context)
+                                .size
+                                .width * .85,
+                            child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 5, vertical: 3),
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(30)),
+                                    primary: XColor.primary),
+                                onPressed: () async {
+                                  await logic.rePurchase();
+                                },
+                                child: const Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 15),
+                                  child: Text(
+                                    'Mua lại',
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.white
                                     ),
-                                  )),
-                            ),
+                                  ),
+                                )),
                           ),
                         ))),
               ))),

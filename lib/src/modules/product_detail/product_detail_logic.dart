@@ -94,12 +94,19 @@ class ProductDetailLogic extends GetxController {
   }
 
   Future<void>postAddFavorite()async{
-      await tMartServices.postAddFavorite(body: 
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    if(( prefs.getString(GlobalData.token)??"")==''){
+      Fluttertoast.showToast(msg: "Đăng nhập để sử dụng chức năng này");
+      Get.to(const SignInPage(intoCart: true,));
+    }
+      else{
+      await tMartServices.postAddFavorite(body:
       PostAddFavoriteRqst(
-        productId: int.parse(getProductByIdRsp.value?.data?.id.toString()??"")
+          productId: int.parse(getProductByIdRsp.value?.data?.id.toString()??"")
       )
       );
       Fluttertoast.showToast(msg: "Đã thêm vào bộ sưu tập");
+    }
     }
 
     Future<void>deleteFavorite()async{

@@ -45,11 +45,12 @@ class SearchPage extends StatelessWidget {
               controller: logic.keyController,
               onChanged: (value) {
 
-                logic.getSearch();
+                logic.getSearchSuggest();
               },
               onSubmitted: (value) {
 
-                Get.to(const ListProductDetailPage());
+               logic.getSearch();
+               Get.to( const ListProductDetailPage());
 
               },
             ),
@@ -64,45 +65,15 @@ class SearchPage extends StatelessWidget {
             children: [
               ListView.separated(
                 shrinkWrap: true,
-                itemCount: (logic.getSearchRsp.value?.data
-                    ?.length ?? 0)>5?5:(logic.getSearchRsp.value?.data
-                    ?.length ?? 0),
+                itemCount: (logic.getSearchSuggestionRsp.value?.data?.length ?? 0),
                 itemBuilder: (context, index) {
-                  return InkWell(
-                    onTap: (){
-                      Get.to(ProductDetailPage(id: logic.getSearchRsp.value?.data?[index]
-                          .id.toString() ?? ""));
-
+                  return ListTile(
+                    onTap: ()async{
+                       logic.getSearch(name: logic.getSearchSuggestionRsp.value?.data?[index].keyword);
+                      Get.to( ListProductDetailPage(keyword: logic.getSearchSuggestionRsp.value?.data?[index].keyword,));
                     },
-                    child: Container(
-                      child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: ListTile(
-                            leading: GlobalImage(
-                              imageUrl: logic.getSearchRsp.value?.data?[index]
-                                  .thumpnailUrl ?? "",
-                              width: MediaQuery.of(context).size.width*.2,
-                              height: 50,
-                              boxFit: BoxFit.contain,
-                            ),
-                            title: Text(logic.getSearchRsp.value?.data?[index]
-                                .productName ?? ""),
-                            subtitle: Text(
-                              NumberFormat.simpleCurrency(locale: 'VI')
-                                  .format(
-                                  logic.getSearchRsp.value?.data?[index]
-                                      .price ??
-                                      0),
-                              style: const TextStyle(
-                                  color: Colors.redAccent,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w700,
-                                  letterSpacing: 1
-                              ),
-                            ),
-                          )
-                      ),
-                    ),
+                    leading: const Icon(Icons.search),
+                    title: Text('${logic.getSearchSuggestionRsp.value?.data?[index].keyword}',style: const TextStyle(color: Colors.black),),
                   );
                 }, separatorBuilder: (BuildContext context, int index) {
                 return Padding(
@@ -126,7 +97,7 @@ class SearchPage extends StatelessWidget {
                     onPressed: (){
                       Get.to(const ListProductDetailPage());
                     },
-                    child: Text("Xem thêm sản phẩm")
+                    child: const Text("Xem thêm sản phẩm")
                 ),
               )
             ],

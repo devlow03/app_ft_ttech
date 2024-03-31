@@ -298,7 +298,7 @@ class ProductDetailPage extends StatelessWidget {
                                   padding: const EdgeInsets.all(15),
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
-                                    border: Border.all(color: Colors.grey.shade200)
+                                    border: Border.all(color: Colors.grey.shade200,width: 0.5)
                                   ),
                                   child: Icon(Icons.add_shopping_cart,size: 25,color: XColor.primary,)))),
 
@@ -316,14 +316,14 @@ class ProductDetailPage extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(30)),
                               ),
                               onPressed: () async {
-                                await logic.postAddCart(
+                                await logic.buyNow(
                                     productId: logic
                                         .getProductByIdRsp.value?.data?.id
                                         .toString() ??
                                         "",
                                     quantity:
                                     logic.quantity.value.toString() ?? "");
-                                Get.to(CartPage());
+
                               },
                               child: const Padding(
                                 padding: EdgeInsets.symmetric(vertical: 15),

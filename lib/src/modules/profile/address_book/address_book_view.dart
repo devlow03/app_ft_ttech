@@ -33,7 +33,7 @@ class AddressBookPage extends StatelessWidget {
           logic.onReady();
         },
         child: ListView(
-          // shrinkWrap: true,
+          padding: EdgeInsets.symmetric(horizontal: 20),
           children: [
             const SizedBox(
               height: 10,
@@ -70,6 +70,7 @@ class AddressBookPage extends StatelessWidget {
                               Visibility(
                                 visible: logic.intoOrder.value == true,
                                 replacement: Container(
+
                                   decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius: BorderRadius.circular(10),
@@ -234,10 +235,8 @@ class AddressBookPage extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              Divider(
-                                height: 1,
-                                color: Colors.grey.shade300,
-                              )
+
+                              const SizedBox(height: 10,),
                             ],
                           );
                         }).toList() ??

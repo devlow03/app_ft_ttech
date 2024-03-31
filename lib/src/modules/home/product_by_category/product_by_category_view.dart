@@ -114,91 +114,80 @@ class ProductByCategoryPage extends StatelessWidget {
           ],
         ),
         child: Container(
+          margin: EdgeInsets.symmetric(horizontal: 10),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: Colors.grey.shade100,
+          ),
 
-          color: Colors.grey.shade100,
           child: Column(
             children: [
               Column(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 10),
-                    child: GridView.builder(
-                      shrinkWrap: true,
-                      itemCount: logic.getProductByCategoryRsp.value?.data
-                          ?.length ?? 0,
-                      physics:
-                      const NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, ind) {
-                        logic.indexPage.value = ind;
-                        return InkWell(
-                          onTap: () {
-                            Get.to(ProductDetailPage(
-                              id: logic.getProductByCategoryRsp.value
-                                  ?.data?[ind].id.toString(),
+                  GridView.builder(
+                    shrinkWrap: true,
+                    itemCount: logic.getProductByCategoryRsp.value?.data
+                        ?.length ?? 0,
+                    physics:
+                    const NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, ind) {
+                      logic.indexPage.value = ind;
+                      return InkWell(
+                        onTap: () {
+                          Get.to(ProductDetailPage(
+                            id: logic.getProductByCategoryRsp.value
+                                ?.data?[ind].id.toString(),
 
-                            ));
-                          },
-                          child: GlobalProduct(
-                            imageLink: logic.getProductByCategoryRsp.value
-                                ?.data?[ind].thumpnailUrl,
-                            defaultPrice: '${logic.getProductByCategoryRsp
-                                .value?.data?[ind].defaultPrice}',
-                            // price:NumberFormat("###,###.# đ").format(snapshot.data?.products?[index].price),
-                            price:
-                            '${ logic.getProductByCategoryRsp.value
-                                ?.data?[ind].price}',
-                            nameProduct:
-                            logic.getProductByCategoryRsp.value?.data?[ind]
-                                .productName,
-                            numStar: '5.0',
-                          ),
-                        );
-                        // else{
-                        //   // logic.loadMore();
-                        //
-                        //   return Padding(
-                        //     padding: const EdgeInsets.symmetric(horizontal: 50),
-                        //     child: Column(
-                        //       crossAxisAlignment: CrossAxisAlignment.center,
-                        //       mainAxisAlignment: MainAxisAlignment.center,
-                        //       children: [
-                        //         CircularProgressIndicator(),
-                        //         TextButton(
-                        //             onPressed:(){
-                        //               logic.loadMore();
-                        //             },
-                        //             child: Text("load")
-                        //         )
-                        //       ],
-                        //     ),
-                        //   );
-                        //
-                        // }
-                      },
-                      gridDelegate:
-                      const SliverGridDelegateWithFixedCrossAxisCount(
+                          ));
+                        },
+                        child: GlobalProduct(
+                          imageLink: logic.getProductByCategoryRsp.value
+                              ?.data?[ind].thumpnailUrl,
+                          defaultPrice: '${logic.getProductByCategoryRsp
+                              .value?.data?[ind].defaultPrice}',
+                          // price:NumberFormat("###,###.# đ").format(snapshot.data?.products?[index].price),
+                          price:
+                          '${ logic.getProductByCategoryRsp.value
+                              ?.data?[ind].price}',
+                          nameProduct:
+                          logic.getProductByCategoryRsp.value?.data?[ind]
+                              .productName,
+                          numStar: '5.0',
+                        ),
+                      );
+                      // else{
+                      //   // logic.loadMore();
+                      //
+                      //   return Padding(
+                      //     padding: const EdgeInsets.symmetric(horizontal: 50),
+                      //     child: Column(
+                      //       crossAxisAlignment: CrossAxisAlignment.center,
+                      //       mainAxisAlignment: MainAxisAlignment.center,
+                      //       children: [
+                      //         CircularProgressIndicator(),
+                      //         TextButton(
+                      //             onPressed:(){
+                      //               logic.loadMore();
+                      //             },
+                      //             child: Text("load")
+                      //         )
+                      //       ],
+                      //     ),
+                      //   );
+                      //
+                      // }
+                    },
+                    gridDelegate:
+                    const SliverGridDelegateWithFixedCrossAxisCount(
 
-                        crossAxisCount: 2,
-                        crossAxisSpacing: 5,
-                        mainAxisSpacing: 5,
-                        childAspectRatio: 3 / 5,
-                      ),
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 5,
+                      mainAxisSpacing: 5,
+                      childAspectRatio: 3 / 5,
                     ),
                   ),
-                  const SizedBox(height: 30,),
-                  Visibility(
-                    visible: logic.page.value <
-                        (logic.getProductByCategoryRsp.value?.meta?.total ??
-                            0),
-                    replacement: Center(),
-                    child: Center(
-                        child: SpinKitCircle(size: 40,
-                          color: Colors.grey,
-                        )
-                    ),
-                  ),
-                  const SizedBox(height: 30,),
+
+
                   // TextButton(
                   //     onPressed: (){
                   //       print(">>>>>>>>>>>>>>>>>>>${logic.isLoading.value}");

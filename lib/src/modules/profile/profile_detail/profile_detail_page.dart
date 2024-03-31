@@ -23,7 +23,7 @@ class ProfileDetailPage extends StatelessWidget {
         return true;
       },
       child: Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.grey.shade100,
         appBar: AppBar(
           centerTitle: true,
           elevation: 0.0,
@@ -56,12 +56,13 @@ class ProfileDetailPage extends StatelessWidget {
           },
           child: ListView(
             children: [
+              const SizedBox(height: 20,),
               Obx(() => Form(
                 key: logic.formKey,
                 child: Column(
                       children: [
                         CircleAvatar(
-                          radius: 40,
+                          radius: 50,
                           backgroundImage: logic.pickImage.image.value != null
                               ? FileImage(
                                   logic.pickImage.image.value!,

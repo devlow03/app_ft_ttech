@@ -25,6 +25,7 @@ class OrderList extends StatelessWidget {
         controller: logicOrderList.controller,
         children: [
           ListView.separated(
+            padding: EdgeInsets.symmetric(horizontal: 20),
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             itemCount: logic.getOrderRsp.value?.data?.length ?? 0,
@@ -36,12 +37,12 @@ class OrderList extends StatelessWidget {
                   
                 )),
                 child: Container(
-                  margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                  margin: const EdgeInsets.symmetric( horizontal: 5),
                   // padding: EdgeInsets.all(8),
                   decoration: BoxDecoration(
                       color: Colors.white,
-                      border: Border.all(color: Colors.grey.shade200),
-                      borderRadius: BorderRadius.circular(8)),
+
+                      borderRadius: BorderRadius.circular(10)),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 10),
                     child: Column(
@@ -101,14 +102,7 @@ class OrderList extends StatelessWidget {
                             ),
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 10),
-                          child: Divider(
-                            height: 1,
-                            thickness: 1,
-                            color: Colors.grey.shade200,
-                          ),
-                        ),
+                        const SizedBox(height: 10,),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8.0),
                           child: Row(
@@ -148,15 +142,21 @@ class OrderList extends StatelessWidget {
                                 ElevatedButton(
                                   style: ElevatedButton.styleFrom(
                                     shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(5)
+                                      borderRadius: BorderRadius.circular(30)
                                     )
                                   ),
                                   onPressed: ()async{
                                     logic.createVnPay(data?.id??0);
                                   },
                                    child: Padding(
-                                     padding: const EdgeInsets.symmetric(vertical:15),
-                                     child: Text("Thanh toán ngay"),
+                                     padding: const EdgeInsets.symmetric(vertical:5),
+                                     child: Text("Thanh toán",
+                                       style: TextStyle(
+
+                                           fontWeight: FontWeight.w600,
+                                           color: Colors.white
+                                       ),
+                                     ),
                                    )
                                 ),
                               ],

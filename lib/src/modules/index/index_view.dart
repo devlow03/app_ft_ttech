@@ -44,19 +44,19 @@ class IndexPage extends StatelessWidget {
                       true,
                   child: Positioned(
                     right: 2,
-                    bottom: 12,
+                    bottom: 9,
                     child: Container(
                       decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: XColor.primary),
                       child: Padding(
-                        padding: const EdgeInsets.all(2),
+                        padding: const EdgeInsets.all(3),
                         child: Text(
                           "${cart.getCartRsp.value?.data?.cartDetails?.length}",
                           style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
-                              fontSize: 10
+                              fontSize: 11
                           ),
                         ),
                       ),

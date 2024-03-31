@@ -73,6 +73,7 @@ dependencies:
   firebase_app_check: ^0.2.1+6
   flutter_inappwebview: ^5.7.2+3
   font_awesome_flutter: ^10.4.0
+  google_search_suggestions: ^1.0.0
 
 
 
@@ -96,7 +97,7 @@ dev_dependencies:
 flutter_icons:
   android: true
   ios: true
-  image_path: "assets/images/tmart.png"
+  image_path: "assets/images/logo_icon.png"
 
 
 

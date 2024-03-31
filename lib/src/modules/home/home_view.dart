@@ -5,6 +5,7 @@ import 'package:app_ft_tmart/src/modules/home/product_suggest/product_suggest_vi
 import 'package:app_ft_tmart/src/modules/search/search_view.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -28,7 +29,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final logic = Get.put(HomeLogic());
-    
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: Scaffold(
@@ -37,10 +38,10 @@ class HomePage extends StatelessWidget {
 
             backgroundColor: Colors.white,
             leading: null,
-            title: Expanded(child: SearchWidget(
-              onTap: ()=>Get.to(const SearchPage()),
+            title: SearchWidget(
+              onTap: () => Get.to(const SearchPage()),
               readOnly: true,
-            )),
+            ),
             centerTitle: false,
             elevation: 0.0,
             actions: [
@@ -49,33 +50,48 @@ class HomePage extends StatelessWidget {
             ],
           ),
           body: RefreshIndicator(
-            color: Colors.black,
-            strokeWidth: 3,
-            onRefresh: () async {
-              logic.refresh();
+              color: Colors.black,
+              strokeWidth: 3,
+              onRefresh: () async {
+                logic.refresh();
+              },
+              child: ListView(
+                controller: logic.controller,
+                children: [
+                  const BannerPage(),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CategoryPage(),
+                      ProductByCategoryPage(),
+                      const SizedBox(height: 10,),
+                      Obx(() {
+                        return Visibility(
+                          visible: logic.page.value <
+                              (logic.getProductByCategoryRsp.value?.meta
+                                  ?.total ??
+                                  0),
+                          replacement: Center(),
+                          child: Center(
+                              child: SpinKitCircle(size: 40,
+                                color: Colors.grey,
+                              )
+                          ),
+                        );
+                      }),
 
-            },
-            child:ListView(
-              controller: logic.controller,
-              children: [
-                const BannerPage(),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
-                    CategoryPage(),
-                    ProductByCategoryPage(),
-                    // // SizedBox(height: 20,),
-                    // ProductSuggestPage()
+                      // // SizedBox(height: 20,),
+                      // ProductSuggestPage()
 
-                  ],
-                ),
+                    ],
+                  ),
 
 
-                const SizedBox(
-                  height: 30,
-                ),
-              ],
-            )
+                  const SizedBox(
+                    height: 30,
+                  ),
+                ],
+              )
 
             // body: Text('a'),
           )),

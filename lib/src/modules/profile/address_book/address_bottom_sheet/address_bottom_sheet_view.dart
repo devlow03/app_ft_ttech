@@ -40,98 +40,104 @@ class AddressBottomSheetPage extends StatelessWidget {
         // logic.wardTxt.value = '';
         return true;
       },
-      child: Scaffold(
+      child: ClipRRect(
+        borderRadius: BorderRadius.only(
+          topRight: Radius.circular(20),
+          topLeft: Radius.circular(20)
+        ),
+        child: Scaffold(
 
-          appBar: AppBar(
-            elevation: 0.0,
-            backgroundColor: Colors.white,
-            centerTitle: true,
-            title: const Text("Địa chỉ",
-              style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700
+            appBar: AppBar(
+              elevation: 0.0,
+              backgroundColor: Colors.white,
+              centerTitle: true,
+              title: const Text("Địa chỉ",
+                style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700
+                ),
               ),
             ),
-          ),
-          body: Obx(() {
-            return DefaultTabController(
-              length: 3,
-              child: Column(
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border(
-                            bottom: BorderSide(color: Colors.grey.shade300)
-                        )
-                    ),
-                    child: TabBar(
-                      indicatorColor: XColor.primary,
-                      unselectedLabelStyle: const TextStyle(
-                          fontWeight: FontWeight.w700),
-                      labelColor: Colors.black,
-                      labelStyle: const TextStyle(fontWeight: FontWeight.w700),
-                      tabs: [
-                        Tab(
-                          child: Visibility(
-                            visible: logic.cityTxt.value?.isNotEmpty==true,
-                              replacement: const Text('Chọn tỉnh',),
-                            child: Text('${logic.cityTxt.value}',
-                            style: TextStyle(
-                              color: XColor.primary
-                            ),
-                            ),
-
-                          ),
-                        ),
-                        Visibility(
-                          visible: logic.getDistrictRsp.value?.results
-                              .isNotEmpty == true,
-                          child: Tab(
+            body: Obx(() {
+              return DefaultTabController(
+                length: 3,
+                child: Column(
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border(
+                              bottom: BorderSide(color: Colors.grey.shade300)
+                          )
+                      ),
+                      child: TabBar(
+                        indicatorColor: XColor.primary,
+                        unselectedLabelStyle: const TextStyle(
+                            fontWeight: FontWeight.w700),
+                        labelColor: Colors.black,
+                        labelStyle: const TextStyle(fontWeight: FontWeight.w700),
+                        tabs: [
+                          Tab(
                             child: Visibility(
-                              visible: logic.disTxt.value?.isNotEmpty==true,
-                              replacement: const Text('Chọn huyện',),
-                              child: Text('${logic.disTxt.value}',
-                                style: TextStyle(
-                                    color: XColor.primary
-                                ),
+                              visible: logic.cityTxt.value?.isNotEmpty==true,
+                                replacement: const Text('Chọn tỉnh',),
+                              child: Text('${logic.cityTxt.value}',
+                              style: TextStyle(
+                                color: XColor.primary
+                              ),
                               ),
 
                             ),
                           ),
-                        ),
-                        Visibility(
-                          visible: logic.getWardRsp.value?.results?.isNotEmpty ==
-                              true,
-                          child: Tab(
-                            child: Visibility(
-                              visible: logic.wardTxt.value?.isNotEmpty==true,
-                              replacement: const Text('Chọn xã',),
-                              child: Text('${logic.wardTxt.value}',
-                                style: TextStyle(
-                                    color: XColor.primary
+                          Visibility(
+                            visible: logic.getDistrictRsp.value?.results
+                                .isNotEmpty == true,
+                            child: Tab(
+                              child: Visibility(
+                                visible: logic.disTxt.value?.isNotEmpty==true,
+                                replacement: const Text('Chọn huyện',),
+                                child: Text('${logic.disTxt.value}',
+                                  style: TextStyle(
+                                      color: XColor.primary
+                                  ),
                                 ),
-                              ),
 
+                              ),
                             ),
                           ),
-                        ),
-                      ],
+                          Visibility(
+                            visible: logic.getWardRsp.value?.results?.isNotEmpty ==
+                                true,
+                            child: Tab(
+                              child: Visibility(
+                                visible: logic.wardTxt.value?.isNotEmpty==true,
+                                replacement: const Text('Chọn xã',),
+                                child: Text('${logic.wardTxt.value}',
+                                  style: TextStyle(
+                                      color: XColor.primary
+                                  ),
+                                ),
+
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  const Expanded(
-                    child: TabBarView(
-                      children: [
-                        AddressCityPage(),
-                        AddressDistrictPage(),
-                        AddressWardPage()
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            );
-          })
+                    const Expanded(
+                      child: TabBarView(
+                        children: [
+                          AddressCityPage(),
+                          AddressDistrictPage(),
+                          AddressWardPage()
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              );
+            })
+        ),
       ),
     );
   }
