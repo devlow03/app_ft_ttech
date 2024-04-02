@@ -106,7 +106,7 @@ class AllProductByCategoryPage extends StatelessWidget {
                 onPressed: (){
                   key.currentState?.openEndDrawer();
                 },
-                icon: Icon(Icons.filter_alt_outlined,color: Colors.white,)
+                icon: Icon(Icons.tune,color: Colors.white,)
             )
 
           ]

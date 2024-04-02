@@ -1,4 +1,5 @@
 import 'package:app_ft_tmart/src/modules/product_detail/product_detail_logic.dart';
+import 'package:app_ft_tmart/src/modules/product_detail/product_rating/product_rating.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
@@ -48,7 +49,11 @@ class Info extends StatelessWidget {
                 ],
               ),
               const SizedBox(
-                height: 15,
+                height: 5,
+              ),
+              ProductRating(),
+              const SizedBox(
+                height: 5,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -62,7 +67,6 @@ class Info extends StatelessWidget {
                         fontWeight: FontWeight.w700,
                         letterSpacing: 1),
                   ),
-
                 ],
               ),
             ],

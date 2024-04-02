@@ -42,11 +42,11 @@ class ListProductDetailPage extends StatelessWidget {
 
                 Get.back();
               },
-              icon: Icon(Icons.arrow_back, color: Colors.white,),
+              icon: const Icon(Icons.arrow_back, color: Colors.white,),
 
             ),
             title: Text(keyword??logic.keyController.text,
-              style: TextStyle(
+              style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                   color: Colors.white
@@ -58,10 +58,10 @@ class ListProductDetailPage extends StatelessWidget {
               IconButton(
                 onPressed: () {
                   Get.to(
-                      SearchPage());
+                      const SearchPage());
                 },
                 icon:
-                Icon(Icons.search,color: Colors.white,)
+                const Icon(Icons.search,color: Colors.white,)
                 ,
               ),
               Obx(() {
@@ -71,10 +71,10 @@ class ListProductDetailPage extends StatelessWidget {
                     IconButton(
                       onPressed: () {
                         Get.to(
-                            CartPage());
+                            const CartPage());
                       },
                       icon:
-                      Icon(Icons.shopping_cart_outlined,color: Colors.white,)
+                      const Icon(Icons.shopping_cart_outlined,color: Colors.white,)
                       ,
                     ),
                     Visibility(
@@ -94,7 +94,7 @@ class ListProductDetailPage extends StatelessWidget {
                               "${logicCart.getCartRsp.value?.data
                                   ?.cartDetails
                                   ?.length}",
-                              style: TextStyle(
+                              style: const TextStyle(
                                   color: Colors.white
                               ),
                             ),
@@ -109,7 +109,7 @@ class ListProductDetailPage extends StatelessWidget {
                   onPressed: (){
                     key.currentState?.openEndDrawer();
                   },
-                  icon: Icon(Icons.filter_alt_outlined,color: Colors.white,)
+                  icon: const Icon(Icons.tune,color: Colors.white,)
               )
 
             ]
@@ -121,7 +121,7 @@ class ListProductDetailPage extends StatelessWidget {
 
           if(logic.getSearchRsp.value?.data?.isEmpty==true){
             if((logic.getSearchRsp.value?.data?.length??0)<1){
-              return Center(
+              return const Center(
                 child: Text("Sản phẩm không tồn tại",
                   style: TextStyle(
                       color: Colors.black
@@ -139,7 +139,7 @@ class ListProductDetailPage extends StatelessWidget {
                       color: XColor.primary,
                     ),
                     const SizedBox(height: 5,),
-                    Text("Đang tải")
+                    const Text("Đang tải")
                   ],
                 ),
               );
@@ -201,8 +201,8 @@ class ListProductDetailPage extends StatelessWidget {
                     Visibility(
                       visible: (logic.getSearchRsp.value?.meta?.perPage ?? 0) <
                           (logic.getSearchRsp.value?.meta?.total ?? 0),
-                      replacement: Center(),
-                      child: Center(
+                      replacement: const Center(),
+                      child: const Center(
                           child: SpinKitCircle(size: 40,
                             color: Colors.grey,
                           )

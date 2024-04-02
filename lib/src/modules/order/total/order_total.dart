@@ -15,8 +15,16 @@ class OrderTotal extends StatelessWidget {
       return Container(
         padding: EdgeInsets.all(5),
         decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(10)
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.1),
+                spreadRadius: 5,
+                blurRadius: 3,
+                offset: Offset(0, 3), // changes position of shadow
+              ),
+            ],
+            borderRadius: BorderRadius.circular(10),
+            color: Colors.white
         ),
         child: Padding(
           padding: const EdgeInsets.all(10),

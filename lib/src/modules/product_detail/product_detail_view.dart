@@ -3,6 +3,7 @@ import 'package:app_ft_tmart/src/modules/all_product_by_category/all_product_by_
 import 'package:app_ft_tmart/src/modules/product_detail/description/description.dart';
 import 'package:app_ft_tmart/src/modules/product_detail/info_detai/info_detail.dart';
 import 'package:app_ft_tmart/src/modules/product_detail/mini_image_list/mini_image_list.dart';
+import 'package:app_ft_tmart/src/modules/product_detail/product_reviews/produc_reviews.dart';
 import 'package:app_ft_tmart/src/modules/product_detail/same_type/same_type.dart';
 import 'package:app_ft_tmart/src/modules/search/search_view.dart';
 import 'package:app_ft_tmart/src/widget/global_html.dart';
@@ -156,6 +157,8 @@ class ProductDetailPage extends StatelessWidget {
                             height: 10,
                           ),
                           DescriptionView(),
+                          SizedBox(height: 10,),
+                          ProductReviewsPage(),
                           SizedBox(
                             height: 10,
                           ),
@@ -195,6 +198,7 @@ class ProductDetailPage extends StatelessWidget {
                               Visibility(
                                 visible: logic.quantity.value >= 2,
                                 replacement: GestureDetector(
+                                    onTap: null,
                                     child: Container(
                                       margin:
                                       const EdgeInsets.only(right: 10),
@@ -206,8 +210,7 @@ class ProductDetailPage extends StatelessWidget {
                                               color: Colors.grey.shade200)),
                                       child: const Icon(Icons.remove,
                                           size: 25, color: Colors.grey),
-                                    ),
-                                    onTap: null),
+                                    )),
                                 child: GestureDetector(
                                   child: Container(
                                     margin:

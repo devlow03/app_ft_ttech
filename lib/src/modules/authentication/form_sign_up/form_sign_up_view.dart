@@ -21,24 +21,42 @@ class FormSignUpPage extends StatelessWidget {
     logic.phoneNumber.value = phoneNumber;
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: XColor.primary,
+      backgroundColor: Colors.white,
       body: Center(
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const SizedBox(height: 30,),
-              const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20,vertical: 30),
-                  child: Text("Đăng ký \n",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontSize: 43,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          height: 1))
+              const SizedBox(height: 40,),
+              Padding(
+                padding:const EdgeInsets.symmetric(horizontal: 20),
+                child: RichText(
+                  text: TextSpan(
+                      children: [
+                        TextSpan(
+                            text: 'Xin chào!\n',
+                            style: TextStyle(
+                                fontSize: 43,
+                                color: XColor.primary,
+                                fontWeight: FontWeight.w900,
+                                height: 1.5
+                            )),
+
+                        const TextSpan(
+                            text: 'Tạo tài khoản mới',
+                            style: TextStyle(
+                                fontSize: 30,
+                                color: Colors.grey,
+                                fontWeight: FontWeight.w400,
+                                height: 1.5
+                            ))
+
+                      ]
+                  ),
+                ),
               ),
+              const SizedBox(height: 20,),
               Container(
                 decoration: const BoxDecoration(
                     color: Colors.white,

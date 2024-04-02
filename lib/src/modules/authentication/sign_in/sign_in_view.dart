@@ -31,36 +31,54 @@ class SignInPage extends StatelessWidget {
       },
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        backgroundColor: XColor.primary,
+        backgroundColor: Colors.white,
         body: Center(
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                const SizedBox(height: 30,),
+                const SizedBox(height: 40,),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 30),
-                  child: Text("Đăng nhập \n",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontSize: 43,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          height: 1))
+                  padding:const EdgeInsets.symmetric(horizontal: 20),
+                  child: RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: 'Xin chào!\n',
+                        style: TextStyle(
+                            fontSize: 43,
+                            color: XColor.primary,
+                            fontWeight: FontWeight.w900,
+                            height: 1.5
+                        )),
+
+                        const TextSpan(
+                          text: 'Đăng nhập để tiếp tục',
+                            style: TextStyle(
+                                fontSize: 30,
+                                color: Colors.grey,
+                                fontWeight: FontWeight.w400,
+                                height: 1.5
+                        ))
+
+                      ]
+                    ),
+                  ),
                 ),
+                const SizedBox(height: 20,),
                 Container(
 
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(30),
-                      topRight: Radius.circular(30)
-                    )
-                  ),
+                  // decoration: const BoxDecoration(
+                  //   color: Colors.white,
+                  //   borderRadius: BorderRadius.only(
+                  //     topLeft: Radius.circular(30),
+                  //     topRight: Radius.circular(30)
+                  //   )
+                  // ),
                   height: MediaQuery.of(context).size.height*.8,
                   child: Padding(
-                    padding:EdgeInsets.symmetric(horizontal: 10),
+                    padding:const EdgeInsets.symmetric(horizontal: 15),
                     child: Column(
                       children: [
                         const SizedBox(height: 25,),
@@ -128,7 +146,7 @@ class SignInPage extends StatelessWidget {
                                         },
                                         style: ElevatedButton.styleFrom(
                                           padding: const EdgeInsets.symmetric(
-                                              horizontal: 5, vertical: 3),
+                                              horizontal: 5, vertical: 5),
                                           shape: RoundedRectangleBorder(
                                               borderRadius: BorderRadius.circular(30)),
                                           primary: XColor.primary,
@@ -229,7 +247,7 @@ class SignInPage extends StatelessWidget {
                               Center(
                                   child: Text(
                                     "${logic.biometric.value == "finger" ? "Đăng nhập bằng vân tay" : "Đăng nhập bằng Face ID"}",
-                                    style: TextStyle(fontWeight: FontWeight.bold),
+                                    style: const TextStyle(fontWeight: FontWeight.bold),
                                   )),
                             ],
                           ),
