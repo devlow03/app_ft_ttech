@@ -76,10 +76,10 @@ class SignupPage extends StatelessWidget {
                     child: ElevatedButton(
                       onPressed: () async {
 
-                        // if(logic.formKey.currentState?.validate()==true){
-                        //   await logic.sendOtp();
-                        // }
-                        Get.to(OtpPage());
+                        if(logic.formKey.currentState?.validate()==true){
+                          await logic.sendOtp();
+                        }
+
 
                       },
                       child: const Padding(

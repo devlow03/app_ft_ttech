@@ -1,5 +1,5 @@
 import 'package:app_ft_tmart/src/core/xcolor.dart';
-import 'package:app_ft_tmart/src/modules/order_history/not_order/not_order.dart';
+import 'package:app_ft_tmart/src/modules/profile/order_history/not_order/not_order.dart';
 import 'package:app_ft_tmart/src/widget/global_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -25,7 +25,7 @@ class OrderList extends StatelessWidget {
         controller: logicOrderList.controller,
         children: [
           ListView.separated(
-            padding: EdgeInsets.symmetric(horizontal: 20),
+            padding: EdgeInsets.symmetric(horizontal: 20,vertical: 10),
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             itemCount: logic.getOrderRsp.value?.data?.length ?? 0,
@@ -40,9 +40,17 @@ class OrderList extends StatelessWidget {
                   margin: const EdgeInsets.symmetric( horizontal: 5),
                   // padding: EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                      color: Colors.white,
-
-                      borderRadius: BorderRadius.circular(10)),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.1),
+                          spreadRadius: 5,
+                          blurRadius: 3,
+                          offset: Offset(0, 3), // changes position of shadow
+                        ),
+                      ],
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.white
+                  ),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 10),
                     child: Column(

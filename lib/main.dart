@@ -6,7 +6,7 @@ import 'package:app_ft_tmart/src/core/xcolor.dart';
 import 'package:app_ft_tmart/src/core/dependency_injections.dart';
 import 'package:app_ft_tmart/src/modules/index/index_view.dart';
 import 'package:app_ft_tmart/src/modules/notification/notification_view.dart';
-import 'package:app_ft_tmart/src/modules/order_history/order_detail/order_detail_view.dart';
+import 'package:app_ft_tmart/src/modules/profile/order_history/order_detail/order_detail_view.dart';
 import 'package:app_ft_tmart/src/modules/splash/splash_view.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -143,7 +143,7 @@ class MyApp extends StatelessWidget {
               fontWeight: FontWeight.w400
           ),
           selectedItemColor: XColor.primary,
-          unselectedItemColor: Colors.black,
+          unselectedItemColor: Colors.grey,
           // showUnselectedLabels: true,
         )
         // buttonColor: XColor.primary,

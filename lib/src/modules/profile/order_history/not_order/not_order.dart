@@ -1,7 +1,7 @@
+import 'package:app_ft_tmart/src/modules/home/product_suggest/product_suggest_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../home/product_suggest/product_suggest_view.dart';
 import 'not_order_logic.dart';
 class NotOrder extends StatefulWidget {
   const NotOrder({super.key});

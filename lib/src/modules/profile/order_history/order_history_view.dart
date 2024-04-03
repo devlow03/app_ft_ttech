@@ -1,14 +1,15 @@
+import 'package:app_ft_tmart/src/core/xcolor.dart';
 import 'package:app_ft_tmart/src/modules/index/index_view.dart';
-import 'package:app_ft_tmart/src/modules/order_history/order_detail/order_detail_view.dart';
-import 'package:app_ft_tmart/src/modules/order_history/order_list/order_list.dart';
+import 'package:app_ft_tmart/src/modules/search/search_view.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../core/xcolor.dart';
-import '../../widget/global_image.dart';
-import '../search/search_view.dart';
+
+
 import 'order_history_logic.dart';
 import 'not_order/not_order.dart';
+import 'order_list/order_list.dart';
 
 class OrderHistoryPage extends StatelessWidget {
   const OrderHistoryPage({Key? key}) : super(key: key);
@@ -44,6 +45,7 @@ class OrderHistoryPage extends StatelessWidget {
           ],
         ),
         body: DefaultTabController(
+
           initialIndex: logic.tabIndex.value??0,
             length: logic.tabOrder.length,
             child: Column(
@@ -56,6 +58,7 @@ class OrderHistoryPage extends StatelessWidget {
                           bottom: BorderSide(color: Colors.grey.shade300))),
                   child: Center(
                     child: TabBar(
+
                         indicatorWeight: 5,
                         isScrollable: true,
                         indicatorColor: XColor.primary,

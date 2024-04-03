@@ -1,9 +1,7 @@
+import 'package:app_ft_tmart/src/data/repositories/get_order_rqst.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../data/repositories/get_order_rqst.dart';
-import '../../../data/repositories/get_order_rsp.dart';
-import '../../../data/services/service.dart';
 import '../order_history_logic.dart';
 
 class OrderListLogic extends GetxController {

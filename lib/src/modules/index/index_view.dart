@@ -20,8 +20,8 @@ class IndexPage extends StatelessWidget {
     final cart = Get.put(CartLogic());
     List<Map<String, dynamic>> bottomNavigationBarItems = [
       {
-        'icon': const Icon(Icons.home_outlined),
-        'active': const Icon(Icons.home),
+        'icon': const Icon(Icons.explore_outlined),
+        'active': const Icon(Icons.explore),
         'label': 'Trang chủ',
         'screen': const HomePage(),
       },
@@ -33,38 +33,35 @@ class IndexPage extends StatelessWidget {
       },
       {
         'icon': Obx(() {
-          return Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Stack(
-              alignment: Alignment.centerRight,
-              children: [
-                Icon(Icons.shopping_cart_outlined),
-                Visibility(
-                  visible: cart.getCartRsp.value?.data?.cartDetails?.isNotEmpty ==
-                      true,
-                  child: Positioned(
-                    right: 2,
-                    bottom: 9,
-                    child: Container(
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: XColor.primary),
-                      child: Padding(
-                        padding: const EdgeInsets.all(3),
-                        child: Text(
-                          "${cart.getCartRsp.value?.data?.cartDetails?.length}",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 11
-                          ),
+          return Stack(
+            alignment: Alignment.centerRight,
+            children: [
+              Icon(Icons.shopping_bag_outlined),
+              Visibility(
+                visible: cart.getCartRsp.value?.data?.cartDetails?.isNotEmpty ==
+                    true,
+                child: Positioned(
+                  right: 1,
+                  bottom: 8,
+                  child: Container(
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: XColor.primary),
+                    child: Padding(
+                      padding: const EdgeInsets.all(4),
+                      child: Text(
+                        "${cart.getCartRsp.value?.data?.cartDetails?.length}",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 11
                         ),
                       ),
                     ),
                   ),
-                )
-              ],
-            ),
+                ),
+              )
+            ],
           );
         }),
 
@@ -76,12 +73,12 @@ class IndexPage extends StatelessWidget {
       {
         'icon': const Icon(Icons.favorite_outline),
         'active': const Icon(Icons.favorite),
-        'label': 'Bộ sưu tập',
+        'label': 'Yêu thích',
         'screen': const FavouritesPage(),
       },
       {
-        'icon': const Icon(Icons.person_outline),
-        'active': const Icon(Icons.person),
+        'icon': const Icon(Icons.account_circle_outlined),
+        'active': const Icon(Icons.account_circle),
         'label': 'Tài khoản',
         'screen': const ProfilePage(),
       },
@@ -93,9 +90,11 @@ class IndexPage extends StatelessWidget {
           type: BottomNavigationBarType.fixed,
           iconSize: 28,
           selectedLabelStyle: TextStyle(
-              color: XColor.primary
+              color: XColor.primary,
+            fontSize: 13
+
           ),
-          selectedFontSize: 0,
+          // selectedFontSize: 0,
           elevation: 0,
           // showSelectedLabels: false,
           onTap: (tab) async {

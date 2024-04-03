@@ -301,7 +301,7 @@ class ProductDetailPage extends StatelessWidget {
                                   padding: const EdgeInsets.all(15),
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
-                                    border: Border.all(color: Colors.grey.shade200,width: 0.5)
+                                    border: Border.all(color: Colors.grey.shade200,width: 1)
                                   ),
                                   child: Icon(Icons.add_shopping_cart,size: 25,color: XColor.primary,)))),
 

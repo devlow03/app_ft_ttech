@@ -1,7 +1,7 @@
-import 'package:app_ft_tmart/src/modules/order_history/order_history_logic.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../core/xcolor.dart';
+
 import 'order_detail_logic.dart';
 
 class DeliveryAddress extends StatelessWidget {
@@ -13,8 +13,16 @@ class DeliveryAddress extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(5),
       decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(10)
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.1),
+              spreadRadius: 5,
+              blurRadius: 3,
+              offset: Offset(0, 3), // changes position of shadow
+            ),
+          ],
+          borderRadius: BorderRadius.circular(10),
+          color: Colors.white
       ),
       child: Padding(
         padding: const EdgeInsets.all(10),

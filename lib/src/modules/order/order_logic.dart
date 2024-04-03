@@ -5,6 +5,7 @@ import 'package:app_ft_tmart/src/data/repositories/post_create_vnpay_rqst_bodies
 import 'package:app_ft_tmart/src/data/services/service.dart';
 import 'package:app_ft_tmart/src/modules/index/index_view.dart';
 import 'package:app_ft_tmart/src/modules/order/payments/payments_logic.dart';
+import 'package:app_ft_tmart/src/modules/profile/order_history/order_history_view.dart';
 import 'package:app_ft_tmart/src/widget/global_html.dart';
 import 'package:app_ft_tmart/src/widget/global_webview.dart';
 import 'package:app_ft_tmart/src/utils/utils.dart';
@@ -17,8 +18,7 @@ import '../../core/realtime_database.dart';
 import '../../data/repositories/post_confirm_order_rqst_bodies.dart';
 import '../../data/repositories/post_create_vnpay_rsp.dart';
 import '../cart/cart_logic.dart';
-import '../order_history/order_history_logic.dart';
-import '../order_history/order_history_view.dart';
+
 
 class OrderLogic extends GetxController {
   final Services tMartServices = Get.find();

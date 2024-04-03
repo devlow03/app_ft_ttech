@@ -1,15 +1,15 @@
+import 'package:app_ft_tmart/src/core/realtime_database.dart';
 import 'package:app_ft_tmart/src/data/repositories/get_order_by_id_rsp.dart';
 import 'package:app_ft_tmart/src/data/repositories/post_repurchase_rqst.dart';
+import 'package:app_ft_tmart/src/data/services/service.dart';
 import 'package:app_ft_tmart/src/modules/cart/cart_view.dart';
-import 'package:app_ft_tmart/src/modules/order_history/order_history_logic.dart';
-import 'package:app_ft_tmart/src/modules/order_history/order_history_view.dart';
+import 'package:app_ft_tmart/src/modules/profile/order_history/order_history_logic.dart';
 import 'package:app_ft_tmart/src/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
-import '../../../core/realtime_database.dart';
-import '../../../data/services/service.dart';
+
 
 class OrderDetailLogic extends GetxController {
   final Services tMartServices = Get.find();

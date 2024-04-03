@@ -135,10 +135,10 @@ class OtpPage extends StatelessWidget {
                           child: ElevatedButton(
                             onPressed: () async {
                               //
-                              // if(logic.formKey.currentState?.validate()==true){
-                              //   await logic.verifyOtp();
-                              // }
-                              Get.to(FormSignUpPage());
+                              if(logic.formKey.currentState?.validate()==true){
+                                await logic.verifyOtp();
+                              }
+
                             },
                             child: Padding(
                               padding: const EdgeInsets.all(10),

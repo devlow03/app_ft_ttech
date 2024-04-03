@@ -22,15 +22,7 @@ class Utils{
     if (onSuccess != null) {
       onSuccess();
     }
-    // Đảm bảo dialog đã đóng trước khi chuyển trang mới
-    // await Future.delayed(Duration(milliseconds: 500)); // Hoặc sử dụng await Future.delayed(Duration.zero);
 
-    // Get.back();
-
-    // // Kiểm tra xem dialog đã đóng chưa
-    // print("Dialog closed");
-
-    // Sau đó chuyển đến trang mới
     
   } catch (e) {
       // Get.back();

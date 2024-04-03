@@ -46,7 +46,7 @@ class OtpLogic extends GetxController {
 
           String? phone = "0${phoneNumber.substring(1)}";
           print(">>>>>>>$phone");
-          Get.offAll( FormSignUpPage(phoneNumber: phone,credential: credential,) );
+          Get.to( FormSignUpPage(phoneNumber: phone,credential: credential,) );
 
 
       }catch(e){

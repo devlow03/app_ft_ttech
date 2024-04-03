@@ -11,7 +11,7 @@ import 'package:get/get.dart';
 
 import '../../core/xcolor.dart';
 import '../authentication/sign_in/sign_in_logic.dart';
-import '../order_history/order_history_view.dart';
+import 'order_history/order_history_view.dart';
 import 'profile_logic.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -57,7 +57,7 @@ class ProfilePage extends StatelessWidget {
     ];
 
     return Scaffold(
-        backgroundColor: Colors.grey.shade100,
+        backgroundColor: Colors.white,
         body: Obx(() {
           return RefreshIndicator(
             onRefresh: ()async{
@@ -103,8 +103,17 @@ class ProfilePage extends StatelessWidget {
                   margin:const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10)),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.1),
+                          spreadRadius: 5,
+                          blurRadius: 3,
+                          offset: Offset(0, 3), // changes position of shadow
+                        ),
+                      ],
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.white
+                  ),
                   child: ListView.separated(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),

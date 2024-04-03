@@ -23,7 +23,7 @@ class ProfileDetailPage extends StatelessWidget {
         return true;
       },
       child: Scaffold(
-        backgroundColor: Colors.grey.shade100,
+        backgroundColor: Colors.white,
         appBar: AppBar(
           centerTitle: true,
           elevation: 0.0,
