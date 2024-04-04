@@ -1,5 +1,6 @@
 
 import 'package:app_ft_tmart/src/modules/filter/filter_view.dart';
+import 'package:app_ft_tmart/src/modules/index/index_view.dart';
 import 'package:app_ft_tmart/src/modules/product_detail/product_detail_view.dart';
 import 'package:app_ft_tmart/src/modules/search/search_view.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +32,7 @@ class AllProductByCategoryPage extends StatelessWidget {
     return Scaffold(
       key: key,
       appBar: AppBar(
-        // backgroundColor: Colors.white,
+        backgroundColor: Colors.white,
           automaticallyImplyLeading: false,
           // backgroundColor: Colors.grey.shade200,
           leading: IconButton(
@@ -39,14 +40,14 @@ class AllProductByCategoryPage extends StatelessWidget {
 
               Get.back();
             },
-            icon: const Icon(Icons.arrow_back, color: Colors.white,),
+            icon: const Icon(Icons.arrow_back, color: Colors.black),
 
           ),
           title: Text(categoryName??"",
             style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
-                color: Colors.white
+                color: Colors.black
             ),
           ),
           // centerTitle: true,
@@ -58,7 +59,7 @@ class AllProductByCategoryPage extends StatelessWidget {
                     const SearchPage());
               },
               icon:
-              const Icon(Icons.search,color: Colors.white,)
+              const Icon(Icons.search,color: Colors.black,)
               ,
             ),
             Obx(() {
@@ -71,7 +72,7 @@ class AllProductByCategoryPage extends StatelessWidget {
                           const CartPage());
                     },
                     icon:
-                    const Icon(Icons.shopping_cart_outlined,color: Colors.white,)
+                    const Icon(Icons.shopping_cart_outlined,color: Colors.black,)
                     ,
                   ),
                   Visibility(
@@ -103,106 +104,115 @@ class AllProductByCategoryPage extends StatelessWidget {
               );
             }),
             IconButton(
-                onPressed: (){
-                  Get.to(FilterPage(isCategory: true,),transition: Transition.rightToLeft);
-                },
-                icon: const Icon(Icons.tune,color: Colors.white,)
+                onPressed: ()=>Get.offAll(IndexPage()),
+                icon: const Icon(Icons.home_outlined,color: Colors.black,)
             )
 
           ]
       ),
 
-      body: Obx(() {
+      body: Stack(
+        children: [
+          Obx(() {
 
-        if(logic.getProductByCategory.value?.data?.isEmpty==true){
+            if(logic.getProductByCategory.value?.data?.isEmpty==true){
 
-          return const Center(
-            child: Text("Sản phẩm không tồn tại",
-              style: TextStyle(
-                  color: Colors.black
+              return const Center(
+                child: Text("Sản phẩm không tồn tại",
+                  style: TextStyle(
+                      color: Colors.black
+                  ),
+                ),
+              );
+
+
+
+            }
+            return Visibility(
+              replacement: LinearProgressIndicator(
+
+                backgroundColor: Colors.white,
+                valueColor: AlwaysStoppedAnimation<Color>(XColor.primary),
               ),
-            ),
-          );
-
-
-
-        }
-        return Visibility(
-          replacement: const LinearProgressIndicator(
-
-            backgroundColor: Colors.white,
-            valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
-          ),
-          visible: logic.getProductByCategory.value?.data?.isNotEmpty==true,
-          child: ListView(
-            controller: logic.controller,
-            children: [
-              const SizedBox(height: 10,),
-              Column(
+              visible: logic.getProductByCategory.value?.data?.isNotEmpty==true,
+              child: Stack(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: GridView.builder(
-                      shrinkWrap: true,
-                      itemCount: logic.getProductByCategory.value?.data?.length??0,
-                      physics:
-                      const NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, ind) {
-                        logic.indexPage.value=ind;
-                        return InkWell(
-                          onTap: () {
-                            Get.to(ProductDetailPage(
-                              id: logic.getProductByCategory.value?.data?[ind].id.toString(),
+                  ListView(
+                    controller: logic.controller,
+                    children: [
+                      const SizedBox(height: 10,),
+                      Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            child: GridView.builder(
+                              shrinkWrap: true,
+                              itemCount: logic.getProductByCategory.value?.data?.length??0,
+                              physics:
+                              const NeverScrollableScrollPhysics(),
+                              itemBuilder: (context, ind) {
+                                logic.indexPage.value=ind;
+                                return InkWell(
+                                  onTap: () {
+                                    Get.to(ProductDetailPage(
+                                      id: logic.getProductByCategory.value?.data?[ind].id.toString(),
 
-                            ));
-                          },
-                          child: GlobalProduct(
-                            imageLink:logic.getProductByCategory.value?.data?[ind].thumpnailUrl,
-                            defaultPrice: '${logic.getProductByCategory.value?.data?[ind].defaultPrice}',
-                            // price:NumberFormat("###,###.# đ").format(snapshot.data?.products?[index].price),
-                            price:
-                            '${ logic.getProductByCategory.value?.data?[ind].price}',
-                            nameProduct:
-                            logic.getProductByCategory.value?.data?[ind].productName,
-                            numStar: '5.0',
+                                    ));
+                                  },
+                                  child: GlobalProduct(
+                                    imageLink:logic.getProductByCategory.value?.data?[ind].thumpnailUrl,
+                                    defaultPrice: '${logic.getProductByCategory.value?.data?[ind].defaultPrice}',
+                                    // price:NumberFormat("###,###.# đ").format(snapshot.data?.products?[index].price),
+                                    price:
+                                    '${ logic.getProductByCategory.value?.data?[ind].price}',
+                                    nameProduct:
+                                    logic.getProductByCategory.value?.data?[ind].productName,
+                                    numStar: '5.0',
+                                  ),
+                                );
+
+                              },
+                              gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+
+                                crossAxisCount: 2,
+                                crossAxisSpacing: 5,
+                                mainAxisSpacing: 5,
+                                childAspectRatio: 3 / 5,
+                              ),
+                            ),
                           ),
-                        );
+                          const SizedBox(height: 30,),
+                          Visibility(
+                            visible: (logic.getProductByCategory.value?.meta?.perPage ?? 0) <
+                                (logic.getProductByCategory.value?.meta?.total ?? 0),
+                            replacement: const Center(),
+                            child: const Center(
+                                child: SpinKitCircle(size: 40,
+                                  color: Colors.grey,
+                                )
+                            ),
+                          ),
+                          const SizedBox(height: 80,),
 
-                      },
-                      gridDelegate:
-                      const SliverGridDelegateWithFixedCrossAxisCount(
-
-                        crossAxisCount: 2,
-                        crossAxisSpacing: 5,
-                        mainAxisSpacing: 5,
-                        childAspectRatio: 3 / 5,
+                          // TextButton(
+                          //     onPressed: (){
+                          //       print(">>>>>>>>>>>>>>>>>>>${logic.isLoading.value}");
+                          //     },
+                          //     child: Text('a')
+                          // )
+                        ],
                       ),
-                    ),
+                    ],
                   ),
-                  const SizedBox(height: 30,),
-                  Visibility(
-                    visible: (logic.getProductByCategory.value?.meta?.perPage ?? 0) <
-                        (logic.getProductByCategory.value?.meta?.total ?? 0),
-                    replacement: const Center(),
-                    child: const Center(
-                        child: SpinKitCircle(size: 40,
-                          color: Colors.grey,
-                        )
-                    ),
-                  ),
-                  const SizedBox(height: 30,),
-                  // TextButton(
-                  //     onPressed: (){
-                  //       print(">>>>>>>>>>>>>>>>>>>${logic.isLoading.value}");
-                  //     },
-                  //     child: Text('a')
-                  // )
+
                 ],
               ),
-            ],
-          ),
-        );
-      }),
+            );
+          }),
+          FilterPage(isCategory: true,)
+        ],
+      )
     );
   }
 }

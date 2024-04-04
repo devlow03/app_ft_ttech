@@ -37,12 +37,12 @@ class VoucherPage extends StatelessWidget {
             centerTitle: true,
               backgroundColor: Colors.grey.shade100,
             leading: IconButton(
-              icon: Icon(Icons.close),
+              icon: const Icon(Icons.close),
               onPressed: (){
                 Get.back();
               },
             ),
-            title: Text("Mã giảm giá",style: TextStyle(
+            title: const Text("Mã giảm giá",style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold
             ),)
@@ -63,7 +63,7 @@ class VoucherPage extends StatelessWidget {
                   child: TextFormField(
                     controller: logic.voucherCodeController,
                     decoration: InputDecoration(
-                        contentPadding: EdgeInsets.symmetric(vertical: 5,horizontal: 10),
+                        contentPadding: const EdgeInsets.symmetric(vertical: 5,horizontal: 10),
                         suffixIcon: InkWell(
                           onTap: (){
                             if(logic.voucherCodeController.text==""){
@@ -80,7 +80,7 @@ class VoucherPage extends StatelessWidget {
                             // height: 60,
                             decoration: BoxDecoration(
                               color: XColor.primary,
-                              borderRadius: BorderRadius.only(
+                              borderRadius: const BorderRadius.only(
                                 topRight: Radius.circular(5),
                                 bottomRight: Radius.circular(5),
                               ),
@@ -93,7 +93,7 @@ class VoucherPage extends StatelessWidget {
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Text(
+                                  const Text(
                                     "Áp dụng",
                                     style: TextStyle(
                                         color: Colors.white
@@ -132,7 +132,7 @@ class VoucherPage extends StatelessWidget {
                 ),
                 ListView.separated(
                   padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
-                  physics: NeverScrollableScrollPhysics(),
+                  physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   itemCount: logic.getVoucherRsp.value?.data?.length ?? 0,
                   itemBuilder: (context, index) {
@@ -162,7 +162,7 @@ class VoucherPage extends StatelessWidget {
                         height: 130,
                         color: Colors.white,
                         // isCornerRounded: true,
-                        padding: EdgeInsets.all(20),
+                        padding: const EdgeInsets.all(20),
                         child:  Padding(
                           padding: const EdgeInsets.all(5),
                           child: Row(
@@ -175,27 +175,27 @@ class VoucherPage extends StatelessWidget {
                                   Text(
                                     '${logic.getVoucherRsp.value?.data?[index]
                                         .title}',
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontSize: 16,
                                       color: Colors.black,
                                       fontWeight: FontWeight.w900,
                                     ),
                                   ),
-                                  SizedBox(height: 5),
+                                  const SizedBox(height: 5),
                                   Text(
                                     'CODE: ${logic.getVoucherRsp.value?.data?[index]
                                         .voucherCode}',
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontSize: 14,
                                       color: Colors.black,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                  SizedBox(height: 5),
+                                  const SizedBox(height: 5),
                                   Text(
                                     'HSD: ${logic.getVoucherRsp.value?.data?[index]
                                         .voucherDateEnd}',
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontSize: 14,
                                       color: Colors.black,
                                       fontWeight: FontWeight.w400,
@@ -217,8 +217,8 @@ class VoucherPage extends StatelessWidget {
                                           color: Colors.red,
                                           borderRadius: BorderRadius.circular(20)
                                       ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 8),
+                                      child: const Padding(
+                                        padding: EdgeInsets.symmetric(horizontal: 15,vertical: 8),
                                         child: Text("Xóa mã",
                                           style: TextStyle(
                                               color: Colors.white,
@@ -247,8 +247,8 @@ class VoucherPage extends StatelessWidget {
                                       color: XColor.primary,
                                       borderRadius: BorderRadius.circular(20)
                                     ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 8),
+                                    child: const Padding(
+                                      padding: EdgeInsets.symmetric(horizontal: 15,vertical: 8),
                                       child: Text("Áp dụng",
                                           style: TextStyle(
                                             color: Colors.white,

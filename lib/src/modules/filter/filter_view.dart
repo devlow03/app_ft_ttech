@@ -14,107 +14,151 @@ import 'filter_logic.dart';
 
 class FilterPage extends StatelessWidget {
   final bool? isCategory;
+
   FilterPage({Key? key, this.isCategory}) : super(key: key);
 
   final logic = Get.put(FilterLogic());
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        elevation: 0.0,
-        foregroundColor: Colors.white,
-        backgroundColor: XColor.primary,
-        centerTitle: false,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white,),
-          onPressed: () => Get.back(),
-        ),
-        title: Text("Lọc sản phẩm",
-          style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-              color: Colors.white
-          ),
-        ),
-      ),
-      body: ListView(
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: const [
-              PriceItem(),
-               SizedBox(height: 20,),
-              CategoryItem(),
-               SizedBox(height: 20,),
-              BrandItem()
-
-
-
-            ],
-          )
-        ],
-      ),
-      bottomNavigationBar: BottomAppBar(
-        elevation: 0.0,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: SizedBox(
-              width: MediaQuery
-                  .of(context)
-                  .size
-                  .width * .5,
-              height: 50,
-              child: ElevatedButton(
-
-                  style: ElevatedButton.styleFrom(
-                      padding: EdgeInsets.symmetric(vertical: 10),
-                      backgroundColor: XColor.primary,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30)
-                      )
+    return Obx(() {
+      return DraggableScrollableSheet(
+        initialChildSize: logic.initialChildSize.value ?? 0,
+        minChildSize: 0.05,
+        maxChildSize: 1.0,
+        builder: (BuildContext context, ScrollController scrollController) {
+          return ClipRRect(
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(20),
+              topRight: Radius.circular(20),
+            ),
+            child: Scaffold(
+              backgroundColor: Colors.white,
+              appBar: AppBar(
+                elevation: 0.0,
+                foregroundColor: Colors.black,
+                backgroundColor: Colors.white,
+                centerTitle: false,
+                automaticallyImplyLeading: false,
+                title: Text("Lọc sản phẩm",
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: logic.initialChildSize.value==0.6?Colors.black:XColor.primary
                   ),
-                  onPressed: () async{
-                    final search = Get.put(SearchLogic());
-                    final allCategory = Get.put(AllProductByCategoryLogic());
-                    if(isCategory==true){
-                      Utils.loading(() async {
-                        await allCategory.getProductCategory(
-                            brand: logic.selectedBrandTypes,
-                            category: logic.selectedCategoryTypes,
-                            price: logic.selectedPriceRange
-                        );
-                        Get.back();
-                        Get.back();
-                      });
-                    }
-                    else{
-                      Utils.loading(()async{
+                ),
+                actions: [
+                  Visibility(
+                    visible: logic.initialChildSize.value==0.08,
+                    replacement: IconButton(
 
-                        await search.getSearch(
-                            keyword: logic.keyword.value,
-                            brand: logic.selectedBrandTypes,
-                            category: logic.selectedCategoryTypes,
-                            price: logic.selectedPriceRange
-                        );
-                        Get.back();
-                        Get.back();
-                      });
-                    }
-                  },
-                  child: Text("Áp dụng", style: TextStyle(
-                      color: Colors.white
-                  ),)
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        onPressed: () => logic.initialChildSize.value = 0.08,
+                        icon: Icon(Icons.keyboard_arrow_down, color: logic.initialChildSize.value==0.6?Colors.black:XColor.primary,size: 28,)
+                    ),
+                    child: IconButton(
+
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        onPressed: () => logic.initialChildSize.value = 0.6,
+                        icon: Icon(Icons.keyboard_arrow_up, color: XColor.primary,size: 28,)
+                    ),
+                  )
+                ],
+              ),
+              body: Visibility(
+                visible: logic.initialChildSize.value==0.6,
+                child: ListView(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children:  [
+                        const PriceItem(),
+                        const SizedBox(height: 20,),
+                        Visibility(
+                            visible: isCategory==false,
+                            child: const CategoryItem()),
+                        const SizedBox(height: 20,),
+                        const BrandItem(),
+                        const SizedBox(height: 20,),
+
+
+                      ],
+                    )
+                  ],
+                ),
+              ),
+              bottomNavigationBar: Visibility(
+                visible: logic.initialChildSize.value==0.6,
+                child: BottomAppBar(
+                  elevation: 1.0,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: SizedBox(
+                        width: MediaQuery
+                            .of(context)
+                            .size
+                            .width * .6,
+                        height: 50,
+                        child: ElevatedButton(
+
+                            style: ElevatedButton.styleFrom(
+                                padding: const EdgeInsets.symmetric(vertical: 10),
+                                backgroundColor: XColor.primary,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30)
+                                )
+                            ),
+                            onPressed: () async {
+                              final search = Get.put(SearchLogic());
+                              final allCategory = Get.put(
+                                  AllProductByCategoryLogic());
+                              if (isCategory == true) {
+                                Utils.loading(() async {
+                                  await allCategory.getProductCategory(
+                                      brand: logic.selectedBrandTypes,
+                                      category: logic.selectedCategoryTypes,
+                                      price: logic.selectedPriceRange
+                                  );
+
+                                  Get.back();
+                                  logic.initialChildSize.value=0.08;
+
+
+                                });
+                              }
+                              else {
+                                Utils.loading(() async {
+                                  await search.getSearch(
+                                      keyword: logic.keyword.value,
+                                      brand: logic.selectedBrandTypes,
+                                      category: logic.selectedCategoryTypes,
+                                      price: logic.selectedPriceRange
+                                  );
+                                  Get.back();
+                                  logic.initialChildSize.value=0.08;
+
+                                });
+                              }
+                            },
+                            child: const Text("Áp dụng", style: TextStyle(
+                                color: Colors.white
+                            ),)
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
               ),
             ),
-          ),
-        ),
-      ),
-    );
+          );
+        },
+
+      );
+    });
+    ;
   }
 }
 

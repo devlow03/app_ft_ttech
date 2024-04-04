@@ -1,5 +1,6 @@
 import 'package:app_ft_tmart/src/core/xcolor.dart';
 import 'package:app_ft_tmart/src/modules/filter/filter_view.dart';
+import 'package:app_ft_tmart/src/modules/index/index_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
@@ -33,7 +34,7 @@ class ListProductDetailPage extends StatelessWidget {
       child: Scaffold(
         key: key,
         appBar: AppBar(
-          // backgroundColor: Colors.white,
+          backgroundColor: Colors.white,
             automaticallyImplyLeading: false,
             // backgroundColor: Colors.grey.shade200,
             leading: IconButton(
@@ -41,14 +42,14 @@ class ListProductDetailPage extends StatelessWidget {
 
                 Get.back();
               },
-              icon: const Icon(Icons.arrow_back, color: Colors.white,),
+              icon: const Icon(Icons.arrow_back, color: Colors.black,),
 
             ),
             title: Text(keyword??logic.keyController.text,
               style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
-                  color: Colors.white
+                  color: Colors.black
               ),
             ),
             // centerTitle: true,
@@ -60,7 +61,7 @@ class ListProductDetailPage extends StatelessWidget {
                       const SearchPage());
                 },
                 icon:
-                const Icon(Icons.search,color: Colors.white,)
+                const Icon(Icons.search,color: Colors.black,)
                 ,
               ),
               Obx(() {
@@ -73,7 +74,7 @@ class ListProductDetailPage extends StatelessWidget {
                             const CartPage());
                       },
                       icon:
-                      const Icon(Icons.shopping_cart_outlined,color: Colors.white,)
+                      const Icon(Icons.shopping_cart_outlined,color: Colors.black,)
                       ,
                     ),
                     Visibility(
@@ -105,10 +106,8 @@ class ListProductDetailPage extends StatelessWidget {
                 );
               }),
               IconButton(
-                  onPressed: (){
-                    Get.to(FilterPage(),transition: Transition.rightToLeft);
-                  },
-                  icon: const Icon(Icons.tune,color: Colors.white,)
+                  onPressed: ()=>Get.offAll(IndexPage()),
+                  icon: const Icon(Icons.home_outlined,color: Colors.black,)
               )
 
             ]
@@ -116,116 +115,131 @@ class ListProductDetailPage extends StatelessWidget {
         // endDrawer: const Drawer(
         //   child: FilterPage(),
         // ),
-        body: Obx(() {
+        body: Stack(
+          children: [
+            Obx(() {
 
-          if(logic.getSearchRsp.value?.data?.isEmpty==true){
-            if((logic.getSearchRsp.value?.data?.length??0)<1){
-              return const Center(
-                child: Text("Sản phẩm không tồn tại",
-                  style: TextStyle(
-                      color: Colors.black
+              if(logic.getSearchRsp.value?.data?.isEmpty==true){
+                if((logic.getSearchRsp.value?.data?.length??0)<1){
+                  return const Center(
+                    child: Text("Sản phẩm không tồn tại",
+                      style: TextStyle(
+                          color: Colors.black
+                      ),
+                    ),
+                  );
+                }
+                else{
+                  return Center(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        CircularProgressIndicator(
+                          color: XColor.primary,
+                        ),
+                        const SizedBox(height: 5,),
+                        const Text("Đang tải")
+                      ],
+                    ),
+                  );
+                }
+
+
+
+              }
+              return Visibility(
+                replacement: LinearProgressIndicator(
+
+                  backgroundColor: Colors.white,
+                  valueColor: AlwaysStoppedAnimation<Color>(XColor.primary),
+                ),
+                visible: logic.getSearchRsp.value?.data!=null,
+                child: RefreshIndicator(
+                  onRefresh: ()async{
+                    logic.getSearch(
+                        keyword: logic.logic.keyword.value,
+                        brand: logic.logic.selectedCategoryTypes,
+                        category: logic.logic.selectedCategoryTypes,
+                        price: logic.logic.selectedPriceRange
+
+                    );
+                  },
+                  child: ListView(
+                    controller: logic.controller,
+                    children: [
+                      const SizedBox(height: 10,),
+                      Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            child: GridView.builder(
+                              shrinkWrap: true,
+                              itemCount: logic.getSearchRsp.value?.data?.length??0,
+                              physics:
+                              const NeverScrollableScrollPhysics(),
+                              itemBuilder: (context, ind) {
+                                logic.indexPage.value=ind;
+                                return InkWell(
+                                  onTap: () {
+                                    Get.to(ProductDetailPage(
+                                      id: logic.getSearchRsp.value?.data?[ind].id.toString(),
+
+                                    ));
+                                  },
+                                  child: GlobalProduct(
+                                    imageLink:logic.getSearchRsp.value?.data?[ind].thumpnailUrl,
+                                    defaultPrice: '${logic.getSearchRsp.value?.data?[ind].defaultPrice}',
+                                    // price:NumberFormat("###,###.# đ").format(snapshot.data?.products?[index].price),
+                                    price:
+                                    '${ logic.getSearchRsp.value?.data?[ind].price}',
+                                    nameProduct:
+                                    logic.getSearchRsp.value?.data?[ind].productName,
+                                    numStar: '5.0',
+                                  ),
+                                );
+
+                              },
+                              gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+
+                                crossAxisCount: 2,
+                                crossAxisSpacing: 5,
+                                mainAxisSpacing: 5,
+                                childAspectRatio: 3 / 5,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 30,),
+                          Visibility(
+                            visible: (logic.getSearchRsp.value?.meta?.perPage ?? 0) <
+                                (logic.getSearchRsp.value?.meta?.total ?? 0),
+                            replacement: const Center(),
+                            child: const Center(
+                                child: SpinKitCircle(size: 40,
+                                  color: Colors.grey,
+                                )
+                            ),
+                          ),
+                          const SizedBox(height: 80,),
+
+                          // TextButton(
+                          //     onPressed: (){
+                          //       print(">>>>>>>>>>>>>>>>>>>${logic.isLoading.value}");
+                          //     },
+                          //     child: Text('a')
+                          // )
+                        ],
+                      ),
+                    ],
                   ),
                 ),
               );
-            }
-            else{
-              return Center(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    CircularProgressIndicator(
-                      color: XColor.primary,
-                    ),
-                    const SizedBox(height: 5,),
-                    const Text("Đang tải")
-                  ],
-                ),
-              );
-            }
+            }),
+            FilterPage()
+          ],
+        )
 
-
-
-          }
-          return RefreshIndicator(
-            onRefresh: ()async{
-              logic.getSearch(
-                  keyword: logic.logic.keyword.value,
-                brand: logic.logic.selectedCategoryTypes,
-                category: logic.logic.selectedCategoryTypes,
-                price: logic.logic.selectedPriceRange
-
-              );
-            },
-            child: ListView(
-              controller: logic.controller,
-              children: [
-                const SizedBox(height: 10,),
-                Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: GridView.builder(
-                        shrinkWrap: true,
-                        itemCount: logic.getSearchRsp.value?.data?.length??0,
-                        physics:
-                        const NeverScrollableScrollPhysics(),
-                        itemBuilder: (context, ind) {
-                          logic.indexPage.value=ind;
-                          return InkWell(
-                            onTap: () {
-                              Get.to(ProductDetailPage(
-                                id: logic.getSearchRsp.value?.data?[ind].id.toString(),
-
-                              ));
-                            },
-                            child: GlobalProduct(
-                              imageLink:logic.getSearchRsp.value?.data?[ind].thumpnailUrl,
-                              defaultPrice: '${logic.getSearchRsp.value?.data?[ind].defaultPrice}',
-                              // price:NumberFormat("###,###.# đ").format(snapshot.data?.products?[index].price),
-                              price:
-                              '${ logic.getSearchRsp.value?.data?[ind].price}',
-                              nameProduct:
-                              logic.getSearchRsp.value?.data?[ind].productName,
-                              numStar: '5.0',
-                            ),
-                          );
-
-                        },
-                        gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 5,
-                          mainAxisSpacing: 5,
-                          childAspectRatio: 3 / 5,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 30,),
-                    Visibility(
-                      visible: (logic.getSearchRsp.value?.meta?.perPage ?? 0) <
-                          (logic.getSearchRsp.value?.meta?.total ?? 0),
-                      replacement: const Center(),
-                      child: const Center(
-                          child: SpinKitCircle(size: 40,
-                            color: Colors.grey,
-                          )
-                      ),
-                    ),
-                    const SizedBox(height: 30,),
-                    // TextButton(
-                    //     onPressed: (){
-                    //       print(">>>>>>>>>>>>>>>>>>>${logic.isLoading.value}");
-                    //     },
-                    //     child: Text('a')
-                    // )
-                  ],
-                ),
-              ],
-            ),
-          );
-        }),
       ),
     );
   }

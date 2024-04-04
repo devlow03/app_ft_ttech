@@ -22,7 +22,7 @@ class PriceItem extends StatelessWidget {
                 "Khoảng giá",
                 style: TextStyle(
                     fontSize: 16,
-                    color: XColor.greyGlobal,
+                    color: Colors.black,
                     fontWeight: FontWeight.bold),
               ),
               TextButton(
@@ -32,15 +32,15 @@ class PriceItem extends StatelessWidget {
                 child: const Text(
                   "Xóa hết",
                   style: TextStyle(
-                    fontSize: 12,
-                    color: XColor.greyGlobal,
+                    fontSize: 14,
+                    color: Colors.grey,
                   ),
                 ),
               ),
             ],
           ),
           const SizedBox(
-            height: 20,
+            height: 10,
           ),
           GridView.builder(
               shrinkWrap: true,
@@ -63,7 +63,7 @@ class PriceItem extends StatelessWidget {
                         color: logic.selectedPriceRange.contains(dataItem["id"])
                             ? const Color(0xff01CB69)
                             : Colors.grey.shade100,
-                        borderRadius: BorderRadius.circular(5)),
+                        borderRadius: BorderRadius.circular(8)),
                     child: Text(
                       dataItem["title"] ?? "",
                       style: TextStyle(

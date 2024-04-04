@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 
 class FilterLogic extends GetxController {
   final Services tMartServices = Get.find();
+  Rxn<double>initialChildSize = Rxn(0.08);
   Rxn<int>itemCount = Rxn();
   Rxn<String>keyword = Rxn();
   Rxn<GetCategoryRsp>getCategoryRsp = Rxn();
