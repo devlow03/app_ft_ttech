@@ -1,4 +1,5 @@
 import 'package:app_ft_tmart/src/modules/all_product_by_category/all_product_by_category_view.dart';
+import 'package:app_ft_tmart/src/modules/filter/filter_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
@@ -40,7 +41,7 @@ class CategoryPage extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
+                    const Text(
                       'Danh mục',
                       style: TextStyle(
                           color: Colors.black,
@@ -48,7 +49,7 @@ class CategoryPage extends StatelessWidget {
                           fontWeight: FontWeight.bold),
                     ),
                     GestureDetector(
-                      onTap: () =>
+                      onTap: (){
                           Get.to(AllProductByCategoryPage(
                             id: logic.getCategoryRsp
                                 .value?.data?[logic.indexCat.value ?? 0]
@@ -56,7 +57,9 @@ class CategoryPage extends StatelessWidget {
                             categoryName: logic.getCategoryRsp
                                 .value?.data?[logic.indexCat.value ?? 0]
                                 .name ?? "",
-                          )),
+                          ));
+                        // Get.to(FilterPage());
+                      },
                       child: Text(
                         'Xem thêm',
                         style: TextStyle(

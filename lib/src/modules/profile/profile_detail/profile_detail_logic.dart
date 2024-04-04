@@ -22,7 +22,7 @@ class ProfileDetailLogic extends GetxController{
   TextEditingController userNameController  = TextEditingController();
    final pickImage = Get.put(PickImageLogic());
    Rxn<String>networkImage = Rxn();
-   Rxn<bool?>readOnly = Rxn(true);
+   Rxn<bool?>readOnly = Rxn(false);
    final GlobalKey<FormState> formKey = GlobalKey<FormState>();
    
 
@@ -37,6 +37,14 @@ class ProfileDetailLogic extends GetxController{
 
   }
 
+
+  @override
+  void dispose()async{
+    super.dispose();
+    await logicProfile.getUserProfile();
+    setProfile();
+  }
+
   void setProfile(){
     final data = logicProfile.getUserProfileRsp.value?.data;
     idController.text = "KH${data?.id}";
@@ -45,7 +53,7 @@ class ProfileDetailLogic extends GetxController{
     emailController.text = data?.email??"";
     birthdayController.text = data?.birthday??"";
     userNameController.text = data?.username??"";
-    print(">>>>>>>>>>>>>>>>${data?.fullName??""}");
+
     // readOnly.value = true;
 
     
@@ -108,7 +116,7 @@ class ProfileDetailLogic extends GetxController{
           email: emailController.text
         )
       );
-      readOnly.value = true;
+
       await logicProfile.getUserProfile();
       Get.back();
       Fluttertoast.showToast(msg: "Cập nhật thông tin thành công");

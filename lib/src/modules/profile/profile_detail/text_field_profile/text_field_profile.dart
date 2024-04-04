@@ -1,5 +1,6 @@
 import 'dart:ffi';
 
+import 'package:app_ft_tmart/src/core/xcolor.dart';
 import 'package:app_ft_tmart/src/modules/profile/profile_detail/profile_detail_logic.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -32,48 +33,28 @@ class TextFieldProfile extends StatelessWidget {
                       const SizedBox(
                         height: 5,
                       ),
-          Container(
-            decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.1),
-                    spreadRadius: 5,
-                    blurRadius: 2,
-                    offset: Offset(0, 3), // changes position of shadow
-                  ),
-                ],
-                borderRadius: BorderRadius.circular(10),
-                color: Colors.white
-            ),
-            child: TextFormField(
-              onTap: onTap,
-              maxLines: 1,
-              readOnly: readOnly!,
-              validator: validator,
-              controller: controller,
-              decoration: InputDecoration(
-                hintText: hintText,
-                hintStyle: TextStyle(color: Colors.grey, fontWeight: FontWeight.w300),
-                contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                filled: true,
-                fillColor: Colors.white,
-                suffix: suffix,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  borderSide: BorderSide(color: Colors.grey.shade200),
+          TextFormField(
+            onTap: onTap,
+            maxLines: 1,
+            readOnly: readOnly!,
+            validator: validator,
+            controller: controller,
+            decoration: InputDecoration(
+              hintText: hintText,
+              hintStyle: TextStyle(color: Colors.grey, fontWeight: FontWeight.w300),
 
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  borderSide: BorderSide(color: Colors.grey.shade200),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  borderSide: BorderSide(color: Colors.grey.shade200),
-                ),
+              filled: true,
+              fillColor: Colors.white,
+              suffix: suffix,
+                enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: XColor.primary)),
+                border:UnderlineInputBorder(
+                    borderSide: BorderSide(color: XColor.primary)),
+                focusedBorder:UnderlineInputBorder(
+                    borderSide: BorderSide(color: XColor.primary)),
               ),
             ),
-          ),
+
         ],
       ),
     );

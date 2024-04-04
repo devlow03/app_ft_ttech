@@ -1,14 +1,12 @@
-import 'package:app_ft_tmart/src/modules/search/list_product/filter/filter_brand/filter_brand.dart';
-import 'package:app_ft_tmart/src/modules/search/list_product/filter/filter_category/filter_category.dart';
+import 'package:app_ft_tmart/src/data/repositories/get_brand_rsp.dart';
+import 'package:app_ft_tmart/src/data/repositories/get_category_rsp.dart';
+import 'package:app_ft_tmart/src/data/services/service.dart';
 import 'package:get/get.dart';
-
-import '../../../../data/repositories/get_brand_rsp.dart';
-import '../../../../data/repositories/get_category_rsp.dart';
-import '../../../../data/services/service.dart';
-import 'filter_price/filter_price.dart';
 
 class FilterLogic extends GetxController {
   final Services tMartServices = Get.find();
+  Rxn<int>itemCount = Rxn();
+  Rxn<String>keyword = Rxn();
   Rxn<GetCategoryRsp>getCategoryRsp = Rxn();
   Rxn<GetBrandRsp>getBrandRsp = Rxn();
   final RxList<String> selectedCategoryTypes = <String>[].obs;
@@ -41,19 +39,19 @@ class FilterLogic extends GetxController {
     }
   ];
 
-  List<Map<String,dynamic>>filterComponent = [
-    {
-
-      "widget":const FilterPrice()
-    },
-    {
-
-      "widget":const FilterCategory()
-    },
-    {
-      "widget":const FilterBrand()
-    }
-  ];
+  // List<Map<String,dynamic>>filterComponent = [
+  //   {
+  //
+  //     "widget":const FilterPrice()
+  //   },
+  //   {
+  //
+  //     "widget":const FilterCategory()
+  //   },
+  //   {
+  //     "widget":const FilterBrand()
+  //   }
+  // ];
 
 
   final RxList<String> selectedPriceRange = <String>[].obs;

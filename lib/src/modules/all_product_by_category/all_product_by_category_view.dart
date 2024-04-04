@@ -1,5 +1,5 @@
 
-import 'package:app_ft_tmart/src/modules/all_product_by_category/filter/filter_view.dart';
+import 'package:app_ft_tmart/src/modules/filter/filter_view.dart';
 import 'package:app_ft_tmart/src/modules/product_detail/product_detail_view.dart';
 import 'package:app_ft_tmart/src/modules/search/search_view.dart';
 import 'package:flutter/material.dart';
@@ -39,11 +39,11 @@ class AllProductByCategoryPage extends StatelessWidget {
 
               Get.back();
             },
-            icon: Icon(Icons.arrow_back, color: Colors.white,),
+            icon: const Icon(Icons.arrow_back, color: Colors.white,),
 
           ),
           title: Text(categoryName??"",
-            style: TextStyle(
+            style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
                 color: Colors.white
@@ -55,10 +55,10 @@ class AllProductByCategoryPage extends StatelessWidget {
             IconButton(
               onPressed: () {
                 Get.to(
-                    SearchPage());
+                    const SearchPage());
               },
               icon:
-              Icon(Icons.search,color: Colors.white,)
+              const Icon(Icons.search,color: Colors.white,)
               ,
             ),
             Obx(() {
@@ -68,10 +68,10 @@ class AllProductByCategoryPage extends StatelessWidget {
                   IconButton(
                     onPressed: () {
                       Get.to(
-                          CartPage());
+                          const CartPage());
                     },
                     icon:
-                    Icon(Icons.shopping_cart_outlined,color: Colors.white,)
+                    const Icon(Icons.shopping_cart_outlined,color: Colors.white,)
                     ,
                   ),
                   Visibility(
@@ -91,7 +91,7 @@ class AllProductByCategoryPage extends StatelessWidget {
                             "${logicCart.getCartRsp.value?.data
                                 ?.cartDetails
                                 ?.length}",
-                            style: TextStyle(
+                            style: const TextStyle(
                                 color: Colors.white
                             ),
                           ),
@@ -104,21 +104,19 @@ class AllProductByCategoryPage extends StatelessWidget {
             }),
             IconButton(
                 onPressed: (){
-                  key.currentState?.openEndDrawer();
+                  Get.to(FilterPage(isCategory: true,),transition: Transition.rightToLeft);
                 },
-                icon: Icon(Icons.tune,color: Colors.white,)
+                icon: const Icon(Icons.tune,color: Colors.white,)
             )
 
           ]
       ),
-      endDrawer: const Drawer(
-        child: FilterPage(),
-      ),
+
       body: Obx(() {
 
         if(logic.getProductByCategory.value?.data?.isEmpty==true){
 
-          return Center(
+          return const Center(
             child: Text("Sản phẩm không tồn tại",
               style: TextStyle(
                   color: Colors.black
@@ -130,7 +128,7 @@ class AllProductByCategoryPage extends StatelessWidget {
 
         }
         return Visibility(
-          replacement: LinearProgressIndicator(
+          replacement: const LinearProgressIndicator(
 
             backgroundColor: Colors.white,
             valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
@@ -185,8 +183,8 @@ class AllProductByCategoryPage extends StatelessWidget {
                   Visibility(
                     visible: (logic.getProductByCategory.value?.meta?.perPage ?? 0) <
                         (logic.getProductByCategory.value?.meta?.total ?? 0),
-                    replacement: Center(),
-                    child: Center(
+                    replacement: const Center(),
+                    child: const Center(
                         child: SpinKitCircle(size: 40,
                           color: Colors.grey,
                         )

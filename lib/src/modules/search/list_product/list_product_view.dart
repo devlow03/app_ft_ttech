@@ -1,6 +1,5 @@
 import 'package:app_ft_tmart/src/core/xcolor.dart';
-import 'package:app_ft_tmart/src/modules/search/list_product/filter/filter_logic.dart';
-import 'package:app_ft_tmart/src/modules/search/list_product/filter/filter_view.dart';
+import 'package:app_ft_tmart/src/modules/filter/filter_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
@@ -23,7 +22,7 @@ class ListProductDetailPage extends StatelessWidget {
 
     final logicCart = Get.put(CartLogic());
     final logic = Get.put(SearchLogic());
-    final logicFilter = Get.put(FilterLogic());
+
     final GlobalKey<ScaffoldState> key = GlobalKey<ScaffoldState>();
     // logic.getSearch(name: name??"");
 
@@ -107,16 +106,16 @@ class ListProductDetailPage extends StatelessWidget {
               }),
               IconButton(
                   onPressed: (){
-                    key.currentState?.openEndDrawer();
+                    Get.to(FilterPage(),transition: Transition.rightToLeft);
                   },
                   icon: const Icon(Icons.tune,color: Colors.white,)
               )
 
             ]
         ),
-        endDrawer: const Drawer(
-          child: FilterPage(),
-        ),
+        // endDrawer: const Drawer(
+        //   child: FilterPage(),
+        // ),
         body: Obx(() {
 
           if(logic.getSearchRsp.value?.data?.isEmpty==true){
@@ -150,7 +149,13 @@ class ListProductDetailPage extends StatelessWidget {
           }
           return RefreshIndicator(
             onRefresh: ()async{
-              logic.getSearch();
+              logic.getSearch(
+                  keyword: logic.logic.keyword.value,
+                brand: logic.logic.selectedCategoryTypes,
+                category: logic.logic.selectedCategoryTypes,
+                price: logic.logic.selectedPriceRange
+
+              );
             },
             child: ListView(
               controller: logic.controller,

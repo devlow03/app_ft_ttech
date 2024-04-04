@@ -5,7 +5,7 @@ class XColor {
   // static const Color _primary = Color(0xff007BFF);
   //blue
   static const Color _primary = Color(0xff19C463);
-
+  static const Color greyGlobal = Color(0xffADADAD);
   // static const Color _primary = Color(0xff00483D); //yellow
   static const Color container = Colors.white;
   // static const Color _primary = Color(0xffBE1E2D);

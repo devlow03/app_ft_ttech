@@ -15,11 +15,12 @@ import 'order_history/order_history_view.dart';
 import 'profile_logic.dart';
 
 class ProfilePage extends StatelessWidget {
-  const ProfilePage({Key? key}) : super(key: key);
+   ProfilePage({Key? key}) : super(key: key);
+  final logic = Get.put(ProfileLogic());
 
   @override
   Widget build(BuildContext context) {
-    final logic = Get.put(ProfileLogic());
+
     final logicSignin = Get.put(SignInLogic());
     final logicProfile = Get.put(ProfileDetailLogic());
 

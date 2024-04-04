@@ -80,7 +80,7 @@ class IndexPage extends StatelessWidget {
         'icon': const Icon(Icons.account_circle_outlined),
         'active': const Icon(Icons.account_circle),
         'label': 'Tài khoản',
-        'screen': const ProfilePage(),
+        'screen':  ProfilePage(),
       },
 
     ];

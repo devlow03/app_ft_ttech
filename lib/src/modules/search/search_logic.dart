@@ -1,4 +1,5 @@
 import 'package:app_ft_tmart/src/data/repositories/get_search_suggestion.dart';
+import 'package:app_ft_tmart/src/modules/filter/filter_logic.dart';
 import 'package:curl_logger_dio_interceptor/curl_logger_dio_interceptor.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +10,7 @@ import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import '../../data/repositories/get_product_rq_query.dart';
 import '../../data/repositories/get_product_rsp.dart';
 import '../../data/services/service.dart';
-import 'list_product/filter/filter_logic.dart';
+
 
 class SearchLogic extends GetxController {
   final Services tMartServices = Get.find();
@@ -40,7 +41,7 @@ class SearchLogic extends GetxController {
 
   Future<GetProductRsp?> getSearch(
       {
-        String? name,
+        String? keyword,
         List<String>? category,
         List<String>? brand,
         List<String>? price}) async {
@@ -51,7 +52,7 @@ class SearchLogic extends GetxController {
           query: GetProductRqQuery(
               categoryId: (category?.length ?? 0) != 0 ? category : null,
               perPage: page.value.toString(),
-              productName: name??keyController.text,
+              productName: keyword??keyController.text,
               manufacturerId: (brand?.length ?? 0) != 0 ? brand : null,
               price: (price?.length ?? 0) != 0 ? price : null));
 

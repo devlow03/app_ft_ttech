@@ -150,7 +150,7 @@ class _Services implements Services {
     )
             .compose(
               _dio.options,
-              'api/auth/get_manufacturers',
+              'api/auth/get_manufacturers?perPage=23',
               queryParameters: queryParameters,
               data: _data,
             )

@@ -19,7 +19,9 @@ class ProfileDetailPage extends StatelessWidget {
     // logic.logicProfile.getUserProfile();
     return WillPopScope(
       onWillPop: ()async{
-        logic.readOnly.value = true;
+
+        logic.logicProfile.getUserProfile();
+        logic.setProfile();
         return true;
       },
       child: Scaffold(
@@ -30,25 +32,25 @@ class ProfileDetailPage extends StatelessWidget {
           backgroundColor: Colors.white,
           automaticallyImplyLeading: true,
           title: const Text(
-            'Tài khoản',
+            'Thông tin của bạn',
             style: TextStyle(
                 fontSize: 18, fontWeight: FontWeight.w700, color: Colors.black),
           ),
-          actions: [
-            Obx(() => Visibility(
-                  visible: logic.readOnly.value == true,
-                  replacement: IconButton(
-                      onPressed: () {
-                        logic.readOnly.value = true;
-                      },
-                      icon: const Icon(Icons.edit_off)),
-                  child: IconButton(
-                      onPressed: () {
-                        logic.readOnly.value = false;
-                      },
-                      icon: const Icon(Icons.edit)),
-                ))
-          ],
+          // actions: [
+          //   Obx(() => Visibility(
+          //         visible: logic.readOnly.value == true,
+          //         replacement: IconButton(
+          //             onPressed: () {
+          //               logic.readOnly.value = true;
+          //             },
+          //             icon: const Icon(Icons.edit_off)),
+          //         child: IconButton(
+          //             onPressed: () {
+          //               logic.readOnly.value = false;
+          //             },
+          //             icon: const Icon(Icons.edit)),
+          //       ))
+          // ],
         ),
         body: RefreshIndicator(
           onRefresh: ()async{
@@ -57,65 +59,71 @@ class ProfileDetailPage extends StatelessWidget {
           child: ListView(
             children: [
               const SizedBox(height: 20,),
+              Column(
+                children: [
+                  CircleAvatar(
+                    radius: 50,
+                    backgroundImage: logic.pickImage.image.value != null
+                        ? FileImage(
+                      logic.pickImage.image.value!,
+                    ) as ImageProvider
+                        : NetworkImage(
+                      logic.networkImage.value ?? "",
+                    ),
+                    child: IconButton(
+                        onPressed: () {
+                          logic.postUpdateAvatar();
+                        },
+                        icon: const Icon(
+                          Icons.camera_alt,
+                          size: 30,
+                          color: Colors.white,
+                        )),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 30,
+              ),
               Obx(() => Form(
                 key: logic.formKey,
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        CircleAvatar(
-                          radius: 50,
-                          backgroundImage: logic.pickImage.image.value != null
-                              ? FileImage(
-                                  logic.pickImage.image.value!,
-                                ) as ImageProvider
-                              : NetworkImage(
-                                  logic.networkImage.value ?? "",
-                                ),
-                          child: IconButton(
-                              onPressed: () {
-                                logic.postUpdateAvatar();
-                              },
-                              icon: const Icon(
-                                Icons.camera_alt,
-                                size: 30,
-                                color: Colors.white,
-                              )),
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        TextFieldProfile(
-                          title: "ID",
-                          controller: logic.idController,
-                          readOnly: true,
-                        ),
+
+                        // TextFieldProfile(
+                        //   title: "ID",
+                        //   controller: logic.idController,
+                        //   readOnly: true,
+                        // ),
                         // TextFieldProfile(
                         //   title: "Tên Người dùng",
                         //   controller: logic.userNameController,
                         //   readOnly: true,
                         // ),
                         TextFieldProfile(
+                          hintText: "Vui lòng nhập họ tên",
                           title: "Họ tên",
                           controller: logic.fullNameController,
                           readOnly: logic.readOnly.value,
                           validator: Validator.fullname,
                         ),
                         TextFieldProfile(
+                          hintText: 'Vui lòng chọn ngày sinh',
                           title: "Ngày sinh",
                           controller: logic.birthdayController,
                            readOnly: true,
                            validator: Validator.birthday,
-                           suffix: Visibility(
-                            visible: logic.readOnly.value == false,
-                             child: InkWell(
-                              onTap: (){
-                                logic.selectDate(context);
-                              },
-                              child: const Icon(Icons.date_range,size: 20,),
-                             ),
+                           suffix: InkWell(
+                            onTap: (){
+                              logic.selectDate(context);
+                            },
+                            child: const Icon(Icons.date_range,size: 20,),
                            ),
-                          
+
                         ),
                         TextFieldProfile(
+                          hintText: "Vui lòng nhập số điện thoại",
                           title: "Điện thoại",
                           controller: logic.phoneController,
                            readOnly: logic.readOnly.value,
@@ -131,27 +139,24 @@ class ProfileDetailPage extends StatelessWidget {
                         const SizedBox(height: 5,),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Visibility(
-                            visible: logic.readOnly.value == false,
-                            child: SizedBox(
-                              height: 50,
-                              width: MediaQuery.of(context).size.width * .8,
-                              child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(30))),
-                                  onPressed: ()async{
-                                    if(logic.formKey.currentState?.validate()==true){
-                                      await logic.putUpdateUser();
-                                    }
-                                  },
-                                  child: const Padding(
-                                    padding: EdgeInsets.all(15),
-                                    child: Text("Cập nhật",style: TextStyle(
-                                      color: Colors.white
-                                    ),),
-                                  )),
-                            ),
+                          child: SizedBox(
+                            height: 50,
+                            width: MediaQuery.of(context).size.width * .35,
+                            child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(30))),
+                                onPressed: ()async{
+                                  if(logic.formKey.currentState?.validate()==true){
+                                    await logic.putUpdateUser();
+                                  }
+                                },
+                                child: const Padding(
+                                  padding: EdgeInsets.all(15),
+                                  child: Text("Cập nhật",style: TextStyle(
+                                    color: Colors.white
+                                  ),),
+                                )),
                           ),
                         )
                       ],

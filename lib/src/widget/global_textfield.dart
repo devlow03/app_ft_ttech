@@ -144,7 +144,8 @@ class _GlobalTextFieldState extends State<GlobalTextField> {
               border: const UnderlineInputBorder(
                   borderSide: BorderSide(color: Color(0xffADADAD))),
               focusedBorder: const UnderlineInputBorder(
-                  borderSide: BorderSide(color: Color(0xffADADAD)))),
+                  borderSide: BorderSide(color: Color(0xffADADAD)))
+          ),
           enabled: widget.enabled,
           maxLines: widget.maxLines,
           minLines: widget.minLines,

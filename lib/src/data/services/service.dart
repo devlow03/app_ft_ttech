@@ -66,7 +66,7 @@ abstract class Services {
   Future<GetProductRsp> getProductByIdCategoryRsp(
       {@Path('categoryId') required int categoryId});
 
-  @GET("api/auth/get_manufacturers")
+  @GET("api/auth/get_manufacturers?perPage=23")
   Future<GetBrandRsp>getBrandRsp();
 
   @GET("api/normal/set_session")

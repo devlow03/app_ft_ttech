@@ -1,5 +1,6 @@
 import 'package:app_ft_tmart/src/data/services/service.dart';
-import 'package:app_ft_tmart/src/modules/all_product_by_category/filter/filter_logic.dart';
+import 'package:app_ft_tmart/src/modules/filter/filter_logic.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -9,7 +10,7 @@ import '../../data/repositories/get_product_rsp.dart';
 
 class AllProductByCategoryLogic extends GetxController {
   final Services tMartServices = Get.find();
-  final logic = Get.put(FilterAllLogic());
+  final logic = Get.put(FilterLogic());
   Rxn<GetProductRsp> getProductByCategory = Rxn();
   Rx<int> page = Rx(6);
   Rxn<bool> isLoading = Rxn(false);

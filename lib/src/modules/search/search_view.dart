@@ -69,7 +69,8 @@ class SearchPage extends StatelessWidget {
                 itemBuilder: (context, index) {
                   return ListTile(
                     onTap: ()async{
-                       logic.getSearch(name: logic.getSearchSuggestionRsp.value?.data?[index].keyword);
+                      logic.logic.keyword.value = logic.getSearchSuggestionRsp.value?.data?[index].keyword;
+                       logic.getSearch(keyword: logic.getSearchSuggestionRsp.value?.data?[index].keyword);
                       Get.to( ListProductDetailPage(keyword: logic.getSearchSuggestionRsp.value?.data?[index].keyword,));
                     },
                     leading: const Icon(Icons.search),
