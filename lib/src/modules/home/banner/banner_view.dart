@@ -34,7 +34,7 @@ class BannerPage extends StatelessWidget {
                 ),
                 Center(
                   child: Container(
-                    margin:  const EdgeInsets.symmetric(vertical: 20,horizontal: 15),
+                    margin:  const EdgeInsets.symmetric(vertical: 20,horizontal: 10),
                     width: MediaQuery.of(context).size.width,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(15),
@@ -79,7 +79,7 @@ class BannerPage extends StatelessWidget {
                             ?.length ??
                             0,
                         options: CarouselOptions(
-                            aspectRatio: 25 / 12,
+                            aspectRatio: 25 / 10,
                             autoPlay: true,
                             autoPlayInterval: const Duration(seconds: 7),
                             viewportFraction: 1,

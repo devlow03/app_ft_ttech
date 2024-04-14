@@ -63,8 +63,9 @@ class ProductDetailLogic extends GetxController {
     if(id!=''){
     getProductByIdRsp.value = null;
     getProductByIdRsp.value = await tMartServices.getProductByIdRsp(id: id);
-    }
     getProductByIdRsp.refresh();
+    }
+
     return getProductByIdRsp.value;
     
   }

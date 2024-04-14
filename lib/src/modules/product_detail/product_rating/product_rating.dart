@@ -21,7 +21,7 @@ class ProductRating extends StatelessWidget {
             itemCount: itemCount??5,
             itemBuilder: (context, index) => const Icon(
               Icons.star,
-              color: Colors.orange,
+              color: Colors.amberAccent,
               size: 20,
             ),
             separatorBuilder: (context, index) => const SizedBox(

@@ -21,6 +21,7 @@ class FilterPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    logic.isCategory.value = isCategory??false;
     return Obx(() {
       return DraggableScrollableSheet(
         initialChildSize: logic.initialChildSize.value ?? 0,
@@ -44,40 +45,48 @@ class FilterPage extends StatelessWidget {
                   style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color: logic.initialChildSize.value==0.6?Colors.black:XColor.primary
+                      color: logic.initialChildSize.value == 0.6
+                          ? Colors.black
+                          : XColor.primary
                   ),
                 ),
                 actions: [
                   Visibility(
-                    visible: logic.initialChildSize.value==0.08,
+                    visible: logic.initialChildSize.value == 0.08,
                     replacement: IconButton(
 
                         padding: const EdgeInsets.symmetric(horizontal: 20),
                         onPressed: () => logic.initialChildSize.value = 0.08,
-                        icon: Icon(Icons.keyboard_arrow_down, color: logic.initialChildSize.value==0.6?Colors.black:XColor.primary,size: 28,)
+                        icon: Icon(Icons.keyboard_arrow_down, color: logic
+                            .initialChildSize.value == 0.6
+                            ? Colors.black
+                            : XColor.primary, size: 28,)
                     ),
                     child: IconButton(
 
                         padding: const EdgeInsets.symmetric(horizontal: 20),
                         onPressed: () => logic.initialChildSize.value = 0.6,
-                        icon: Icon(Icons.keyboard_arrow_up, color: XColor.primary,size: 28,)
+                        icon: Icon(Icons.keyboard_arrow_up, color: XColor
+                            .primary, size: 28,)
                     ),
                   )
                 ],
               ),
               body: Visibility(
-                visible: logic.initialChildSize.value==0.6,
+                visible: logic.initialChildSize.value == 0.6,
                 child: ListView(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   children: [
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children:  [
+                      children: [
                         const PriceItem(),
                         const SizedBox(height: 20,),
-                        Visibility(
-                            visible: isCategory==false,
-                            child: const CategoryItem()),
+                        Obx(() {
+                          return Visibility(
+                              visible: logic.isCategory.isFalse,
+                              child: const CategoryItem());
+                        }),
                         const SizedBox(height: 20,),
                         const BrandItem(),
                         const SizedBox(height: 20,),
@@ -89,7 +98,7 @@ class FilterPage extends StatelessWidget {
                 ),
               ),
               bottomNavigationBar: Visibility(
-                visible: logic.initialChildSize.value==0.6,
+                visible: logic.initialChildSize.value == 0.6,
                 child: BottomAppBar(
                   elevation: 1.0,
                   child: Padding(
@@ -105,7 +114,8 @@ class FilterPage extends StatelessWidget {
                         child: ElevatedButton(
 
                             style: ElevatedButton.styleFrom(
-                                padding: const EdgeInsets.symmetric(vertical: 10),
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 10),
                                 backgroundColor: XColor.primary,
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(30)
@@ -124,9 +134,7 @@ class FilterPage extends StatelessWidget {
                                   );
 
                                   Get.back();
-                                  logic.initialChildSize.value=0.08;
-
-
+                                  logic.initialChildSize.value = 0.08;
                                 });
                               }
                               else {
@@ -138,8 +146,7 @@ class FilterPage extends StatelessWidget {
                                       price: logic.selectedPriceRange
                                   );
                                   Get.back();
-                                  logic.initialChildSize.value=0.08;
-
+                                  logic.initialChildSize.value = 0.08;
                                 });
                               }
                             },

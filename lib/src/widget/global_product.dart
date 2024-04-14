@@ -160,7 +160,7 @@ class _GlobalProductState extends State<GlobalProduct> {
               // mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Text(NumberFormat.simpleCurrency(locale: 'vi').format(int.parse(widget.price.toString())),
-                  style:  TextStyle(fontSize: 16,color: Colors.redAccent,fontWeight: FontWeight.w600),)
+                  style:  TextStyle(fontSize: 16,color: Color(0xffD92A1C),fontWeight: FontWeight.w400),)
               ],
             ),
           )

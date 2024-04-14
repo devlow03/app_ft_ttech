@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 
 class FilterLogic extends GetxController {
   final Services tMartServices = Get.find();
+  RxBool isCategory = RxBool(false);
   Rxn<double>initialChildSize = Rxn(0.08);
   Rxn<int>itemCount = Rxn();
   Rxn<String>keyword = Rxn();
@@ -20,19 +21,19 @@ class FilterLogic extends GetxController {
     },
     {
       "id": "2-4",
-      "title": "Từ 2 - 4 triệu",
+      "title": "2 - 4 triệu",
     },
     {
       "id": "4-7",
-      "title": "Từ 4 - 7 triệu",
+      "title": "4 - 7 triệu",
     },
     {
       "id": "7-13",
-      "title": "Từ 7 - 13 triệu",
+      "title": "7 - 13 triệu",
     },
     {
       "id": "13-20",
-      "title": "Từ 13 - 20 triệu",
+      "title": "13 - 20 triệu",
     },
     {
       "id": "20",

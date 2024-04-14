@@ -1,6 +1,6 @@
 
 import 'dart:io';
-
+import 'package:flutter/foundation.dart';
 import 'package:app_ft_tmart/src/core/global_data.dart';
 import 'package:app_ft_tmart/src/data/services/service.dart';
 import 'package:app_ft_tmart/src/modules/authentication/sign_in/sign_in_view.dart';
@@ -30,17 +30,19 @@ class DependencyInjections implements GET.Bindings {
 
   Future<Dio> _dio(EncryptedSharedPreferences encryptedSharedPreferences) async {
     var dio = Dio();
-    dio.interceptors.add(CurlLoggerDioInterceptor(
-      printOnSuccess: true
-    ));
-    dio.interceptors.add(PrettyDioLogger(
-        requestHeader: true,
-        requestBody: true,
-        responseBody: true,
-        responseHeader: false,
-        error: true,
-        compact: true,
-        maxWidth: 90));
+    if(kDebugMode){
+      dio.interceptors.add(CurlLoggerDioInterceptor(
+          printOnSuccess: true
+      ));
+      dio.interceptors.add(PrettyDioLogger(
+          requestHeader: true,
+          requestBody: true,
+          responseBody: true,
+          responseHeader: false,
+          error: true,
+          compact: true,
+          maxWidth: 90));
+    }
 
 
       dio.interceptors.add(InterceptorsWrapper(

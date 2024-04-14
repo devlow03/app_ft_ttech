@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:app_ft_tmart/src/core/xcolor.dart';
 import 'package:app_ft_tmart/src/modules/profile/profile_detail/profile_detail_logic.dart';
 import 'package:flutter/material.dart';

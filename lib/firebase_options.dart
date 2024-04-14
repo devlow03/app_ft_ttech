@@ -44,38 +44,38 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyCruy7I-UMvTqZQHs42agWh-6GSUpGf974',
-    appId: '1:117161893776:web:518d6c4cd969db99171d15',
-    messagingSenderId: '117161893776',
-    projectId: 'appfttmart-3c6e3',
-    authDomain: 'appfttmart-3c6e3.firebaseapp.com',
-    storageBucket: 'appfttmart-3c6e3.appspot.com',
-    measurementId: 'G-DB47TVZ67Y',
+    apiKey: 'AIzaSyBlt2MAcBj30uVc9-s4-trVtc22ea9kq84',
+    appId: '1:832314608375:web:d7bf90071124ce3d1aa1f2',
+    messagingSenderId: '832314608375',
+    projectId: 'tmart-119c0',
+    authDomain: 'tmart-119c0.firebaseapp.com',
+    storageBucket: 'tmart-119c0.appspot.com',
+    measurementId: 'G-Q24RV139EJ',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCoK31BiMdLQekQFCxh_L2YSUNqGVC1MmY',
-    appId: '1:117161893776:android:ce2f1df2bc8cf095171d15',
-    messagingSenderId: '117161893776',
-    projectId: 'appfttmart-3c6e3',
-    storageBucket: 'appfttmart-3c6e3.appspot.com',
+    apiKey: 'AIzaSyAG7vwRPAmpo_6JFWqGsgJiV0w8rt_XFMY',
+    appId: '1:832314608375:android:407997c1289de2621aa1f2',
+    messagingSenderId: '832314608375',
+    projectId: 'tmart-119c0',
+    storageBucket: 'tmart-119c0.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCLRvYlSOoHgpk1Z4lIk8TXGS-dkiL3r2s',
-    appId: '1:117161893776:ios:8111ca13f58b5f08171d15',
-    messagingSenderId: '117161893776',
-    projectId: 'appfttmart-3c6e3',
-    storageBucket: 'appfttmart-3c6e3.appspot.com',
+    apiKey: 'AIzaSyBSlGIHodnTyt54SDZVx7IJkjz38zk3gCY',
+    appId: '1:832314608375:ios:e4d8b78c6f9aa8501aa1f2',
+    messagingSenderId: '832314608375',
+    projectId: 'tmart-119c0',
+    storageBucket: 'tmart-119c0.appspot.com',
     iosBundleId: 'com.example.appFtTmart',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyCLRvYlSOoHgpk1Z4lIk8TXGS-dkiL3r2s',
-    appId: '1:117161893776:ios:8a0ce835341fafcd171d15',
-    messagingSenderId: '117161893776',
-    projectId: 'appfttmart-3c6e3',
-    storageBucket: 'appfttmart-3c6e3.appspot.com',
+    apiKey: 'AIzaSyBSlGIHodnTyt54SDZVx7IJkjz38zk3gCY',
+    appId: '1:832314608375:ios:0a7ec4dbb505d4661aa1f2',
+    messagingSenderId: '832314608375',
+    projectId: 'tmart-119c0',
+    storageBucket: 'tmart-119c0.appspot.com',
     iosBundleId: 'com.example.appFtTmart.RunnerTests',
   );
 }

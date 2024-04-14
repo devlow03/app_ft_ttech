@@ -69,14 +69,14 @@ abstract class Services {
   @GET("api/auth/get_manufacturers?perPage=23")
   Future<GetBrandRsp>getBrandRsp();
 
-  @GET("api/normal/set_session")
-  Future<GetSessionRsp> getSessionRsp();
+  // @GET("api/normal/set_session")
+  // Future<GetSessionRsp> getSessionRsp();
 
   @POST("api/normal/add_to_cart")
   Future postAddCart({@Body() required PostCartRqst body});
 
-  @GET("api/normal/get_cart?guest_session={session}")
-  Future<GetCartRsp> getCartRsp({@Path('session') required String session});
+  @GET("api/normal/get_cart")
+  Future<GetCartRsp> getCartRsp();
 
   @PUT("api/normal/update_cart_detail/{id_cart}")
   Future postUpdateCartDetailRsp(

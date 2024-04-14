@@ -29,7 +29,7 @@ class HomeLogic extends GetxController {
   // Rx<Map<int, GetProductRsp>> getProductByIdCategoryRsp = Rx({});
   Rxn< GetProductRsp> getProductByCategoryRsp = Rxn();
   Rxn<GetCategoryRsp>getCategoryRsp = Rxn();
-  Rx<int>idCategory = Rx(4);
+  Rx<int>idCategory = Rx(1);
   Rxn<int>indexCat = Rxn(0);
 
   Rxn<int> activeIndex = Rxn();

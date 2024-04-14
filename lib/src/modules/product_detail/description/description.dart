@@ -14,75 +14,78 @@ class DescriptionView extends StatelessWidget {
   Widget build(BuildContext context) {
     final logic = Get.put(ProductDetailLogic(Get.find()));
     return Obx(() {
-      return Container(
-        color: Colors.white,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-          child: Column(
-            children: [
-              Stack(
-                alignment: Alignment.bottomCenter,
-                children: [
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * .6,
-                    child: ClipRRect(
-                      child: HtmlWidget(
-                        logic.getProductByIdRsp.value?.data?.desctiption ??
-                            "",
+      return Visibility(
+        visible:  logic.getProductByIdRsp.value?.data?.desctiption?.contains("<div class=\"product-text just-center\" id=\"productContent\">\n                        <img src=\"/Content/web/content-icon/no-item.png\">\n                    </div>")==false,
+        child: Container(
+          color: Colors.white,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+            child: Column(
+              children: [
+                Stack(
+                  alignment: Alignment.bottomCenter,
+                  children: [
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * .6,
+                      child: ClipRRect(
+                        child: HtmlWidget(
+                          logic.getProductByIdRsp.value?.data?.desctiption ??
+                              "",
+                        ),
                       ),
                     ),
-                  ),
-                  Positioned(
-                    right: 0,
-                    left: 0,
-                    bottom: 0,
-                    child: AnimatedOpacity(
-                      duration: const Duration(seconds: 2),
-                      opacity: 1,
-                      child: Container(
-                        height: 128,
-                        decoration: const BoxDecoration(
-                          color: Colors.white,
-                          gradient: LinearGradient(
-                            colors: [
-                              Color(0x00ffffff),
-                              Colors.white,
-                              Colors.white,
-                            ],
-                            stops: [
-                              0,
-                              0.9,
-                              1,
-                            ],
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
+                    Positioned(
+                      right: 0,
+                      left: 0,
+                      bottom: 0,
+                      child: AnimatedOpacity(
+                        duration: const Duration(seconds: 2),
+                        opacity: 1,
+                        child: Container(
+                          height: 128,
+                          decoration: const BoxDecoration(
+                            color: Colors.white,
+                            gradient: LinearGradient(
+                              colors: [
+                                Color(0x00ffffff),
+                                Colors.white,
+                                Colors.white,
+                              ],
+                              stops: [
+                                0,
+                                0.9,
+                                1,
+                              ],
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-              Center(
-                child: TextButton(
-                    onPressed: () {
-                      Get.to(DescriptionDetailView(),transition: Transition.rightToLeft);
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text(
-                          "Xem thêm",
-                          style: TextStyle(fontSize: 14),
-                        ),
-                        Icon(
-                          Icons.keyboard_arrow_right,
-                          color: XColor.primary,
-                        )
-                      ],
-                    )),
-              ),
-            ],
+                  ],
+                ),
+                Center(
+                  child: TextButton(
+                      onPressed: () {
+                        Get.to(DescriptionDetailView(),transition: Transition.rightToLeft);
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text(
+                            "Xem thêm",
+                            style: TextStyle(fontSize: 14),
+                          ),
+                          Icon(
+                            Icons.keyboard_arrow_right,
+                            color: XColor.primary,
+                          )
+                        ],
+                      )),
+                ),
+              ],
+            ),
           ),
         ),
       );

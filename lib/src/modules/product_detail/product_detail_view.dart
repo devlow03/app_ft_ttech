@@ -256,7 +256,7 @@ class ProductDetailPage extends StatelessWidget {
                             children: [
                               const Text("Tổng : "),
                               const SizedBox(
-                                width: 10,
+                                width: 5,
                               ),
                               Expanded(
                                 child: Text(
@@ -265,10 +265,10 @@ class ProductDetailPage extends StatelessWidget {
                                                   ?.price ??
                                               0) *
                                           (logic.quantity.value))),
-                                  style: const TextStyle(
-                                      color: Colors.redAccent,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w700,
+                                  style:  TextStyle(
+                                      color: Color(0xffD92A1C),
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400,
                                       letterSpacing: 1),
                                 ),
                               ),

@@ -1,9 +1,11 @@
+import 'package:app_ft_tmart/src/core/global_data.dart';
 import 'package:app_ft_tmart/src/core/xcolor.dart';
 import 'package:app_ft_tmart/src/data/repositories/post_update_cart_detail_rqst.dart';
 import 'package:app_ft_tmart/src/modules/cart/voucher/voucher_logic.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../data/repositories/get_cart_rsp.dart';
 import '../../data/services/service.dart';
@@ -43,8 +45,10 @@ class CartLogic extends GetxController {
   }
 
   Future<GetCartRsp?> getCart() async {
-    getCartRsp.value =
-        await tMartServices.getCartRsp(session: "64FF1EABC08F21694441131");
+
+      getCartRsp.value =
+      await tMartServices.getCartRsp();
+
     // await logic.postCreateShipping(action: "p");
     return getCartRsp.value;
   }

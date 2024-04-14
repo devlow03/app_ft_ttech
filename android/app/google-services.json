@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "117161893776",
-    "project_id": "appfttmart-3c6e3",
-    "storage_bucket": "appfttmart-3c6e3.appspot.com"
+    "project_number": "832314608375",
+    "project_id": "tmart-119c0",
+    "storage_bucket": "tmart-119c0.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:117161893776:android:ce2f1df2bc8cf095171d15",
+        "mobilesdk_app_id": "1:832314608375:android:407997c1289de2621aa1f2",
         "android_client_info": {
           "package_name": "com.example.app_ft_tmart"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCoK31BiMdLQekQFCxh_L2YSUNqGVC1MmY"
+          "current_key": "AIzaSyAG7vwRPAmpo_6JFWqGsgJiV0w8rt_XFMY"
         }
       ],
       "services": {

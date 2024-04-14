@@ -12,20 +12,23 @@ class InfoDetail extends StatelessWidget {
   Widget build(BuildContext context) {
     final logic = Get.put(ProductDetailLogic(Get.find()));
     return Obx(
-      () => Container(
-        color: Colors.white,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text('Thông số kĩ thuật',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
-              const SizedBox(
-                height: 20,
-              ),
-              HtmlWidget(logic.getProductByIdRsp.value?.data?.detail ?? ""),
-            ],
+      () => Visibility(
+        visible: logic.getProductByIdRsp.value?.data?.detail?.contains("<div class=\"specs-special\">\n                    </div>")==false,
+        child: Container(
+          color: Colors.white,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text('Thông số kĩ thuật',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
+                const SizedBox(
+                  height: 20,
+                ),
+                HtmlWidget(logic.getProductByIdRsp.value?.data?.detail ?? ""),
+              ],
+            ),
           ),
         ),
       ),

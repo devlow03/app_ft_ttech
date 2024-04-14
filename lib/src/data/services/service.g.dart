@@ -160,29 +160,6 @@ class _Services implements Services {
   }
 
   @override
-  Future<GetSessionRsp> getSessionRsp() async {
-    const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
-    final _result = await _dio
-        .fetch<Map<String, dynamic>>(_setStreamType<GetSessionRsp>(Options(
-      method: 'GET',
-      headers: _headers,
-      extra: _extra,
-    )
-            .compose(
-              _dio.options,
-              'api/normal/set_session',
-              queryParameters: queryParameters,
-              data: _data,
-            )
-            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = GetSessionRsp.fromJson(_result.data!);
-    return value;
-  }
-
-  @override
   Future<dynamic> postAddCart({required body}) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -206,7 +183,7 @@ class _Services implements Services {
   }
 
   @override
-  Future<GetCartRsp> getCartRsp({required session}) async {
+  Future<GetCartRsp> getCartRsp() async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -219,7 +196,7 @@ class _Services implements Services {
     )
             .compose(
               _dio.options,
-              'api/normal/get_cart?guest_session=${session}',
+              'api/normal/get_cart',
               queryParameters: queryParameters,
               data: _data,
             )

@@ -42,6 +42,7 @@ class SignupPage extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(10),
                   child: GlobalTextField(
+                    textInputType: TextInputType.number,
                     onChanged: (value)async{
                       if(value.length>=10){
                         await logic.postCheckPhone();

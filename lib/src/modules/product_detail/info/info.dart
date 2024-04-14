@@ -62,9 +62,9 @@ class Info extends StatelessWidget {
                     NumberFormat.simpleCurrency(locale: 'VI').format(
                         logic.getProductByIdRsp.value?.data?.price ?? 0),
                     style: const TextStyle(
-                        color: Colors.redAccent,
+                        color: Color(0xffD92A1C),
                         fontSize: 16,
-                        fontWeight: FontWeight.w700,
+                        fontWeight: FontWeight.w400,
                         letterSpacing: 1),
                   ),
                 ],

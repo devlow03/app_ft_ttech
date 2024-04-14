@@ -23,13 +23,14 @@ class LinearRatingView extends StatelessWidget {
       child: Row(
         children: [
           Expanded(
-            flex: 2,
+            flex: 3,
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: const [
                 Text(
                   '4.9',
                   style: TextStyle(
-                    fontSize: 50,
+                    fontSize: 30,
                     fontWeight: FontWeight.bold
                   ),
 
@@ -40,9 +41,9 @@ class LinearRatingView extends StatelessWidget {
             ),
           ),
           Expanded(
-              flex: 7,
+              flex: 11,
               child: SizedBox(
-            width: MediaQuery.of(context).size.width*.8,
+            width: MediaQuery.of(context).size.width*.5,
             child: Column(
               children: const[
                 LinearRatingWidget(text: '12',value: 1.0,itemCount: 5,),
@@ -77,7 +78,7 @@ class LinearRatingWidget extends StatelessWidget {
             flex: 10,
             child: ProductRating(isReview: true,itemCount: itemCount,isLinear: true,)),
         Expanded(
-          flex: 11,
+          flex: 7,
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 5),
             child: ClipRRect(
@@ -85,7 +86,7 @@ class LinearRatingWidget extends StatelessWidget {
               child: LinearProgressIndicator(
                 value: value,
                 minHeight: 11,
-                backgroundColor: Colors.transparent,
+                backgroundColor: Colors.grey.shade200,
                 valueColor:  AlwaysStoppedAnimation(XColor.primary),
               ),
             ),

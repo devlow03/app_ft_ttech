@@ -17,201 +17,204 @@ class SameType extends StatelessWidget {
     final logic = Get.put(ProductDetailLogic(Get.find()));
     return Obx(() => Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10),
-              child: Container(
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 10, horizontal: 15),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Các sản phẩm khác của ${logic.getProductByIdRsp.value?.data?.manufacturerName}',
-                            style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              Get.to(AllProductByCategoryPage(
-                                idBrand: logic.getProductByIdRsp.value?.data
-                                    ?.manufacturerId,
-                                categoryName: logic.getProductByIdRsp.value
-                                    ?.data?.manufacturerName,
-                              ));
-                            },
-                            child: Text(
-                             'Xem thêm',
-                             style: TextStyle(
-                                 color: XColor.primary,
-                                 fontSize: 16,
-                                 fontWeight: FontWeight.w400),
-                                ),
-                          ),
-                        ],
+            Visibility(
+              visible: logic.getProductByIdRsp.value?.data?.manufacturerName!=null,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: Container(
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(
+                        height: 5,
                       ),
-                    ),
-                    Obx(() => Visibility(
-                          visible: logic.getProductByBrandRsp.value?.data
-                                  ?.isNotEmpty ==
-                              true,
-                          replacement: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 5),
-                            child: SizedBox(
-                              height: MediaQuery.of(context).size.height * .4,
-                              child: ListView.separated(
-                                shrinkWrap: true,
-                                scrollDirection: Axis.horizontal,
-                                itemCount: 3,
-                                itemBuilder: (context, ind) {
-                                  return Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 8, horizontal: 2),
-                                      child: Container(
-                                        height:
-                                            MediaQuery.of(context).size.height *
-                                                .25,
-                                        // padding: EdgeInsets.symmetric(vertical: 20),
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                .4,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          // border: Border.all(color: Colors.red),
-                                          border: Border.all(
-                                            color: Colors.grey.shade300,
-                                          ),
-                                          color: Colors.grey.shade200,
-                                        ),
-                                        child: Column(
-                                          // mainAxisAlignment: MainAxisAlignment.,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            // const SizedBox(height: 5,),
-                                            Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.stretch,
-                                              children: [
-                                                Shimmer.fromColors(
-                                                  baseColor:
-                                                      Colors.grey.shade300,
-                                                  highlightColor:
-                                                      Colors.grey.shade100,
-                                                  child: Container(
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width *
-                                                            .1,
-                                                    height: 190,
-                                                    decoration:
-                                                        const BoxDecoration(
-                                                      color: Colors.grey,
-                                                      borderRadius:
-                                                          BorderRadius.only(
-                                                              topLeft: Radius
-                                                                  .circular(10),
-                                                              topRight: Radius
-                                                                  .circular(
-                                                                      10)),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-
-
-
-                                          ],
-                                        ),
-                                      ));
-                                },
-                                separatorBuilder:
-                                    (BuildContext context, int index) {
-                                  return const SizedBox(
-                                    width: 2,
-                                  );
-                                },
-                              ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10, horizontal: 15),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Các sản phẩm khác của ${logic.getProductByIdRsp.value?.data?.manufacturerName}',
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black),
                             ),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 5),
-                            child: SizedBox(
-                              height: MediaQuery.of(context).size.height * .4,
-                              child: ListView.separated(
-                                shrinkWrap: true,
-                                scrollDirection: Axis.horizontal,
-                                itemCount: (logic.getProductByBrandRsp.value
-                                                ?.data?.length ??
-                                            0) >=
-                                        10
-                                    ? 10
-                                    : logic.getProductByBrandRsp.value?.data
-                                            ?.length ??
-                                        0,
-                                itemBuilder: (context, ind) {
-                                  return Visibility(
-                                    visible: logic.getProductByBrandRsp.value
-                                            ?.data?[ind].id !=
-                                        logic.getProductByIdRsp.value?.data?.id,
-                                    child: InkWell(
-                                      onTap: () async {
-                                        Get.back();
-                                        Get.to(ProductDetailPage(
-                                          id: logic.getProductByBrandRsp.value
-                                              ?.data?[ind].id
-                                              .toString(),
-                                        ));
-                                      },
-                                      child: Padding(
+                            InkWell(
+                              onTap: () {
+                                Get.to(AllProductByCategoryPage(
+                                  idBrand: logic.getProductByIdRsp.value?.data
+                                      ?.manufacturerId,
+                                  categoryName: logic.getProductByIdRsp.value
+                                      ?.data?.manufacturerName,
+                                ));
+                              },
+                              child: Text(
+                               'Xem thêm',
+                               style: TextStyle(
+                                   color: XColor.primary,
+                                   fontSize: 16,
+                                   fontWeight: FontWeight.w400),
+                                  ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Obx(() => Visibility(
+                            visible: logic.getProductByBrandRsp.value?.data
+                                    ?.isNotEmpty ==
+                                true,
+                            replacement: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 5),
+                              child: SizedBox(
+                                height: MediaQuery.of(context).size.height * .4,
+                                child: ListView.separated(
+                                  shrinkWrap: true,
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: 3,
+                                  itemBuilder: (context, ind) {
+                                    return Padding(
                                         padding: const EdgeInsets.symmetric(
                                             vertical: 8, horizontal: 2),
-                                        child: GlobalProduct(
-                                          imageLink: logic.getProductByBrandRsp
-                                              .value?.data?[ind].thumpnailUrl,
-                                          defaultPrice:
-                                              '${logic.getProductByBrandRsp.value?.data?[ind].defaultPrice}',
-                                          price:
-                                              '${logic.getProductByBrandRsp.value?.data?[ind].price}',
-                                          nameProduct: logic
-                                              .getProductByBrandRsp
-                                              .value
-                                              ?.data?[ind]
-                                              .productName,
-                                          numStar: '5.0',
-                                        ),
-                                      ),
-                                    ),
-                                  );
-                                },
-                                separatorBuilder:
-                                    (BuildContext context, int index) {
-                                  return const SizedBox(
-                                    width: 2,
-                                  );
-                                },
+                                        child: Container(
+                                          height:
+                                              MediaQuery.of(context).size.height *
+                                                  .25,
+                                          // padding: EdgeInsets.symmetric(vertical: 20),
+                                          width:
+                                              MediaQuery.of(context).size.width *
+                                                  .4,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            // border: Border.all(color: Colors.red),
+                                            border: Border.all(
+                                              color: Colors.grey.shade300,
+                                            ),
+                                            color: Colors.grey.shade200,
+                                          ),
+                                          child: Column(
+                                            // mainAxisAlignment: MainAxisAlignment.,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              // const SizedBox(height: 5,),
+                                              Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.stretch,
+                                                children: [
+                                                  Shimmer.fromColors(
+                                                    baseColor:
+                                                        Colors.grey.shade300,
+                                                    highlightColor:
+                                                        Colors.grey.shade100,
+                                                    child: Container(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width *
+                                                              .1,
+                                                      height: 190,
+                                                      decoration:
+                                                          const BoxDecoration(
+                                                        color: Colors.grey,
+                                                        borderRadius:
+                                                            BorderRadius.only(
+                                                                topLeft: Radius
+                                                                    .circular(10),
+                                                                topRight: Radius
+                                                                    .circular(
+                                                                        10)),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+
+
+
+                                            ],
+                                          ),
+                                        ));
+                                  },
+                                  separatorBuilder:
+                                      (BuildContext context, int index) {
+                                    return const SizedBox(
+                                      width: 2,
+                                    );
+                                  },
+                                ),
                               ),
                             ),
-                          ),
-                        )),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                  ],
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 5),
+                              child: SizedBox(
+                                height: MediaQuery.of(context).size.height * .4,
+                                child: ListView.separated(
+                                  shrinkWrap: true,
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: (logic.getProductByBrandRsp.value
+                                                  ?.data?.length ??
+                                              0) >=
+                                          10
+                                      ? 10
+                                      : logic.getProductByBrandRsp.value?.data
+                                              ?.length ??
+                                          0,
+                                  itemBuilder: (context, ind) {
+                                    return Visibility(
+                                      visible: logic.getProductByBrandRsp.value
+                                              ?.data?[ind].id !=
+                                          logic.getProductByIdRsp.value?.data?.id,
+                                      child: InkWell(
+                                        onTap: () async {
+                                          Get.back();
+                                          Get.to(ProductDetailPage(
+                                            id: logic.getProductByBrandRsp.value
+                                                ?.data?[ind].id
+                                                .toString(),
+                                          ));
+                                        },
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 8, horizontal: 2),
+                                          child: GlobalProduct(
+                                            imageLink: logic.getProductByBrandRsp
+                                                .value?.data?[ind].thumpnailUrl,
+                                            defaultPrice:
+                                                '${logic.getProductByBrandRsp.value?.data?[ind].defaultPrice}',
+                                            price:
+                                                '${logic.getProductByBrandRsp.value?.data?[ind].price}',
+                                            nameProduct: logic
+                                                .getProductByBrandRsp
+                                                .value
+                                                ?.data?[ind]
+                                                .productName,
+                                            numStar: '5.0',
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  separatorBuilder:
+                                      (BuildContext context, int index) {
+                                    return const SizedBox(
+                                      width: 2,
+                                    );
+                                  },
+                                ),
+                              ),
+                            ),
+                          )),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
