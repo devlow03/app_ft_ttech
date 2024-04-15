@@ -103,15 +103,15 @@ class ProfileDetailLogic extends GetxController{
     final String? birthdayString = logicProfile.getUserProfileRsp.value?.data?.birthday;
     print(">>>>>>>>>>>>>>$birthdayString");
 
-    final birthday = DateFormat("M/d/y").format(convertStringToDate(birthdayString ?? ""));
-    print("Formatted Date: $birthday");
+    // ss
+
     // final dateApi = DateFormat('M/d/y').format();
     // print(">>>>>>>>>>>dateApi: ${dateApi}");
      Utils.loading(()async{
       await tMartServices.putUpdateUser(
         body: PutUpdateUserRqst(
           fullName: fullNameController.text,
-          birthday: selectedDate.value!=null?DateFormat('M/d/y').format(selectedDate.value!):birthdayString,
+          // birthday: selectedDate.value!=null?DateFormat('M/d/y').format(selectedDate.value!):birthdayString,
           phone: phoneController.text,
           email: emailController.text
         )
@@ -123,13 +123,13 @@ class ProfileDetailLogic extends GetxController{
      });
   }
 
-  DateTime convertStringToDate(String dateString) {
-    List<String> parts = dateString.split('/');
-    int day = int.parse(parts[0]);
-    int month = int.parse(parts[1]);
-    int year = int.parse(parts[2]);
-    return DateTime(year, month, day);
-  }
+  // DateTime convertStringToDate(String dateString) {
+  //   List<String> parts = dateString.split('/');
+  //   int day = int.parse(parts[0]);
+  //   int month = int.parse(parts[1]);
+  //   int year = int.parse(parts[2]);
+  //   return DateTime(year, month, day);
+  // }
 
 
 }

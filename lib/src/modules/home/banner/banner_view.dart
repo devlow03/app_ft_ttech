@@ -16,6 +16,8 @@ class BannerPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final logic = Get.put(HomeLogic());
     return Obx(() {
+      bool isNotEmpty = logic.getBannerRsp.value?.data?.isEmpty ==
+          false;
       return Column(
         children: [
           Container(
@@ -34,28 +36,29 @@ class BannerPage extends StatelessWidget {
                 ),
                 Center(
                   child: Container(
-                    margin:  const EdgeInsets.symmetric(vertical: 20,horizontal: 10),
+                    margin:  const EdgeInsets.symmetric(vertical: 20),
                     width: MediaQuery.of(context).size.width,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(15),
                       color: Colors.white,
                       border: Border.all(color: Colors.grey.shade200)
                     ),
-                    child: Visibility(
-                      visible: logic.getBannerRsp.value?.data?.isEmpty ==
-                          false,
-                      replacement: CarouselSlider.builder(
-                        itemCount: 1,
-                        options: CarouselOptions(
-                            aspectRatio: 25 / 12,
-                            autoPlay: true,
-                            autoPlayInterval: const Duration(seconds: 7),
-                            viewportFraction: 1,
-                            onPageChanged: (index, reason) {
-                              // logic.activeIndex.value = index;
-                            }),
-                        itemBuilder: (context, index, realIndex) {
-                          return SizedBox(
+                    child: CarouselSlider.builder(
+                      itemCount: isNotEmpty?(logic.getBannerRsp.value?.data
+                          ?.length ??
+                          0):1,
+                      options: CarouselOptions(
+                          aspectRatio: 25 / 10,
+                          autoPlay: true,
+                          autoPlayInterval: const Duration(seconds: 7),
+                          viewportFraction: 1,
+                          onPageChanged: (index, reason) {
+                            logic.activeIndex.value = index;
+                          }),
+                      itemBuilder: (context, index, realIndex) {
+                        return Visibility(
+                          visible: isNotEmpty,
+                          replacement: SizedBox(
                             width: MediaQuery
                                 .of(context)
                                 .size
@@ -71,23 +74,8 @@ class BannerPage extends StatelessWidget {
                                 ),
                               ),
                             ),
-                          );
-                        },
-                      ),
-                      child: CarouselSlider.builder(
-                        itemCount: logic.getBannerRsp.value?.data
-                            ?.length ??
-                            0,
-                        options: CarouselOptions(
-                            aspectRatio: 25 / 10,
-                            autoPlay: true,
-                            autoPlayInterval: const Duration(seconds: 7),
-                            viewportFraction: 1,
-                            onPageChanged: (index, reason) {
-                              logic.activeIndex.value = index;
-                            }),
-                        itemBuilder: (context, index, realIndex) {
-                          return InkWell(
+                          ),
+                          child: InkWell(
                             onTap: () {
                               Get.to(ProductDetailPage(id: logic
                                   .getBannerRsp
@@ -114,9 +102,9 @@ class BannerPage extends StatelessWidget {
                                   boxFit: BoxFit.fill
                               ),
                             ),
-                          );
-                        },
-                      ),
+                          ),
+                        );
+                      },
                     ),
                   ),
                 ),

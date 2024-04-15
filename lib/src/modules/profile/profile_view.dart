@@ -58,6 +58,16 @@ class ProfilePage extends StatelessWidget {
     ];
 
     return Scaffold(
+      appBar: AppBar(
+        elevation: 0.0,
+        backgroundColor: Colors.white,
+        automaticallyImplyLeading: true,
+        title: Text("Cá nhân",style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.w700,
+            color: Colors.black),),
+        centerTitle: true,
+      ),
         backgroundColor: Colors.white,
         body: Obx(() {
           return RefreshIndicator(

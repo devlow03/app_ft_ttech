@@ -113,7 +113,7 @@ class ProfileDetailPage extends StatelessWidget {
                           title: "Ngày sinh",
                           controller: logic.birthdayController,
                            readOnly: true,
-                           validator: Validator.birthday,
+                           validator: Validator.birthdayVnCanEmpty,
                            suffix: InkWell(
                             onTap: (){
                               logic.selectDate(context);

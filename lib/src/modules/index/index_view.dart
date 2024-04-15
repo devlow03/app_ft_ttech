@@ -1,8 +1,10 @@
 import 'package:app_ft_tmart/src/core/xcolor.dart';
 import 'package:app_ft_tmart/src/modules/cart/cart_logic.dart';
 import 'package:app_ft_tmart/src/modules/favourites/favourites_view.dart';
+import 'package:app_ft_tmart/src/modules/home/badge_notify/badge_notification.dart';
 import 'package:app_ft_tmart/src/modules/home/home_view.dart';
 import 'package:app_ft_tmart/src/modules/news/news_view.dart';
+import 'package:app_ft_tmart/src/modules/notification/notification_view.dart';
 import 'package:app_ft_tmart/src/modules/profile/profile_view.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -20,8 +22,8 @@ class IndexPage extends StatelessWidget {
     final cart = Get.put(CartLogic());
     List<Map<String, dynamic>> bottomNavigationBarItems = [
       {
-        'icon': const Icon(Icons.explore_outlined),
-        'active': const Icon(Icons.explore),
+        'icon': const Icon(Icons.home_outlined),
+        'active': const Icon(Icons.home),
         'label': 'Trang chủ',
         'screen': const HomePage(),
       },
@@ -31,45 +33,7 @@ class IndexPage extends StatelessWidget {
         'label': 'Bảng tin',
         'screen': const NewsPage(),
       },
-      {
-        'icon': Obx(() {
-          return Stack(
-            alignment: Alignment.centerRight,
-            children: [
-              Icon(Icons.shopping_bag_outlined),
-              Visibility(
-                visible: cart.getCartRsp.value?.data?.cartDetails?.isNotEmpty ==
-                    true,
-                child: Positioned(
-                  right: 1,
-                  bottom: 8,
-                  child: Container(
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: XColor.primary),
-                    child: Padding(
-                      padding: const EdgeInsets.all(4),
-                      child: Text(
-                        "${cart.getCartRsp.value?.data?.cartDetails?.length}",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 11
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              )
-            ],
-          );
-        }),
 
-
-        'label': 'Giỏ hàng',
-        'screen': '',
-
-      },
       {
         'icon': const Icon(Icons.favorite_outline),
         'active': const Icon(Icons.favorite),
@@ -77,11 +41,19 @@ class IndexPage extends StatelessWidget {
         'screen': const FavouritesPage(),
       },
       {
-        'icon': const Icon(Icons.account_circle_outlined),
-        'active': const Icon(Icons.account_circle),
-        'label': 'Tài khoản',
-        'screen':  ProfilePage(),
+        'icon': const BadgeNotification(),
+        'active':const Icon(Icons.notifications),
+
+        'label': 'Thông báo',
+        'screen': const NotificationPage(),
+
       },
+      // {
+      //   'icon': const Icon(Icons.account_circle_outlined),
+      //   'active': const Icon(Icons.account_circle),
+      //   'label': 'Tài khoản',
+      //   'screen':  ProfilePage(),
+      // },
 
     ];
     return Obx(() {

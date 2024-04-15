@@ -37,37 +37,37 @@ class SearchWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: FaIcon(FontAwesomeIcons.search,
-                color: XColor.primary,
+                color: Colors.black,
                   size: 20,
                 ),
               ),
             ],
           ),
           filled: true,
-          fillColor: Colors.white,
+          fillColor: Colors.grey.shade100,
           border: OutlineInputBorder(
 
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(8),
             borderSide:  BorderSide(
-                color: XColor.primary,
-                width: 1.5
+                color: Colors.transparent,
+
             ),
 
           ),
           focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(8),
             borderSide:  BorderSide(
-                color: XColor.primary,
-                width: 1.5
+              color: Colors.transparent,
+
             ),
           ),
           enabledBorder:  OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(8),
             borderSide:  BorderSide(
-                color: XColor.primary,
-              width: 1.5
+              color: Colors.transparent,
+
             ),
           ),
 
