@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "832314608375",
-    "project_id": "tmart-119c0",
-    "storage_bucket": "tmart-119c0.appspot.com"
+    "project_number": "331786127189",
+    "project_id": "tmart-753e5",
+    "storage_bucket": "tmart-753e5.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:832314608375:android:407997c1289de2621aa1f2",
+        "mobilesdk_app_id": "1:331786127189:android:682fa8ed57cbf12dd011dc",
         "android_client_info": {
           "package_name": "com.example.app_ft_tmart"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAG7vwRPAmpo_6JFWqGsgJiV0w8rt_XFMY"
+          "current_key": "AIzaSyA9eMsO5GWVdyiNibMhlqpAGrAgmDdv8F4"
         }
       ],
       "services": {
