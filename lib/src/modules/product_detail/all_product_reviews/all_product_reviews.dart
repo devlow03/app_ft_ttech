@@ -1,6 +1,7 @@
 import 'package:app_ft_tmart/src/core/xcolor.dart';
 import 'package:app_ft_tmart/src/modules/cart/cart_logic.dart';
 import 'package:app_ft_tmart/src/modules/cart/cart_view.dart';
+import 'package:app_ft_tmart/src/modules/product_detail/bottom/bottom_view.dart';
 import 'package:app_ft_tmart/src/modules/product_detail/product_detail_logic.dart';
 import 'package:app_ft_tmart/src/modules/product_detail/product_reviews/comments/product_comment.dart';
 import 'package:app_ft_tmart/src/modules/product_detail/product_reviews/list_image_reviews.dart';
@@ -22,7 +23,13 @@ class AllProductReview extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0.0,
-        automaticallyImplyLeading: true,
+        leading: IconButton(
+          onPressed: (){
+            logic.isAllReviews.value=false;
+            Get.back();
+          },
+          icon: const Icon(Icons.arrow_back),
+        ),
         foregroundColor: Colors.black,
         centerTitle: true,
         title: const Text("Đánh giá",style: TextStyle(
@@ -84,16 +91,17 @@ class AllProductReview extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const LinearRatingView(),
-                const SizedBox(height: 20,),
-                const ProductComment()
+              children: const[
+                 LinearRatingView(),
+                SizedBox(height: 20,),
+                ProductComment()
 
               ],
             ),
           ),
         ],
       ),
+      bottomNavigationBar: const BottomDetail(),
     );
   }
 }

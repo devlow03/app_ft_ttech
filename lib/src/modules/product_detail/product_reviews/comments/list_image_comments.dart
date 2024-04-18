@@ -1,33 +1,47 @@
+import 'package:app_ft_tmart/src/modules/product_detail/product_detail_logic.dart';
 import 'package:app_ft_tmart/src/modules/product_detail/product_rating/product_rating.dart';
 import 'package:app_ft_tmart/src/modules/product_detail/product_reviews/comments/product_comment.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class ListImageComments extends StatelessWidget {
-  const ListImageComments({super.key});
+  final int index;
+
+  const ListImageComments({super.key, required this.index});
 
   @override
   Widget build(BuildContext context) {
-    return GridView.builder(
-      shrinkWrap: true,
+    final logic = Get.put(ProductDetailLogic(Get.find()));
+    return Obx(() {
+      return GridView.builder(
+        shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
-        itemCount: 2,
-        itemBuilder: (context,index)=>ClipRRect(
-          borderRadius: BorderRadius.circular(10),
-          child: Image.network("https://plus.unsplash.com/premium_photo-1681139760816-d0c39952f9ac?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwyNnx8fGVufDB8fHx8fA%3D%3D",
-            width: MediaQuery.of(context).size.width*.25,
-            height: 50,
-            fit: BoxFit.cover,
+        itemCount: (logic.getCommentRsp.value?.data?[index].imageUrl?.length ??
+            0),
+        itemBuilder: (context, ind) {
+          final data = logic.getCommentRsp.value?.data?[index].imageUrl?[ind];
+          return ClipRRect(
+            borderRadius: BorderRadius.circular(5),
+            child: Image.network("$data",
+              width: MediaQuery
+                  .of(context)
+                  .size
+                  .width * .2,
+              height: 50,
+              fit: BoxFit.cover,
 
-          ),
+            ),
+          );
+        },
+        gridDelegate:
+        const SliverGridDelegateWithFixedCrossAxisCount(
+
+          crossAxisCount: 2,
+          crossAxisSpacing: 10,
+          mainAxisSpacing: 5,
+          childAspectRatio: 10/ 8,
         ),
-      gridDelegate:
-      const SliverGridDelegateWithFixedCrossAxisCount(
-
-        crossAxisCount: 2,
-        crossAxisSpacing: 10,
-        mainAxisSpacing: 5,
-        childAspectRatio: 6 / 5,
-      ),
-    );
+      );
+    });
   }
 }

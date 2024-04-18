@@ -1,3 +1,4 @@
+import 'package:app_ft_tmart/src/widget/rating_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:shimmer/shimmer.dart';
@@ -9,7 +10,7 @@ class GlobalProduct extends StatefulWidget {
   final String? nameProduct;
   final String?  price;
   final String? defaultPrice;
-  final String? numStar;
+  final double? rating;
   final String? shortDes;
   final String? badgesLink;
   // final String? shortDescript;
@@ -19,9 +20,9 @@ class GlobalProduct extends StatefulWidget {
     this.nameProduct,
     this.price,
     this.shortDes,
-    this.numStar,
     this.badgesLink,
     this.defaultPrice,
+    this.rating,
     // this.shortDescript
 
 
@@ -116,17 +117,10 @@ class _GlobalProductState extends State<GlobalProduct> {
           // ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 5),
-            child: Row(
-
-              children: [
-                Icon(Icons.star,color: Colors.amberAccent,size: 15,),
-                Icon(Icons.star,color: Colors.amberAccent,size: 15,),
-                Icon(Icons.star,color: Colors.amberAccent,size: 15,),
-                Icon(Icons.star,color: Colors.amberAccent,size: 15,),
-                Icon(Icons.star,color: Colors.amberAccent,size: 15,)
-
-              ],
-            ),
+            child: RatingBarView(
+              initialRating: widget.rating??0,
+              minRating: widget.rating??0,
+            )
           ),
           Visibility(
             visible: widget.defaultPrice!=null,

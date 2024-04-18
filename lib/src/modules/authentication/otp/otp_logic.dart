@@ -38,15 +38,18 @@ class OtpLogic extends GetxController {
   Future<void>verifyOtp()async{
     Utils.loading(()async{
       try{
-        PhoneAuthCredential credential = await PhoneAuthProvider.credential(
+        PhoneAuthCredential credential = PhoneAuthProvider.credential(
           verificationId: logic.verifyId.value ?? '',
           smsCode: codeController.text,
         );
+        await auth.signInWithCredential(credential);
+
 
 
           String? phone = "0${phoneNumber.substring(1)}";
+          
           print(">>>>>>>$phone");
-          Get.to( FormSignUpPage(phoneNumber: phone,credential: credential,) );
+          Get.to( FormSignUpPage(phoneNumber: phone,) );
 
 
       }catch(e){

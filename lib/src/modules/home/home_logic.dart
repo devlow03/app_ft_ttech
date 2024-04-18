@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:app_ft_tmart/src/utils/user_utils.dart';
 import 'package:flutter/foundation.dart';
 import 'package:app_ft_tmart/src/core/global_data.dart';
 import 'package:app_ft_tmart/src/data/repositories/get_banner_rsp.dart';
@@ -23,6 +24,8 @@ class HomeLogic extends GetxController {
   final Services tMartServices = Get.find();
   final EncryptedSharedPreferences sharedPreferences= Get.find();
   final notification = Get.put(NotificationLogic());
+  final userUtils = Get.put(UserUtils());
+  RxBool isSignIn = RxBool(false);
   HomeLogic();
   Rxn<GetBannerRsp> getBannerRsp = Rxn();
   Rxn<GetProductRsp>getProductRsp = Rxn();
@@ -55,9 +58,9 @@ class HomeLogic extends GetxController {
   void onReady() async{
     // TODO: implement onReady
     super.onReady();
+    isSignIn.value=await userUtils.checkSignIn(fromHome: true);
     await notification.getNotifications();
     await getBanner();
-    print(">>>>>>>>>>>>>>>>>>>session:${await sharedPreferences.getString("session")}");
     await getCategory();
     await getProdByCategory();
 
@@ -127,7 +130,7 @@ class HomeLogic extends GetxController {
       if(controller.position.maxScrollExtent == controller.offset){
         if(page.value<(getProductByCategoryRsp.value?.meta?.total??0)){
           isLoading.value=true;
-          print(">>>>>>>>>>>>>>>>>>>>>>>>>AAAAAAAAAAAAAAAAAA");
+
           page.value+=10;
           print(">>>>page: ${page.value}");
 
@@ -171,7 +174,7 @@ class HomeLogic extends GetxController {
   // }
   Future<GetProductRsp?>getProdByCategory()async{
     getProductByCategoryRsp.value = null;
-
+      page.value=10;
       getProductByCategoryRsp.value = await tMartServices.getProductRsp(query: GetProductRqQuery(
           categoryId: [idCategory.toString()],
           perPage: page.value.toString()

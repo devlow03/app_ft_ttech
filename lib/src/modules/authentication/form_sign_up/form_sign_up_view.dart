@@ -12,8 +12,8 @@ import 'form_sign_up_logic.dart';
 
 class FormSignUpPage extends StatelessWidget {
   final String? phoneNumber;
-  final PhoneAuthCredential? credential;
-  const FormSignUpPage({Key? key, this.phoneNumber,  this.credential, }) : super(key: key);
+
+  const FormSignUpPage({Key? key, this.phoneNumber,  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -134,7 +134,7 @@ class FormSignUpPage extends StatelessWidget {
                                     child: ElevatedButton(
                                       onPressed:()async{
                                         if(logic.formKey.currentState?.validate()==true){
-                                          await logic.register(credential!);
+                                          await logic.register();
                                         }
                                       },
                                       style: ElevatedButton.styleFrom(

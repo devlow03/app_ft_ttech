@@ -1,9 +1,7 @@
-import 'dart:async';
-
-
 import 'package:app_ft_tmart/src/core/global_data.dart';
 import 'package:app_ft_tmart/src/core/xcolor.dart';
 import 'package:app_ft_tmart/src/core/dependency_injections.dart';
+import 'package:app_ft_tmart/src/data/services/cloud_messaging_service.dart';
 import 'package:app_ft_tmart/src/modules/index/index_view.dart';
 import 'package:app_ft_tmart/src/modules/notification/notification_view.dart';
 import 'package:app_ft_tmart/src/modules/profile/order_history/order_detail/order_detail_view.dart';
@@ -25,6 +23,8 @@ void main() async {
 
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  final CloudMessagingService cloudMessagingService = CloudMessagingService();
+  cloudMessagingService.configureFirebaseMessaging();
   if(!kDebugMode) {
     await FirebaseAppCheck.instance.activate(
       androidProvider: AndroidProvider.playIntegrity,
@@ -37,65 +37,7 @@ void main() async {
       appleProvider: AppleProvider.debug,
     );
   }
-  final SharedPreferences prefs = await SharedPreferences.getInstance();
-  prefs.setString(GlobalData.fCmToken,"${await FirebaseMessaging.instance.getToken()}");
-  print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>${await FirebaseMessaging.instance.getToken()}");
-  FirebaseMessaging.instance.subscribeToTopic('notifications');
 
-  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-    String title = message.notification?.title ?? '--';
-    String body = message.notification?.body ?? '--';
-
-
-    Get.snackbar(
-      backgroundColor: Colors.grey.shade200,
-      colorText: Colors.black,
-      title,
-      body,
-      onTap: (snack) {
-        var messageData = message;
-        if (messageData.data['orderId']!=null) {
-          // Xử lý khi người dùng nhấn vào thông báo
-          Get.to(OrderDetailPage(id: messageData.data['orderId'],));
-        }
-
-      },
-      icon: Image.asset("assets/images/tmart.png")
-    );
-  });
-
-  FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      if (message.data['orderId']!=null) {
-          // Xử lý khi người dùng nhấn vào thông báo
-          Get.to(OrderDetailPage(id: message.data['orderId'],));
-        }
-      // Xử lý sự kiện khi ứng dụng được mở từ thông báo
-  });
-
-  await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
-    alert: true,
-    badge: true,
-    sound: true,
-
-
-  );
-
-  
-  // if (Platform.isIOS || true) {
-  //   iosSubscription = FirebaseMessaging.onMessage.listen((data) {
-  //     Get.snackbar("Thông báo", "Bạn vừa có thông báo mới");
-  //   });
-  //
-  //   FirebaseMessaging.instance.requestPermission(
-  //     alert: true,
-  //     announcement: false,
-  //     badge: true,
-  //     carPlay: false,
-  //     criticalAlert: false,
-  //     provisional: false,
-  //     sound: true,
-  //   );
-  // }
   runApp(const MyApp());
 }
 

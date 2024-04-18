@@ -1,23 +1,24 @@
+import 'package:app_ft_tmart/src/modules/product_detail/product_detail_logic.dart';
 import 'package:app_ft_tmart/src/modules/product_detail/product_rating/product_rating.dart';
 import 'package:app_ft_tmart/src/modules/product_detail/product_reviews/comments/list_image_comments.dart';
 import 'package:flutter/material.dart';
-
+import 'package:get/get.dart';
 
 
 class ProductComment extends StatelessWidget {
   final int? itemCount;
-  const ProductComment({super.key, this.itemCount});
+
+  const ProductComment({super.key, this.itemCount, });
 
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      physics: const NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
-      itemCount: itemCount??3,
-      itemBuilder: (context, index) 
-      => Container(
-        padding: EdgeInsets.all(20),
-        decoration: BoxDecoration(
+    final logic = Get.put(ProductDetailLogic(Get.find()));
+
+    return Obx(() {
+
+      return Container(
+        padding: logic.isAllReviews.value?EdgeInsets.all(20):null,
+        decoration: logic.isAllReviews.value?BoxDecoration(
             boxShadow: [
               BoxShadow(
                 color: Colors.grey.withOpacity(0.2),
@@ -28,50 +29,75 @@ class ProductComment extends StatelessWidget {
             ],
             borderRadius: BorderRadius.circular(10),
             color: Colors.white
-        ),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            const CircleAvatar(
-              backgroundImage: NetworkImage(
-                  "https://plus.unsplash.com/premium_photo-1664461664321-c9b95d47f0a4?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw3fHx8ZW58MHx8fHx8"),
-            ),
-            const SizedBox(width: 10,),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                   const Text(
-                    "Nguyễn Văn A",
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 2),
-                    child: ProductRating(
-                      isReview: true,
-                    ),
-                  ),
-                   const Text(
-                    "Mình nhận đc hàng rồi ạ, hàng đẹp lắm 2 lớp dày dặn chất sờ mềm, mát đg may chắc chắn có túi khóa rất tiện",
-                    style: TextStyle(
-                        fontSize: 14, color: Colors.black, height: 1.5),
-                  ),
-                   const SizedBox(
-                    height: 10,
-                  ),
-                  const ListImageComments(),
+        ):null,
+        child: ListView.separated(
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemCount: logic.isAllReviews.value?logic.getCommentRsp.value?.data?.length??0:2,
+          itemBuilder: (context, index) {
+            final data = logic.getCommentRsp.value?.data?[index];
+            return Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                CircleAvatar(
+                  backgroundImage: NetworkImage(data?.userAvatar??""),
+                ),
+                const SizedBox(width: 10,),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            data?.user??"",
+                            style: TextStyle(fontSize: 16, fontWeight: FontWeight
+                                .bold),
+                          ),
+                          ProductRating(
+                            isReview: true,
+                            initialRating: data?.rating?.toDouble(),
+                            minRating: data?.rating?.toDouble(),
+                          ),
 
-                ],
-              ),
-            )
+                        ],
+                      ),
 
-          ],
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 2),
+                        child: Text(
+                          data?.createdAt??"",
+                          style: TextStyle(fontSize: 12, fontWeight: FontWeight
+                              .w400,color: Colors.grey),
+                        ),
+                      ),
+                       const SizedBox(height: 10,),
+                       Text(
+                        data?.text??"",
+                        style: TextStyle(
+                            fontSize: 14, color: Colors.black, ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                       ListImageComments(index: index,),
+
+                    ],
+                  ),
+                )
+
+              ],
+            );
+          },
+
+          separatorBuilder: (context, index) =>
+          const SizedBox(
+            height: 20,
+          ),
         ),
-      ),
-      separatorBuilder: (context, index) => const SizedBox(
-        height: 20,
-      ),
-    );
+      );
+    });
   }
 }

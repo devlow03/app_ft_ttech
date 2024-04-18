@@ -167,7 +167,7 @@ class AllProductByCategoryPage extends StatelessWidget {
                                     '${ logic.getProductByCategory.value?.data?[ind].price}',
                                     nameProduct:
                                     logic.getProductByCategory.value?.data?[ind].productName,
-                                    numStar: '5.0',
+                                    rating: double.parse(logic.getProductByCategory.value?.data?[ind].averageRating??"")
                                   ),
                                 );
 

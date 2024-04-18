@@ -13,16 +13,19 @@ import '../../../widget/global_textfield.dart';
 import 'sign_in_logic.dart';
 
 class SignInPage extends StatelessWidget {
-  final bool? intoCart;
-  const SignInPage({Key? key, this.intoCart}) : super(key: key);
+  final bool? intoPage;
+  const SignInPage({Key? key, this.intoPage}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final logic = Get.put(SignInLogic());
-    logic.intoCart.value = intoCart;
+
+
+    logic.intoPage.value = intoPage;
+
     return WillPopScope(
       onWillPop: () async {
-        if (logic.intoCart.value == true) {
+        if (logic.intoPage.value == true) {
           Get.back();
         } else {
           Get.offAll(IndexPage());
@@ -190,7 +193,7 @@ class SignInPage extends StatelessWidget {
                                     ),
                                     InkWell(
                                       onTap: () {
-                                        if (logic.intoCart.value == true) {
+                                        if (logic.intoPage.value == true) {
                                           Get.back();
                                         } else {
                                           Get.offAll(IndexPage());

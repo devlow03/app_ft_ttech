@@ -76,7 +76,7 @@ class ProfileDetailLogic extends GetxController{
       networkImage.value = logicProfile.getUserProfileRsp.value?.data?.avatar??"";
     }
     else{
-      networkImage.value = "https://cdn-icons-png.flaticon.com/128/3033/3033143.png";
+      networkImage.value = "assets/images/avatar.png";
     }
   }
 
@@ -90,7 +90,7 @@ class ProfileDetailLogic extends GetxController{
     );
     if (pickedDate != null && pickedDate != selectedDate.value) {
       selectedDate.value = pickedDate;
-      final formatter = DateFormat('d/M/y');
+      final formatter = DateFormat('M/d/y');
       final formattedDate = formatter.format(selectedDate.value!);
       birthdayController.text = formattedDate;
     }
@@ -111,7 +111,7 @@ class ProfileDetailLogic extends GetxController{
       await tMartServices.putUpdateUser(
         body: PutUpdateUserRqst(
           fullName: fullNameController.text,
-          // birthday: selectedDate.value!=null?DateFormat('M/d/y').format(selectedDate.value!):birthdayString,
+          birthday: selectedDate.value!=null?birthdayController.text :birthdayString,
           phone: phoneController.text,
           email: emailController.text
         )

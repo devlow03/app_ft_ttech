@@ -75,7 +75,7 @@ class ProductSuggestPage extends StatelessWidget {
                             nameProduct:
                             logic.getProductRsp.value?.data?[ind]
                                 .productName,
-                            numStar: '5.0',
+
                           ),
                         );
                         // else{

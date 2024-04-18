@@ -1,9 +1,11 @@
 import 'dart:convert';
 
+import 'package:app_ft_tmart/src/data/repositories/get_comment_response.dart';
 import 'package:app_ft_tmart/src/data/repositories/get_slider_prod_rsp.dart';
 import 'package:app_ft_tmart/src/data/repositories/post_cart_rqst.dart';
 import 'package:app_ft_tmart/src/data/services/service.dart';
 import 'package:app_ft_tmart/src/modules/cart/cart_view.dart';
+import 'package:app_ft_tmart/src/utils/user_utils.dart';
 import 'package:app_ft_tmart/src/utils/utils.dart';
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:dio/dio.dart';
@@ -36,6 +38,9 @@ class ProductDetailLogic extends GetxController {
   final logicCart = Get.put(CartLogic());
   Rxn<GetProductRsp>getProductRsp = Rxn();
   Rxn<GetProductRsp>getProductByBrandRsp = Rxn();
+  final userUtils = Get.put(UserUtils());
+  Rxn<GetCommentResponse>getCommentRsp = Rxn();
+  RxBool isAllReviews = RxBool(false);
 
 
   final dio = Dio();
@@ -46,6 +51,7 @@ class ProductDetailLogic extends GetxController {
     await logicCart.getCart();
     getProductByBrands();
       getProductByIdCategory();
+
     
   }
   @override
@@ -71,13 +77,9 @@ class ProductDetailLogic extends GetxController {
   }
 
   Future<void>postAddCart({required String productId, required String quantity })async{
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    if(( prefs.getString(GlobalData.token)??"")==''){
-      Fluttertoast.showToast(msg: "Đăng nhập để mua hàng");
-      Get.to(const SignInPage(intoCart: true,));
-    }
-    else{
-      await tMartServices.postAddCart(body: PostCartRqst(
+
+    await userUtils.checkSignIn(intoPage: true);
+    await tMartServices.postAddCart(body: PostCartRqst(
         // guestSession: "64FF1EABC08F21694441131",
           productId: productId,
           quantity: quantity
@@ -85,7 +87,7 @@ class ProductDetailLogic extends GetxController {
       await logicCart.getCart();
       Fluttertoast.showToast(msg: "Đã thêm vào giỏ hàng");
 
-    }
+
 
     
 
@@ -95,22 +97,19 @@ class ProductDetailLogic extends GetxController {
   }
 
   Future<void>postAddFavorite()async{
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    if(( prefs.getString(GlobalData.token)??"")==''){
-      Fluttertoast.showToast(msg: "Đăng nhập để sử dụng chức năng này");
-      Get.to(const SignInPage(intoCart: true,));
-    }
-      else{
+    await userUtils.checkSignIn(intoPage: true);
+
       await tMartServices.postAddFavorite(body:
       PostAddFavoriteRqst(
-          productId: int.parse(getProductByIdRsp.value?.data?.id.toString()??"")
+          productId: getProductByIdRsp.value?.data?.id?.toInt()
       )
       );
       Fluttertoast.showToast(msg: "Đã thêm vào bộ sưu tập");
-    }
+
     }
 
     Future<void>deleteFavorite()async{
+
       await tMartServices.deleteFavorite(body: 
       PostAddFavoriteRqst(
         productId: int.parse(getProductByIdRsp.value?.data?.id.toString()??"")
@@ -121,16 +120,12 @@ class ProductDetailLogic extends GetxController {
 
 
   Future<void>buyNow({required String productId, required String quantity })async{
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    if(( prefs.getString(GlobalData.token)??"")==''){
-      Fluttertoast.showToast(msg: "Đăng nhập để mua hàng");
-      Get.to(const SignInPage(intoCart: true,));
-    }
-    else{
+    await userUtils.checkSignIn(intoPage: true);
+
       await postAddCart(productId: productId, quantity: quantity);
       await logicCart.getCart();
-      Get.to(CartPage());
-    }
+      Get.to(const CartPage());
+
 
 
 
@@ -168,6 +163,11 @@ class ProductDetailLogic extends GetxController {
       await getProductByBrands();
       await getProductByIdCategory();
     
+  }
+
+  Future<GetCommentResponse?>getComment({required String productId})async{
+    getCommentRsp.value = await tMartServices.getCommentRsp(productId: productId);
+    return getCommentRsp.value;
   }
 
 }

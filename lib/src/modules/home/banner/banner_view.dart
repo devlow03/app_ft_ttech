@@ -48,7 +48,7 @@ class BannerPage extends StatelessWidget {
                           ?.length ??
                           0):1,
                       options: CarouselOptions(
-                          aspectRatio: 25 / 10,
+                          aspectRatio: 21 / 10,
                           autoPlay: true,
                           autoPlayInterval: const Duration(seconds: 7),
                           viewportFraction: 1,
@@ -69,7 +69,7 @@ class BannerPage extends StatelessWidget {
                               child: Container(
                                 decoration: BoxDecoration(
                                   borderRadius:
-                                  BorderRadius.circular(15),
+                                  BorderRadius.circular(8),
                                   color: Colors.grey.shade300,
                                 ),
                               ),
@@ -84,7 +84,7 @@ class BannerPage extends StatelessWidget {
                                   .details?.first.link));
                             },
                             child: ClipRRect(
-                              borderRadius: BorderRadius.circular(15),
+                              borderRadius: BorderRadius.circular(8),
                               child: GlobalImage(
                                   imageUrl: logic
                                       .getBannerRsp

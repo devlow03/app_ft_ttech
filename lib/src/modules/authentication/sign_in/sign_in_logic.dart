@@ -25,7 +25,7 @@ class SignInLogic extends GetxController {
   TextEditingController phoneControl = TextEditingController();
   TextEditingController passControl = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  Rxn<bool>intoCart = Rxn(false);
+  Rxn<bool>intoPage = Rxn(false);
   Rxn<bool> onSignIn = Rxn(false);
   Rxn<String>avatar = Rxn();
   Rxn<String>fullName = Rxn();
@@ -95,7 +95,13 @@ class SignInLogic extends GetxController {
         await prefs.setString("phone", phone??"");
         Fluttertoast.showToast(
             msg: "Đăng nhập thành công", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM, timeInSecForIosWeb: 1, textColor: Colors.white, fontSize: 16.0);
-        Get.offAll(IndexPage());
+        if(intoPage.value==true){
+          Get.back();
+          Get.back();
+        }
+        else{
+          Get.offAll(IndexPage());
+        }
       });
     }
     else{
@@ -114,7 +120,13 @@ class SignInLogic extends GetxController {
         Get.back();
         Fluttertoast.showToast(
             msg: "Đăng nhập thành công", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM, timeInSecForIosWeb: 1, textColor: Colors.white, fontSize: 16.0);
-        intoCart.value==true?Get.back():Get.offAll(IndexPage());
+        if(intoPage.value==true){
+          Get.back();
+          Get.back();
+        }
+        else{
+          Get.offAll(IndexPage());
+        }
       });
     }
   }

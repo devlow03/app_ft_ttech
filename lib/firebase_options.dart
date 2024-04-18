@@ -27,10 +27,7 @@ class DefaultFirebaseOptions {
       case TargetPlatform.macOS:
         return macos;
       case TargetPlatform.windows:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for windows - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return windows;
       case TargetPlatform.linux:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for linux - '
@@ -44,38 +41,49 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyBlt2MAcBj30uVc9-s4-trVtc22ea9kq84',
-    appId: '1:832314608375:web:d7bf90071124ce3d1aa1f2',
-    messagingSenderId: '832314608375',
-    projectId: 'tmart-119c0',
-    authDomain: 'tmart-119c0.firebaseapp.com',
-    storageBucket: 'tmart-119c0.appspot.com',
-    measurementId: 'G-Q24RV139EJ',
+    apiKey: 'AIzaSyD9VTOx2VwPVPkB5mNhQi7mW1DsSWPFuvQ',
+    appId: '1:331786127189:web:fc60c56e55a5c3c4d011dc',
+    messagingSenderId: '331786127189',
+    projectId: 'tmart-753e5',
+    authDomain: 'tmart-753e5.firebaseapp.com',
+    storageBucket: 'tmart-753e5.appspot.com',
+    measurementId: 'G-EB0HW0XY3Q',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyAG7vwRPAmpo_6JFWqGsgJiV0w8rt_XFMY',
-    appId: '1:832314608375:android:407997c1289de2621aa1f2',
-    messagingSenderId: '832314608375',
-    projectId: 'tmart-119c0',
-    storageBucket: 'tmart-119c0.appspot.com',
+    apiKey: 'AIzaSyA9eMsO5GWVdyiNibMhlqpAGrAgmDdv8F4',
+    appId: '1:331786127189:android:682fa8ed57cbf12dd011dc',
+    messagingSenderId: '331786127189',
+    projectId: 'tmart-753e5',
+    storageBucket: 'tmart-753e5.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyBSlGIHodnTyt54SDZVx7IJkjz38zk3gCY',
-    appId: '1:832314608375:ios:e4d8b78c6f9aa8501aa1f2',
-    messagingSenderId: '832314608375',
-    projectId: 'tmart-119c0',
-    storageBucket: 'tmart-119c0.appspot.com',
+    apiKey: 'AIzaSyAoN8eaBweNPPBX9gWAmO2vjNp9f2Gtoa8',
+    appId: '1:331786127189:ios:85edf171256f74fbd011dc',
+    messagingSenderId: '331786127189',
+    projectId: 'tmart-753e5',
+    storageBucket: 'tmart-753e5.appspot.com',
     iosBundleId: 'com.example.appFtTmart',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyBSlGIHodnTyt54SDZVx7IJkjz38zk3gCY',
-    appId: '1:832314608375:ios:0a7ec4dbb505d4661aa1f2',
-    messagingSenderId: '832314608375',
-    projectId: 'tmart-119c0',
-    storageBucket: 'tmart-119c0.appspot.com',
-    iosBundleId: 'com.example.appFtTmart.RunnerTests',
+    apiKey: 'AIzaSyAoN8eaBweNPPBX9gWAmO2vjNp9f2Gtoa8',
+    appId: '1:331786127189:ios:85edf171256f74fbd011dc',
+    messagingSenderId: '331786127189',
+    projectId: 'tmart-753e5',
+    storageBucket: 'tmart-753e5.appspot.com',
+    iosBundleId: 'com.example.appFtTmart',
   );
+
+  static const FirebaseOptions windows = FirebaseOptions(
+    apiKey: 'AIzaSyD9VTOx2VwPVPkB5mNhQi7mW1DsSWPFuvQ',
+    appId: '1:331786127189:web:81527f65938093c1d011dc',
+    messagingSenderId: '331786127189',
+    projectId: 'tmart-753e5',
+    authDomain: 'tmart-753e5.firebaseapp.com',
+    storageBucket: 'tmart-753e5.appspot.com',
+    measurementId: 'G-SS70R0MP27',
+  );
+
 }

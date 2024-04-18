@@ -141,34 +141,7 @@ class RealTimeDataBase extends GetxController {
       });
   }
 
-  // Future<void> pushNotifyOnChilChanged() async {
-  //   final SharedPreferences sharedPreferences =
-  //       await SharedPreferences.getInstance();
-  //   String? userId = sharedPreferences.getString(GlobalData.userIdNotify);
-  //   String? notifyChildKey =
-  //       sharedPreferences.getString(GlobalData.notifyChildKey);
 
-  //   final SharedPreferences prefs = await SharedPreferences.getInstance();
-
-  //   DatabaseReference notifyList =
-  //       FirebaseDatabase.instance.ref("notifications");
-  //   DatabaseReference userNotificationsRef = notifyList.child(userId ?? "");
-
-  //   userNotificationsRef.onChildChanged.listen((event) async {
-  //    Map dataList = event.snapshot.value as Map;
-  //      final String? key = dataList.keys.first;
-  //      final data = dataList[key];
-  //     if(data["title"]!=null){
-  //       await postPushNotify(
-  //         title: data["title"].toString(),
-  //         content: data["content"].toString(),
-  //         image: data["image"].toString(),
-  //         orderId: data["orderId"].toString(),
-  //         productId: data["productId"].toString());
-    
-  //     }
-  //   });
-  // }
 
   Future<void> postPushNotify(
       {required String? title,

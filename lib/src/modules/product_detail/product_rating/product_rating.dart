@@ -1,34 +1,22 @@
+import 'package:app_ft_tmart/src/widget/rating_bar.dart';
 import 'package:flutter/material.dart';
 
 class ProductRating extends StatelessWidget {
    bool? isReview = false;
    bool? isLinear;
    int? itemCount = 5;
+   final double? initialRating;
+   final double? minRating;
+   final String? ratingText;
 
-   ProductRating({super.key, this.isReview,this.itemCount,this.isLinear});
+   ProductRating({super.key, this.isReview,this.itemCount,this.isLinear, this.initialRating, this.minRating, this.ratingText});
 
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: isLinear==true?MainAxisAlignment.end:MainAxisAlignment.start,
       children: [
-        SizedBox(
-          height: 20,
-          child: ListView.separated(
-            scrollDirection: Axis.horizontal,
-            physics: const NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            itemCount: itemCount??5,
-            itemBuilder: (context, index) => const Icon(
-              Icons.star,
-              color: Colors.amberAccent,
-              size: 20,
-            ),
-            separatorBuilder: (context, index) => const SizedBox(
-              width: 2,
-            ),
-          ),
-        ),
+        RatingBarView(initialRating: initialRating,minRating: minRating,itemCount: itemCount,),
         const SizedBox(
           width: 5,
         ),
@@ -38,8 +26,8 @@ class ProductRating extends StatelessWidget {
            child: Row(
              mainAxisAlignment: MainAxisAlignment.spaceBetween,
              children: [
-               const Text(
-                 "4.9",
+                Text(
+                 ratingText??"",
                  style: TextStyle(
                      fontWeight: FontWeight.bold,
                      color: Colors.black,

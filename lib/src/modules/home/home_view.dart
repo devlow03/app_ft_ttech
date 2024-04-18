@@ -36,118 +36,172 @@ class HomePage extends StatelessWidget {
     final profile = Get.put(ProfileLogic());
     final profileDetail = Get.put(ProfileDetailLogic());
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10),
+      padding: const EdgeInsets.symmetric(vertical: 15),
       child: Scaffold(
           backgroundColor: Colors.white,
 
-          body: CustomScrollView(
-            controller: logic.controller,
-            slivers: [
-              SliverAppBar(
-                backgroundColor: Colors.white,
-                leading: null,
-                title: Obx(() {
-                  return RichText(
-                    text: TextSpan(
-                        children: [
-                          const TextSpan(
-                              text: "👋 Xin Chào! \n",
-                              style: TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                  letterSpacing: 0.5
-                              )
-                          ),
-                          TextSpan(
-                              text: profile.getUserProfileRsp.value?.data
-                                  ?.fullName ?? "",
-                              style: const TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  letterSpacing: 0.5
-                              )
-                          )
-                        ]
-                    ),
-                  );
-                }),
-                centerTitle: false,
-                elevation: 0.0,
-                actions: [
-                  // BadgeNofication(),
-                  Obx(() =>
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: InkWell(
-                          onTap: ()=>Get.to(ProfilePage()),
-                          child: CircleAvatar(
-                            radius: 25,
-                            backgroundImage: NetworkImage(
-                                "${profile.getUserProfileRsp.value?.data
-                                    ?.avatar != null ? (profile.getUserProfileRsp
-                                    .value?.data?.avatar) : (profileDetail
-                                    .networkImage.value)}"),
-                          ),
-                        ),
-                      )),
+          body:RefreshIndicator(
+            color: Colors.black,
+                strokeWidth: 3,
+                onRefresh: () async {
+                  logic.refresh();
+                },
+            child: CustomScrollView(
+              controller: logic.controller,
+              slivers: [
+                SliverAppBar(
+                  backgroundColor: Colors.white,
+                  leading: null,
+                  title: Obx(() {
 
-                ],
-                pinned: false,
-                stretch: true,
-              ),
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 15, vertical: 15),
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          Expanded(
-                            flex: 10,
-                            child: SearchWidget(
-                              onTap: () => Get.to(const SearchPage()),
-                              readOnly: true,
+                    return Visibility(
+                      visible: logic.isSignIn.value,
+                      replacement: RichText(
+                        text: const TextSpan(
+                            children: [
+                              TextSpan(
+                                  text: "👋 Xin Chào! \n",
+                                  style: TextStyle(
+                                      color: Colors.grey,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500,
+                                      letterSpacing: 0.5
+                                  )
+                              ),
+                              TextSpan(
+                                  text: "Chào mừng bạn đến với TMART",
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                      letterSpacing: 0.5,
+                                    height: 1.5
+                                  )
+                              )
+                            ]
+                        ),
+                      ),
+                      child: RichText(
+                        text: TextSpan(
+                            children: [
+                              const TextSpan(
+                                  text: "👋 Xin Chào! \n",
+                                  style: TextStyle(
+                                      color: Colors.grey,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500,
+                                      letterSpacing: 0.5
+                                  )
+                              ),
+                              TextSpan(
+                                  text: profile.getUserProfileRsp.value?.data
+                                      ?.fullName ?? "",
+                                  style: const TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                      letterSpacing: 0.5,
+                                      height: 1.5
+                                  )
+                              )
+                            ]
+                        ),
+                      ),
+                    );
+                  }),
+                  centerTitle: false,
+                  elevation: 0.0,
+                  actions: [
+                    // BadgeNofication(),
+                    Obx(() =>
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child: InkWell(
+                            onTap: ()async{
+                              // await logic.userUtils.checkSignIn();
+                              bool isLogin = await logic.userUtils.checkSignIn(intoPage: false);
+                              print(">>>>>>>>>>>>>>>>>>>>$isLogin");
+                              if(isLogin){
+                                await profile.getUserProfile();
+                                Get.to(ProfilePage());
+                              }
+                            },
+                            child: Visibility(
+                              visible: logic.isSignIn.value,
+                              replacement: const CircleAvatar(
+                                radius: 24,
+                                backgroundImage: AssetImage("assets/images/avatar.png")
+                              ),
+                              child: CircleAvatar(
+                                radius: 24,
+                                backgroundImage: NetworkImage(
+                                    "${profile.getUserProfileRsp.value?.data
+                                        ?.avatar != null ? (profile.getUserProfileRsp
+                                        .value?.data?.avatar) : (profileDetail
+                                        .networkImage.value)}"),
+                              ),
                             ),
                           ),
+                        )),
 
-                          const Expanded(
-                              flex: 2,
-                              child: CartIcon())
+                  ],
+                  pinned: false,
+                  stretch: true,
+                ),
+                SliverToBoxAdapter(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 15,horizontal: 15),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Expanded(
+                              flex: 10,
+                              child: SearchWidget(
+                                onTap: () => Get.to(const SearchPage()),
+                                readOnly: true,
+                              ),
+                            ),
 
-                        ],
-                      ),
-                      const BannerPage(),
-                      const CategoryPage(),
+                            const Expanded(
+                                flex: 2,
+                                child: CartIcon())
 
-                    ],
+                          ],
+                        ),
+                        const BannerPage(),
+                        const CategoryPage(),
+
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              SliverPadding(
-                  padding: EdgeInsets.symmetric(horizontal: 15),
-                  sliver: const ProductByCategoryPage()),
-              Obx(() {
-                return SliverToBoxAdapter(
-                    child: Visibility(
-                      visible: logic.page.value <
-                          (logic.getProductByCategoryRsp.value?.meta
-                              ?.total ??
-                              0),
-                      replacement: Center(),
-                      child: Center(
-                          child: SpinKitCircle(size: 40,
-                            color: Colors.grey,
-                          )
-                      ),
-                    )
-                );
-              })
-            ],
+                const SliverPadding(
+                    padding: EdgeInsets.symmetric(horizontal: 15),
+                    sliver: ProductByCategoryPage()),
+                Obx(() {
+                  return SliverToBoxAdapter(
+                      child: Visibility(
+                        visible: logic.page.value <
+                            (logic.getProductByCategoryRsp.value?.meta
+                                ?.total ??
+                                0),
+                        replacement: const Center(),
+                        child: const Center(
+                            child: SpinKitCircle(size: 40,
+                              color: Colors.grey,
+                            )
+                        ),
+                      )
+                  );
+                })
+              ],
 
+            ),
           )
+
+
 
         // RefreshIndicator(
         //     color: Colors.black,

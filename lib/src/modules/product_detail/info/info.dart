@@ -51,7 +51,11 @@ class Info extends StatelessWidget {
               const SizedBox(
                 height: 5,
               ),
-              ProductRating(),
+              ProductRating(
+                initialRating: double.parse(logic.getProductByIdRsp.value?.data?.averageRating??""),
+                minRating: double.parse(logic.getProductByIdRsp.value?.data?.averageRating??""),
+                ratingText: logic.getProductByIdRsp.value?.data?.averageRating??"",
+              ),
               const SizedBox(
                 height: 5,
               ),

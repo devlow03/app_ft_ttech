@@ -84,7 +84,7 @@ class FavouritesPage extends StatelessWidget {
                               nameProduct:
                               logic.getProductFavoriteRsp.value?.data?[ind]
                                   .productName,
-                              numStar: '5.0',
+                              rating: double.parse(logic.getProductFavoriteRsp.value?.data?[ind].averageRating??""),
                             ),
                           );
                           // else{

@@ -4,7 +4,6 @@ import 'package:curl_logger_dio_interceptor/curl_logger_dio_interceptor.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_search_suggestions/google_search_suggestions.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 import '../../data/repositories/get_product_rq_query.dart';

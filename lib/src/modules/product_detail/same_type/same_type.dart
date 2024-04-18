@@ -47,8 +47,8 @@ class SameType extends StatelessWidget {
                             InkWell(
                               onTap: () {
                                 Get.to(AllProductByCategoryPage(
-                                  idBrand: logic.getProductByIdRsp.value?.data
-                                      ?.manufacturerId,
+                                  idBrand: int.parse(logic.getProductByIdRsp.value?.data
+                                      ?.manufacturerId.toString()??""),
                                   categoryName: logic.getProductByIdRsp.value
                                       ?.data?.manufacturerName,
                                 ));
@@ -194,7 +194,10 @@ class SameType extends StatelessWidget {
                                                 .value
                                                 ?.data?[ind]
                                                 .productName,
-                                            numStar: '5.0',
+                                            rating: double.parse(logic
+                                                .getProductByBrandRsp
+                                                .value
+                                                ?.data?[ind].averageRating??""),
                                           ),
                                         ),
                                       ),
@@ -249,8 +252,8 @@ class SameType extends StatelessWidget {
                           InkWell(
                             onTap: () {
                               Get.to(AllProductByCategoryPage(
-                                id: logic.getProductRsp.value?.data?.first
-                                    .categoryId,
+                                id: int.parse(logic.getProductRsp.value?.data?.first
+                                    .categoryId.toString()??""),
                                 categoryName: logic.getProductRsp.value?.data
                                     ?.first.categoryName,
                               ));
@@ -385,7 +388,10 @@ class SameType extends StatelessWidget {
                                               '${logic.getProductRsp.value?.data?[ind].price}',
                                           nameProduct: logic.getProductRsp.value
                                               ?.data?[ind].productName,
-                                          numStar: '5.0',
+                                          rating: double.parse(logic
+                                              .getProductRsp
+                                              .value
+                                              ?.data?[ind].averageRating??""),
                                         ),
                                       ),
                                     ),

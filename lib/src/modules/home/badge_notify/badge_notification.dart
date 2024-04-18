@@ -19,8 +19,8 @@ class BadgeNotification extends StatelessWidget {
       return Stack(
         alignment: Alignment.centerRight,
         children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10),
             child: Icon(Icons.notifications_outlined),
           ),
           Visibility(
@@ -37,7 +37,7 @@ class BadgeNotification extends StatelessWidget {
                   padding: const EdgeInsets.all(5),
                   child: Text(
                     "${logic.dataNotification.length}",
-                    style: TextStyle(
+                    style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
                         fontSize: 11

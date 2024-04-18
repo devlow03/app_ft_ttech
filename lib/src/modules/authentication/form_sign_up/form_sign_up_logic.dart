@@ -19,7 +19,7 @@ class FormSignUpLogic extends GetxController {
   final logicSignUp = Get.put(SignupLogic());
   FirebaseAuth auth = FirebaseAuth.instance;
 
-  Future<void>register(PhoneAuthCredential credential)async{
+  Future<void>register()async{
     Utils.loading(()async{
       await tMartServices.postRegister(body: PostRegisterRqstBodies(
         phone: phoneNumber.value,

@@ -93,7 +93,8 @@ class ProductByCategoryPage extends StatelessWidget {
                   nameProduct:
                   logic.getProductByCategoryRsp.value?.data?[ind]
                       .productName,
-                  numStar: '5.0',
+                  rating: double.parse(logic.getProductByCategoryRsp.value?.data?[ind]
+                      .averageRating??"0"),
                 ),
               ),
             );

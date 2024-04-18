@@ -54,7 +54,7 @@ class FavouritesLogic extends GetxController {
   Future<void>checkLogin()async{
      final SharedPreferences prefs = await SharedPreferences.getInstance();
      if(prefs.getString(GlobalData.token)==""){
-      Get.to(const SignInPage(intoCart: true,));
+      Get.to(const SignInPage(intoPage: true,));
      }
      else{
       getProductFavorite();

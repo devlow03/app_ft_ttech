@@ -195,7 +195,7 @@ class ListProductDetailPage extends StatelessWidget {
                                     '${ logic.getSearchRsp.value?.data?[ind].price}',
                                     nameProduct:
                                     logic.getSearchRsp.value?.data?[ind].productName,
-                                    numStar: '5.0',
+                                    rating: double.parse(logic.getSearchRsp.value?.data?[ind].averageRating??""),
                                   ),
                                 );
 
