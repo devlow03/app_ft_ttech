@@ -69,7 +69,7 @@ class CartLogic extends GetxController {
       actions: [
         ElevatedButton(
             style: ElevatedButton.styleFrom(
-                primary: Colors.white,
+                backgroundColor: Colors.white,
                 side: BorderSide(color: Colors.grey.shade200)),
             onPressed: () {
               Get.back();
@@ -80,7 +80,7 @@ class CartLogic extends GetxController {
             )),
         ElevatedButton(
             style: ElevatedButton.styleFrom(
-              primary: XColor.primary,
+              backgroundColor: XColor.primary,
             ),
             onPressed: () async {
               Get.back();

@@ -28,6 +28,7 @@ class NewsPage extends StatelessWidget {
       body: Obx(() {
 
         return RefreshIndicator(
+        color: XColor.primary,
           onRefresh: ()async{
             logic.refresh();
           },

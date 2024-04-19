@@ -15,17 +15,18 @@ class ConfirmPasswordDialog extends StatelessWidget {
         return true;
       },
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 10),
         child: AlertDialog(
+          backgroundColor: Colors.white,
           // contentPadding: EdgeInsets.all(20),
-          title: Column(
+          title: const Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: const [
+            children: [
               Text(
                 "Nhập mật khẩu",
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
-              const SizedBox(
+              SizedBox(
                 height: 5,
               ),
               Text(
@@ -37,8 +38,8 @@ class ConfirmPasswordDialog extends StatelessWidget {
               ),
             ],
           ),
-          insetPadding: EdgeInsets.symmetric(vertical: 10),
-          contentPadding: EdgeInsets.all(20),
+          insetPadding: const EdgeInsets.symmetric(vertical: 10),
+          contentPadding: const EdgeInsets.all(20),
           content: GlobalTextField(
             controller: logic.passwordController,
             validator: Validator.password,
@@ -59,9 +60,9 @@ class ConfirmPasswordDialog extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  TextButton(onPressed: () => Get.back(), child: Text("Bỏ qua")),
+                  TextButton(onPressed: () => Get.back(), child: const Text("Bỏ qua")),
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: Container(
                       width: MediaQuery.of(context).size.width * .3,
                       height: 50,
@@ -73,8 +74,8 @@ class ConfirmPasswordDialog extends StatelessWidget {
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(30),
                                     ),
-                                    primary: Colors.grey),
-                                child: Text(
+                                    backgroundColor: Colors.grey),
+                                child: const Text(
                                   'Xác nhận',
                                   style: TextStyle(
                                       fontSize: 14,
@@ -90,7 +91,7 @@ class ConfirmPasswordDialog extends StatelessWidget {
                                 style: ElevatedButton.styleFrom(
                                     shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(30))),
-                                child: Text(
+                                child: const Text(
                                   'Xác nhận',
                                   style: TextStyle(
                                       fontSize: 14,

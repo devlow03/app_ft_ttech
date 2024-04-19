@@ -1,3 +1,4 @@
+import 'package:app_ft_tmart/src/core/xcolor.dart';
 import 'package:app_ft_tmart/src/modules/profile/address_book/address_bottom_sheet/address_bottom_sheet_view.dart';
 import 'package:app_ft_tmart/src/widget/global_textfield.dart';
 import 'package:flutter/material.dart';
@@ -291,6 +292,7 @@ class AddAddressBookPage extends StatelessWidget {
                           Obx(() => Visibility(
                             visible: data?.isDefault!=1,
                             replacement: Switch(
+                              activeColor: XColor.primary,
                                 value: true,
                                 onChanged: (val) async{
                                   Get.dialog(

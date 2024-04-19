@@ -14,6 +14,7 @@ class GlobalData {
   static const String userIdNotify = 'userIdNotify';
   static const String notifyChildKey = 'notifyChildKey';
   static const String reCapChaKey = '6LessCQpAAAAAFatAUM_kkxguEckvHXjpp2OlOjM';
+  static const String firebaseStorageUrl = 'https://firebasestorage.googleapis.com/v0/b/appfttmart-3c6e3.appspot.com/o';
 
 }
 

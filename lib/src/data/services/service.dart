@@ -4,6 +4,7 @@ import 'package:app_ft_tmart/src/data/repositories/get_comment_response.dart';
 import 'package:app_ft_tmart/src/data/repositories/get_order_by_id_rsp.dart';
 import 'package:app_ft_tmart/src/data/repositories/get_product_rsp.dart';
 import 'package:app_ft_tmart/src/data/repositories/get_voucher_rsp.dart';
+import 'package:app_ft_tmart/src/data/repositories/post_add_comment_rqst.dart';
 import 'package:app_ft_tmart/src/data/repositories/post_add_voucher.dart';
 import 'package:app_ft_tmart/src/data/repositories/post_check_phone_rqst_bodies.dart';
 import 'package:app_ft_tmart/src/data/repositories/post_confirm_order_rqst_bodies.dart';
@@ -169,4 +170,7 @@ abstract class Services {
 
   @GET("api/auth/get_comments")
   Future<GetCommentResponse>getCommentRsp({@Query('product_id') required String productId});
+
+  @POST("api/auth/add_comment")
+  Future postAddComment({@Body() required PostAddCommentRqst bodies});
 }

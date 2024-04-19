@@ -120,7 +120,9 @@ class OtpPage extends StatelessWidget {
                               onPressed: () async{
                                 await logic.resendOtp(phoneNumber);
                               },
-                              child: Text("Gửi lại")
+                              child: Text("Gửi lại",style: TextStyle(
+                                color: XColor.primary
+                              )),
                           )
                         ],
                       ),

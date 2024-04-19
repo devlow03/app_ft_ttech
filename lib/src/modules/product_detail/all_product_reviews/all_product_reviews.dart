@@ -84,22 +84,27 @@ class AllProductReview extends StatelessWidget {
         ),
         ],
       ),
-      body: ListView(
-        children: [
+      body: RefreshIndicator(
+        color: XColor.primary,
 
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: const[
-                 LinearRatingView(),
-                SizedBox(height: 20,),
-                ProductComment()
+        onRefresh: ()=>logic.getComment(),
+        child: ListView(
+          children: const[
 
-              ],
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                   LinearRatingView(),
+                  SizedBox(height: 20,),
+                  ProductComment()
+
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
       bottomNavigationBar: const BottomDetail(),
     );

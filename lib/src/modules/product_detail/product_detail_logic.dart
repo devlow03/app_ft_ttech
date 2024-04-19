@@ -41,6 +41,7 @@ class ProductDetailLogic extends GetxController {
   final userUtils = Get.put(UserUtils());
   Rxn<GetCommentResponse>getCommentRsp = Rxn();
   RxBool isAllReviews = RxBool(false);
+  Rxn<String>productId = Rxn();
 
 
   final dio = Dio();
@@ -49,8 +50,11 @@ class ProductDetailLogic extends GetxController {
     // TODO: implement refresh
     super.refresh();
     await logicCart.getCart();
+    await getProductById();
+    await getComment();
     getProductByBrands();
-      getProductByIdCategory();
+    getProductByIdCategory();
+
 
     
   }
@@ -60,15 +64,19 @@ class ProductDetailLogic extends GetxController {
     // await getSliderProd;
     super.onReady();
     await logicCart.getCart();
+    await getProductById();
+    await getComment();
     await getProductByIdCategory();
+    getProductByBrands();
+    getProductByIdCategory();
 
 
   }
 
-  Future<GetProductByIdRsp?>getProductById({required String id})async{
-    if(id!=''){
+  Future<GetProductByIdRsp?>getProductById()async{
+    if(productId.value!=''){
     getProductByIdRsp.value = null;
-    getProductByIdRsp.value = await tMartServices.getProductByIdRsp(id: id);
+    getProductByIdRsp.value = await tMartServices.getProductByIdRsp(id: productId.value??"");
     getProductByIdRsp.refresh();
     }
 
@@ -157,16 +165,10 @@ class ProductDetailLogic extends GetxController {
   }
 
 
-  Future<void>getProduct(String? id)async{
-  
-      await getProductById(id: id ??"");
-      await getProductByBrands();
-      await getProductByIdCategory();
-    
-  }
 
-  Future<GetCommentResponse?>getComment({required String productId})async{
-    getCommentRsp.value = await tMartServices.getCommentRsp(productId: productId);
+
+  Future<GetCommentResponse?>getComment()async{
+    getCommentRsp.value = await tMartServices.getCommentRsp(productId: productId.value??"");
     return getCommentRsp.value;
   }
 

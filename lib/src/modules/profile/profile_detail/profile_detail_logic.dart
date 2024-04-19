@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:app_ft_tmart/src/core/xcolor.dart';
 import 'package:app_ft_tmart/src/data/services/service.dart';
 import 'package:app_ft_tmart/src/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -87,6 +88,8 @@ class ProfileDetailLogic extends GetxController{
       initialDate: DateTime.now(),
       firstDate: DateTime(2000),
       lastDate: DateTime(2100),
+
+
     );
     if (pickedDate != null && pickedDate != selectedDate.value) {
       selectedDate.value = pickedDate;

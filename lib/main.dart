@@ -6,6 +6,7 @@ import 'package:app_ft_tmart/src/modules/index/index_view.dart';
 import 'package:app_ft_tmart/src/modules/notification/notification_view.dart';
 import 'package:app_ft_tmart/src/modules/profile/order_history/order_detail/order_detail_view.dart';
 import 'package:app_ft_tmart/src/modules/splash/splash_view.dart';
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
@@ -23,6 +24,7 @@ void main() async {
 
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
   final CloudMessagingService cloudMessagingService = CloudMessagingService();
   cloudMessagingService.configureFirebaseMessaging();
   if(!kDebugMode) {
@@ -57,37 +59,77 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'TMart',
       theme: ThemeData(
+        primaryColorDark: XColor.primary,
+        primaryColorLight: XColor.primary,
+        dialogTheme: DialogTheme(
+          backgroundColor: Colors.white
+        ),
+        // colorScheme: ColorScheme.fromSwatch(accentColor: Colors.white,primarySwatch: XColor.primary,backgroundColor: Colors.white,cardColor: Colors.white,brightness: Brightness.light,errorColor: Colors.red),
+        indicatorColor: XColor.primary,
+        dialogBackgroundColor: Colors.white,
+        progressIndicatorTheme: ProgressIndicatorThemeData(
+          color: Colors.grey,
+          circularTrackColor: XColor.primary,
+          refreshBackgroundColor: Colors.white,linearTrackColor: XColor.primary
+
+        ),
+        // colorScheme: ColorScheme.fromSwatch(primarySwatch: XColor.primary,backgroundColor: Colors.white),
+        primaryColor: XColor.primary,
           fontFamily: 'Helvetica',
         primarySwatch: XColor.primary,
         appBarTheme: AppBarTheme(
           backgroundColor: XColor.primary,
-          iconTheme: IconThemeData(
+          iconTheme: const IconThemeData(
             color: Colors.black
           ),
-          titleTextStyle: TextStyle(
+          titleTextStyle: const TextStyle(
             color: Colors.black,
 
           )
         ),
+        textButtonTheme: TextButtonThemeData(
+          style: ButtonStyle(
+            textStyle: MaterialStateProperty.resolveWith((states) => TextStyle(
+              color: MaterialStateColor.resolveWith((states) => XColor.primary)
+            ))
+          )
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ButtonStyle(
+            backgroundColor: MaterialStateColor.resolveWith((states) => XColor.primary,),
+            textStyle: MaterialStateProperty.resolveWith((states) => const TextStyle(
+                color: Colors.white
+            ))
+          )
+        ),
+        buttonTheme: ButtonThemeData(
+          buttonColor: XColor.primary,
+
+        ),
         bottomNavigationBarTheme: BottomNavigationBarThemeData(
 
           backgroundColor: Colors.white,
-          selectedLabelStyle: TextStyle(
+          selectedLabelStyle: const TextStyle(
             fontSize: 12,
             fontWeight: FontWeight.w400
           ),
-          unselectedLabelStyle: TextStyle(
+          unselectedLabelStyle: const TextStyle(
             fontSize: 12,
               fontWeight: FontWeight.w400
           ),
           selectedItemColor: XColor.primary,
           unselectedItemColor: Colors.grey,
           // showUnselectedLabels: true,
+        ),
+        datePickerTheme: DatePickerThemeData(
+          backgroundColor: Colors.white,
+
+
         )
         // buttonColor: XColor.primary,
 
       ),
-      home: SplashPage(),
+      home: const SplashPage(),
       
     );
   }

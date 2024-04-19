@@ -225,63 +225,52 @@ class OrderPage extends StatelessWidget {
           ],
         ),
         bottomNavigationBar: BottomAppBar(
-          child: Container(
-            padding: const EdgeInsets.symmetric(vertical: 5),
-            margin: const EdgeInsets.symmetric(horizontal: 20,vertical: 5),
-            width: MediaQuery
-                .of(context)
-                .size
-                .width * .85,
-            child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 5, vertical: 3),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30)),
+          child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 5, vertical: 3),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30)),
+              ),
+              onPressed: () async {
+                if (logicCart.getCartRsp.value?.data?.address ==
+                    null) {
+                  Fluttertoast.showToast(
+                    msg: "Vui lòng chọn địa chỉ nhận hàng!",
+                  );
+                  Get.to(const AddressBookPage(
+                    intoOrder: true,
+                  ));
+                } else if (logicPay.selectPayment.value == null) {
+                  Fluttertoast.showToast(
+                    msg: "Vui lòng chọn phương thức thanh toán!",
+                  );
+                  Get.bottomSheet(
+                      isScrollControlled: true,
+                      SizedBox(
+                          height:
+                          MediaQuery.of(context).size.height *
+                              .3,
+                          child: PaymentsPage()));
+                } else {
+                  await logic.postConfirmOrder(
+                      cartId:
+                      logicCart.getCartRsp.value?.data?.id ??
+                          0,
+                      address: logicCart
+                          .getCartRsp.value?.data?.address,
+                      payment:
+                      logicPay.selectPayment.value?["value"]);
+                }
+              },
+              child: Text(
+                'Đặt hàng',
+                style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.white
                 ),
-                onPressed: () async {
-                  if (logicCart.getCartRsp.value?.data?.address ==
-                      null) {
-                    Fluttertoast.showToast(
-                      msg: "Vui lòng chọn địa chỉ nhận hàng!",
-                    );
-                    Get.to(const AddressBookPage(
-                      intoOrder: true,
-                    ));
-                  } else if (logicPay.selectPayment.value == null) {
-                    Fluttertoast.showToast(
-                      msg: "Vui lòng chọn phương thức thanh toán!",
-                    );
-                    Get.bottomSheet(
-                        isScrollControlled: true,
-                        SizedBox(
-                            height:
-                            MediaQuery.of(context).size.height *
-                                .3,
-                            child: PaymentsPage()));
-                  } else {
-                    await logic.postConfirmOrder(
-                        cartId:
-                        logicCart.getCartRsp.value?.data?.id ??
-                            0,
-                        address: logicCart
-                            .getCartRsp.value?.data?.address,
-                        payment:
-                        logicPay.selectPayment.value?["value"]);
-                  }
-                },
-                child: const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 15),
-                  child: Text(
-                    'Đặt hàng',
-                    style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white
-                    ),
-                  ),
-                )),
-          ),
+              )),
         ));
   }
 }

@@ -41,7 +41,8 @@ class HomePage extends StatelessWidget {
           backgroundColor: Colors.white,
 
           body:RefreshIndicator(
-            color: Colors.black,
+        color: XColor.primary,
+
                 strokeWidth: 3,
                 onRefresh: () async {
                   logic.refresh();
@@ -69,7 +70,7 @@ class HomePage extends StatelessWidget {
                                   )
                               ),
                               TextSpan(
-                                  text: "Chào mừng bạn đến với TMART",
+                                  text: "Chào mừng bạn đến với TMart",
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: 16,
@@ -204,6 +205,7 @@ class HomePage extends StatelessWidget {
 
 
         // RefreshIndicator(
+
         //     color: Colors.black,
         //     strokeWidth: 3,
         //     onRefresh: () async {

@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:local_auth_android/local_auth_android.dart';
-import 'package:local_auth_ios/local_auth_ios.dart';
+
 
 class SettingLogic extends GetxController {
   final localAuth = LocalAuthentication();
@@ -70,9 +70,7 @@ class SettingLogic extends GetxController {
         authMessages: const <AuthMessages>[
           AndroidAuthMessages(
               signInTitle: "Xác thực bằng vân tay", cancelButton: "Thoát"),
-          IOSAuthMessages(
-            cancelButton: 'Thoát',
-          ),
+
         ],
         options:
             const AuthenticationOptions(stickyAuth: true, biometricOnly: true)

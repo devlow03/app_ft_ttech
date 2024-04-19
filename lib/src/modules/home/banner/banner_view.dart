@@ -39,7 +39,7 @@ class BannerPage extends StatelessWidget {
                     margin:  const EdgeInsets.symmetric(vertical: 20),
                     width: MediaQuery.of(context).size.width,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
+                      borderRadius: BorderRadius.circular(8),
                       color: Colors.white,
                       border: Border.all(color: Colors.grey.shade200)
                     ),

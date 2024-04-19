@@ -2,6 +2,7 @@ import 'package:app_ft_tmart/src/core/xcolor.dart';
 import 'package:app_ft_tmart/src/modules/product_detail/product_detail_logic.dart';
 import 'package:app_ft_tmart/src/modules/product_detail/product_rating/product_rating.dart';
 import 'package:app_ft_tmart/src/widget/rating_bar.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -29,7 +30,7 @@ class LinearRatingView extends StatelessWidget {
         child: Row(
           children: [
             Expanded(
-              flex: 4,
+              flex: 6,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -58,6 +59,14 @@ class LinearRatingView extends StatelessWidget {
                     minRating: double.parse(logic.getProductByIdRsp.value?.data?.averageRating??""),
                   )
                 ],
+              ),
+            ),
+            Expanded(
+              flex: 0,
+              child: Container(
+                width: 0.5,
+                height: 100,
+                color: Colors.grey,
               ),
             ),
             Expanded(

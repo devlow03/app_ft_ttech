@@ -1,3 +1,4 @@
+import 'package:app_ft_tmart/src/core/xcolor.dart';
 import 'package:app_ft_tmart/src/data/repositories/get_order_by_id_rsp.dart';
 import 'package:app_ft_tmart/src/modules/profile/order_history/order_detail/order_detail_view.dart';
 import 'package:flutter/material.dart';
@@ -54,6 +55,7 @@ class NotificationPage extends StatelessWidget {
             return timeB.compareTo(timeA);
           });
           return RefreshIndicator(
+        color: XColor.primary,
             onRefresh: ()async{
               logic.onReady();
             },

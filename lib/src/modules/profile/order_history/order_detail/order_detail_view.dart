@@ -225,7 +225,7 @@ class OrderDetailPage extends StatelessWidget {
                               ),
                               child: ElevatedButton(
                                 style: ElevatedButton.styleFrom(
-                                  primary: XColor.primary,
+                                  backgroundColor: XColor.primary,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(30)
                                   )
@@ -329,71 +329,48 @@ class OrderDetailPage extends StatelessWidget {
                                       "delivered" ||
                                   logic.getOrderByIdRsp.value?.data?.statusCode ==
                                       "returned",
-                          replacement: Container(
-                            padding: const EdgeInsets.symmetric(vertical: 5),
-                            margin: const EdgeInsets.symmetric(horizontal: 20,vertical: 5),
-                            width: MediaQuery
-                                .of(context)
-                                .size
-                                .width * .85,
-
-                            child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 5, vertical: 3),
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(30)),
-                                    primary: Colors.redAccent),
-                                onPressed: () async {
-                                  await logic.cancelOrder(
-                                      "${logic.getOrderByIdRsp.value?.data?.id}",
-                                      "${logic.getOrderByIdRsp.value?.data?.orderDetails?.first.productName}",
-                                      "${logic.getOrderByIdRsp.value?.data?.orderDetails?.first.thumpnailUrl}",
-                                      "${logic.getOrderByIdRsp.value?.data?.orderNumber}",
-                                      context
-                                      );
-                                },
-                                child: const Padding(
-                                  padding: EdgeInsets.symmetric(vertical: 15),
-                                  child: Text(
-                                    'Hủy đơn hàng',
-                                    style: TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.white
-                                    ),
-                                  ),
-                                )),
-                          ),
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(vertical: 5),
-                            margin: const EdgeInsets.symmetric(horizontal: 20,vertical: 5),
-                            width: MediaQuery
-                                .of(context)
-                                .size
-                                .width * .85,
-                            child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 5, vertical: 3),
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(30)),
-                                    primary: XColor.primary),
-                                onPressed: () async {
-                                  await logic.rePurchase();
-                                },
-                                child: const Padding(
-                                  padding: EdgeInsets.symmetric(vertical: 15),
-                                  child: Text(
-                                    'Mua lại',
-                                    style: TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.white
-                                    ),
-                                  ),
-                                )),
-                          ),
+                          replacement: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 5, vertical: 3),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(30)),
+                                  backgroundColor: Colors.redAccent),
+                              onPressed: () async {
+                                await logic.cancelOrder(
+                                    "${logic.getOrderByIdRsp.value?.data?.id}",
+                                    "${logic.getOrderByIdRsp.value?.data?.orderDetails?.first.productName}",
+                                    "${logic.getOrderByIdRsp.value?.data?.orderDetails?.first.thumpnailUrl}",
+                                    "${logic.getOrderByIdRsp.value?.data?.orderNumber}",
+                                    context
+                                    );
+                              },
+                              child: Text(
+                                'Hủy đơn hàng',
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white
+                                ),
+                              )),
+                          child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 5, vertical: 3),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(30)),
+                                  backgroundColor: XColor.primary),
+                              onPressed: () async {
+                                await logic.rePurchase();
+                              },
+                              child: Text(
+                                'Mua lại',
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white
+                                ),
+                              )),
                         ))),
               ))),
     );

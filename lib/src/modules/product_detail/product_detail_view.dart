@@ -42,8 +42,8 @@ class ProductDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final logicCart = Get.put(CartLogic());
     final logic = Get.put(ProductDetailLogic(Get.find()));
-    logic.getProduct(id);
-    logic.getComment(productId: id??"");
+    logic.productId.value = id;
+
 
     return WillPopScope(
       onWillPop: () async {
@@ -55,9 +55,10 @@ class ProductDetailPage extends StatelessWidget {
         backgroundColor: Colors.grey.shade100,
         extendBodyBehindAppBar: true,
         body: RefreshIndicator(
+        color: XColor.primary,
           onRefresh: () async {
             logic.refresh();
-            logic.getComment(productId: id??"");
+
           },
           child: CustomScrollView(
             slivers: [
@@ -150,8 +151,8 @@ class ProductDetailPage extends StatelessWidget {
                     Visibility(
                       visible:
                           logic.getProductByIdRsp.value?.data.isNull == false,
-                      child: Column(
-                        children: const [
+                      child: const Column(
+                        children: [
                           Info(),
                           SizedBox(
                             height: 10,

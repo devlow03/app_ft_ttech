@@ -17,14 +17,14 @@ class ProductComment extends StatelessWidget {
     return Obx(() {
 
       return Container(
-        padding: logic.isAllReviews.value?EdgeInsets.all(20):null,
+        padding: logic.isAllReviews.value?const EdgeInsets.all(20):null,
         decoration: logic.isAllReviews.value?BoxDecoration(
             boxShadow: [
               BoxShadow(
                 color: Colors.grey.withOpacity(0.2),
                 spreadRadius: 5,
                 blurRadius: 3,
-                offset: Offset(0, 3), // changes position of shadow
+                offset: const Offset(0, 3), // changes position of shadow
               ),
             ],
             borderRadius: BorderRadius.circular(10),
@@ -33,7 +33,7 @@ class ProductComment extends StatelessWidget {
         child: ListView.separated(
           physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
-          itemCount: logic.isAllReviews.value?logic.getCommentRsp.value?.data?.length??0:2,
+          itemCount: logic.isAllReviews.value  ?logic.getCommentRsp.value?.data?.length??0:(logic.getCommentRsp.value?.data?.length??0)>=2?2:1,
           itemBuilder: (context, index) {
             final data = logic.getCommentRsp.value?.data?[index];
             return Row(
@@ -53,7 +53,7 @@ class ProductComment extends StatelessWidget {
                         children: [
                           Text(
                             data?.user??"",
-                            style: TextStyle(fontSize: 16, fontWeight: FontWeight
+                            style: const TextStyle(fontSize: 16, fontWeight: FontWeight
                                 .bold),
                           ),
                           ProductRating(
@@ -69,14 +69,14 @@ class ProductComment extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(vertical: 2),
                         child: Text(
                           data?.createdAt??"",
-                          style: TextStyle(fontSize: 12, fontWeight: FontWeight
+                          style: const TextStyle(fontSize: 12, fontWeight: FontWeight
                               .w400,color: Colors.grey),
                         ),
                       ),
                        const SizedBox(height: 10,),
                        Text(
                         data?.text??"",
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 14, color: Colors.black, ),
                       ),
                       const SizedBox(

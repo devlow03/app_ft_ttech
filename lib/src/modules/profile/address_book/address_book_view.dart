@@ -29,6 +29,7 @@ class AddressBookPage extends StatelessWidget {
         centerTitle: true,
       ),
       body: RefreshIndicator(
+        color: XColor.primary,
         onRefresh: () async {
           logic.onReady();
         },
@@ -270,7 +271,7 @@ class AddressBookPage extends StatelessWidget {
       ),
       bottomNavigationBar: BottomAppBar(
         child: ElevatedButton(
-          style: ElevatedButton.styleFrom(primary: Colors.white),
+          style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
           onPressed: () {
             Get.to(const AddAddressBookPage(
               onUpdate: false,

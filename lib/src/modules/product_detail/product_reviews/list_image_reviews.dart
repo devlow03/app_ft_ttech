@@ -1,6 +1,7 @@
 import 'package:app_ft_tmart/src/modules/product_detail/product_detail_logic.dart';
 import 'package:app_ft_tmart/src/modules/product_detail/product_rating/product_rating.dart';
 import 'package:app_ft_tmart/src/modules/product_detail/product_reviews/comments/product_comment.dart';
+import 'package:app_ft_tmart/src/widget/global_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -22,14 +23,14 @@ class ListImageReviews extends StatelessWidget {
               itemBuilder: (context, index) =>
                   ClipRRect(
                     borderRadius: BorderRadius.circular(5),
-                    child: Image.network(
-                      "${logic.getCommentRsp.value?.data?[index].imageUrl?.first}",
+                    child: GlobalImage(
+                      imageUrl:"${logic.getCommentRsp.value?.data?[index].imageUrl?.first}",
                       width: MediaQuery
                           .of(context)
                           .size
                           .width * .2,
                       height: 30,
-                      fit: BoxFit.cover,
+                      boxFit: BoxFit.cover,
 
                     ),
 

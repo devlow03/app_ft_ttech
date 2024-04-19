@@ -73,9 +73,9 @@ class DescriptionView extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Text(
+                          Text(
                             "Xem thêm",
-                            style: TextStyle(fontSize: 14),
+                            style: TextStyle(fontSize: 14,color: XColor.primary),
                           ),
                           Icon(
                             Icons.keyboard_arrow_right,

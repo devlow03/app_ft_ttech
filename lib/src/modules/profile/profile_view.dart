@@ -71,6 +71,7 @@ class ProfilePage extends StatelessWidget {
         backgroundColor: Colors.white,
         body: Obx(() {
           return RefreshIndicator(
+        color: XColor.primary,
             onRefresh: ()async{
               logic.onReady();
             },

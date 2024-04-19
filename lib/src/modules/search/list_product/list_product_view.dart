@@ -156,6 +156,7 @@ class ListProductDetailPage extends StatelessWidget {
                 ),
                 visible: logic.getSearchRsp.value?.data!=null,
                 child: RefreshIndicator(
+        color: XColor.primary,
                   onRefresh: ()async{
                     logic.getSearch(
                         keyword: logic.logic.keyword.value,

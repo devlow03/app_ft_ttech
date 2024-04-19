@@ -92,7 +92,7 @@ class SignupPage extends StatelessWidget {
                         ),
                       ),
                       style: ElevatedButton.styleFrom(
-                        primary: XColor.primary,
+                        backgroundColor: XColor.primary,
                           padding: const EdgeInsets.symmetric(
                               horizontal: 5, vertical: 3),
                           shape: RoundedRectangleBorder(

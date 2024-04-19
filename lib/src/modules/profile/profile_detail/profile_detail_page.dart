@@ -1,4 +1,5 @@
 import 'package:app_ft_tmart/src/core/validator.dart';
+import 'package:app_ft_tmart/src/core/xcolor.dart';
 import 'package:app_ft_tmart/src/modules/profile/address_book/address_bottom_sheet/address_bottom_sheet_view.dart';
 import 'package:app_ft_tmart/src/modules/profile/profile_logic.dart';
 
@@ -53,6 +54,7 @@ class ProfileDetailPage extends StatelessWidget {
           // ],
         ),
         body: RefreshIndicator(
+        color: XColor.primary,
           onRefresh: ()async{
             logic.logicProfile.getUserProfile();
           },

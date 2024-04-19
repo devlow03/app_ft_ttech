@@ -25,20 +25,29 @@ class ProductReviewsPage extends StatelessWidget {
           color: Colors.white,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text('Đánh giá sản phẩm',
-                    style:
-                    TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
-                TextButton(
-                    onPressed: ()=>Get.to(CreateReviewPage()),
-                    child: Text('Tạo đánh giá')
-                )
-                // Text('Chưa có đánh giá',
-                //     style: TextStyle(
-                //         fontSize: 14,
-                //         color: Colors.grey)),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text('Đánh giá sản phẩm',
+                        style:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
+
+                    Text('Chưa có đánh giá',
+                        style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.grey)),
+                  ],
+                ),
+                ElevatedButton(
+                    onPressed: ()=>Get.to(const CreateReviewPage()),
+                    child: Text('Tạo đánh giá',style: TextStyle(
+                        color: Colors.white
+                    ),)
+                ),
               ],
             ),
           ),
@@ -50,6 +59,12 @@ class ProductReviewsPage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                ElevatedButton(
+                    onPressed: ()=>Get.to(const CreateReviewPage()),
+                    child: Text('Tạo đánh giá',style: TextStyle(
+                        color: Colors.white
+                    ),)
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -61,16 +76,16 @@ class ProductReviewsPage extends StatelessWidget {
                       child: TextButton(
                         onPressed: (){
                           logic.isAllReviews.value = true;
-                            Get.to(AllProductReview(),
+                            Get.to(const AllProductReview(),
                                 transition: Transition.rightToLeft);
 
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Text(
+                            Text(
                               "Xem tất cả",
-                              style: TextStyle(fontSize: 14),
+                              style: TextStyle(fontSize: 14,color: XColor.primary),
                             ),
                             Icon(
                               Icons.keyboard_arrow_right,
@@ -108,9 +123,9 @@ class ProductReviewsPage extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Text(
+                            Text(
                               "Xem tất cả",
-                              style: TextStyle(fontSize: 14),
+                              style: TextStyle(fontSize: 14,color: XColor.primary),
                             ),
                             Icon(
                               Icons.keyboard_arrow_right,

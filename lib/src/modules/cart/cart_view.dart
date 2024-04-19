@@ -57,6 +57,7 @@ class CartPage extends StatelessWidget {
           return const NotOrder();
         }
         return RefreshIndicator(
+        color: XColor.primary,
           onRefresh: logic.refresh,
           child: ListView(
             padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -76,52 +77,48 @@ class CartPage extends StatelessWidget {
         );
       }),
       bottomNavigationBar: BottomAppBar(
+
           child: Obx(() {
             return Visibility(
               visible: logic.getCartRsp.value?.data?.cartDetails
                   ?.isNotEmpty == true,
-              child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 5),
-                margin: const EdgeInsets.symmetric(horizontal: 20,vertical: 5),
-                width: MediaQuery
-                    .of(context)
-                    .size
-                    .width * .85,
-                child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 5, vertical: 5),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30)),
-                    ),
-                    onPressed: () async {
-                      if (logic.getCartRsp.value?.data?.address != null) {
-                        final order = Get.put(OrderLogic());
-                        Utils.loading(() async {
-                          await order.postCreateShipping(action: "p");
-                          Get.back();
-                          Get.to(const OrderPage());
-                        },
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
 
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 5, vertical: 5),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30)),
+                  backgroundColor: XColor.primary,
+                ),
+                child: const Padding(
+                  padding: EdgeInsets.all(10),
+                  child: Text(
+                    "Thanh toán",
+                    style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.white),
+                  ),
+                ),
+                  onPressed: () async {
 
-                        );
-                      }
-                      else {
+                    if (logic.getCartRsp.value?.data?.address != null) {
+                      final order = Get.put(OrderLogic());
+                      Utils.loading(() async {
+                        await order.postCreateShipping(action: "p");
+                        Get.back();
                         Get.to(const OrderPage());
-                      }
-                    },
-                    child: const Padding(
-                      padding: EdgeInsets.symmetric(vertical: 15),
-                      child: Text(
-                        'Thanh toán',
-                        style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.white
-                        ),
-                      ),
-                    )),
-              ),
+                      },
+
+
+                      );
+                    }
+                    else {
+                      Get.to(const OrderPage());
+                    }
+                  },
+                  ),
             );
           })
       ),

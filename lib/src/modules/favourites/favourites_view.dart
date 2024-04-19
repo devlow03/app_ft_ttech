@@ -44,6 +44,7 @@ class FavouritesPage extends StatelessWidget {
             ),
           ),
           child: RefreshIndicator(
+        color: XColor.primary,
             onRefresh: ()async{
               logic.onReady();
             },

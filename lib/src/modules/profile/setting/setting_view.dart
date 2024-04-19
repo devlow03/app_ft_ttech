@@ -104,18 +104,10 @@ class SettingPage extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(15)),
                               child: Padding(
                                 padding: const EdgeInsets.all(10),
-                                child: Visibility(
-                                  visible: logic.biometric.value == "finger",
-                                  replacement: Image.asset(
-                                    "assets/images/face_id.png",
-                                    height: 30,
-                                    width: 30,
-                                  ),
-                                  child: Icon(
-                                    Icons.fingerprint,
-                                    size: 30,
-                                    color: XColor.primary,
-                                  ),
+                                child: Icon(
+                                  Icons.fingerprint,
+                                  size: 30,
+                                  color: XColor.primary,
                                 ),
                               )),
                           title: Text(
@@ -136,6 +128,7 @@ class SettingPage extends StatelessWidget {
                                   },
                                 ),
                                 child: Switch(
+                                  activeColor: XColor.primary,
                                     value: logic.onLocalAuth.value,
                                     onChanged: (val) {
                                       if (val == true) {

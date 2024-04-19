@@ -39,24 +39,27 @@ class Utils{
                  Get.back();
                  // Hiển thị thông báo lỗi lên giao diện
                  Get.dialog(
+
                    Padding(
                      padding: const EdgeInsets.symmetric(horizontal: 5),
                      child: AlertDialog(
-                       icon: Icon(Icons.error,color: Colors.red,size: 35,),
+                       icon: Icon(Icons.error,color: Colors.red,size: 50,),
                        title: Text(
-                         "${errorMessage}",
-                         style: TextStyle(),
+                         "$errorMessage",
+                         style: TextStyle(
+                           fontSize: 14
+                         ),
                          textAlign: TextAlign.center,
                        ),
                        actions: [
                          ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                              primary: XColor.primary
+                              backgroundColor: XColor.primary
                             ),
                              onPressed: (){
                                Get.back();
                              },
-                             child: Text("Xác nhận")
+                             child: Text("Xác nhận",style: TextStyle(color: Colors.white),)
                          )
                        ],
                      ),

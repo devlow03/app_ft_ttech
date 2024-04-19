@@ -59,39 +59,43 @@ class OtpLogic extends GetxController {
     });
   }
   Future<void>resendOtp(String? phone)async{
+      if(seconds.value!=00){
+        Fluttertoast.showToast(msg:"Chưa thể gửi lại mã xác thực được");
+      }
 
+      else{
+        try{
+          seconds.value=59;
+          await startTimer();
+          if(phone?.startsWith('0')==true){
+            String? phoneNumber = "+84${phone?.substring(1)}";
+            print(">>>>>>>>>$phoneNumber");
+            await auth.verifyPhoneNumber(
+              phoneNumber: phoneNumber,
+              verificationCompleted: (PhoneAuthCredential credential)async{
+                await auth.signInWithCredential(credential);
+              },
+              verificationFailed: (FirebaseAuthException e){
+                if (e.code == 'invalid-phone-number') {
+                  print('The provided phone number is not valid.');
+                }
+              },
+              codeSent: (String verificationId, int? resendToken) async {
+                // Update the UI - wait for the user to enter the SMS code
+                verifyId.value = verificationId;
 
-      try{
-        seconds.value=59;
-        await startTimer();
-        if(phone?.startsWith('0')==true){
-          String? phoneNumber = "+84${phone?.substring(1)}";
-          print(">>>>>>>>>$phoneNumber");
-          await auth.verifyPhoneNumber(
-            phoneNumber: phoneNumber,
-            verificationCompleted: (PhoneAuthCredential credential)async{
-              await auth.signInWithCredential(credential);
-            },
-            verificationFailed: (FirebaseAuthException e){
-              if (e.code == 'invalid-phone-number') {
-                print('The provided phone number is not valid.');
-              }
-            },
-            codeSent: (String verificationId, int? resendToken) async {
-              // Update the UI - wait for the user to enter the SMS code
-              verifyId.value = verificationId;
+              },
+              codeAutoRetrievalTimeout: (String verificationId) {
+                // Auto-resolution timed out...
+              },
+            );
+          }
+          Fluttertoast.showToast(msg: "Mã xác thực đã được gửi lại");
 
-            },
-            codeAutoRetrievalTimeout: (String verificationId) {
-              // Auto-resolution timed out...
-            },
-          );
+        }catch(e){
+          Get.back();
+          Get.snackbar("Gửi mã xác thực thất bại","Vui lòng thử lại");
         }
-        Fluttertoast.showToast(msg: "Mã xác thực đã được gửi lại");
-
-      }catch(e){
-        Get.back();
-        Get.snackbar("Gửi mã xác thực thất bại","Vui lòng thử lại");
       }
     }
 

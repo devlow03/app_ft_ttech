@@ -1,6 +1,7 @@
 import 'package:app_ft_tmart/src/core/xcolor.dart';
 import 'package:app_ft_tmart/src/modules/cart/cart_logic.dart';
 import 'package:app_ft_tmart/src/widget/search_widget.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -48,7 +49,7 @@ class VoucherPage extends StatelessWidget {
             ),)
           ),
           body: Obx(() {
-            if(logic.getVoucherRsp.value?.data?.isEmpty==true){
+            if(logic.getVoucherRsp.value?.data==null){
               return Center(
                 child: CircularProgressIndicator(
                   color: XColor.primary,
@@ -130,146 +131,149 @@ class VoucherPage extends StatelessWidget {
 
                   ),
                 ),
-                ListView.separated(
-                  padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: logic.getVoucherRsp.value?.data?.length ?? 0,
-                  itemBuilder: (context, index) {
-                    return InkWell(
-                      onTap: ()async{
-                        final cart = Get.put(CartLogic());
+                Visibility(
+                  visible: logic.getVoucherRsp.value?.data?.isNotEmpty==true,
+                  child: ListView.separated(
+                    padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: logic.getVoucherRsp.value?.data?.length ?? 0,
+                    itemBuilder: (context, index) {
+                      return InkWell(
+                        onTap: ()async{
+                          final cart = Get.put(CartLogic());
 
-                        await logic.addVoucher(
-                            cartId: cartId,
-                            voucherCode: logic.getVoucherRsp.value?.data?[index]
-                                .voucherCode??""
-                        );
-                        cart.voucherCode.value = logic.getVoucherRsp.value?.data?[index]
-                            .voucherCode;
-                      },
-                      child: TicketWidget(
-                        // shadow: [
-                        //   BoxShadow(
-                        //     color: Colors.grey.withOpacity(0.1),
-                        //     spreadRadius: 5,
-                        //     blurRadius: 3,
-                        //     offset: Offset(0, 3), // changes position of shadow
-                        //   ),
-                        // ],
-                        // borderColor: XColor.primary,
-                        width: 100,
-                        height: 130,
-                        color: Colors.white,
-                        // isCornerRounded: true,
-                        padding: const EdgeInsets.all(20),
-                        child:  Padding(
-                          padding: const EdgeInsets.all(5),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    '${logic.getVoucherRsp.value?.data?[index]
-                                        .title}',
-                                    style: const TextStyle(
-                                      fontSize: 16,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w900,
+                          await logic.addVoucher(
+                              cartId: cartId,
+                              voucherCode: logic.getVoucherRsp.value?.data?[index]
+                                  .voucherCode??""
+                          );
+                          cart.voucherCode.value = logic.getVoucherRsp.value?.data?[index]
+                              .voucherCode;
+                        },
+                        child: TicketWidget(
+                          // shadow: [
+                          //   BoxShadow(
+                          //     color: Colors.grey.withOpacity(0.1),
+                          //     spreadRadius: 5,
+                          //     blurRadius: 3,
+                          //     offset: Offset(0, 3), // changes position of shadow
+                          //   ),
+                          // ],
+                          // borderColor: XColor.primary,
+                          width: 100,
+                          height: 130,
+                          color: Colors.white,
+                          // isCornerRounded: true,
+                          padding: const EdgeInsets.all(20),
+                          child:  Padding(
+                            padding: const EdgeInsets.all(5),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      '${logic.getVoucherRsp.value?.data?[index]
+                                          .title}',
+                                      style: const TextStyle(
+                                        fontSize: 16,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w900,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 5),
+                                    Text(
+                                      'CODE: ${logic.getVoucherRsp.value?.data?[index]
+                                          .voucherCode}',
+                                      style: const TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 5),
+                                    Text(
+                                      'HSD: ${logic.getVoucherRsp.value?.data?[index]
+                                          .voucherDateEnd}',
+                                      style: const TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Visibility(
+                                  visible: logic.logicCart.voucherTitle.value!=logic.getVoucherRsp.value?.data?[index]
+                                      .title,
+                                  replacement: InkWell(
+                                    onTap: ()async{
+                                      await logic.deleteVoucher(cartId: cartId);
+                                      final cart = Get.put(CartLogic());
+                                      cart.voucherCode.value = "Chọn mã giảm giá";
+                                    },
+                                    child: Container(
+                                        decoration: BoxDecoration(
+                                            color: Colors.red,
+                                            borderRadius: BorderRadius.circular(20)
+                                        ),
+                                        child: const Padding(
+                                          padding: EdgeInsets.symmetric(horizontal: 15,vertical: 8),
+                                          child: Text("Xóa mã",
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w500
+                                            ),
+                                          ),
+                                        )
                                     ),
                                   ),
-                                  const SizedBox(height: 5),
-                                  Text(
-                                    'CODE: ${logic.getVoucherRsp.value?.data?[index]
-                                        .voucherCode}',
-                                    style: const TextStyle(
-                                      fontSize: 14,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 5),
-                                  Text(
-                                    'HSD: ${logic.getVoucherRsp.value?.data?[index]
-                                        .voucherDateEnd}',
-                                    style: const TextStyle(
-                                      fontSize: 14,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Visibility(
-                                visible: logic.logicCart.voucherTitle.value!=logic.getVoucherRsp.value?.data?[index]
-                                    .title,
-                                replacement: InkWell(
-                                  onTap: ()async{
-                                    await logic.deleteVoucher(cartId: cartId);
-                                    final cart = Get.put(CartLogic());
-                                    cart.voucherCode.value = "Chọn mã giảm giá";
-                                  },
-                                  child: Container(
+                                  child: InkWell(
+                                    onTap: ()async{
+                                      await logic.addVoucher(
+                                          cartId: cartId,
+                                          voucherCode: logic.getVoucherRsp.value?.data?[index]
+                                              .voucherCode??""
+                                      );
+                                      final cart = Get.put(CartLogic());
+                                      cart.voucherCode.value = logic.getVoucherRsp.value?.data?[index]
+                                          .voucherCode;
+                                      cart.voucherTitle.value =  logic.getVoucherRsp.value?.data?[index]
+                                          .title;
+                                    },
+                                    child: Container(
                                       decoration: BoxDecoration(
-                                          color: Colors.red,
-                                          borderRadius: BorderRadius.circular(20)
+                                        color: XColor.primary,
+                                        borderRadius: BorderRadius.circular(20)
                                       ),
                                       child: const Padding(
                                         padding: EdgeInsets.symmetric(horizontal: 15,vertical: 8),
-                                        child: Text("Xóa mã",
-                                          style: TextStyle(
+                                        child: Text("Áp dụng",
+                                            style: TextStyle(
                                               color: Colors.white,
                                               fontSize: 16,
                                               fontWeight: FontWeight.w500
-                                          ),
-                                        ),
+                                            ),
+                                            ),
                                       )
-                                  ),
-                                ),
-                                child: InkWell(
-                                  onTap: ()async{
-                                    await logic.addVoucher(
-                                        cartId: cartId,
-                                        voucherCode: logic.getVoucherRsp.value?.data?[index]
-                                            .voucherCode??""
-                                    );
-                                    final cart = Get.put(CartLogic());
-                                    cart.voucherCode.value = logic.getVoucherRsp.value?.data?[index]
-                                        .voucherCode;
-                                    cart.voucherTitle.value =  logic.getVoucherRsp.value?.data?[index]
-                                        .title;
-                                  },
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      color: XColor.primary,
-                                      borderRadius: BorderRadius.circular(20)
-                                    ),
-                                    child: const Padding(
-                                      padding: EdgeInsets.symmetric(horizontal: 15,vertical: 8),
-                                      child: Text("Áp dụng",
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w500
-                                          ),
-                                          ),
-                                    )
+                                      ),
                                     ),
                                   ),
-                                ),
 
-                            ],
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                    );
-                  },
-                  separatorBuilder: (context, index) {
-                    return const SizedBox(height: 10,);
-                  },
+                      );
+                    },
+                    separatorBuilder: (context, index) {
+                      return const SizedBox(height: 10,);
+                    },
+                  ),
                 ),
                 const SizedBox(height: 30,)
               ],

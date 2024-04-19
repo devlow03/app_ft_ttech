@@ -20,7 +20,7 @@ class BottomDetail extends StatelessWidget {
             true,
         child: BottomAppBar(
 
-          height: 150,
+          height: 155,
           // color: Colors.grey.shade100,
           elevation: 1,
           child: Column(
@@ -152,6 +152,7 @@ class BottomDetail extends StatelessWidget {
                       margin: const EdgeInsets.symmetric(horizontal: 5,vertical: 5),
 
                       child: ElevatedButton(
+
                           style: ElevatedButton.styleFrom(
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 5, vertical: 5),
