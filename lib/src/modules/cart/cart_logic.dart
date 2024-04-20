@@ -45,9 +45,11 @@ class CartLogic extends GetxController {
   }
 
   Future<GetCartRsp?> getCart() async {
-
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    if(( prefs.getString(GlobalData.token)??"")!='') {
       getCartRsp.value =
       await tMartServices.getCartRsp();
+    }
 
     // await logic.postCreateShipping(action: "p");
     return getCartRsp.value;

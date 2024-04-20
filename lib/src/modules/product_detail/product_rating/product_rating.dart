@@ -8,8 +8,9 @@ class ProductRating extends StatelessWidget {
    final double? initialRating;
    final double? minRating;
    final String? ratingText;
+   final String? numReviews;
 
-   ProductRating({super.key, this.isReview,this.itemCount,this.isLinear, this.initialRating, this.minRating, this.ratingText});
+   ProductRating({super.key, this.isReview,this.itemCount,this.isLinear, this.initialRating, this.minRating, this.ratingText, this.numReviews});
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +39,7 @@ class ProductRating extends StatelessWidget {
                  width: 5,
                ),
                Text(
-                "(20 views)",
+                "($numReviews đánh giá)",
                 style: TextStyle(color: Colors.grey),
         ),
              ],

@@ -74,7 +74,7 @@ class SignInLogic extends GetxController {
     prefs.remove(GlobalData.token);
     prefs.remove(GlobalData.userIdNotify);
     uid.value=null;
-    Get.offAll(SignInPage());
+    Get.offAll(IndexPage());
     Fluttertoast.showToast(
         msg: "Đăng xuất thành công", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM, timeInSecForIosWeb: 1, textColor: Colors.white, fontSize: 16.0);
   }

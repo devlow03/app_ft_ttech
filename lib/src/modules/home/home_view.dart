@@ -23,7 +23,8 @@ import '../search/list_product/list_product_view.dart';
 import '../product_detail/product_detail_view.dart';
 import 'badge_notify/badge_notification.dart';
 import 'banner/banner_view.dart';
-import 'cart_icon/cart_icon.dart';
+
+import 'cart_widget/cart_widget.dart';
 import 'home_logic.dart';
 import 'product_by_category/product_by_category_view.dart';
 
@@ -167,7 +168,7 @@ class HomePage extends StatelessWidget {
 
                             const Expanded(
                                 flex: 2,
-                                child: CartIcon())
+                                child: CartWidget())
 
                           ],
                         ),

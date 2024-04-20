@@ -1,4 +1,5 @@
 
+import 'package:app_ft_tmart/src/modules/cart/cart_icon/cart_icon.dart';
 import 'package:app_ft_tmart/src/modules/filter/filter_view.dart';
 import 'package:app_ft_tmart/src/modules/index/index_view.dart';
 import 'package:app_ft_tmart/src/modules/product_detail/product_detail_view.dart';
@@ -62,47 +63,7 @@ class AllProductByCategoryPage extends StatelessWidget {
               const Icon(Icons.search,color: Colors.black,)
               ,
             ),
-            Obx(() {
-              return Stack(
-                alignment: Alignment.centerRight,
-                children: [
-                  IconButton(
-                    onPressed: () {
-                      Get.to(
-                          const CartPage());
-                    },
-                    icon:
-                    const Icon(Icons.shopping_cart_outlined,color: Colors.black,)
-                    ,
-                  ),
-                  Visibility(
-                    visible: logicCart.getCartRsp.value?.data?.cartDetails
-                        ?.isNotEmpty == true,
-                    child: Positioned(
-                      right: 5,
-                      bottom: 25,
-                      child: Container(
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: XColor.primary
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(5),
-                          child: Text(
-                            "${logicCart.getCartRsp.value?.data
-                                ?.cartDetails
-                                ?.length}",
-                            style: const TextStyle(
-                                color: Colors.white
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  )
-                ],
-              );
-            }),
+            CartIcon(),
             IconButton(
                 onPressed: ()=>Get.offAll(IndexPage()),
                 icon: const Icon(Icons.home_outlined,color: Colors.black,)

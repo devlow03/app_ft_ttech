@@ -125,6 +125,9 @@ class MyApp extends StatelessWidget {
           backgroundColor: Colors.white,
 
 
+        ),
+        bottomAppBarTheme: BottomAppBarTheme(
+          color: Colors.white
         )
         // buttonColor: XColor.primary,
 

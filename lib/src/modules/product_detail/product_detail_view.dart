@@ -1,5 +1,6 @@
 import 'package:app_ft_tmart/src/data/repositories/get_product_by_category_rsp.dart';
 import 'package:app_ft_tmart/src/modules/all_product_by_category/all_product_by_category_view.dart';
+import 'package:app_ft_tmart/src/modules/cart/cart_icon/cart_icon.dart';
 import 'package:app_ft_tmart/src/modules/product_detail/bottom/bottom_view.dart';
 import 'package:app_ft_tmart/src/modules/product_detail/description/description.dart';
 import 'package:app_ft_tmart/src/modules/product_detail/info_detai/info_detail.dart';
@@ -98,47 +99,8 @@ class ProductDetailPage extends StatelessWidget {
                             color: Colors.red,
                           ),
                         )),
-                    // IconButton(
-                    //     onPressed: () {
-                    //       Get.to(const SearchPage());
-                    //     },
-                    //     icon: const Icon(Icons.search)),
-                    Obx(() {
-                      return Stack(
-                        alignment: Alignment.centerRight,
-                        children: [
-                          IconButton(
-                            onPressed: () async {
-                              await logic.userUtils.checkSignIn(intoPage: true);
-                              await logicCart.getCart();
-                              Get.to(const CartPage());
-                            },
-                            icon: const Icon(Icons.shopping_cart_outlined),
-                          ),
-                          Visibility(
-                            visible: logicCart.getCartRsp.value?.data
-                                    ?.cartDetails?.isNotEmpty ==
-                                true,
-                            child: Positioned(
-                              right: 5,
-                              bottom: 25,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: XColor.primary),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(5),
-                                  child: Text(
-                                    "${logicCart.getCartRsp.value?.data?.cartDetails?.length}",
-                                    style: const TextStyle(color: Colors.white),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          )
-                        ],
-                      );
-                    })
+                    CartIcon(),
+
                   ],
                 );
               }),

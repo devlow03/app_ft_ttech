@@ -38,7 +38,7 @@ class OtpLogic extends GetxController {
   Future<void>verifyOtp()async{
     Utils.loading(()async{
       try{
-        PhoneAuthCredential credential = PhoneAuthProvider.credential(
+        PhoneAuthProvider.credential(
           verificationId: logic.verifyId.value ?? '',
           smsCode: codeController.text,
         );
