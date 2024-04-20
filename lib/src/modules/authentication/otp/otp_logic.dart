@@ -42,7 +42,7 @@ class OtpLogic extends GetxController {
           verificationId: logic.verifyId.value ?? '',
           smsCode: codeController.text,
         );
-        await auth.signInWithCredential(credential);
+
 
 
 
