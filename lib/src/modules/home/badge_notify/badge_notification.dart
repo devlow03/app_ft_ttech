@@ -13,42 +13,43 @@ class BadgeNotification extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final logic = Get.put(NotificationLogic());
-    logic.getNotifications();
-    return Obx(() {
-      return Stack(
-        alignment: Alignment.centerRight,
-        children: [
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10),
-            child: Icon(Icons.notifications_outlined),
-          ),
-          Visibility(
-            visible: logic.dataNotification
-                .isNotEmpty == true,
-            child: Positioned(
-              right: 5,
-              bottom: 26,
-              child: Container(
-                decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: XColor.primary),
-                child: Padding(
-                  padding: const EdgeInsets.all(5),
-                  child: Text(
-                    "${logic.dataNotification.length}",
-                    style: const TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 11
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          )
-        ],
-      );
-    });
+    return Center();
+    // final logic = Get.put(NotificationLogic());
+    // logic.getNotifications();
+    // return Obx(() {
+    //   return Stack(
+    //     alignment: Alignment.centerRight,
+    //     children: [
+    //       const Padding(
+    //         padding: EdgeInsets.symmetric(horizontal: 10),
+    //         child: Icon(Icons.notifications_outlined),
+    //       ),
+    //       Visibility(
+    //         visible: logic.dataNotification
+    //             .isNotEmpty == true,
+    //         child: Positioned(
+    //           right: 5,
+    //           bottom: 26,
+    //           child: Container(
+    //             decoration: BoxDecoration(
+    //                 shape: BoxShape.circle,
+    //                 color: XColor.primary),
+    //             child: Padding(
+    //               padding: const EdgeInsets.all(5),
+    //               child: Text(
+    //                 "${logic.dataNotification.length}",
+    //                 style: const TextStyle(
+    //                     color: Colors.white,
+    //                     fontWeight: FontWeight.bold,
+    //                     fontSize: 11
+    //                 ),
+    //               ),
+    //             ),
+    //           ),
+    //         ),
+    //       )
+    //     ],
+    //   );
+    // });
   }
 }

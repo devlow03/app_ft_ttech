@@ -23,7 +23,7 @@ import '../cart/cart_logic.dart';
 class HomeLogic extends GetxController {
   final Services tMartServices = Get.find();
   final EncryptedSharedPreferences sharedPreferences= Get.find();
-  final notification = Get.put(NotificationLogic());
+  // final notification = Get.put(NotificationLogic());
   final userUtils = Get.put(UserUtils());
   RxBool isSignIn = RxBool(false);
   HomeLogic();
@@ -59,7 +59,7 @@ class HomeLogic extends GetxController {
     // TODO: implement onReady
     super.onReady();
     isSignIn.value=await userUtils.checkSignIn(fromHome: true);
-    await notification.getNotifications();
+    // await notification.getNotifications();
     await getBanner();
     await getCategory();
     await getProdByCategory();

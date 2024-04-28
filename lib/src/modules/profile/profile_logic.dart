@@ -2,7 +2,6 @@ import 'package:app_ft_tmart/src/core/global_data.dart';
 import 'package:app_ft_tmart/src/data/services/service.dart';
 import 'package:app_ft_tmart/src/modules/authentication/sign_in/sign_in_view.dart';
 import 'package:app_ft_tmart/src/modules/profile/profile_detail/profile_detail_logic.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -13,7 +12,7 @@ class ProfileLogic extends GetxController {
   Rxn<bool> onSignIn = Rxn(false);
   Rxn<String>token = Rxn();
   Rxn<GetUserProfileRsp>getUserProfileRsp = Rxn();
-  FirebaseAuth auth = FirebaseAuth.instance;
+  // FirebaseAuth auth = FirebaseAuth.instance;
   
   @override
   void onReady() async{

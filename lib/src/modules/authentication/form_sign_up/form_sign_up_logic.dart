@@ -1,7 +1,6 @@
 import 'package:app_ft_tmart/src/data/repositories/post_register_rqst_bodies.dart';
 import 'package:app_ft_tmart/src/modules/authentication/sign_in/sign_in_logic.dart';
 import 'package:app_ft_tmart/src/modules/authentication/signup/signup_logic.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
@@ -17,7 +16,7 @@ class FormSignUpLogic extends GetxController {
   Rxn<String>phoneNumber = Rxn();
   final logicSignIn = Get.put(SignInLogic());
   final logicSignUp = Get.put(SignupLogic());
-  FirebaseAuth auth = FirebaseAuth.instance;
+  // FirebaseAuth auth = FirebaseAuth.instance;
 
   Future<void>register()async{
     Utils.loading(()async{
