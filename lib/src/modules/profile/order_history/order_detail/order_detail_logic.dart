@@ -13,7 +13,7 @@ import 'package:get/get.dart';
 
 class OrderDetailLogic extends GetxController {
   final Services tMartServices = Get.find();
-  final realTimeDataBase = Get.put(RealTimeDataBase(Get.find()));
+ 
   RxList<String> productId = <String>[].obs;
   RxList<String> productQuantity = <String>[].obs;
   Rxn<GetOrderByIdRsp> getOrderByIdRsp = Rxn();
@@ -23,12 +23,7 @@ class OrderDetailLogic extends GetxController {
     final logic = Get.put(OrderHistoryLogic());
     Utils.loading(() async {
       await tMartServices.cancelOrder(id: id ?? "");
-      await realTimeDataBase.addData(
-          
-          orderId: int.parse(id ?? ""),
-          title: "Đã hủy đơn hàng $orderNumber thành công",
-          content: "${productName}",
-          image: "${thumbnail}");
+      
 
       Get.back();
       await logic.getOrder().then((value){

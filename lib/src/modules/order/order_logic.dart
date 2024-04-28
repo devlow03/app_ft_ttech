@@ -30,7 +30,7 @@ class OrderLogic extends GetxController {
   Rxn<PostConfirmOrderRsp>postOrderRsp = Rxn();
   Rxn<PostCreateVnpayRsp>postVnpayRsp = Rxn();
   // final logicCart = Get.put(CartLogic());
-  final realTimeDataBase = Get.put(RealTimeDataBase(Get.find()));
+  // final realTimeDataBase = Get.put(RealTimeDataBase(Get.find()));
   
 
 
@@ -84,12 +84,12 @@ class OrderLogic extends GetxController {
           Get.back();
           final logicCart = Get.put(CartLogic());
           logicCart.onReady();
-          await realTimeDataBase.addData(
-            orderId: postOrderRsp.value?.data?.orderId??0,
-            title: "Đặt hàng thành công",
-             content: "${logicCart.getCartRsp.value?.data?.cartDetails?.first.productName}",
-              image: "${logicCart.getCartRsp.value?.data?.cartDetails?.first.thumpnailUrl}"
-          );
+          // await realTimeDataBase.addData(
+          //   orderId: postOrderRsp.value?.data?.orderId??0,
+          //   title: "Đặt hàng thành công",
+          //    content: "${logicCart.getCartRsp.value?.data?.cartDetails?.first.productName}",
+          //     image: "${logicCart.getCartRsp.value?.data?.cartDetails?.first.thumpnailUrl}"
+          // );
           Get.back();
           Get.to(const OrderHistoryPage());
          
