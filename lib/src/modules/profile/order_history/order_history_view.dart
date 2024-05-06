@@ -1,14 +1,9 @@
 import 'package:app_ft_tmart/src/core/xcolor.dart';
 import 'package:app_ft_tmart/src/modules/index/index_view.dart';
 import 'package:app_ft_tmart/src/modules/search/search_view.dart';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-
-
 import 'order_history_logic.dart';
-import 'not_order/not_order.dart';
 import 'order_list/order_list.dart';
 
 class OrderHistoryPage extends StatelessWidget {
@@ -58,7 +53,7 @@ class OrderHistoryPage extends StatelessWidget {
                           bottom: BorderSide(color: Colors.grey.shade300))),
                   child: Center(
                     child: TabBar(
-
+                        tabAlignment: TabAlignment.start,
                         indicatorWeight: 5,
                         isScrollable: true,
                         indicatorColor: XColor.primary,

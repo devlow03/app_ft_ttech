@@ -39,7 +39,7 @@ class BannerPage extends StatelessWidget {
                     margin:  const EdgeInsets.symmetric(vertical: 20),
                     width: MediaQuery.of(context).size.width,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(10),
                       color: Colors.white,
                       border: Border.all(color: Colors.grey.shade200)
                     ),
@@ -69,7 +69,7 @@ class BannerPage extends StatelessWidget {
                               child: Container(
                                 decoration: BoxDecoration(
                                   borderRadius:
-                                  BorderRadius.circular(8),
+                                  BorderRadius.circular(10),
                                   color: Colors.grey.shade300,
                                 ),
                               ),
@@ -84,7 +84,7 @@ class BannerPage extends StatelessWidget {
                                   .details?.first.link));
                             },
                             child: ClipRRect(
-                              borderRadius: BorderRadius.circular(8),
+                              borderRadius: BorderRadius.circular(10),
                               child: GlobalImage(
                                   imageUrl: logic
                                       .getBannerRsp

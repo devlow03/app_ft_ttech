@@ -60,7 +60,7 @@ class IndexPage extends StatelessWidget {
       return Scaffold(
         bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
-          iconSize: 28,
+          iconSize: 25,
           selectedLabelStyle: TextStyle(
               color: XColor.primary,
             fontSize: 13

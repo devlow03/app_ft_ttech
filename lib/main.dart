@@ -59,6 +59,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'TMart',
       theme: ThemeData(
+        
         primaryColorDark: XColor.primary,
         primaryColorLight: XColor.primary,
         dialogTheme: DialogTheme(
@@ -67,17 +68,18 @@ class MyApp extends StatelessWidget {
         // colorScheme: ColorScheme.fromSwatch(accentColor: Colors.white,primarySwatch: XColor.primary,backgroundColor: Colors.white,cardColor: Colors.white,brightness: Brightness.light,errorColor: Colors.red),
         indicatorColor: XColor.primary,
         dialogBackgroundColor: Colors.white,
-        progressIndicatorTheme: ProgressIndicatorThemeData(
-          color: Colors.grey,
-          circularTrackColor: XColor.primary,
-          refreshBackgroundColor: Colors.white,linearTrackColor: XColor.primary
+        // progressIndicatorTheme: ProgressIndicatorThemeData(
+        //   color: Colors.grey,
+        //   circularTrackColor: XColor.primary,
+        //   refreshBackgroundColor: Colors.white,
 
-        ),
+        // ),
         // colorScheme: ColorScheme.fromSwatch(primarySwatch: XColor.primary,backgroundColor: Colors.white),
         primaryColor: XColor.primary,
           fontFamily: 'Helvetica',
         primarySwatch: XColor.primary,
         appBarTheme: AppBarTheme(
+          scrolledUnderElevation: 0.0,
           backgroundColor: XColor.primary,
           iconTheme: const IconThemeData(
             color: Colors.black
@@ -118,7 +120,7 @@ class MyApp extends StatelessWidget {
               fontWeight: FontWeight.w400
           ),
           selectedItemColor: XColor.primary,
-          unselectedItemColor: Colors.grey,
+          unselectedItemColor: Colors.grey.shade500,
           // showUnselectedLabels: true,
         ),
         datePickerTheme: DatePickerThemeData(

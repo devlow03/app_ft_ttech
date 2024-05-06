@@ -68,7 +68,7 @@ class MiniImageList extends StatelessWidget {
                       onTap: () {
                         logic.indexSlider.value = index;
                         logic.carouselControl
-                            .animateToPage(logic.indexSlider.value);
+                            .jumpToPage(logic.indexSlider.value);
 
                         print(">>>>>>>>>>>>>>>>>>>${logic.indexSlider.value}");
                       },

@@ -113,22 +113,25 @@ class AllProductByCategoryPage extends StatelessWidget {
                               const NeverScrollableScrollPhysics(),
                               itemBuilder: (context, ind) {
                                 logic.indexPage.value=ind;
+                                final data = logic.getProductByCategory.value?.data?[ind];
                                 return InkWell(
                                   onTap: () {
                                     Get.to(ProductDetailPage(
-                                      id: logic.getProductByCategory.value?.data?[ind].id.toString(),
+                                      id: data?.id.toString(),
 
                                     ));
                                   },
                                   child: GlobalProduct(
-                                    imageLink:logic.getProductByCategory.value?.data?[ind].thumpnailUrl,
-                                    defaultPrice: '${logic.getProductByCategory.value?.data?[ind].defaultPrice}',
+                                    productId: data?.id.toString(),
+                                    imageLink:data?.thumpnailUrl,
+                                    defaultPrice: '${data?.defaultPrice}',
                                     // price:NumberFormat("###,###.# đ").format(snapshot.data?.products?[index].price),
                                     price:
-                                    '${ logic.getProductByCategory.value?.data?[ind].price}',
+                                    '${ data?.price}',
                                     nameProduct:
-                                    logic.getProductByCategory.value?.data?[ind].productName,
-                                    rating: double.parse(logic.getProductByCategory.value?.data?[ind].averageRating??"")
+                                    data?.productName,
+                                    rating: double.parse(data?.averageRating??""),
+                                    isFavorites: data?.favorite,
                                   ),
                                 );
 

@@ -115,6 +115,6 @@ class AllProductByCategoryLogic extends GetxController {
     logic.selectedPriceRange.clear();
     page.value = 10;
     return true;
-    return true;
+    
   }
 }

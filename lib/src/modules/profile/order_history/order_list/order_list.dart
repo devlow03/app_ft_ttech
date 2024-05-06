@@ -37,7 +37,7 @@ class OrderList extends StatelessWidget {
                   
                 )),
                 child: Container(
-                  margin: const EdgeInsets.symmetric( horizontal: 5),
+                  margin: const EdgeInsets.symmetric( vertical: 5),
                   // padding: EdgeInsets.all(8),
                   decoration: BoxDecoration(
                       boxShadow: [
@@ -55,36 +55,7 @@ class OrderList extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(vertical: 10),
                     child: Column(
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 5),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                children: const [
-                                  Icon(
-                                    Icons.storefront,
-                                  ),
-                                  const SizedBox(
-                                    width: 5,
-                                  ),
-                                  Text(
-                                    "TMart",
-                                    style: TextStyle(
-                                        fontSize: 16, fontWeight: FontWeight.bold),
-                                  )
-                                ],
-                              ),
-                              Text(
-                                "${data?.statusName}",
-                                style: TextStyle(color: XColor.primary),
-                              )
-                            ],
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
+                        
                         ListTile(
                           leading: GlobalImage(
                             imageUrl: data?.orderDetails?.first.thumpnailUrl,

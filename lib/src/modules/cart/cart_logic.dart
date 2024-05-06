@@ -1,7 +1,9 @@
 import 'package:app_ft_tmart/src/core/global_data.dart';
 import 'package:app_ft_tmart/src/core/xcolor.dart';
+import 'package:app_ft_tmart/src/data/repositories/post_cart_rqst.dart';
 import 'package:app_ft_tmart/src/data/repositories/post_update_cart_detail_rqst.dart';
 import 'package:app_ft_tmart/src/modules/cart/voucher/voucher_logic.dart';
+import 'package:app_ft_tmart/src/utils/user_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -44,6 +46,25 @@ class CartLogic extends GetxController {
     await getCart();
   }
 
+  Future<void>postAddCart({required String productId, required String quantity })async{
+    final userUtils = Get.put(UserUtils());
+    await userUtils.checkSignIn(intoPage: true);
+    await tMartServices.postAddCart(body: PostCartRqst(
+        // guestSession: "64FF1EABC08F21694441131",
+          productId: productId,
+          quantity: quantity
+      ));
+      await getCart();
+      Fluttertoast.showToast(msg: "Đã thêm vào giỏ hàng");
+
+
+
+    
+
+
+
+
+  }
   Future<GetCartRsp?> getCart() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     if(( prefs.getString(GlobalData.token)??"")!='') {
@@ -103,56 +124,7 @@ class CartLogic extends GetxController {
     ));
   }
 
-  // Future<void> getVoucher() async {
-  //   try {
-  //     for (int i = 0; i <= (getCartRsp.value?.data?.info?.length ?? 0); i++) {
-  //       if (getCartRsp.value?.data?.info?[i].code == "voucher") {
-  //         voucherValue.value =
-  //             (getCartRsp.value?.data?.info?[i].text).toString();
-  //         voucherTitle.value =
-  //             (getCartRsp.value?.data?.info?[i].title).toString();
-  //       }
-  //     }
-  //   } catch (e) {
-  //     print(e);
-  //   }
-  // }
 
-  // Future<void> removeCart() async {
-  //   Get.dialog(
-  //       AlertDialog(
-  //     content: const Text('Bạn có chắc chắn muốn xóa giỏ hàng ?'),
-  //     actions: [
-  //       ElevatedButton(
-  //           style: ElevatedButton.styleFrom(
-  //               primary: Colors.white,
-  //               side: BorderSide(color: Colors.grey.shade200)),
-  //           onPressed: () {
-  //             Get.back();
-  //           },
-  //           child: const Text(
-  //             'Không',
-  //             style: TextStyle(color: Colors.black),
-  //           )),
-  //       ElevatedButton(
-  //           style: ElevatedButton.styleFrom(
-  //             primary: XColor.primary,
-  //           ),
-  //           onPressed: () async {
-  //             Get.back();
-  //             Utils.loading(() async {
-  //               await tMartServices.deleteRemoveCart(
-  //                   id: getCartRsp.value?.data?.id.toString() ?? "");
-  //               onClearCart.value = true;
-  //               await refresh();
-  //               Get.back();
-  //               Get.back();
-  //             });
-  //           },
-  //           child: const Text('Đồng ý'))
-  //     ],
-  //   ));
-  // }
 
   Future<void> inCreaseOrDecreaseQuantity(
       {required int index, required String type}) async {

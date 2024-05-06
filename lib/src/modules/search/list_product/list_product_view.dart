@@ -142,6 +142,7 @@ class ListProductDetailPage extends StatelessWidget {
                               const NeverScrollableScrollPhysics(),
                               itemBuilder: (context, ind) {
                                 logic.indexPage.value=ind;
+                                
                                 return InkWell(
                                   onTap: () {
                                     Get.to(ProductDetailPage(

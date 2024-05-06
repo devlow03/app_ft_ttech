@@ -166,6 +166,8 @@ class SameType extends StatelessWidget {
                                               ?.length ??
                                           0,
                                   itemBuilder: (context, ind) {
+                                    final data = logic.getProductByBrandRsp.value
+                                              ?.data?[ind];
                                     return Visibility(
                                       visible: logic.getProductByBrandRsp.value
                                               ?.data?[ind].id !=
@@ -174,8 +176,7 @@ class SameType extends StatelessWidget {
                                         onTap: () async {
                                           Get.back();
                                           Get.to(ProductDetailPage(
-                                            id: logic.getProductByBrandRsp.value
-                                                ?.data?[ind].id
+                                            id: data?.id
                                                 .toString(),
                                           ));
                                         },
@@ -183,21 +184,15 @@ class SameType extends StatelessWidget {
                                           padding: const EdgeInsets.symmetric(
                                               vertical: 8, horizontal: 2),
                                           child: GlobalProduct(
-                                            imageLink: logic.getProductByBrandRsp
-                                                .value?.data?[ind].thumpnailUrl,
+                                            productId: data?.id.toString(),
+                                            imageLink: data?.thumpnailUrl,
                                             defaultPrice:
-                                                '${logic.getProductByBrandRsp.value?.data?[ind].defaultPrice}',
+                                                '${data?.defaultPrice}',
                                             price:
-                                                '${logic.getProductByBrandRsp.value?.data?[ind].price}',
-                                            nameProduct: logic
-                                                .getProductByBrandRsp
-                                                .value
-                                                ?.data?[ind]
-                                                .productName,
-                                            rating: double.parse(logic
-                                                .getProductByBrandRsp
-                                                .value
-                                                ?.data?[ind].averageRating??""),
+                                                '${data?.price}',
+                                            nameProduct:data?.productName,
+                                            rating: double.parse(data?.averageRating??""),
+                                            isFavorites:data?.favorite,
                                           ),
                                         ),
                                       ),

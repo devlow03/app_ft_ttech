@@ -1,13 +1,9 @@
 import 'package:app_ft_tmart/src/modules/all_product_by_category/all_product_by_category_view.dart';
-import 'package:app_ft_tmart/src/modules/filter/filter_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../../core/xcolor.dart';
-import '../../../widget/global_product.dart';
-import '../../search/list_product/list_product_view.dart';
-import '../../product_detail/product_detail_view.dart';
 import '../home_logic.dart';
 
 class CategoryPage extends StatelessWidget {
@@ -142,7 +138,7 @@ class CategoryPage extends StatelessWidget {
                         return InkWell(
                           onTap: () {
                             logic.indexCat.value = index;
-                            print(">>>>>>>>>>${logic.indexCat.value}");
+                            
                             logic.idCategory.value = logic.getCategoryRsp
                                 .value?.data?[index]
                                 .id ?? 0;
@@ -157,12 +153,14 @@ class CategoryPage extends StatelessWidget {
                                   .width *
                                   .3,
                               decoration: BoxDecoration(
-                                // border: Border.all(
-                                //     color: logic.indexCat.value == index
-                                //         ? Colors.transparent
-                                //         : Colors.black, width: 2),
-                                color: logic.indexCat.value == index ? XColor
-                                    .primary : Colors.grey.shade200,
+                                border: Border.all(
+                                    color: logic.indexCat.value == index
+                                        ? XColor.primary
+                                        :Colors.grey, width: logic.indexCat.value == index
+                                        ?2:1.5),
+                                // color: logic.indexCat.value == index ? XColor
+                                //     .primary : Colors.grey.shade200,
+                                color: Colors.white,
                                 borderRadius:
                                 BorderRadius.circular(30),
 
@@ -172,9 +170,9 @@ class CategoryPage extends StatelessWidget {
                                   .name ?? "",
                                 style: TextStyle(
                                     fontSize: 14,
-                                    fontWeight: logic.indexCat.value == index?FontWeight.w600:FontWeight.w500,
+                                    fontWeight: logic.indexCat.value == index?FontWeight.bold:FontWeight.w600,
                                     color: logic.indexCat.value == index
-                                        ? Colors.white
+                                        ? XColor.primary
                                         : Colors.grey
                                 ),
                               ),

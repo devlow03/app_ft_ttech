@@ -52,6 +52,7 @@ class HomePage extends StatelessWidget {
               controller: logic.controller,
               slivers: [
                 SliverAppBar(
+                
                   backgroundColor: Colors.white,
                   leading: null,
                   title: Obx(() {
@@ -147,7 +148,8 @@ class HomePage extends StatelessWidget {
                         )),
 
                   ],
-                  pinned: false,
+                  scrolledUnderElevation: 0.0,
+                  pinned: true,
                   stretch: true,
                 ),
                 SliverToBoxAdapter(
