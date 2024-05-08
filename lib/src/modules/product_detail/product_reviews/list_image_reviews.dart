@@ -23,26 +23,30 @@ class ListImageReviews extends StatelessWidget {
               shrinkWrap: true,
               scrollDirection: Axis.horizontal,
               itemCount: (logic.getCommentRsp.value?.data?.length ?? 0)>=4?4:(logic.getCommentRsp.value?.data?.length ?? 0),
-              itemBuilder: (context, index) => InkWell(
-                onTap: ()=>Get.to(const CommentDetails()),
-                child: Visibility(
-                  visible: index == 3,
-                  replacement: GlobalImage(
-                    imageUrl:
-                        "${logic.getCommentRsp.value?.data?[index].imageUrl?.first}",
-                    width: MediaQuery.of(context).size.width * .2,
-                    height: 30,
-                    boxFit: BoxFit.cover,
-                  ),
+              itemBuilder: (context, index) => Visibility(
+                visible: index == 3,
+                replacement: InkWell(
+                onTap: (){
+                  
+                  Get.to( CommentDetails(index: index,));
+                  
+                },
                   child: GlobalImage(
-                    color: Colors.black.withOpacity(0.5), // Màu tối lại
-                    colorBlendMode: BlendMode.darken,
                     imageUrl:
                         "${logic.getCommentRsp.value?.data?[index].imageUrl?.first}",
                     width: MediaQuery.of(context).size.width * .2,
                     height: 30,
                     boxFit: BoxFit.cover,
                   ),
+                ),
+                child: GlobalImage(
+                  color: Colors.black.withOpacity(0.5), // Màu tối lại
+                  colorBlendMode: BlendMode.darken,
+                  imageUrl:
+                      "${logic.getCommentRsp.value?.data?[index].imageUrl?.first}",
+                  width: MediaQuery.of(context).size.width * .2,
+                  height: 30,
+                  boxFit: BoxFit.cover,
                 ),
               ),
               separatorBuilder: (context, index) => const SizedBox(

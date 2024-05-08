@@ -10,6 +10,7 @@ import 'package:app_ft_tmart/src/utils/utils.dart';
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -42,9 +43,13 @@ class ProductDetailLogic extends GetxController {
   Rxn<GetCommentResponse>getCommentRsp = Rxn();
   RxBool isAllReviews = RxBool(false);
   Rxn<String>productId = Rxn();
+  PageController pageViewController = PageController();
+  Rxn<int>indexCommentDetail = Rxn(0);
+ 
+  
 
 
-  final dio = Dio();
+  // final dio = Dio();
   @override
   void refresh() async{
     // TODO: implement refresh
@@ -54,7 +59,7 @@ class ProductDetailLogic extends GetxController {
     await getComment();
     getProductByBrands();
     getProductByIdCategory();
-
+    
 
     
   }
@@ -69,7 +74,11 @@ class ProductDetailLogic extends GetxController {
     await getProductByIdCategory();
     getProductByBrands();
     getProductByIdCategory();
+    pageViewController.addListener(() { 
+      indexCommentDetail.value = 0;
+    });
 
+    
 
   }
 

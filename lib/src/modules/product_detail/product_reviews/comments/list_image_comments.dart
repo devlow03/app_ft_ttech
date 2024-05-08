@@ -1,3 +1,4 @@
+import 'package:app_ft_tmart/src/modules/product_detail/comment_details/comment_details.dart';
 import 'package:app_ft_tmart/src/modules/product_detail/product_detail_logic.dart';
 import 'package:app_ft_tmart/src/modules/product_detail/product_rating/product_rating.dart';
 import 'package:app_ft_tmart/src/modules/product_detail/product_reviews/comments/product_comment.dart';
@@ -21,18 +22,21 @@ class ListImageComments extends StatelessWidget {
             0),
         itemBuilder: (context, ind) {
           final data = logic.getCommentRsp.value?.data?[index].imageUrl?[ind];
-          return ClipRRect(
-            borderRadius: BorderRadius.circular(5),
-            child: GlobalImage(
-
-              imageUrl:"$data",
-              width: MediaQuery
-                  .of(context)
-                  .size
-                  .width * .2,
-              height: 50,
-              boxFit: BoxFit.cover,
-
+          return InkWell(
+            onTap: ()=>Get.to( CommentDetails(index: index,)),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(5),
+              child: GlobalImage(
+            
+                imageUrl:"$data",
+                width: MediaQuery
+                    .of(context)
+                    .size
+                    .width * .2,
+                height: 50,
+                boxFit: BoxFit.cover,
+            
+              ),
             ),
           );
         },
