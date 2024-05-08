@@ -62,7 +62,7 @@ class MyApp extends StatelessWidget {
         
         primaryColorDark: XColor.primary,
         primaryColorLight: XColor.primary,
-        dialogTheme: DialogTheme(
+        dialogTheme: const DialogTheme(
           backgroundColor: Colors.white
         ),
         // colorScheme: ColorScheme.fromSwatch(accentColor: Colors.white,primarySwatch: XColor.primary,backgroundColor: Colors.white,cardColor: Colors.white,brightness: Brightness.light,errorColor: Colors.red),

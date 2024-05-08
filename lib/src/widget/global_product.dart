@@ -180,12 +180,12 @@ class GlobalProduct extends StatelessWidget {
                            );
                       },
                       child: Container(
-                        padding: const EdgeInsets.all(3),
+                        padding: const EdgeInsets.all(5),
                         decoration: BoxDecoration(
                           color: XColor.primary,
                           shape: BoxShape.circle
                         ),
-                        child: Icon(Icons.add,color: Colors.white,),
+                        child: Icon(Icons.shopping_bag_outlined,color: Colors.white,),
                       ),
                     )
                   ],

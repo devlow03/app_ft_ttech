@@ -34,7 +34,7 @@ class HomeLogic extends GetxController {
   Rxn<GetCategoryRsp>getCategoryRsp = Rxn();
   Rx<int>idCategory = Rx(1);
   Rxn<int>indexCat = Rxn(0);
-
+  Rxn<double>positionPixel = Rxn();
   Rxn<int> activeIndex = Rxn();
   Rxn<bool>hasData = Rxn(false);
   // Rxn<String>idCategory = Rxn();
@@ -63,6 +63,10 @@ class HomeLogic extends GetxController {
     await getBanner();
     await getCategory();
     await getProdByCategory();
+    controller.addListener(() {
+      positionPixel.value = controller.position.pixels;
+     
+    });
 
     // if(hasData.value == false){
     //   getProductByIdCategoryRsp.refresh();

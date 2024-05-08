@@ -48,12 +48,12 @@ class IndexPage extends StatelessWidget {
         'screen': const NotificationPage(),
 
       },
-      // {
-      //   'icon': const Icon(Icons.account_circle_outlined),
-      //   'active': const Icon(Icons.account_circle),
-      //   'label': 'Tài khoản',
-      //   'screen':  ProfilePage(),
-      // },
+      {
+        'icon': const Icon(Icons.account_circle_outlined),
+        'active': const Icon(Icons.account_circle),
+        'label': 'Tài khoản',
+        'screen':  ProfilePage(),
+      },
 
     ];
     return Obx(() {

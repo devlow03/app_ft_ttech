@@ -5,7 +5,9 @@ class GlobalImage extends StatelessWidget {
   final double? width;
   final double? height;
   final BoxFit? boxFit;
-  const GlobalImage({super.key, this.imageUrl, this.width, this.height, this.boxFit});
+  final Color? color;
+  final BlendMode? colorBlendMode;
+  const GlobalImage({super.key, this.imageUrl, this.width, this.height, this.boxFit, this.color, this.colorBlendMode});
 
   @override
   Widget build(BuildContext context) {
@@ -22,10 +24,13 @@ class GlobalImage extends StatelessWidget {
         ),
       ),
       child: CachedNetworkImage(
+        
         imageUrl: imageUrl??"",
         height: height??0,
         width: width??0,
         fit:boxFit,
+        color: color, // Màu tối lại
+  colorBlendMode: colorBlendMode, 
         // placeholder: (context, url) => Container(
         //   width: width,
         //   height: height,

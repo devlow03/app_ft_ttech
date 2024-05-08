@@ -67,7 +67,11 @@ class AllProductByCategoryPage extends StatelessWidget {
             IconButton(
                 onPressed: ()=>Get.offAll(IndexPage()),
                 icon: const Icon(Icons.home_outlined,color: Colors.black,)
-            )
+            ),
+            IconButton(
+              onPressed: ()=>Get.bottomSheet(FilterPage(isCategory: true,)),
+               icon: Icon(Icons.tune_outlined)
+               )
 
           ]
       ),
@@ -96,85 +100,80 @@ class AllProductByCategoryPage extends StatelessWidget {
                 valueColor: AlwaysStoppedAnimation<Color>(XColor.primary),
               ),
               visible: logic.getProductByCategory.value?.data?.isNotEmpty==true,
-              child: Stack(
+              child: ListView(
+                controller: logic.controller,
                 children: [
-                  ListView(
-                    controller: logic.controller,
+                  const SizedBox(height: 10,),
+                  Column(
                     children: [
-                      const SizedBox(height: 10,),
-                      Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
-                            child: GridView.builder(
-                              shrinkWrap: true,
-                              itemCount: logic.getProductByCategory.value?.data?.length??0,
-                              physics:
-                              const NeverScrollableScrollPhysics(),
-                              itemBuilder: (context, ind) {
-                                logic.indexPage.value=ind;
-                                final data = logic.getProductByCategory.value?.data?[ind];
-                                return InkWell(
-                                  onTap: () {
-                                    Get.to(ProductDetailPage(
-                                      id: data?.id.toString(),
-
-                                    ));
-                                  },
-                                  child: GlobalProduct(
-                                    productId: data?.id.toString(),
-                                    imageLink:data?.thumpnailUrl,
-                                    defaultPrice: '${data?.defaultPrice}',
-                                    // price:NumberFormat("###,###.# đ").format(snapshot.data?.products?[index].price),
-                                    price:
-                                    '${ data?.price}',
-                                    nameProduct:
-                                    data?.productName,
-                                    rating: double.parse(data?.averageRating??""),
-                                    isFavorites: data?.favorite,
-                                  ),
-                                );
-
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: GridView.builder(
+                          shrinkWrap: true,
+                          itemCount: logic.getProductByCategory.value?.data?.length??0,
+                          physics:
+                          const NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, ind) {
+                            logic.indexPage.value=ind;
+                            final data = logic.getProductByCategory.value?.data?[ind];
+                            return InkWell(
+                              onTap: () {
+                                Get.to(ProductDetailPage(
+                                  id: data?.id.toString(),
+              
+                                ));
                               },
-                              gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-
-                                crossAxisCount: 2,
-                                crossAxisSpacing: 5,
-                                mainAxisSpacing: 5,
-                                childAspectRatio: 3 / 5,
+                              child: GlobalProduct(
+                                productId: data?.id.toString(),
+                                imageLink:data?.thumpnailUrl,
+                                defaultPrice: '${data?.defaultPrice}',
+                                // price:NumberFormat("###,###.# đ").format(snapshot.data?.products?[index].price),
+                                price:
+                                '${ data?.price}',
+                                nameProduct:
+                                data?.productName,
+                                rating: double.parse(data?.averageRating??""),
+                                isFavorites: data?.favorite,
                               ),
-                            ),
+                            );
+              
+                          },
+                          gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+              
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 5,
+                            mainAxisSpacing: 5,
+                            childAspectRatio: 3 / 5,
                           ),
-                          const SizedBox(height: 30,),
-                          Visibility(
-                            visible: (logic.getProductByCategory.value?.meta?.perPage ?? 0) <
-                                (logic.getProductByCategory.value?.meta?.total ?? 0),
-                            replacement: const Center(),
-                            child: const Center(
-                                child: SpinKitCircle(size: 40,
-                                  color: Colors.grey,
-                                )
-                            ),
-                          ),
-                          const SizedBox(height: 80,),
-
-                          // TextButton(
-                          //     onPressed: (){
-                          //       print(">>>>>>>>>>>>>>>>>>>${logic.isLoading.value}");
-                          //     },
-                          //     child: Text('a')
-                          // )
-                        ],
+                        ),
                       ),
+                      const SizedBox(height: 30,),
+                      Visibility(
+                        visible: (logic.getProductByCategory.value?.meta?.perPage ?? 0) <
+                            (logic.getProductByCategory.value?.meta?.total ?? 0),
+                        replacement: const Center(),
+                        child: const Center(
+                            child: SpinKitCircle(size: 40,
+                              color: Colors.grey,
+                            )
+                        ),
+                      ),
+                      const SizedBox(height: 80,),
+              
+                      // TextButton(
+                      //     onPressed: (){
+                      //       print(">>>>>>>>>>>>>>>>>>>${logic.isLoading.value}");
+                      //     },
+                      //     child: Text('a')
+                      // )
                     ],
                   ),
-
                 ],
               ),
             );
           }),
-          FilterPage(isCategory: true,)
+          
         ],
       )
     );

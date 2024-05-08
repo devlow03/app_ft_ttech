@@ -21,7 +21,6 @@ import '../cart/cart_logic.dart';
 import '../notification/notification_view.dart';
 import '../search/list_product/list_product_view.dart';
 import '../product_detail/product_detail_view.dart';
-import 'badge_notify/badge_notification.dart';
 import 'banner/banner_view.dart';
 
 import 'cart_widget/cart_widget.dart';
@@ -36,9 +35,15 @@ class HomePage extends StatelessWidget {
     final logic = Get.put(HomeLogic());
     final profile = Get.put(ProfileLogic());
     final profileDetail = Get.put(ProfileDetailLogic());
-    return Padding(
+    return Obx((){
+      return Padding(
       padding: const EdgeInsets.symmetric(vertical: 15),
       child: Scaffold(
+        appBar: (logic.positionPixel.value??0)>=300?AppBar(
+          
+          backgroundColor: Colors.white,
+          title: const SearchAndCart(),
+        ):null,
           backgroundColor: Colors.white,
 
           body:RefreshIndicator(
@@ -51,131 +56,32 @@ class HomePage extends StatelessWidget {
             child: CustomScrollView(
               controller: logic.controller,
               slivers: [
+                
                 SliverAppBar(
                 
                   backgroundColor: Colors.white,
                   leading: null,
-                  title: Obx(() {
-
-                    return Visibility(
-                      visible: logic.isSignIn.value,
-                      replacement: RichText(
-                        text: const TextSpan(
-                            children: [
-                              TextSpan(
-                                  text: "👋 Xin Chào! \n",
-                                  style: TextStyle(
-                                      color: Colors.grey,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500,
-                                      letterSpacing: 0.5
-                                  )
-                              ),
-                              TextSpan(
-                                  text: "Chào mừng bạn đến với TMart",
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w600,
-                                      letterSpacing: 0.5,
-                                    height: 1.5
-                                  )
-                              )
-                            ]
-                        ),
-                      ),
-                      child: RichText(
-                        text: TextSpan(
-                            children: [
-                              const TextSpan(
-                                  text: "👋 Xin Chào! \n",
-                                  style: TextStyle(
-                                      color: Colors.grey,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500,
-                                      letterSpacing: 0.5
-                                  )
-                              ),
-                              TextSpan(
-                                  text: profile.getUserProfileRsp.value?.data
-                                      ?.fullName ?? "",
-                                  style: const TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w600,
-                                      letterSpacing: 0.5,
-                                      height: 1.5
-                                  )
-                              )
-                            ]
-                        ),
-                      ),
-                    );
-                  }),
+                  title: TitleAppBar(logic: logic, profile: profile),
                   centerTitle: false,
                   elevation: 0.0,
                   actions: [
                     // BadgeNofication(),
-                    Obx(() =>
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                          child: InkWell(
-                            onTap: ()async{
-                              // await logic.userUtils.checkSignIn();
-                              bool isLogin = await logic.userUtils.checkSignIn(intoPage: false);
-                              print(">>>>>>>>>>>>>>>>>>>>$isLogin");
-                              if(isLogin){
-                                await profile.getUserProfile();
-                                Get.to(ProfilePage());
-                              }
-                            },
-                            child: Visibility(
-                              visible: logic.isSignIn.value,
-                              replacement: const CircleAvatar(
-                                radius: 24,
-                                backgroundImage: AssetImage("assets/images/avatar.png")
-                              ),
-                              child: CircleAvatar(
-                                radius: 24,
-                                backgroundImage: NetworkImage(
-                                    "${profile.getUserProfileRsp.value?.data
-                                        ?.avatar != null ? (profile.getUserProfileRsp
-                                        .value?.data?.avatar) : (profileDetail
-                                        .networkImage.value)}"),
-                              ),
-                            ),
-                          ),
-                        )),
+                    CircleAvatarAppBar(logic: logic, profile: profile, profileDetail: profileDetail),
 
                   ],
-                  scrolledUnderElevation: 0.0,
-                  pinned: true,
+                  
+                  pinned: false,
                   stretch: true,
                 ),
-                SliverToBoxAdapter(
+                const SliverToBoxAdapter(
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 15,horizontal: 15),
+                    padding: EdgeInsets.symmetric(
+                        vertical: 10,horizontal: 15),
                     child: Column(
                       children: [
-                        Row(
-                          children: [
-                            Expanded(
-                              flex: 10,
-                              child: SearchWidget(
-                                onTap: () => Get.to(const SearchPage()),
-                                readOnly: true,
-                              ),
-                            ),
-
-                            const Expanded(
-                                flex: 2,
-                                child: CartWidget())
-
-                          ],
-                        ),
-                        const BannerPage(),
-                        const CategoryPage(),
+                        SearchAndCart(),
+                        BannerPage(),
+                        CategoryPage(),
 
                       ],
                     ),
@@ -184,8 +90,7 @@ class HomePage extends StatelessWidget {
                 const SliverPadding(
                     padding: EdgeInsets.symmetric(horizontal: 15),
                     sliver: ProductByCategoryPage()),
-                Obx(() {
-                  return SliverToBoxAdapter(
+               SliverToBoxAdapter(
                       child: Visibility(
                         visible: logic.page.value <
                             (logic.getProductByCategoryRsp.value?.meta
@@ -198,8 +103,7 @@ class HomePage extends StatelessWidget {
                             )
                         ),
                       )
-                  );
-                })
+                  )
               ],
 
             ),
@@ -207,55 +111,144 @@ class HomePage extends StatelessWidget {
 
 
 
-        // RefreshIndicator(
-
-        //     color: Colors.black,
-        //     strokeWidth: 3,
-        //     onRefresh: () async {
-        //       logic.refresh();
-        //     },
-        //     child: ListView(
-        //       controller: logic.controller,
-        //       children: [
-        //         const BannerPage(),
-        //         Column(
-        //           crossAxisAlignment: CrossAxisAlignment.start,
-        //           children: [
-        //             const CategoryPage(),
-        //             const ProductByCategoryPage(),
-        //             const SizedBox(height: 10,),
-        //             Obx(() {
-        //               return Visibility(
-        //                 visible: logic.page.value <
-        //                     (logic.getProductByCategoryRsp.value?.meta
-        //                         ?.total ??
-        //                         0),
-        //                 replacement: Center(),
-        //                 child: Center(
-        //                     child: SpinKitCircle(size: 40,
-        //                       color: Colors.grey,
-        //                     )
-        //                 ),
-        //               );
-        //             }),
-        //
-        //             // // SizedBox(height: 20,),
-        //             // ProductSuggestPage()
-        //
-        //           ],
-        //         ),
-        //
-        //
-        //         const SizedBox(
-        //           height: 30,
-        //         ),
-        //       ],
-        //     )
-        //
-        //   // body: Text('a'),
-        // )
+        
 
       ),
+    );
+    });
+  }
+}
+
+class CircleAvatarAppBar extends StatelessWidget {
+  const CircleAvatarAppBar({
+    super.key,
+    required this.logic,
+    required this.profile,
+    required this.profileDetail,
+  });
+
+  final HomeLogic logic;
+  final ProfileLogic profile;
+  final ProfileDetailLogic profileDetail;
+
+  @override
+  Widget build(BuildContext context) {
+    return Obx(() =>
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          child: Visibility(
+            visible: logic.isSignIn.value,
+            replacement: const CircleAvatar(
+              radius: 24,
+              backgroundImage: AssetImage("assets/images/avatar.png")
+            ),
+            child: CircleAvatar(
+              radius: 24,
+              backgroundImage: NetworkImage(
+                  "${profile.getUserProfileRsp.value?.data
+                      ?.avatar != null ? (profile.getUserProfileRsp
+                      .value?.data?.avatar) : (profileDetail
+                      .networkImage.value)}"),
+            ),
+          ),
+        ));
+  }
+}
+
+class TitleAppBar extends StatelessWidget {
+  const TitleAppBar({
+    super.key,
+    required this.logic,
+    required this.profile,
+  });
+
+  final HomeLogic logic;
+  final ProfileLogic profile;
+
+  @override
+  Widget build(BuildContext context) {
+    return Obx(() {
+    
+      return Visibility(
+        visible: logic.isSignIn.value,
+        replacement: RichText(
+          text: const TextSpan(
+              children: [
+                TextSpan(
+                    text: "👋 Xin Chào! \n",
+                    style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        letterSpacing: 0.5
+                    )
+                ),
+                TextSpan(
+                    text: "Chào mừng bạn đến với TMart",
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        letterSpacing: 0.5,
+                      height: 1.5
+                    )
+                )
+              ]
+          ),
+        ),
+        child: RichText(
+          text: TextSpan(
+              children: [
+                const TextSpan(
+                    text: "👋 Xin Chào! \n",
+                    style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        letterSpacing: 0.5
+                    )
+                ),
+                TextSpan(
+                    text: profile.getUserProfileRsp.value?.data
+                        ?.fullName ?? "",
+                    style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        letterSpacing: 0.5,
+                        height: 1.5
+                    )
+                )
+              ]
+          ),
+        ),
+      );
+    });
+  }
+}
+
+class SearchAndCart extends StatelessWidget {
+  const SearchAndCart({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          flex: 10,
+          child: SearchWidget(
+            onTap: () => Get.to(const SearchPage()),
+            readOnly: true,
+          ),
+        ),
+    
+        const Expanded(
+            flex: 2,
+            child: CartWidget())
+    
+      ],
     );
   }
 }

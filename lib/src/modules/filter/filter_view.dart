@@ -23,12 +23,7 @@ class FilterPage extends StatelessWidget {
   Widget build(BuildContext context) {
     logic.isCategory.value = isCategory??false;
     return Obx(() {
-      return DraggableScrollableSheet(
-        initialChildSize: logic.initialChildSize.value ?? 0,
-        minChildSize: 0.05,
-        maxChildSize: 1.0,
-        builder: (BuildContext context, ScrollController scrollController) {
-          return ClipRRect(
+      return ClipRRect(
             borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(20),
               topRight: Radius.circular(20),
@@ -51,121 +46,96 @@ class FilterPage extends StatelessWidget {
                   ),
                 ),
                 actions: [
-                  Visibility(
-                    visible: logic.initialChildSize.value == 0.08,
-                    replacement: IconButton(
-
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        onPressed: () => logic.initialChildSize.value = 0.08,
-                        icon: Icon(Icons.keyboard_arrow_down, color: logic
-                            .initialChildSize.value == 0.6
-                            ? Colors.black
-                            : XColor.primary, size: 28,)
-                    ),
-                    child: IconButton(
-
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        onPressed: () => logic.initialChildSize.value = 0.6,
-                        icon: Icon(Icons.keyboard_arrow_up, color: XColor
-                            .primary, size: 28,)
-                    ),
+                  IconButton(
+                  
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      onPressed: () => Get.back(),
+                      icon: Icon(Icons.close, color:Colors.black, size: 28,)
                   )
                 ],
               ),
-              body: Visibility(
-                visible: logic.initialChildSize.value == 0.6,
-                child: ListView(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const PriceItem(),
-                        const SizedBox(height: 20,),
-                        Obx(() {
-                          return Visibility(
-                              visible: logic.isCategory.isFalse,
-                              child: const CategoryItem());
-                        }),
-                        const SizedBox(height: 20,),
-                        const BrandItem(),
-                        const SizedBox(height: 20,),
-
-
-                      ],
-                    )
-                  ],
-                ),
+              body: ListView(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const PriceItem(),
+                      const SizedBox(height: 20,),
+                      Obx(() {
+                        return Visibility(
+                            visible: logic.isCategory.isFalse,
+                            child: const CategoryItem());
+                      }),
+                      const SizedBox(height: 20,),
+                      const BrandItem(),
+                      const SizedBox(height: 20,),
+              
+              
+                    ],
+                  )
+                ],
               ),
               bottomNavigationBar: Visibility(
                 visible: logic.initialChildSize.value == 0.6,
                 child: BottomAppBar(
                   elevation: 1.0,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: SizedBox(
-                        width: MediaQuery
-                            .of(context)
-                            .size
-                            .width * .6,
-                        height: 50,
-                        child: ElevatedButton(
-
-                            style: ElevatedButton.styleFrom(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 10),
-                                backgroundColor: XColor.primary,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(30)
-                                )
-                            ),
-                            onPressed: () async {
-                              final search = Get.put(SearchLogic());
-                              final allCategory = Get.put(
-                                  AllProductByCategoryLogic());
-                              if (isCategory == true) {
-                                Utils.loading(() async {
-                                  await allCategory.getProductCategory(
-                                      brand: logic.selectedBrandTypes,
-                                      category: logic.selectedCategoryTypes,
-                                      price: logic.selectedPriceRange
-                                  );
-
-                                  Get.back();
-                                  logic.initialChildSize.value = 0.08;
-                                });
-                              }
-                              else {
-                                Utils.loading(() async {
-                                  await search.getSearch(
-                                      keyword: logic.keyword.value,
-                                      brand: logic.selectedBrandTypes,
-                                      category: logic.selectedCategoryTypes,
-                                      price: logic.selectedPriceRange
-                                  );
-                                  Get.back();
-                                  logic.initialChildSize.value = 0.08;
-                                });
-                              }
-                            },
-                            child: const Text("Áp dụng", style: TextStyle(
-                                color: Colors.white
-                            ),)
+                  child: SizedBox(
+                    width: MediaQuery
+                        .of(context)
+                        .size
+                        .width * .6,
+                    height: 50,
+                    child: ElevatedButton(
+                                    
+                        style: ElevatedButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 10),
+                            backgroundColor: XColor.primary,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30)
+                            )
                         ),
-                      ),
+                        onPressed: () async {
+                          final search = Get.put(SearchLogic());
+                          final allCategory = Get.put(
+                              AllProductByCategoryLogic());
+                          if (isCategory == true) {
+                            Utils.loading(() async {
+                              await allCategory.getProductCategory(
+                                  brand: logic.selectedBrandTypes,
+                                  category: logic.selectedCategoryTypes,
+                                  price: logic.selectedPriceRange
+                              );
+                                    
+                              Get.back();
+                              logic.initialChildSize.value = 0.08;
+                            });
+                          }
+                          else {
+                            Utils.loading(() async {
+                              await search.getSearch(
+                                  keyword: logic.keyword.value,
+                                  brand: logic.selectedBrandTypes,
+                                  category: logic.selectedCategoryTypes,
+                                  price: logic.selectedPriceRange
+                              );
+                              Get.back();
+                              logic.initialChildSize.value = 0.08;
+                            });
+                          }
+                        },
+                        child: const Text("Áp dụng", style: TextStyle(
+                            color: Colors.white
+                        ),)
                     ),
                   ),
                 ),
               ),
             ),
           );
-        },
-
-      );
     });
-    ;
+    
   }
 }
 
