@@ -67,141 +67,136 @@ class ListProductDetailPage extends StatelessWidget {
               ),
               CartIcon(),
               IconButton(
-                  onPressed: ()=>Get.offAll(IndexPage()),
-                  icon: const Icon(Icons.home_outlined,color: Colors.black,)
-              )
+              onPressed: ()=>Get.bottomSheet(FilterPage()),
+               icon: Icon(Icons.tune_outlined)
+               )
 
             ]
         ),
         // endDrawer: const Drawer(
         //   child: FilterPage(),
         // ),
-        body: Stack(
-          children: [
-            Obx(() {
-
-              if(logic.getSearchRsp.value?.data?.isEmpty==true){
-                if((logic.getSearchRsp.value?.data?.length??0)<1){
-                  return const Center(
-                    child: Text("Sản phẩm không tồn tại",
-                      style: TextStyle(
-                          color: Colors.black
-                      ),
-                    ),
-                  );
-                }
-                else{
-                  return Center(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        CircularProgressIndicator(
-                          color: XColor.primary,
-                        ),
-                        const SizedBox(height: 5,),
-                        const Text("Đang tải")
-                      ],
-                    ),
-                  );
-                }
-
-
-
-              }
-              return Visibility(
-                replacement: LinearProgressIndicator(
-
-                  backgroundColor: Colors.white,
-                  valueColor: AlwaysStoppedAnimation<Color>(XColor.primary),
-                ),
-                visible: logic.getSearchRsp.value?.data!=null,
-                child: RefreshIndicator(
-        color: XColor.primary,
-                  onRefresh: ()async{
-                    logic.getSearch(
-                        keyword: logic.logic.keyword.value,
-                        brand: logic.logic.selectedCategoryTypes,
-                        category: logic.logic.selectedCategoryTypes,
-                        price: logic.logic.selectedPriceRange
-
-                    );
-                  },
-                  child: ListView(
-                    controller: logic.controller,
-                    children: [
-                      const SizedBox(height: 10,),
-                      Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
-                            child: GridView.builder(
-                              shrinkWrap: true,
-                              itemCount: logic.getSearchRsp.value?.data?.length??0,
-                              physics:
-                              const NeverScrollableScrollPhysics(),
-                              itemBuilder: (context, ind) {
-                                logic.indexPage.value=ind;
-                                
-                                return InkWell(
-                                  onTap: () {
-                                    Get.to(ProductDetailPage(
-                                      id: logic.getSearchRsp.value?.data?[ind].id.toString(),
-
-                                    ));
-                                  },
-                                  child: GlobalProduct(
-                                    imageLink:logic.getSearchRsp.value?.data?[ind].thumpnailUrl,
-                                    defaultPrice: '${logic.getSearchRsp.value?.data?[ind].defaultPrice}',
-                                    // price:NumberFormat("###,###.# đ").format(snapshot.data?.products?[index].price),
-                                    price:
-                                    '${ logic.getSearchRsp.value?.data?[ind].price}',
-                                    nameProduct:
-                                    logic.getSearchRsp.value?.data?[ind].productName,
-                                    rating: double.parse(logic.getSearchRsp.value?.data?[ind].averageRating??""),
-                                  ),
-                                );
-
-                              },
-                              gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-
-                                crossAxisCount: 2,
-                                crossAxisSpacing: 5,
-                                mainAxisSpacing: 5,
-                                childAspectRatio: 3 / 5,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 30,),
-                          Visibility(
-                            visible: (logic.getSearchRsp.value?.meta?.perPage ?? 0) <
-                                (logic.getSearchRsp.value?.meta?.total ?? 0),
-                            replacement: const Center(),
-                            child: const Center(
-                                child: SpinKitCircle(size: 40,
-                                  color: Colors.grey,
-                                )
-                            ),
-                          ),
-                          const SizedBox(height: 80,),
-
-                          // TextButton(
-                          //     onPressed: (){
-                          //       print(">>>>>>>>>>>>>>>>>>>${logic.isLoading.value}");
-                          //     },
-                          //     child: Text('a')
-                          // )
-                        ],
-                      ),
-                    ],
+        body: Obx(() {
+        
+          if(logic.getSearchRsp.value?.data?.isEmpty==true){
+            if((logic.getSearchRsp.value?.data?.length??0)<1){
+              return const Center(
+                child: Text("Sản phẩm không tồn tại",
+                  style: TextStyle(
+                      color: Colors.black
                   ),
                 ),
               );
-            }),
-            FilterPage()
-          ],
-        )
+            }
+            else{
+              return Center(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CircularProgressIndicator(
+                      color: XColor.primary,
+                    ),
+                    const SizedBox(height: 5,),
+                    const Text("Đang tải")
+                  ],
+                ),
+              );
+            }
+        
+        
+        
+          }
+          return Visibility(
+            replacement: LinearProgressIndicator(
+        
+              backgroundColor: Colors.white,
+              valueColor: AlwaysStoppedAnimation<Color>(XColor.primary),
+            ),
+            visible: logic.getSearchRsp.value?.data!=null,
+            child: RefreshIndicator(
+                color: XColor.primary,
+              onRefresh: ()async{
+                logic.getSearch(
+                    keyword: logic.logic.keyword.value,
+                    brand: logic.logic.selectedCategoryTypes,
+                    category: logic.logic.selectedCategoryTypes,
+                    price: logic.logic.selectedPriceRange
+        
+                );
+              },
+              child: ListView(
+                controller: logic.controller,
+                children: [
+                  const SizedBox(height: 10,),
+                  Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: GridView.builder(
+                          shrinkWrap: true,
+                          itemCount: logic.getSearchRsp.value?.data?.length??0,
+                          physics:
+                          const NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, ind) {
+                            logic.indexPage.value=ind;
+                            
+                            return InkWell(
+                              onTap: () {
+                                Get.to(ProductDetailPage(
+                                  id: logic.getSearchRsp.value?.data?[ind].id.toString(),
+        
+                                ));
+                              },
+                              child: GlobalProduct(
+                                imageLink:logic.getSearchRsp.value?.data?[ind].thumpnailUrl,
+                                defaultPrice: '${logic.getSearchRsp.value?.data?[ind].defaultPrice}',
+                                // price:NumberFormat("###,###.# đ").format(snapshot.data?.products?[index].price),
+                                price:
+                                '${ logic.getSearchRsp.value?.data?[ind].price}',
+                                nameProduct:
+                                logic.getSearchRsp.value?.data?[ind].productName,
+                                rating: double.parse(logic.getSearchRsp.value?.data?[ind].averageRating??""),
+                              ),
+                            );
+        
+                          },
+                          gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+        
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 5,
+                            mainAxisSpacing: 5,
+                            childAspectRatio: 3 / 5,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 30,),
+                      Visibility(
+                        visible: (logic.getSearchRsp.value?.meta?.perPage ?? 0) <
+                            (logic.getSearchRsp.value?.meta?.total ?? 0),
+                        replacement: const Center(),
+                        child: const Center(
+                            child: SpinKitCircle(size: 40,
+                              color: Colors.grey,
+                            )
+                        ),
+                      ),
+                      const SizedBox(height: 80,),
+        
+                      // TextButton(
+                      //     onPressed: (){
+                      //       print(">>>>>>>>>>>>>>>>>>>${logic.isLoading.value}");
+                      //     },
+                      //     child: Text('a')
+                      // )
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          );
+        })
 
       ),
     );
