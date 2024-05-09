@@ -20,7 +20,7 @@ class CommentDetails extends StatelessWidget {
         backgroundColor: Colors.black12,
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          backgroundColor: Colors.black,
+          backgroundColor: Colors.black12,
           leading: IconButton(
             icon: const Icon(
               Icons.arrow_back,
@@ -90,12 +90,25 @@ class CommentDetails extends StatelessWidget {
                                 })),
                           ),
                           Positioned.fill(
-                            top: 440,
-                            left: 10,
-                            right: 10,
-                              child: Details(
-                            data: data,
-                          ))
+                              top: 380,
+                              left: 10,
+                              right: 10,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.3),
+                                      spreadRadius: 7,
+                                      blurRadius: 5,
+                                      offset: Offset(
+                                          0, 5), // changes position of shadow
+                                    ),
+                                  ],
+                                ),
+                                child: Details(
+                                  data: data,
+                                ),
+                              ))
                         ],
                       ),
                       Padding(
@@ -131,15 +144,15 @@ class Details extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         CircleAvatar(
-                backgroundImage: NetworkImage(data.userAvatar??""),
-              ),
-              const SizedBox(
+          backgroundImage: NetworkImage(data.userAvatar ?? ""),
+        ),
+        const SizedBox(
           height: 10,
         ),
         Text(
           data.user ?? "",
           style: const TextStyle(
-              fontSize: 16, fontWeight: FontWeight.w400, color: Colors.white),
+              fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
         ),
         ProductRating(
           isReview: true,
@@ -158,7 +171,7 @@ class Details extends StatelessWidget {
               style: const TextStyle(
                 fontSize: 14,
                 color: Colors.white,
-                // fontWeight: FontWeight.bold
+                fontWeight: FontWeight.bold
               ),
             ),
           ],

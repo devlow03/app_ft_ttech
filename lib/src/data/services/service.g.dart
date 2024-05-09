@@ -869,9 +869,10 @@ class _Services implements Services {
   }
 
   @override
-  Future<GetCommentResponse> getCommentRsp({required productId}) async {
+  Future<GetCommentResponse> getCommentRsp({required query}) async {
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'product_id': productId};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.addAll(query.toJson());
     final _headers = <String, dynamic>{};
     final Map<String, dynamic>? _data = null;
     final _result = await _dio

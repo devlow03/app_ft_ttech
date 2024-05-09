@@ -6,6 +6,7 @@ import 'package:app_ft_tmart/src/modules/product_detail/product_detail_logic.dar
 import 'package:app_ft_tmart/src/modules/product_detail/product_reviews/comments/product_comment.dart';
 import 'package:app_ft_tmart/src/modules/product_detail/product_reviews/list_image_reviews.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:app_ft_tmart/src/modules/product_detail/all_product_reviews/linear_rating.dart';
 
@@ -80,7 +81,7 @@ class AllProductReview extends StatelessWidget {
             onPressed: (){
 
             },
-            icon: Icon(Icons.tune,color: Colors.black,)
+            icon: const Icon(Icons.tune,color: Colors.black,)
         ),
         ],
       ),
@@ -89,16 +90,29 @@ class AllProductReview extends StatelessWidget {
 
         onRefresh: ()=>logic.getComment(),
         child: ListView(
-          children: const[
+          controller: logic.scrollControllerAllReview,
+          children: [
 
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                   LinearRatingView(),
-                  SizedBox(height: 20,),
-                  ProductComment()
+                   const LinearRatingView(),
+                  const SizedBox(height: 20,),
+                  const ProductComment(),
+                  Obx(() => Visibility(
+                        visible: logic.perPage.value <
+                            (logic.getCommentRsp.value?.meta
+                                ?.total ??
+                                0),
+                        replacement: const Center(),
+                        child: const Center(
+                            child: SpinKitCircle(size: 40,
+                              color: Colors.grey,
+                            )
+                        ),
+                      ))
 
                 ],
               ),
@@ -106,7 +120,7 @@ class AllProductReview extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: const BottomDetail(),
+      // bottomNavigationBar: const BottomDetail(),
     );
   }
 }

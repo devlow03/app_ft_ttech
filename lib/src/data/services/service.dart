@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:app_ft_tmart/src/data/repositories/get_%20comment_queries.dart';
 import 'package:app_ft_tmart/src/data/repositories/get_comment_response.dart';
 import 'package:app_ft_tmart/src/data/repositories/get_order_by_id_rsp.dart';
 import 'package:app_ft_tmart/src/data/repositories/get_product_rsp.dart';
@@ -169,7 +170,7 @@ abstract class Services {
   Future<GetOrderByIdRsp>getOrderByIdRsp({@Path('id') required String? id});
 
   @GET("api/auth/get_comments")
-  Future<GetCommentResponse>getCommentRsp({@Query('product_id') required String productId});
+  Future<GetCommentResponse>getCommentRsp({@Queries() required GetCommentQueries query});
 
   @POST("api/auth/add_comment")
   Future postAddComment({@Body() required PostAddCommentRqst bodies});

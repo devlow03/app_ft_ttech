@@ -76,59 +76,58 @@ class FilterPage extends StatelessWidget {
                   )
                 ],
               ),
-              bottomNavigationBar: Visibility(
-                visible: logic.initialChildSize.value == 0.6,
-                child: BottomAppBar(
-                  elevation: 1.0,
-                  child: SizedBox(
-                    width: MediaQuery
-                        .of(context)
-                        .size
-                        .width * .6,
-                    height: 50,
-                    child: ElevatedButton(
-                                    
-                        style: ElevatedButton.styleFrom(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 10),
-                            backgroundColor: XColor.primary,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30)
-                            )
-                        ),
-                        onPressed: () async {
-                          final search = Get.put(SearchLogic());
-                          final allCategory = Get.put(
-                              AllProductByCategoryLogic());
-                          if (isCategory == true) {
-                            Utils.loading(() async {
-                              await allCategory.getProductCategory(
-                                  brand: logic.selectedBrandTypes,
-                                  category: logic.selectedCategoryTypes,
-                                  price: logic.selectedPriceRange
-                              );
-                                    
-                              Get.back();
-                              logic.initialChildSize.value = 0.08;
-                            });
-                          }
-                          else {
-                            Utils.loading(() async {
-                              await search.getSearch(
-                                  keyword: logic.keyword.value,
-                                  brand: logic.selectedBrandTypes,
-                                  category: logic.selectedCategoryTypes,
-                                  price: logic.selectedPriceRange
-                              );
-                              Get.back();
-                              logic.initialChildSize.value = 0.08;
-                            });
-                          }
-                        },
-                        child: const Text("Áp dụng", style: TextStyle(
-                            color: Colors.white
-                        ),)
-                    ),
+              bottomNavigationBar: BottomAppBar(
+                elevation: 1.0,
+                child: SizedBox(
+                  width: MediaQuery
+                      .of(context)
+                      .size
+                      .width * .6,
+                  height: 50,
+                  child: ElevatedButton(
+                                  
+                      style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 10),
+                          backgroundColor: XColor.primary,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30)
+                          )
+                      ),
+                      onPressed: () async {
+                        final search = Get.put(SearchLogic());
+                        final allCategory = Get.put(
+                            AllProductByCategoryLogic());
+                        if (isCategory == true) {
+                          Utils.loading(() async {
+                            await allCategory.getProductCategory(
+                                brand: logic.selectedBrandTypes,
+                                category: logic.selectedCategoryTypes,
+                                price: logic.selectedPriceRange
+                            );
+                                  
+                            Get.back();
+                            Get.back();
+                            
+                          });
+                        }
+                        else {
+                          Utils.loading(() async {
+                            await search.getSearch(
+                                keyword: logic.keyword.value,
+                                brand: logic.selectedBrandTypes,
+                                category: logic.selectedCategoryTypes,
+                                price: logic.selectedPriceRange
+                            );
+                            Get.back();
+                            Get.back();
+                            
+                          });
+                        }
+                      },
+                      child: const Text("Áp dụng", style: TextStyle(
+                          color: Colors.white
+                      ),)
                   ),
                 ),
               ),

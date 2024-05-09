@@ -64,10 +64,10 @@ class AllProductByCategoryPage extends StatelessWidget {
               ,
             ),
             CartIcon(),
-            IconButton(
-                onPressed: ()=>Get.offAll(IndexPage()),
-                icon: const Icon(Icons.home_outlined,color: Colors.black,)
-            ),
+            // IconButton(
+            //     onPressed: ()=>Get.offAll(IndexPage()),
+            //     icon: const Icon(Icons.home_outlined,color: Colors.black,)
+            // ),
             IconButton(
               onPressed: ()=>Get.bottomSheet(FilterPage(isCategory: true,)),
                icon: Icon(Icons.tune_outlined)

@@ -55,9 +55,7 @@ class GlobalProduct extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(
-                height: 10,
-              ),
+             
               Center(
                 child: GlobalImage(
                   imageUrl: imageLink,
@@ -66,35 +64,11 @@ class GlobalProduct extends StatelessWidget {
                   boxFit: BoxFit.contain,
                 ),
               ),
-              const SizedBox(
-                height: 10,
-              ),
-              Visibility(
-                visible: badgesLink != null,
-                replacement: const Center(),
-                child: Column(
-                  children: [
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    GlobalImage(
-                      imageUrl: badgesLink,
-                      height: 18,
-                      width: MediaQuery.of(context).size.width * .2,
-                      // boxFit: BoxFit.cover,
-                    ),
-                  ],
-                ),
-              ),
-              // Image.network(
-              //   widget.badgesLink??"",
-
-              //   height: 10,
-              //   fit: BoxFit.cover,
-              // ),
+              
+              
               Padding(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 8.0, vertical: 5),
+                    const EdgeInsets.symmetric(horizontal: 8.0, vertical: 2),
                 child: Text(
                   nameProduct ?? '',
                   // textAlign: TextAlign.center,
@@ -167,7 +141,7 @@ class GlobalProduct extends StatelessWidget {
                       NumberFormat.simpleCurrency(locale: 'vi')
                           .format(int.parse(price.toString())),
                       style: const TextStyle(
-                          fontSize: 16,
+                          fontSize: 14,
                           color: Color(0xffD92A1C),
                           fontWeight: FontWeight.w400),
                     ),
@@ -195,7 +169,7 @@ class GlobalProduct extends StatelessWidget {
           ),
           Positioned(
               right: 5,
-              top: 5,
+              top: 3,
               child: Visibility(
                 visible: isFavorites==true,
                 replacement: const Icon(

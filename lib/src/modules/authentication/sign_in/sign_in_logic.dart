@@ -4,6 +4,7 @@ import 'package:app_ft_tmart/src/data/services/service.dart';
 import 'package:app_ft_tmart/src/modules/authentication/sign_in/sign_in_view.dart';
 import 'package:app_ft_tmart/src/modules/home/home_view.dart';
 import 'package:app_ft_tmart/src/modules/index/index_view.dart';
+import 'package:app_ft_tmart/src/modules/profile/profile_logic.dart';
 import 'package:app_ft_tmart/src/utils/utils.dart';
 import 'package:encrypted_shared_preferences/encrypted_shared_preferences.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -80,6 +81,7 @@ class SignInLogic extends GetxController {
   }
 
   Future signIn({String? phone, String? password})async{
+    final profile = Get.put(ProfileLogic());
     if(phone!='' && password!=''){
       Utils.loading(()async{
         postSignInRsp.value = await tMartServices.postSigninRsp(body:
@@ -92,6 +94,7 @@ class SignInLogic extends GetxController {
         await prefs.setString(GlobalData.token,"${postSignInRsp.value?.token}" );
         await prefs.setString("password", password??"");
         await prefs.setString("phone", phone??"");
+        await profile.getUserProfile();
         Fluttertoast.showToast(
             msg: "Đăng nhập thành công", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM, timeInSecForIosWeb: 1, textColor: Colors.white, fontSize: 16.0);
         if(intoPage.value==true){

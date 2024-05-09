@@ -18,7 +18,8 @@ class SameType extends StatelessWidget {
     return Obx(() => Column(
           children: [
             Visibility(
-              visible: logic.getProductByIdRsp.value?.data?.manufacturerName!=null,
+              visible:
+                  logic.getProductByIdRsp.value?.data?.manufacturerName != null,
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10),
                 child: Container(
@@ -47,19 +48,21 @@ class SameType extends StatelessWidget {
                             InkWell(
                               onTap: () {
                                 Get.to(AllProductByCategoryPage(
-                                  idBrand: int.parse(logic.getProductByIdRsp.value?.data
-                                      ?.manufacturerId.toString()??""),
+                                  idBrand: int.parse(logic.getProductByIdRsp
+                                          .value?.data?.manufacturerId
+                                          .toString() ??
+                                      ""),
                                   categoryName: logic.getProductByIdRsp.value
                                       ?.data?.manufacturerName,
                                 ));
                               },
                               child: Text(
-                               'Xem thêm',
-                               style: TextStyle(
-                                   color: XColor.primary,
-                                   fontSize: 16,
-                                   fontWeight: FontWeight.w400),
-                                  ),
+                                'Xem thêm',
+                                style: TextStyle(
+                                    color: XColor.primary,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w400),
+                              ),
                             ),
                           ],
                         ),
@@ -69,7 +72,8 @@ class SameType extends StatelessWidget {
                                     ?.isNotEmpty ==
                                 true,
                             replacement: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 5),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 5),
                               child: SizedBox(
                                 height: MediaQuery.of(context).size.height * .4,
                                 child: ListView.separated(
@@ -78,68 +82,39 @@ class SameType extends StatelessWidget {
                                   itemCount: 3,
                                   itemBuilder: (context, ind) {
                                     return Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 8, horizontal: 2),
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 8, horizontal: 2),
+                                    child: Container(
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              .25,
+                                      // padding: EdgeInsets.symmetric(vertical: 20),
+                                      width: MediaQuery.of(context).size.width *
+                                          .4,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        // border: Border.all(color: Colors.red),
+
+                                        color: Colors.grey.shade200,
+                                      ),
+                                      child: Shimmer.fromColors(
+                                        baseColor: Colors.grey.shade300,
+                                        highlightColor: Colors.grey.shade100,
                                         child: Container(
-                                          height:
-                                              MediaQuery.of(context).size.height *
-                                                  .25,
-                                          // padding: EdgeInsets.symmetric(vertical: 20),
-                                          width:
-                                              MediaQuery.of(context).size.width *
-                                                  .4,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              .1,
+                                          height: 190,
                                           decoration: BoxDecoration(
+                                            color: Colors.grey,
                                             borderRadius:
                                                 BorderRadius.circular(10),
-                                            // border: Border.all(color: Colors.red),
-                                            border: Border.all(
-                                              color: Colors.grey.shade300,
-                                            ),
-                                            color: Colors.grey.shade200,
                                           ),
-                                          child: Column(
-                                            // mainAxisAlignment: MainAxisAlignment.,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              // const SizedBox(height: 5,),
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.stretch,
-                                                children: [
-                                                  Shimmer.fromColors(
-                                                    baseColor:
-                                                        Colors.grey.shade300,
-                                                    highlightColor:
-                                                        Colors.grey.shade100,
-                                                    child: Container(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width *
-                                                              .1,
-                                                      height: 190,
-                                                      decoration:
-                                                          const BoxDecoration(
-                                                        color: Colors.grey,
-                                                        borderRadius:
-                                                            BorderRadius.only(
-                                                                topLeft: Radius
-                                                                    .circular(10),
-                                                                topRight: Radius
-                                                                    .circular(
-                                                                        10)),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-
-
-
-                                            ],
-                                          ),
-                                        ));
+                                        ),
+                                      ),
+                                    ),
+                                  );
                                   },
                                   separatorBuilder:
                                       (BuildContext context, int index) {
@@ -151,7 +126,8 @@ class SameType extends StatelessWidget {
                               ),
                             ),
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 5),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 5),
                               child: SizedBox(
                                 height: MediaQuery.of(context).size.height * .4,
                                 child: ListView.separated(
@@ -160,24 +136,24 @@ class SameType extends StatelessWidget {
                                   itemCount: (logic.getProductByBrandRsp.value
                                                   ?.data?.length ??
                                               0) >=
-                                          10
-                                      ? 10
+                                          6
+                                      ? 6
                                       : logic.getProductByBrandRsp.value?.data
                                               ?.length ??
                                           0,
                                   itemBuilder: (context, ind) {
-                                    final data = logic.getProductByBrandRsp.value
-                                              ?.data?[ind];
+                                    final data = logic
+                                        .getProductByBrandRsp.value?.data?[ind];
                                     return Visibility(
                                       visible: logic.getProductByBrandRsp.value
                                               ?.data?[ind].id !=
-                                          logic.getProductByIdRsp.value?.data?.id,
+                                          logic.getProductByIdRsp.value?.data
+                                              ?.id,
                                       child: InkWell(
                                         onTap: () async {
                                           Get.back();
                                           Get.to(ProductDetailPage(
-                                            id: data?.id
-                                                .toString(),
+                                            id: data?.id.toString(),
                                           ));
                                         },
                                         child: Padding(
@@ -188,11 +164,11 @@ class SameType extends StatelessWidget {
                                             imageLink: data?.thumpnailUrl,
                                             defaultPrice:
                                                 '${data?.defaultPrice}',
-                                            price:
-                                                '${data?.price}',
-                                            nameProduct:data?.productName,
-                                            rating: double.parse(data?.averageRating??""),
-                                            isFavorites:data?.favorite,
+                                            price: '${data?.price}',
+                                            nameProduct: data?.productName,
+                                            rating: double.parse(
+                                                data?.averageRating ?? ""),
+                                            isFavorites: data?.favorite,
                                           ),
                                         ),
                                       ),
@@ -247,8 +223,10 @@ class SameType extends StatelessWidget {
                           InkWell(
                             onTap: () {
                               Get.to(AllProductByCategoryPage(
-                                id: int.parse(logic.getProductRsp.value?.data?.first
-                                    .categoryId.toString()??""),
+                                id: int.parse(logic.getProductRsp.value?.data
+                                        ?.first.categoryId
+                                        .toString() ??
+                                    ""),
                                 categoryName: logic.getProductRsp.value?.data
                                     ?.first.categoryName,
                               ));
@@ -278,67 +256,39 @@ class SameType extends StatelessWidget {
                                 itemCount: 3,
                                 itemBuilder: (context, ind) {
                                   return Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 8, horizontal: 2),
-                                      child: Container(
-                                        height:
-                                            MediaQuery.of(context).size.height *
-                                                .25,
-                                        // padding: EdgeInsets.symmetric(vertical: 20),
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                .4,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          // border: Border.all(color: Colors.red),
-                                          border: Border.all(
-                                            color: Colors.grey.shade300,
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 8, horizontal: 2),
+                                    child: Container(
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              .25,
+                                      // padding: EdgeInsets.symmetric(vertical: 20),
+                                      width: MediaQuery.of(context).size.width *
+                                          .4,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        // border: Border.all(color: Colors.red),
+
+                                        color: Colors.grey.shade200,
+                                      ),
+                                      child: Shimmer.fromColors(
+                                        baseColor: Colors.grey.shade300,
+                                        highlightColor: Colors.grey.shade100,
+                                        child: Container(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              .1,
+                                          height: 190,
+                                          decoration: BoxDecoration(
+                                            color: Colors.grey,
+                                            borderRadius:
+                                                BorderRadius.circular(10),
                                           ),
-                                          color: Colors.grey.shade200,
                                         ),
-                                        child: Column(
-                                          // mainAxisAlignment: MainAxisAlignment.,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            // const SizedBox(height: 5,),
-                                            Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.stretch,
-                                              children: [
-                                                Shimmer.fromColors(
-                                                  baseColor:
-                                                      Colors.grey.shade300,
-                                                  highlightColor:
-                                                      Colors.grey.shade100,
-                                                  child: Container(
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width *
-                                                            .1,
-                                                    height: 190,
-                                                    decoration:
-                                                        const BoxDecoration(
-                                                      color: Colors.grey,
-                                                      borderRadius:
-                                                          BorderRadius.only(
-                                                              topLeft: Radius
-                                                                  .circular(10),
-                                                              topRight: Radius
-                                                                  .circular(
-                                                                      10)),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-
-
-                                          ],
-                                        ),
-                                      ));
+                                      ),
+                                    ),
+                                  );
                                 },
                                 separatorBuilder:
                                     (BuildContext context, int index) {
@@ -356,7 +306,7 @@ class SameType extends StatelessWidget {
                               child: ListView.separated(
                                 shrinkWrap: true,
                                 scrollDirection: Axis.horizontal,
-                                itemCount: 10,
+                                itemCount: 6,
                                 itemBuilder: (context, ind) {
                                   return Visibility(
                                     visible: logic.getProductRsp.value
@@ -384,9 +334,11 @@ class SameType extends StatelessWidget {
                                           nameProduct: logic.getProductRsp.value
                                               ?.data?[ind].productName,
                                           rating: double.parse(logic
-                                              .getProductRsp
-                                              .value
-                                              ?.data?[ind].averageRating??""),
+                                                  .getProductRsp
+                                                  .value
+                                                  ?.data?[ind]
+                                                  .averageRating ??
+                                              ""),
                                         ),
                                       ),
                                     ),
