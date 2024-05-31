@@ -98,32 +98,32 @@ class NumImages extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Visibility(
-      visible: logic
-              .getProductByIdRsp.value?.data?.galleryImagesUrl?.isEmpty ==
-          false,
-      child: Positioned(
-        // right: 20,
-        bottom: 10,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Container(
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: Colors.grey.shade200)),
-            child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-              child: Row(
-                children: [
-                  Text(
-                      "${logic.indexSlider.value + 1}/${logic.getProductByIdRsp.value?.data?.galleryImagesUrl?.length ?? 0}")
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
+  return  Obx(() =>   Visibility(
+   visible: logic
+       .getProductByIdRsp.value?.data?.galleryImagesUrl?.isEmpty ==
+     false,
+     child: Positioned(
+       // right: 20,
+       bottom: 10,
+       child: Padding(
+         padding: const EdgeInsets.all(8.0),
+         child: Container(
+           decoration: BoxDecoration(
+               borderRadius: BorderRadius.circular(20),
+               border: Border.all(color: Colors.grey.shade200)),
+           child: Padding(
+             padding:
+             const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+             child: Row(
+               children: [
+                 Text(
+                     "${logic.indexSlider.value + 1}/${logic.getProductByIdRsp.value?.data?.galleryImagesUrl?.length ?? 0}")
+               ],
+             ),
+           ),
+         ),
+       ),
+     ),
+   ));
   }
 }

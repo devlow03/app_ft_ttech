@@ -1,5 +1,6 @@
 import 'package:app_ft_tmart/src/modules/authentication/signup/signup_view.dart';
 import 'package:app_ft_tmart/src/modules/index/index_view.dart';
+import 'package:app_ft_tmart/src/widget/dialog/dialog_custom_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -140,12 +141,15 @@ class SignInPage extends StatelessWidget {
                                       width: MediaQuery.of(context).size.width,
                                       child: ElevatedButton(
                                         onPressed: () async {
-                                          if (logic.formKey.currentState?.validate() ==
-                                              true) {
-                                            await logic.signIn(
-                                                phone: logic.phoneControl.text,
-                                                password: logic.passControl.text);
-                                          }
+                                          Get.dialog(CustomDialogWidget.errorDialog(title: "Tài khoản không đúng!"));
+                                          // if (logic.formKey.currentState?.validate() ==
+                                          //     true) {
+                                          //   await logic.signIn(
+                                          //       phone: logic.phoneControl.text,
+                                          //       password: logic.passControl.text);
+                                          // }
+
+
                                         },
                                         style: ElevatedButton.styleFrom(
                                           padding: const EdgeInsets.symmetric(
