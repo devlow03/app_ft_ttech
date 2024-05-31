@@ -48,35 +48,22 @@ class ImageSlider extends StatelessWidget {
             itemBuilder: (context, index, realIndex) {
               // logic.indexSlider.value = index;
 
-              return Visibility(
-                visible: logic.getProductByIdRsp.value?.data?.galleryImagesUrl
-                        ?.isEmpty ==
-                    false,
-                replacement: Shimmer.fromColors(
-                  baseColor: Colors.grey.shade300,
-                  highlightColor: Colors.grey.shade100,
-                  child: Container(
-                    width: MediaQuery.of(context).size.width,
-                    color: Colors.grey.shade300,
-                  ),
-                ),
-                child: InkWell(
-                  onTap: () {
-                    Get.to(PhotoPage(
-                      data: logic.getProductByIdRsp.value?.data,
-                    ));
-                  },
-                  child: GlobalImage(
-                    imageUrl: logic.getProductByIdRsp.value?.data
-                            ?.galleryImagesUrl?[index].largeUrl ??
-                        '',
-                    width: MediaQuery.of(context).size.width * .6,
-                    boxFit: BoxFit.contain,
-                    // height: MediaQuery
-                    //     .of(context)
-                    //     .size
-                    //     .height*.4,
-                  ),
+              return InkWell(
+                onTap: () {
+                  Get.to(PhotoPage(
+                    data: logic.getProductByIdRsp.value?.data,
+                  ));
+                },
+                child: GlobalImage(
+                  imageUrl: logic.getProductByIdRsp.value?.data
+                          ?.galleryImagesUrl?[index].largeUrl ??
+                      '',
+                  width: MediaQuery.of(context).size.width * .6,
+                  boxFit: BoxFit.contain,
+                  // height: MediaQuery
+                  //     .of(context)
+                  //     .size
+                  //     .height*.4,
                 ),
               );
             },

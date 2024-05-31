@@ -76,7 +76,7 @@ class ProductDetailPage extends StatelessWidget {
                   backgroundColor: Colors.white,
                   systemOverlayStyle: const SystemUiOverlayStyle(
                       statusBarBrightness: Brightness.dark),
-                  expandedHeight: MediaQuery.of(context).size.height * .45,
+                  expandedHeight: MediaQuery.of(context).size.height * .5,
                   flexibleSpace: const FlexibleSpaceBar(
                     background: ImageSlider(),
                     stretchModes: [

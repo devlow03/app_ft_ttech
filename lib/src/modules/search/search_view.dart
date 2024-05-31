@@ -27,7 +27,7 @@ class SearchPage extends StatelessWidget {
 
       },
       child: Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.grey.shade50,
         appBar: AppBar(
           elevation: 0.0,
             automaticallyImplyLeading: false,
@@ -91,16 +91,7 @@ class SearchPage extends StatelessWidget {
               },
               ),
               const SizedBox(height: 10,),
-              Visibility(
-                visible: (logic.getSearchRsp.value?.data
-                    ?.length ?? 0)>5,
-                child: TextButton(
-                    onPressed: (){
-                      Get.to(const ListProductDetailPage());
-                    },
-                    child: const Text("Xem thêm sản phẩm")
-                ),
-              )
+
             ],
           );
         }),

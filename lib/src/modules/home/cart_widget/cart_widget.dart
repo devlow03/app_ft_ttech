@@ -30,7 +30,7 @@ class CartWidget extends StatelessWidget {
             padding: const EdgeInsets.all(13),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),
-                color: Colors.grey.shade100
+                color: Colors.white
             ),
             child: CartIcon(fromHome: true,),
           ),

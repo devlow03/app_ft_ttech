@@ -4,6 +4,8 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:line_icons/line_icons.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 import '../../../core/xcolor.dart';
 
 class BottomDetail extends StatelessWidget {
@@ -49,7 +51,8 @@ class BottomDetail extends StatelessWidget {
                                   shape: BoxShape.circle,
                                   border: Border.all(color: Colors.grey.shade200,width: 1)
                               ),
-                              child: Icon(Icons.add_shopping_cart,size: 25,color: XColor.primary,)))),
+                              child: Icon(LineIcons.addToShoppingCart,size: 30,color: XColor.primary,)
+                          ))),
 
                   Expanded(
                     flex: 3,

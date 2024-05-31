@@ -10,6 +10,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../../core/xcolor.dart';
@@ -35,86 +36,85 @@ class HomePage extends StatelessWidget {
     final logic = Get.put(HomeLogic());
     final profile = Get.put(ProfileLogic());
     final profileDetail = Get.put(ProfileDetailLogic());
-    return Obx((){
+    return Obx(() {
       return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 15),
-      child: Scaffold(
-        appBar: (logic.positionPixel.value??0)>=300?AppBar(
-          
-          backgroundColor: Colors.white,
-          title: const SearchAndCart(),
-        ):null,
-          backgroundColor: Colors.white,
+        padding: const EdgeInsets.symmetric(vertical: 15),
+        child: Scaffold(
+            appBar: (logic.positionPixel.value ?? 0) >= 300
+                ? AppBar(
+                    backgroundColor: Colors.grey.shade50,
+                    title: const SearchAndCart(),
+              elevation: 1,
+                  )
+                : null,
+            backgroundColor: Colors.grey.shade50,
+            body: RefreshIndicator(
+              color: XColor.primary,
+              strokeWidth: 3,
+              onRefresh: () async {
+                logic.refresh();
+              },
+              child: CustomScrollView(
+                controller: logic.controller,
+                slivers: [
+                  SliverAppBar(
+                    backgroundColor: Colors.grey.shade50,
+                    leading: null,
+                    title: Row(
 
-          body:RefreshIndicator(
-        color: XColor.primary,
-
-                strokeWidth: 3,
-                onRefresh: () async {
-                  logic.refresh();
-                },
-            child: CustomScrollView(
-              controller: logic.controller,
-              slivers: [
-                
-                SliverAppBar(
-                
-                  backgroundColor: Colors.white,
-                  leading: null,
-                  title: TitleAppBar(logic: logic, profile: profile),
-                  centerTitle: false,
-                  elevation: 0.0,
-                  actions: [
-                    // BadgeNofication(),
-                    CircleAvatarAppBar(logic: logic, profile: profile, profileDetail: profileDetail),
-
-                  ],
-                  
-                  pinned: false,
-                  stretch: true,
-                ),
-                const SliverToBoxAdapter(
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                        vertical: 10,horizontal: 15),
-                    child: Column(
                       children: [
-                        SearchAndCart(),
-                        BannerPage(),
-                        CategoryPage(),
-
+                        CircleAvatarAppBar(
+                            logic: logic,
+                            profile: profile,
+                            profileDetail: profileDetail),
+                        const SizedBox(width: 15,),
+                        TitleAppBar(logic: logic, profile: profile),
                       ],
                     ),
-                  ),
-                ),
-                const SliverPadding(
-                    padding: EdgeInsets.symmetric(horizontal: 15),
-                    sliver: ProductByCategoryPage()),
-               SliverToBoxAdapter(
-                      child: Visibility(
-                        visible: logic.page.value <
-                            (logic.getProductByCategoryRsp.value?.meta
-                                ?.total ??
-                                0),
-                        replacement: const Center(),
-                        child: const Center(
-                            child: SpinKitCircle(size: 40,
-                              color: Colors.grey,
-                            )
-                        ),
+                    centerTitle: false,
+                    elevation: 0.0,
+                    actions: const [
+                      Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: PhosphorIcon(PhosphorIconsBold.bell)
                       )
-                  )
-              ],
 
-            ),
-          )
-
-
-
-        
-
-      ),
-    );
+                    ],
+                    pinned: false,
+                    stretch: true,
+                  ),
+                  const SliverToBoxAdapter(
+                    child: Padding(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                      child: Column(
+                        children: [
+                          SearchAndCart(),
+                          BannerPage(),
+                          CategoryPage(),
+                          
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SliverPadding(
+                      padding: EdgeInsets.symmetric(horizontal: 15),
+                      sliver: ProductByCategoryPage()),
+                  SliverToBoxAdapter(
+                      child: Visibility(
+                    visible: logic.page.value <
+                        (logic.getProductByCategoryRsp.value?.meta?.total ?? 0),
+                    replacement: const Center(),
+                    child: const Center(
+                        child: SpinKitCircle(
+                      size: 40,
+                      color: Colors.grey,
+                    )),
+                  ))
+                ],
+              ),
+            )),
+      );
     });
   }
 }
@@ -133,25 +133,17 @@ class CircleAvatarAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() =>
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
-          child: Visibility(
-            visible: logic.isSignIn.value,
-            replacement: const CircleAvatar(
-              radius: 24,
-              backgroundImage: AssetImage("assets/images/avatar.png")
-            ),
-            child: CircleAvatar(
-              radius: 24,
-              backgroundImage: NetworkImage(
-                  "${profile.getUserProfileRsp.value?.data
-                      ?.avatar != null ? (profile.getUserProfileRsp
-                      .value?.data?.avatar) : (profileDetail
-                      .networkImage.value)}"),
-            ),
-          ),
-        ));
+    return Obx(() => Visibility(
+      visible: logic.isSignIn.value,
+      replacement: const CircleAvatar(
+          radius: 24,
+          backgroundImage: AssetImage("assets/images/avatar.png")),
+      child: CircleAvatar(
+        radius: 24,
+        backgroundImage: NetworkImage(
+            "${profile.getUserProfileRsp.value?.data?.avatar != null ? (profile.getUserProfileRsp.value?.data?.avatar) : (profileDetail.networkImage.value)}"),
+      ),
+    ));
   }
 }
 
@@ -168,59 +160,45 @@ class TitleAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-    
       return Visibility(
         visible: logic.isSignIn.value,
         replacement: RichText(
-          text: const TextSpan(
-              children: [
-                TextSpan(
-                    text: "👋 Xin Chào! \n",
-                    style: TextStyle(
-                        color: Colors.grey,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        letterSpacing: 0.5
-                    )
-                ),
-                TextSpan(
-                    text: "Chào mừng bạn đến với TMart",
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        letterSpacing: 0.5,
-                      height: 1.5
-                    )
-                )
-              ]
-          ),
+          text: const TextSpan(children: [
+            TextSpan(
+                text: "Xin Chào 👋 \n",
+                style: TextStyle(
+                    color: Colors.grey,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                    letterSpacing: 0.5)),
+            TextSpan(
+                text: "Chào mừng bạn đến với TMart",
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    letterSpacing: 0.5,
+                    height: 1.5))
+          ]),
         ),
         child: RichText(
-          text: TextSpan(
-              children: [
-                const TextSpan(
-                    text: "👋 Xin Chào! \n",
-                    style: TextStyle(
-                        color: Colors.grey,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        letterSpacing: 0.5
-                    )
-                ),
-                TextSpan(
-                    text: profile.getUserProfileRsp.value?.data
-                        ?.fullName ?? "",
-                    style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        letterSpacing: 0.5,
-                        height: 1.5
-                    )
-                )
-              ]
-          ),
+          text: TextSpan(children: [
+            const TextSpan(
+                text: "Xin Chào 👋 \n",
+                style: TextStyle(
+                    color: Colors.grey,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                    letterSpacing: 0.5)),
+            TextSpan(
+                text: profile.getUserProfileRsp.value?.data?.fullName ?? "",
+                style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    letterSpacing: 1,
+                    height: 1.5))
+          ]),
         ),
       );
     });
@@ -243,11 +221,7 @@ class SearchAndCart extends StatelessWidget {
             readOnly: true,
           ),
         ),
-    
-        const Expanded(
-            flex: 2,
-            child: CartWidget())
-    
+        const Expanded(flex: 2, child: CartWidget())
       ],
     );
   }

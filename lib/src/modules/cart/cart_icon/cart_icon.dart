@@ -4,6 +4,7 @@ import 'package:app_ft_tmart/src/modules/cart/cart_view.dart';
 import 'package:app_ft_tmart/src/utils/user_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class CartIcon extends StatelessWidget {
    CartIcon({super.key, this.fromHome});
@@ -16,14 +17,7 @@ class CartIcon extends StatelessWidget {
     return Obx(() {
       return Visibility(
         visible: fromHome!=true,
-        replacement: Stack(
-          alignment: Alignment.centerRight,
-          children: [
-           const Icon(Icons.shopping_cart_outlined),
-
-
-          ],
-        ),
+        replacement: const PhosphorIcon(PhosphorIconsBold.shoppingCartSimple),
         child: Stack(
           alignment: Alignment.centerRight,
           children: [
@@ -35,7 +29,7 @@ class CartIcon extends StatelessWidget {
                 }
 
               },
-              icon: const Icon(Icons.shopping_cart_outlined),
+              icon: const PhosphorIcon(PhosphorIconsBold.shoppingCartSimple),
             ),
             Visibility(
               visible: logic.getCartRsp.value?.data

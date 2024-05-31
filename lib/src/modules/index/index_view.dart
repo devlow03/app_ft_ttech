@@ -9,6 +9,8 @@ import 'package:app_ft_tmart/src/modules/profile/profile_view.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:line_icons/line_icons.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 import 'index_logic.dart';
 
@@ -22,14 +24,14 @@ class IndexPage extends StatelessWidget {
     final cart = Get.put(CartLogic());
     List<Map<String, dynamic>> bottomNavigationBarItems = [
       {
-        'icon': const Icon(Icons.home_outlined),
-        'active': const Icon(Icons.home),
+        'icon':  PhosphorIcon(PhosphorIcons.house(PhosphorIconsStyle.bold)),
+        'active':  PhosphorIcon(PhosphorIcons.house(PhosphorIconsStyle.fill)),
         'label': 'Trang chủ',
         'screen': const HomePage(),
       },
       {
-        'icon': const Icon(Icons.list_alt_outlined),
-        'active': const Icon(Icons.list_alt),
+        'icon': PhosphorIcon(PhosphorIcons.article(PhosphorIconsStyle.bold)),
+        'active':PhosphorIcon(PhosphorIcons.article(PhosphorIconsStyle.fill)),
         'label': 'Bảng tin',
         'screen': const NewsPage(),
       },
@@ -40,17 +42,10 @@ class IndexPage extends StatelessWidget {
         'label': 'Yêu thích',
         'screen': const FavouritesPage(),
       },
-      {
-        'icon': const BadgeNotification(),
-        'active':const Icon(Icons.notifications),
 
-        'label': 'Thông báo',
-        'screen': const NotificationPage(),
-
-      },
       {
-        'icon': const Icon(Icons.account_circle_outlined),
-        'active': const Icon(Icons.account_circle),
+        'icon': PhosphorIcon(PhosphorIcons.user(PhosphorIconsStyle.bold)),
+        'active':PhosphorIcon(PhosphorIcons.user(PhosphorIconsStyle.fill)),
         'label': 'Tài khoản',
         'screen':  ProfilePage(),
       },
@@ -63,7 +58,7 @@ class IndexPage extends StatelessWidget {
           iconSize: 25,
           selectedLabelStyle: TextStyle(
               color: XColor.primary,
-            fontSize: 13
+            fontSize: 0
 
           ),
           // selectedFontSize: 0,

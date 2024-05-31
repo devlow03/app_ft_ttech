@@ -18,34 +18,32 @@ import '../../data/services/service.dart';
 import '../../utils/utils.dart';
 import '../cart/cart_logic.dart';
 
-
-
 class HomeLogic extends GetxController {
   final Services tMartServices = Get.find();
-  final EncryptedSharedPreferences sharedPreferences= Get.find();
+  final EncryptedSharedPreferences sharedPreferences = Get.find();
   final notification = Get.put(NotificationLogic());
   final userUtils = Get.put(UserUtils());
   RxBool isSignIn = RxBool(false);
   HomeLogic();
   Rxn<GetBannerRsp> getBannerRsp = Rxn();
-  Rxn<GetProductRsp>getProductRsp = Rxn();
+  Rxn<GetProductRsp> getProductRsp = Rxn();
   // Rx<Map<int, GetProductRsp>> getProductByIdCategoryRsp = Rx({});
-  Rxn< GetProductRsp> getProductByCategoryRsp = Rxn();
-  Rxn<GetCategoryRsp>getCategoryRsp = Rxn();
-  Rx<int>idCategory = Rx(1);
-  Rxn<int>indexCat = Rxn(0);
-  Rxn<double>positionPixel = Rxn();
+  Rxn<GetProductRsp> getProductByCategoryRsp = Rxn();
+  Rxn<GetCategoryRsp> getCategoryRsp = Rxn();
+  Rx<int> idCategory = Rx(1);
+  Rxn<int> indexCat = Rxn(0);
+  Rxn<double> positionPixel = Rxn(0);
   Rxn<int> activeIndex = Rxn();
-  Rxn<bool>hasData = Rxn(false);
+  Rxn<bool> hasData = Rxn(false);
   // Rxn<String>idCategory = Rxn();
   final dio = Dio();
-  Rxn<int>tabIndex = Rxn(0);
-  Rxn<int>tabLike = Rxn(0);
-  Rx<int>totalItem = Rx(0);
-  Rx<int>page = Rx(10);
-  Rxn<bool>isLoading = Rxn(false);
+  Rxn<int> tabIndex = Rxn(0);
+  Rxn<int> tabLike = Rxn(0);
+  Rx<int> totalItem = Rx(0);
+  Rx<int> page = Rx(10);
+  Rxn<bool> isLoading = Rxn(false);
   final ScrollController controller = ScrollController();
-  Rx<int>indexPage = Rx(0);
+  Rx<int> indexPage = Rx(0);
   List<IconData> iconCategory = [
     Icons.phone_android_outlined,
     Icons.laptop_mac_outlined,
@@ -55,17 +53,16 @@ class HomeLogic extends GetxController {
   final logicCart = Get.put(CartLogic());
 
   @override
-  void onReady() async{
+  void onReady() async {
     // TODO: implement onReady
     super.onReady();
-    isSignIn.value=await userUtils.checkSignIn(fromHome: true);
+    isSignIn.value = await userUtils.checkSignIn(fromHome: true);
     await notification.getNotifications();
     await getBanner();
     await getCategory();
     await getProdByCategory();
     controller.addListener(() {
       positionPixel.value = controller.position.pixels;
-     
     });
 
     // if(hasData.value == false){
@@ -77,80 +74,68 @@ class HomeLogic extends GetxController {
     // }
     await getProduct();
     loadMore();
-
-
-
   }
 
-
-
   @override
-  void refresh()async{
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    positionPixel.value=100;
+    positionPixel.refresh();
+  }
+  @override
+  void refresh() async {
     super.refresh();
     await getBanner();
     await getCategory();
     // await getProductByIdCategory();
     await getProdByCategory();
 
-
-
-    totalItem.value = getProductRsp.value?.data?.length??0;
-    if(indexPage.value<=totalItem.value){
+    totalItem.value = getProductRsp.value?.data?.length ?? 0;
+    if (indexPage.value <= totalItem.value) {
       loadMore();
-      isLoading.value=false;
-
+      isLoading.value = false;
     }
     return;
   }
 
-
-
-
-
-  Future<GetBannerRsp?>getBanner()async{
+  Future<GetBannerRsp?> getBanner() async {
     getBannerRsp.value = await tMartServices.getBannerRsp();
     return getBannerRsp.value;
   }
 
-  Future<GetProductRsp?>getProduct()async{
-
+  Future<GetProductRsp?> getProduct() async {
     getProductRsp.value = await tMartServices.getProductRsp(
         query: GetProductRqQuery(
-          perPage: (page.value).toString(),
-        )
-    );
+      perPage: (page.value).toString(),
+    ));
     return getProductRsp.value;
   }
 
-  Future<GetCategoryRsp?>getCategory()async{
-
+  Future<GetCategoryRsp?> getCategory() async {
     getCategoryRsp.value = await tMartServices.getCategoryRsp();
 
     return getCategoryRsp.value;
   }
 
-  Future<void>loadMore()async {
-    controller.addListener(() async{
-      if(controller.position.maxScrollExtent == controller.offset){
-        if(page.value<(getProductByCategoryRsp.value?.meta?.total??0)){
-          isLoading.value=true;
+  Future<void> loadMore() async {
+    controller.addListener(() async {
+      if (controller.position.maxScrollExtent == controller.offset) {
+        if (page.value < (getProductByCategoryRsp.value?.meta?.total ?? 0)) {
+          isLoading.value = true;
 
-          page.value+=10;
+          page.value += 10;
           print(">>>>page: ${page.value}");
 
-            getProductByCategoryRsp.value = await tMartServices.getProductRsp(query: GetProductRqQuery(
-                categoryId: [idCategory.toString()],
-                perPage: page.value.toString()
-            ));
+          getProductByCategoryRsp.value = await tMartServices.getProductRsp(
+              query: GetProductRqQuery(
+                  categoryId: [idCategory.toString()],
+                  perPage: page.value.toString()));
 
-
-          getProductByCategoryRsp.refresh();        }
-
-
-
+          getProductByCategoryRsp.refresh();
+        }
       }
     });
-    
   }
   // Future getProductByIdCategory()async{
   //   final category = getCategoryRsp.value?.data;
@@ -164,41 +149,18 @@ class HomeLogic extends GetxController {
   //         )
   //     );
   //     getProductByIdCategoryRsp.refresh();
-  //
-  //
-  //
-  //
-  //   }
-  //
-  //
-  //
-  //
-  //
-  //
-  // }
-  Future<GetProductRsp?>getProdByCategory()async{
-    getProductByCategoryRsp.value = null;
-      page.value=10;
-      getProductByCategoryRsp.value = await tMartServices.getProductRsp(query: GetProductRqQuery(
-          categoryId: [idCategory.toString()],
-          perPage: page.value.toString()
-      ));
 
+  //   }
+  // }
+  Future<GetProductRsp?> getProdByCategory() async {
+    getProductByCategoryRsp.value = null;
+    page.value = 10;
+    getProductByCategoryRsp.value = await tMartServices.getProductRsp(
+        query: GetProductRqQuery(
+            categoryId: [idCategory.toString()],
+            perPage: page.value.toString()));
 
     getProductByCategoryRsp.refresh();
     return getProductByCategoryRsp.value;
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

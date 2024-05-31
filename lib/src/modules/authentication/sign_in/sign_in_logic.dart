@@ -95,6 +95,7 @@ class SignInLogic extends GetxController {
         await prefs.setString("password", password??"");
         await prefs.setString("phone", phone??"");
         await profile.getUserProfile();
+        profile.getUserProfileRsp.refresh();
         Fluttertoast.showToast(
             msg: "Đăng nhập thành công", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM, timeInSecForIosWeb: 1, textColor: Colors.white, fontSize: 16.0);
         if(intoPage.value==true){

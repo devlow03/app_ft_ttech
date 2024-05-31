@@ -41,16 +41,30 @@ class GlobalImage extends StatelessWidget {
         //     // fit: BoxFit.contain,
         //   )
         // ),
-        errorWidget: (context, url, error) =>Container(
-          width: width,
-          height:height,
-          color: Colors.white,
-          child:Image.asset("assets/images/placeholder.png",
+        placeholder: (context, url) {
+          return Container(
             width: width,
             height: height,
-            // fit: BoxFit.contain,
-          )
-        ),
+            color: Colors.white,
+          );
+        },
+        errorWidget: (context, url, error) {
+        //   return Container(
+        //   width: width,
+        //   height:height,
+        //   color: Colors.white,
+        //   child:Image.asset("assets/images/placeholder.png",
+        //     width: width,
+        //     height: height,
+        //     // fit: BoxFit.contain,
+        //   )
+        // );
+          return Container(
+            width: width,
+            height: height,
+            color: Colors.white,
+          );
+        }
       ),
     );
   }

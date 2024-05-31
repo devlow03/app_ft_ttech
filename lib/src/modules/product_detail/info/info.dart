@@ -69,7 +69,7 @@ class Info extends StatelessWidget {
                     style: const TextStyle(
                         color: Color(0xffD92A1C),
                         fontSize: 16,
-                        fontWeight: FontWeight.w400,
+                        fontWeight: FontWeight.bold,
                         letterSpacing: 1),
                   ),
                 ],

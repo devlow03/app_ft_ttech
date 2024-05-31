@@ -141,13 +141,13 @@ class SignInPage extends StatelessWidget {
                                       width: MediaQuery.of(context).size.width,
                                       child: ElevatedButton(
                                         onPressed: () async {
-                                          Get.dialog(CustomDialogWidget.errorDialog(title: "Tài khoản không đúng!"));
-                                          // if (logic.formKey.currentState?.validate() ==
-                                          //     true) {
-                                          //   await logic.signIn(
-                                          //       phone: logic.phoneControl.text,
-                                          //       password: logic.passControl.text);
-                                          // }
+                                          // Get.dialog(CustomDialogWidget.errorDialog(title: "Tài khoản không đúng!"));
+                                          if (logic.formKey.currentState?.validate() ==
+                                              true) {
+                                            await logic.signIn(
+                                                phone: logic.phoneControl.text,
+                                                password: logic.passControl.text);
+                                          }
 
 
                                         },

@@ -78,12 +78,9 @@ class CartLogic extends GetxController {
 
   Future<void> updateCartDetail(
       {required String idCart, required int quantity}) async {
-    Utils.loading(() async {
-      await tMartServices.postUpdateCartDetailRsp(
-          idCart: idCart, body: PostUpdateCartDetailRqst(quantity: quantity));
-      await getCart();
-      Get.back();
-    });
+    await tMartServices.postUpdateCartDetailRsp(
+        idCart: idCart, body: PostUpdateCartDetailRqst(quantity: quantity));
+    await getCart();
   }
 
   Future<void> deleteCart({required String idCart}) async {

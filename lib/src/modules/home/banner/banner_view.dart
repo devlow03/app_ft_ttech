@@ -20,99 +20,88 @@ class BannerPage extends StatelessWidget {
           false;
       return Column(
         children: [
-          Container(
-            color: Colors.white,
-            child: Stack(
-              // alignment: Alignment.bottomCenter,
-              children: [
-                Container(
-                  height: 100,
+          Stack(
+            // alignment: Alignment.bottomCenter,
+            children: [
+             
+              Center(
+                child: Container(
+                  margin:  const EdgeInsets.symmetric(vertical: 20),
+                  width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
-                      color: Colors.white,
-                      // borderRadius: const BorderRadius.only(
-                      //     bottomRight: Radius.circular(20),
-                      //     bottomLeft: Radius.circular(20))
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.white,
+                    border: Border.all(color: Colors.grey.shade200)
                   ),
-                ),
-                Center(
-                  child: Container(
-                    margin:  const EdgeInsets.symmetric(vertical: 20),
-                    width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.white,
-                      border: Border.all(color: Colors.grey.shade200)
-                    ),
-                    child: CarouselSlider.builder(
-                      itemCount: isNotEmpty?(logic.getBannerRsp.value?.data
-                          ?.length ??
-                          0):1,
-                      options: CarouselOptions(
-                          aspectRatio: 21 / 10,
-                          autoPlay: true,
-                          autoPlayInterval: const Duration(seconds: 7),
-                          viewportFraction: 1,
-                          onPageChanged: (index, reason) {
-                            logic.activeIndex.value = index;
-                          }),
-                      itemBuilder: (context, index, realIndex) {
-                        return Visibility(
-                          visible: isNotEmpty,
-                          replacement: SizedBox(
-                            width: MediaQuery
-                                .of(context)
-                                .size
-                                .width,
-                            child: Shimmer.fromColors(
-                              baseColor: Colors.grey.shade300,
-                              highlightColor: Colors.grey.shade100,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius:
-                                  BorderRadius.circular(10),
-                                  color: Colors.grey.shade300,
-                                ),
+                  child: CarouselSlider.builder(
+                    itemCount: isNotEmpty?(logic.getBannerRsp.value?.data
+                        ?.length ??
+                        0):1,
+                    options: CarouselOptions(
+                        aspectRatio: 21 / 10,
+                        autoPlay: true,
+                        autoPlayInterval: const Duration(seconds: 7),
+                        viewportFraction: 1,
+                        onPageChanged: (index, reason) {
+                          logic.activeIndex.value = index;
+                        }),
+                    itemBuilder: (context, index, realIndex) {
+                      return Visibility(
+                        visible: isNotEmpty,
+                        replacement: SizedBox(
+                          width: MediaQuery
+                              .of(context)
+                              .size
+                              .width,
+                          child: Shimmer.fromColors(
+                            baseColor: Colors.grey.shade300,
+                            highlightColor: Colors.grey.shade100,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius:
+                                BorderRadius.circular(10),
+                                color: Colors.grey.shade300,
                               ),
                             ),
                           ),
-                          child: InkWell(
-                            onTap: () {
-                              Get.to(ProductDetailPage(id: logic
-                                  .getBannerRsp
-                                  .value
-                                  ?.data?[index]
-                                  .details?.first.link));
-                            },
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
-                              child: GlobalImage(
-                                  imageUrl: logic
-                                      .getBannerRsp
-                                      .value
-                                      ?.data?[index]
-                                      .details?.first.image,
-                                  width: MediaQuery
-                                      .of(context)
-                                      .size
-                                      .width,
-                                  height: MediaQuery
-                                      .of(context)
-                                      .size
-                                      .height * .3,
-                                  boxFit: BoxFit.fill
-                              ),
+                        ),
+                        child: InkWell(
+                          onTap: () {
+                            Get.to(ProductDetailPage(id: logic
+                                .getBannerRsp
+                                .value
+                                ?.data?[index]
+                                .details?.first.link));
+                          },
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: GlobalImage(
+                                imageUrl: logic
+                                    .getBannerRsp
+                                    .value
+                                    ?.data?[index]
+                                    .details?.first.image,
+                                width: MediaQuery
+                                    .of(context)
+                                    .size
+                                    .width,
+                                height: MediaQuery
+                                    .of(context)
+                                    .size
+                                    .height * .3,
+                                boxFit: BoxFit.fill
                             ),
                           ),
-                        );
-                      },
-                    ),
+                        ),
+                      );
+                    },
                   ),
                 ),
+              ),
 
 
 
-              ],
-            ),
+            ],
           ),
           const SizedBox(height: 10,),
           Center(

@@ -46,7 +46,7 @@ class SearchWidget extends StatelessWidget {
             ],
           ),
           filled: true,
-          fillColor: Colors.grey.shade100,
+          fillColor: Colors.white,
           border: OutlineInputBorder(
 
             borderRadius: BorderRadius.circular(8),

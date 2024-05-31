@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-
 import 'global_image.dart';
 
 class GlobalProduct extends StatelessWidget {
@@ -19,7 +18,7 @@ class GlobalProduct extends StatelessWidget {
   final String? badgesLink;
   final bool? isFavorites;
   final String? productId;
-   final void Function()? onAddCart;
+  final void Function()? onAddCart;
   // final String? shortDescript;
   const GlobalProduct({
     Key? key,
@@ -29,7 +28,10 @@ class GlobalProduct extends StatelessWidget {
     this.shortDes,
     this.badgesLink,
     this.defaultPrice,
-    this.rating, this.onAddCart, this.isFavorites, this.productId,
+    this.rating,
+    this.onAddCart,
+    this.isFavorites,
+    this.productId,
     // this.shortDescript
   }) : super(key: key);
 
@@ -43,135 +45,133 @@ class GlobalProduct extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         // border: Border.all(color: Colors.red),
-        border: Border.all(
-          color: Colors.grey.shade200,
-        ),
+        // border: Border.all(
+        //   color: Colors.grey.shade200,
+        // ),
         color: Colors.white,
       ),
       child: Stack(
         alignment: Alignment.topRight,
         children: [
-          Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-             
-              Center(
-                child: GlobalImage(
-                  imageUrl: imageLink,
-                  width: MediaQuery.of(context).size.width * .3,
-                  height: 150,
-                  boxFit: BoxFit.contain,
+          Padding(
+            padding: const EdgeInsets.only(top: 5),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Center(
+                  child: GlobalImage(
+                    imageUrl: imageLink,
+                    width: MediaQuery.of(context).size.width * .3,
+                    height: 150,
+                    boxFit: BoxFit.contain,
+                  ),
                 ),
-              ),
-              
-              
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8.0, vertical: 2),
-                child: Text(
-                  nameProduct ?? '',
-                  // textAlign: TextAlign.center,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                      height: 1,
-                      fontWeight: FontWeight.w400,
-                      fontSize: 14,
-                      color: Colors.black),
-                ),
-              ),
 
-              // Visibility(
-              //     visible: widget.shortDes!='',
-              //     child:Column(
-              //       children: [
-              //         Text(
-              //           widget.shortDes??'',
-              //           style: const TextStyle(fontSize: 12,
-              //             fontWeight: FontWeight.w300,
-              //           ),
-              //           maxLines: 1,),
-              //         const SizedBox(height: 5,),
-              //       ],
-              //     )
-              // ),
-              Padding(
+                Padding(
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 8.0, vertical: 5),
-                  child: RatingBarView(
-                    initialRating: rating ?? 0,
-                    minRating: rating ?? 0,
-                  )),
-              Visibility(
-                visible: defaultPrice != null,
-                replacement: const Center(),
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        // mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Text(
-                            NumberFormat.simpleCurrency(locale: 'vi').format(
-                                int.parse(defaultPrice.toString())),
-                            style: const TextStyle(
-                                fontSize: 12,
-                                color: Colors.black,
-                                fontWeight: FontWeight.w400,
-                                decoration: TextDecoration.lineThrough),
-                          )
-                        ],
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                  ],
+                      const EdgeInsets.symmetric(horizontal: 8.0, vertical: 2),
+                  child: Text(
+                    nameProduct ?? '',
+                    // textAlign: TextAlign.center,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                        height: 1,
+                        fontWeight: FontWeight.w400,
+                        fontSize: 14,
+                        color: Colors.black),
+                  ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      NumberFormat.simpleCurrency(locale: 'vi')
-                          .format(int.parse(price.toString())),
-                      style: const TextStyle(
-                          fontSize: 14,
-                          color: Color(0xffD92A1C),
-                          fontWeight: FontWeight.w400),
-                    ),
 
-                    InkWell(
-                      onTap: ()async{
-                        await cart.postAddCart(
-                          productId: productId??"",
-                           quantity: "1"
-                           );
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.all(5),
-                        decoration: BoxDecoration(
-                          color: XColor.primary,
-                          shape: BoxShape.circle
+                // Visibility(
+                //     visible: widget.shortDes!='',
+                //     child:Column(
+                //       children: [
+                //         Text(
+                //           widget.shortDes??'',
+                //           style: const TextStyle(fontSize: 12,
+                //             fontWeight: FontWeight.w300,
+                //           ),
+                //           maxLines: 1,),
+                //         const SizedBox(height: 5,),
+                //       ],
+                //     )
+                // ),
+                Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 8.0, vertical: 5),
+                    child: RatingBarView(
+                      initialRating: rating ?? 0,
+                      minRating: rating ?? 0,
+                    )),
+                Visibility(
+                  visible: defaultPrice != null,
+                  replacement: const Center(),
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          // mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text(
+                              NumberFormat.simpleCurrency(locale: 'vi')
+                                  .format(int.parse(defaultPrice.toString())),
+                              style: const TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w400,
+                                  decoration: TextDecoration.lineThrough),
+                            )
+                          ],
                         ),
-                        child: Icon(Icons.shopping_bag_outlined,color: Colors.white,),
                       ),
-                    )
-                  ],
+                      const SizedBox(
+                        height: 5,
+                      ),
+                    ],
+                  ),
                 ),
-              )
-            ],
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        NumberFormat.simpleCurrency(locale: 'vi')
+                            .format(int.parse(price.toString())),
+                        style: const TextStyle(
+                            fontSize: 14,
+                            color: Color(0xffD92A1C),
+                            fontWeight: FontWeight.w400),
+                      ),
+                      InkWell(
+                        onTap: () async {
+                          await cart.postAddCart(
+                              productId: productId ?? "", quantity: "1");
+                        },
+                        child: Container(
+                            padding: EdgeInsets.all(3),
+                            decoration: BoxDecoration(
+                                color: XColor.primary, shape: BoxShape.circle),
+                            child: const Icon(
+                              Icons.add,
+                              color: Colors.white,
+                            )),
+                      )
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
           Positioned(
               right: 5,
               top: 3,
               child: Visibility(
-                visible: isFavorites==true,
+                visible: isFavorites == true,
                 replacement: const Icon(
                   Icons.favorite_outline,
                   color: Colors.black,

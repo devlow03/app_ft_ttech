@@ -33,6 +33,7 @@ class ListProductDetailPage extends StatelessWidget {
     return WillPopScope(
       onWillPop: logic.onWillPop,
       child: Scaffold(
+        backgroundColor: Colors.grey.shade50,
         key: key,
         appBar: AppBar(
           backgroundColor: Colors.white,
