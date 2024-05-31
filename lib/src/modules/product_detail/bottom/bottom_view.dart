@@ -34,6 +34,7 @@ class BottomDetail extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Expanded(
+                      flex: 1,
                       child: InkWell(
                           onTap: ()async{
                             await logic.postAddCart(
@@ -44,23 +45,20 @@ class BottomDetail extends StatelessWidget {
                                 quantity:
                                 logic.quantity.value.toString() ?? "");
                           },
-                          child: Container(
-                              alignment: Alignment.center,
-                              padding: const EdgeInsets.all(15),
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  border: Border.all(color: Colors.grey.shade200,width: 1)
-                              ),
-                              child: Icon(LineIcons.addToShoppingCart,size: 30,color: XColor.primary,)
+                          child: Column(
+                            children: [
+                              const Icon(LineIcons.addToShoppingCart,size: 35,color: Colors.black,),
+                              Text("Thêm vào giỏ",style: TextStyle(fontSize: 12),)
+                            ],
                           ))),
-
+                  const SizedBox(width: 10,),
                   Expanded(
                     flex: 3,
                     child: ElevatedButton(
 
                         style: ElevatedButton.styleFrom(
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 5, vertical: 5),
+                              horizontal: 5,vertical: 5),
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(30)),
                         ),

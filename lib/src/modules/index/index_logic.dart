@@ -13,7 +13,7 @@ class IndexLogic extends GetxController {
   void tabSelect(tab) async {
     setAppBar();
     final userUtils = Get.put(UserUtils());
-    if (tab == 4) {
+    if (tab == 3) {
 
       bool isLogin = await userUtils.checkSignIn(intoPage: false);
       if (isLogin) {

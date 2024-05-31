@@ -18,18 +18,18 @@ class ProductComment extends StatelessWidget {
 
       return Container(
         padding: logic.isAllReviews.value?const EdgeInsets.all(20):null,
-        decoration: logic.isAllReviews.value?BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.2),
-                spreadRadius: 5,
-                blurRadius: 3,
-                offset: const Offset(0, 3), // changes position of shadow
-              ),
-            ],
-            borderRadius: BorderRadius.circular(10),
-            color: Colors.white
-        ):null,
+        // decoration: logic.isAllReviews.value?BoxDecoration(
+        //     // boxShadow: [
+        //     //   BoxShadow(
+        //     //     color: Colors.grey.withOpacity(0.2),
+        //     //     spreadRadius: 5,
+        //     //     blurRadius: 3,
+        //     //     offset: const Offset(0, 3), // changes position of shadow
+        //     //   ),
+        //     // ],
+        //     borderRadius: BorderRadius.circular(10),
+        //     color: Colors.white
+        // ):null,
         child: ListView.separated(
           physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
