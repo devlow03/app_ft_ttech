@@ -53,12 +53,17 @@ class ProductDetailLogic extends GetxController {
     // TODO: implement refresh
     super.refresh();
     await logicCart.getCart();
-    await getProductById();
+    // await getProductById();
     await getComment();
     getProductByBrands();
     getProductByIdCategory();
   }
+  @override
+  void onClose() {
+    // TODO: implement onClose
+    super.onClose();
 
+  }
   @override
   void onReady() async {
     // TODO: implement onReady
@@ -77,12 +82,12 @@ class ProductDetailLogic extends GetxController {
   }
 
   Future<GetProductByIdRsp?> getProductById() async {
-    if (productId.value != '') {
-      getProductByIdRsp.value = null;
+
+
       getProductByIdRsp.value =
           await tMartServices.getProductByIdRsp(id: productId.value ?? "");
       getProductByIdRsp.refresh();
-    }
+
 
     return getProductByIdRsp.value;
   }

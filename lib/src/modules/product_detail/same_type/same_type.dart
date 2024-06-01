@@ -314,12 +314,15 @@ class SameType extends StatelessWidget {
                                         logic.getProductByIdRsp.value?.data?.id,
                                     child: InkWell(
                                       onTap: () async {
+                                        // Get.delete<ProductDetailLogic>();
                                         Get.back();
+
                                         Get.to(ProductDetailPage(
                                           id: logic.getProductRsp.value
                                               ?.data?[ind].id
                                               .toString(),
                                         ));
+
                                       },
                                       child: Padding(
                                         padding: const EdgeInsets.symmetric(

@@ -44,6 +44,7 @@ class ProductDetailPage extends StatelessWidget {
     final logicCart = Get.put(CartLogic());
     final logic = Get.put(ProductDetailLogic(Get.find()));
     logic.productId.value = id;
+    logic.getProductById();
 
 
     return WillPopScope(
