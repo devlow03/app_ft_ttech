@@ -152,9 +152,8 @@ class SameType extends StatelessWidget {
                                       child: InkWell(
                                         onTap: () async {
                                           Get.back();
-                                          Get.to(ProductDetailPage(
-                                            id: data?.id.toString(),
-                                          ));
+                                          logic.getProductById(data?.id.toString()??"");
+
                                         },
                                         child: Padding(
                                           padding: const EdgeInsets.symmetric(
@@ -315,11 +314,10 @@ class SameType extends StatelessWidget {
                                     child: InkWell(
                                       onTap: () async {
                                         Get.back();
-                                        Get.to(ProductDetailPage(
-                                          id: logic.getProductRsp.value
-                                              ?.data?[ind].id
-                                              .toString(),
-                                        ));
+                                        logic.getProductById(logic.getProductRsp.value
+                                            ?.data?[ind].id
+                                            .toString()??"");
+
                                       },
                                       child: Padding(
                                         padding: const EdgeInsets.symmetric(

@@ -32,18 +32,18 @@ import 'info/info.dart';
 import 'product_detail_logic.dart';
 
 class ProductDetailPage extends StatelessWidget {
-  final String? id;
+
 
   const ProductDetailPage({
     Key? key,
-    required this.id,
+
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final logicCart = Get.put(CartLogic());
     final logic = Get.put(ProductDetailLogic(Get.find()));
-    logic.productId.value = id;
+    // logic.productId.value = id;
 
 
     return WillPopScope(

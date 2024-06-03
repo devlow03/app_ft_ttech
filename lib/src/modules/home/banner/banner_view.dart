@@ -1,4 +1,5 @@
 import 'package:app_ft_tmart/src/modules/home/home_logic.dart';
+import 'package:app_ft_tmart/src/modules/product_detail/product_detail_logic.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -67,11 +68,12 @@ class BannerPage extends StatelessWidget {
                         ),
                         child: InkWell(
                           onTap: () {
-                            Get.to(ProductDetailPage(id: logic
+                            Get.put(ProductDetailLogic(Get.find())).getProductById(logic
                                 .getBannerRsp
                                 .value
                                 ?.data?[index]
-                                .details?.first.link));
+                                .details?.first.link.toString()??"");
+
                           },
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(10),

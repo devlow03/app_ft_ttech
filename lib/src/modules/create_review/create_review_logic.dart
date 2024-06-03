@@ -29,7 +29,7 @@ class CreateReviewLogic extends GetxController {
 
   Future<void> uploadImageToFirebase(File imageFile, String filename) async {
     final productDetail = Get.put(ProductDetailLogic(Get.find()));
-    String productId = productDetail.productId.value ?? "";
+    String productId = productDetail. getProductByIdRsp.value?.data?.id.toString() ?? "";
     final DIO.Dio dio = DIO.Dio();
     dio.interceptors.add(CurlLoggerDioInterceptor(printOnSuccess: true));
     dio.interceptors.add(PrettyDioLogger(
@@ -70,7 +70,7 @@ class CreateReviewLogic extends GetxController {
         for (var i = 0; i < logicPhoto.images.length; i++) {
           var uuid = const Uuid();
           String fileName = uuid.v1();
-          String productId = productDetail.productId.value ?? "";
+          String productId = productDetail. getProductByIdRsp.value?.data?.id.toString() ?? "";
           await uploadImageToFirebase(logicPhoto.images[i]!, fileName);
           String imageUrl =
               "${GlobalData.firebaseStorageUrl}/comments%2F$productId%2F$fileName.png?alt=media&token=${postUploadFileRsp.value?.downloadTokens}";
@@ -84,7 +84,7 @@ class CreateReviewLogic extends GetxController {
                 imageUrl: imageUrlData,
                 text: reviewTextController.text,
                 parentId: "",
-                productId: int.parse(productDetail.productId.value ?? ""),
+                productId: int.parse(productDetail. getProductByIdRsp.value?.data?.id.toString() ?? "" ?? ""),
                 test: true));
         listImage.clear();
         imageUrlData.clear();
@@ -92,7 +92,7 @@ class CreateReviewLogic extends GetxController {
         Get.back();
         Get.back();
          productDetail.getComment();
-        productDetail.getProductById();
+        productDetail.getProductById(productDetail. getProductByIdRsp.value?.data?.id.toString() ?? "");
       });
     }
    

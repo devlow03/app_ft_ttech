@@ -1,3 +1,4 @@
+import 'package:app_ft_tmart/src/modules/product_detail/product_detail_logic.dart';
 import 'package:app_ft_tmart/src/modules/product_detail/product_detail_view.dart';
 import 'package:app_ft_tmart/src/widget/global_image.dart';
 import 'package:flutter/material.dart';
@@ -44,11 +45,7 @@ class DetailItems extends StatelessWidget {
                         .toString());
                 return InkWell(
                   onTap: () {
-                    Get.to(ProductDetailPage(
-                      id: logic.getOrderByIdRsp.value?.data
-                          ?.orderDetails?[index].productId
-                          .toString(),
-                    ));
+                    Get.put(ProductDetailLogic(Get.find())).getProductById(logic.getOrderByIdRsp.value?.data?.id.toString()??"");
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),

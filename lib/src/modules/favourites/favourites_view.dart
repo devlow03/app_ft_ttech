@@ -67,11 +67,11 @@ class FavouritesPage extends StatelessWidget {
                           
                           return InkWell(
                             onTap: () {
-                              Get.to(ProductDetailPage(
-                                id: logic.getProductFavoriteRsp.value
-                                    ?.data?[ind].id.toString(),
-                
-                              ));
+                              // Get.to(ProductDetailPage(
+                              //   id: logic.getProductFavoriteRsp.value
+                              //       ?.data?[ind].id.toString(),
+                              //
+                              // ));
                             },
                             child: GlobalProduct(
                               imageLink: logic.getProductFavoriteRsp.value

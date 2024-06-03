@@ -1,6 +1,7 @@
 import 'package:app_ft_tmart/src/modules/cart/cart_icon/cart_icon.dart';
 import 'package:app_ft_tmart/src/modules/filter/filter_view.dart';
 import 'package:app_ft_tmart/src/modules/index/index_view.dart';
+import 'package:app_ft_tmart/src/modules/product_detail/product_detail_logic.dart';
 import 'package:app_ft_tmart/src/modules/product_detail/product_detail_view.dart';
 import 'package:app_ft_tmart/src/modules/search/search_view.dart';
 import 'package:flutter/material.dart';
@@ -114,9 +115,8 @@ class AllProductByCategoryPage extends StatelessWidget {
                                   logic.getProductByCategory.value?.data?[ind];
                               return InkWell(
                                 onTap: () {
-                                  Get.to(ProductDetailPage(
-                                    id: data?.id.toString(),
-                                  ));
+                                  Get.put(ProductDetailLogic(Get.find())).getProductById(data?.id
+                                      .toString()??"");
                                 },
                                 child: GlobalProduct(
                                   productId: data?.id.toString(),

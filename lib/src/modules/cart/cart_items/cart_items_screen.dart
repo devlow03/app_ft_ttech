@@ -1,4 +1,5 @@
 import 'package:app_ft_tmart/src/core/xcolor.dart';
+import 'package:app_ft_tmart/src/modules/product_detail/product_detail_logic.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -20,10 +21,9 @@ class CartItemsScreen extends StatelessWidget {
         itemBuilder: (context, index) {
           return InkWell(
             onTap: () {
-              Get.to(ProductDetailPage(
-                id: logic.getCartRsp.value?.data?.cartDetails?[index].productId
-                    .toString(),
-              ));
+              Get.put(ProductDetailLogic(Get.find())).getProductById( logic.getCartRsp.value?.data?.cartDetails?[index].productId
+                  .toString()??"");
+
             },
             child: Container(
               padding: EdgeInsets.all(10),

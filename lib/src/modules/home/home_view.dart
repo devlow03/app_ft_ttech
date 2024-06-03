@@ -175,7 +175,7 @@ class TitleAppBar extends StatelessWidget {
                 text: "Chào mừng bạn đến với TMart",
                 style: TextStyle(
                     color: Colors.black,
-                    fontSize: 16,
+                    fontSize: 14,
                     fontWeight: FontWeight.w600,
                     letterSpacing: 0.5,
                     height: 1.5))

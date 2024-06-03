@@ -1,5 +1,6 @@
 import 'package:app_ft_tmart/src/modules/cart/cart_logic.dart';
 import 'package:app_ft_tmart/src/modules/order/order_logic.dart';
+import 'package:app_ft_tmart/src/modules/product_detail/product_detail_logic.dart';
 import 'package:app_ft_tmart/src/modules/product_detail/product_detail_view.dart';
 import 'package:app_ft_tmart/src/widget/global_image.dart';
 import 'package:flutter/material.dart';
@@ -37,11 +38,10 @@ class OrderItem extends StatelessWidget {
             itemBuilder: (context, index) {
               return InkWell(
                 onTap: () {
-                  Get.to(ProductDetailPage(
-                    id: logicCart.getCartRsp.value?.data
-                        ?.cartDetails?[index].productId
-                        .toString(),
-                  ));
+                  Get.put(ProductDetailLogic(Get.find())).getProductById(logicCart.getCartRsp.value?.data
+                      ?.cartDetails?[index].productId
+                      .toString()??"");
+
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),

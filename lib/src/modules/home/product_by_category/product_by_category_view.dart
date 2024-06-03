@@ -1,4 +1,5 @@
 import 'package:app_ft_tmart/src/modules/all_product_by_category/all_product_by_category_view.dart';
+import 'package:app_ft_tmart/src/modules/product_detail/product_detail_logic.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
@@ -56,10 +57,9 @@ class ProductByCategoryPage extends StatelessWidget {
               ),
               child: InkWell(
                 onTap: () {
-                  Get.to(ProductDetailPage(
-                    id: logic.getProductByCategoryRsp.value?.data?[ind].id
-                        .toString(),
-                  ));
+                  Get.put(ProductDetailLogic(Get.find())).getProductById(logic.getProductByCategoryRsp.value?.data?[ind].id
+                      .toString()??"");
+
                 },
                 child: GlobalProduct(
                   productId: data?.id.toString() ?? "",

@@ -57,11 +57,11 @@ class ProductSuggestPage extends StatelessWidget {
                         logic.indexPage.value = ind;
                         return InkWell(
                           onTap: () {
-                            Get.to(ProductDetailPage(
-                              id: logic.getProductRsp.value
-                                  ?.data?[ind].id.toString(),
-
-                            ));
+                            // Get.to(ProductDetailPage(
+                            //   id: logic.getProductRsp.value
+                            //       ?.data?[ind].id.toString(),
+                            //
+                            // ));
                           },
                           child: GlobalProduct(
                             imageLink: logic.getProductRsp.value

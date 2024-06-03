@@ -2,6 +2,7 @@ import 'package:app_ft_tmart/src/core/xcolor.dart';
 import 'package:app_ft_tmart/src/modules/cart/cart_icon/cart_icon.dart';
 import 'package:app_ft_tmart/src/modules/filter/filter_view.dart';
 import 'package:app_ft_tmart/src/modules/index/index_view.dart';
+import 'package:app_ft_tmart/src/modules/product_detail/product_detail_logic.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
@@ -144,10 +145,8 @@ class ListProductDetailPage extends StatelessWidget {
                             
                             return InkWell(
                               onTap: () {
-                                Get.to(ProductDetailPage(
-                                  id: logic.getSearchRsp.value?.data?[ind].id.toString(),
-        
-                                ));
+                                Get.put(ProductDetailLogic(Get.find())).getProductById(logic.getSearchRsp.value?.data?[ind].id.toString()??"");
+
                               },
                               child: GlobalProduct(
                                 imageLink:logic.getSearchRsp.value?.data?[ind].thumpnailUrl,

@@ -6,6 +6,7 @@ import 'package:app_ft_tmart/src/data/repositories/get_slider_prod_rsp.dart';
 import 'package:app_ft_tmart/src/data/repositories/post_cart_rqst.dart';
 import 'package:app_ft_tmart/src/data/services/service.dart';
 import 'package:app_ft_tmart/src/modules/cart/cart_view.dart';
+import 'package:app_ft_tmart/src/modules/product_detail/product_detail_view.dart';
 import 'package:app_ft_tmart/src/utils/user_utils.dart';
 import 'package:app_ft_tmart/src/utils/utils.dart';
 import 'package:carousel_slider/carousel_controller.dart';
@@ -41,7 +42,7 @@ class ProductDetailLogic extends GetxController {
   final userUtils = Get.put(UserUtils());
   Rxn<GetCommentResponse> getCommentRsp = Rxn();
   RxBool isAllReviews = RxBool(false);
-  Rxn<String> productId = Rxn();
+  // Rxn<String> productId = Rxn();
   PageController pageViewController = PageController();
   Rxn<int> indexCommentDetail = Rxn(0);
   ScrollController scrollControllerAllReview = ScrollController();
@@ -53,7 +54,8 @@ class ProductDetailLogic extends GetxController {
     // TODO: implement refresh
     super.refresh();
     await logicCart.getCart();
-    await getProductById();
+    await getProductById(getProductByIdRsp.value?.data?.id.toString()??"");
+
     await getComment();
     getProductByBrands();
     getProductByIdCategory();
@@ -65,8 +67,8 @@ class ProductDetailLogic extends GetxController {
     // await getSliderProd;
     super.onReady();
     await logicCart.getCart();
-    await getProductById();
-    await getComment();
+
+
     await getProductByIdCategory();
     getProductByBrands();
     getProductByIdCategory();
@@ -76,13 +78,13 @@ class ProductDetailLogic extends GetxController {
     loadMore();
   }
 
-  Future<GetProductByIdRsp?> getProductById() async {
-    if (productId.value != '') {
+  Future<GetProductByIdRsp?> getProductById(String id) async {
+      Get.to(const ProductDetailPage());
       getProductByIdRsp.value = null;
       getProductByIdRsp.value =
-          await tMartServices.getProductByIdRsp(id: productId.value ?? "");
+          await tMartServices.getProductByIdRsp(id: id ?? "");
       getProductByIdRsp.refresh();
-    }
+      await getComment();
 
     return getProductByIdRsp.value;
   }
@@ -144,7 +146,7 @@ class ProductDetailLogic extends GetxController {
   Future<GetCommentResponse?> getComment() async {
     getCommentRsp.value = await tMartServices.getCommentRsp(
         query:
-            GetCommentQueries(perPage: "10", productId: productId.value ?? ""));
+            GetCommentQueries(perPage: "10", productId: getProductByIdRsp.value?.data?.id.toString() ?? ""));
     return getCommentRsp.value;
   }
 
@@ -158,7 +160,7 @@ class ProductDetailLogic extends GetxController {
 
           getCommentRsp.value = await tMartServices.getCommentRsp(
               query: GetCommentQueries(
-                  perPage: perPage.value.toString(), productId: productId.value ?? ""));
+                  perPage: perPage.value.toString(), productId:  getProductByIdRsp.value?.data?.id.toString() ?? ""));
 
           getCommentRsp.refresh();
         }
