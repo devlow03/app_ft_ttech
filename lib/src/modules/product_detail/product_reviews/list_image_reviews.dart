@@ -3,6 +3,7 @@ import 'package:app_ft_tmart/src/modules/product_detail/product_detail_logic.dar
 import 'package:app_ft_tmart/src/modules/product_detail/product_rating/product_rating.dart';
 import 'package:app_ft_tmart/src/modules/product_detail/product_reviews/comments/product_comment.dart';
 import 'package:app_ft_tmart/src/widget/global_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -16,34 +17,35 @@ class ListImageReviews extends StatelessWidget {
       return SizedBox(
         height: 80,
         child: Stack(
-          alignment: Alignment.centerRight,
+          alignment: Alignment.center,
           children: [
+
             ListView.separated(
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               scrollDirection: Axis.horizontal,
-              itemCount: (logic.getCommentRsp.value?.data?.length ?? 0)>=4?4:(logic.getCommentRsp.value?.data?.length ?? 0),
+              itemCount: (logic.imageComments.length ?? 0)>=4?4:(logic.imageComments.length ?? 0),
               itemBuilder: (context, index) => Visibility(
-                visible: index == 3,
+                visible: index == 3 && (logic.imageComments.length ?? 0)>4,
                 replacement: InkWell(
                 onTap: (){
-                  
+
                   Get.to( CommentDetails(index: index,));
-                  
+
                 },
                   child: GlobalImage(
                     imageUrl:
-                        "${logic.getCommentRsp.value?.data?[index].imageUrl?.first}",
+                        "${logic.imageComments[index]["imageUrl"][0]}",
                     width: MediaQuery.of(context).size.width * .2,
                     height: 30,
                     boxFit: BoxFit.cover,
                   ),
                 ),
-                child: GlobalImage(
+                child:GlobalImage(
                   color: Colors.black.withOpacity(0.5), // Màu tối lại
                   colorBlendMode: BlendMode.darken,
                   imageUrl:
-                      "${logic.getCommentRsp.value?.data?[index].imageUrl?.first}",
+                      "${logic.imageComments[index]["imageUrl"][0]}",
                   width: MediaQuery.of(context).size.width * .2,
                   height: 30,
                   boxFit: BoxFit.cover,
@@ -53,24 +55,16 @@ class ListImageReviews extends StatelessWidget {
                 width: 12,
               ),
             ),
-            Positioned(
-              right: 20,
-              bottom: 30,
-                  child: RichText(text: TextSpan(
-                  children: [
-                    const WidgetSpan(
-                      alignment: PlaceholderAlignment.middle,
-                      child: Icon(Icons.add,color: Colors.white,size: 15,)),
-                    TextSpan(
-                      text: "${(logic.getCommentRsp.value?.data?.length??0) - 4} ảnh",
-                      style: const TextStyle(
-                        color: Colors.white
-                      )
+            Visibility(
+              visible: (logic.imageComments.length ?? 0)>4,
+              child: Positioned(
+                  right: 20,
+                  bottom: 30,
+                  child: Text("+ ${(logic.getCommentRsp.value?.data?.length??0) - 4} ảnh",style: const TextStyle(color: Colors.white),)
 
-                    )
-                  ]
-                )),
-                )
+
+              ),
+            )
           ],
         ),
       );

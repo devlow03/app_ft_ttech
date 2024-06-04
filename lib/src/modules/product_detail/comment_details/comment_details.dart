@@ -31,19 +31,23 @@ class CommentDetails extends StatelessWidget {
         ),
         body: Obx(() {
           return PageView(
-            onPageChanged: (value) {
+            onPageChanged: (index) {
+
+              logic.indexComment.value = index;
               logic.indexCommentDetail.value = 0;
+
             },
             controller: PageController(initialPage: index ?? 0),
             scrollDirection: Axis.vertical,
             physics: const AlwaysScrollableScrollPhysics(),
-            children: logic.getCommentRsp.value?.data?.map((data) {
+            children: logic.imageComments.map((data) {
                   // logic.indexCommentDetail.value = 0;
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
+                    // mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Visibility(
-                        visible: data.imageUrl?.isEmpty == false,
+                        visible: data["imageUrl"].isEmpty == false,
                         child: Center(
                           child: Container(
                             width: 50,
@@ -56,7 +60,7 @@ class CommentDetails extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  "${(logic.indexCommentDetail.value ?? 0) + 1}/${data.imageUrl?.length ?? 0}",
+                                  "${(logic.indexCommentDetail.value ?? 0) + 1}/${data["imageUrl"].length ?? 0}",
                                   style: const TextStyle(color: Colors.white),
                                 )
                               ],
@@ -65,15 +69,15 @@ class CommentDetails extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(
-                        height: 10,
+                        height: 100,
                       ),
                       Stack(
-                        // alignment: Alignment.bottomCenter,
+                        alignment: Alignment.bottomCenter,
                         children: [
                           CarouselSlider.builder(
-                            itemCount: data.imageUrl?.length ?? 0,
+                            itemCount: data["imageUrl"].length ?? 0,
                             itemBuilder: (context, index, realIndex) {
-                              final images = data.imageUrl?[index];
+                              final images = data["imageUrl"]?[index];
                               return GlobalImage(
                                 imageUrl: images,
                                 width: MediaQuery.of(context).size.width,
@@ -83,31 +87,30 @@ class CommentDetails extends StatelessWidget {
                             },
                             options: CarouselOptions(
                                 enableInfiniteScroll: false,
-                                aspectRatio: 10 / 15,
+                                aspectRatio: 15 / 17,
                                 viewportFraction: 1,
                                 onPageChanged: ((index, reason) {
                                   logic.indexCommentDetail.value = index;
                                 })),
                           ),
-                          Positioned.fill(
-                              top: 380,
+                          Positioned(
+
                               left: 10,
                               right: 10,
                               child: Container(
                                 decoration: BoxDecoration(
                                   boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withOpacity(0.3),
-                                      spreadRadius: 7,
-                                      blurRadius: 5,
-                                      offset: Offset(
-                                          0, 5), // changes position of shadow
-                                    ),
+                                    // BoxShadow(
+                                    //   color: Colors.grey.withOpacity(0.3),
+                                    //   spreadRadius: 7,
+                                    //   blurRadius: 5,
+                                    //   offset: Offset(
+                                    //       0, 5), // changes position of shadow
+                                    // ),
                                   ],
                                 ),
-                                child: Details(
-                                  data: data,
-                                ),
+                                child: const Details(),
+
                               ))
                         ],
                       ),
@@ -115,7 +118,7 @@ class CommentDetails extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(
                             vertical: 5, horizontal: 10),
                         child: Text(
-                          data.createdAt ?? "",
+                          data["createdAt"] ?? "",
                           style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.bold,
@@ -132,32 +135,35 @@ class CommentDetails extends StatelessWidget {
 }
 
 class Details extends StatelessWidget {
-  final Data data;
+
   const Details({
     super.key,
-    required this.data,
+
   });
 
   @override
   Widget build(BuildContext context) {
+    final logic = Get.put(ProductDetailLogic(Get.find()));
+    final data = logic.imageComments[logic.indexComment.value??0];
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.end,
       children: [
         CircleAvatar(
-          backgroundImage: NetworkImage(data.userAvatar ?? ""),
+          backgroundImage: NetworkImage(data["avatar"] ?? ""),
         ),
         const SizedBox(
           height: 10,
         ),
         Text(
-          data.user ?? "",
+          data["fullName"] ?? "",
           style: const TextStyle(
               fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
         ),
         ProductRating(
           isReview: true,
-          initialRating: data.rating?.toDouble(),
-          minRating: data.rating?.toDouble(),
+          initialRating: data["rating"].toDouble(),
+          minRating: data["rating"].toDouble(),
         ),
         const SizedBox(
           height: 10,
@@ -165,7 +171,7 @@ class Details extends StatelessWidget {
         Column(
           children: [
             Text(
-              data.text ?? "",
+              data["content"] ?? "",
               maxLines: 3,
               overflow: TextOverflow.ellipsis,
               style: const TextStyle(

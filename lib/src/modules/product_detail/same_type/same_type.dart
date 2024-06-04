@@ -151,7 +151,7 @@ class SameType extends StatelessWidget {
                                               ?.id,
                                       child: InkWell(
                                         onTap: () async {
-                                          Get.back();
+                                          // Get.back();
                                           logic.getProductById(data?.id.toString()??"");
 
                                         },
@@ -313,7 +313,7 @@ class SameType extends StatelessWidget {
                                         logic.getProductByIdRsp.value?.data?.id,
                                     child: InkWell(
                                       onTap: () async {
-                                        Get.back();
+
                                         logic.getProductById(logic.getProductRsp.value
                                             ?.data?[ind].id
                                             .toString()??"");

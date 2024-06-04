@@ -114,7 +114,7 @@ class OrderPage extends StatelessWidget {
                                       fontSize: 15,
                                       fontWeight: FontWeight.w700),
                                 ),
-                                const Text('Giao hàng nhanh',
+                                const Text('Giao hàng tiết kiệm',
                                     style: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w500,

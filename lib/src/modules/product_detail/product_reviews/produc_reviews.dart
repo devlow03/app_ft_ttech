@@ -29,10 +29,10 @@ class ProductReviewsPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
 
-                Row(
+                const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text('Đánh giá sản phẩm',
+                    Text('Đánh giá sản phẩm',
                         style:
                         TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
 
@@ -44,7 +44,7 @@ class ProductReviewsPage extends StatelessWidget {
                 ),
                 ElevatedButton(
                     onPressed: ()=>Get.to(const CreateReviewPage()),
-                    child: Text('Tạo đánh giá',style: TextStyle(
+                    child: const Text('Tạo đánh giá',style: TextStyle(
                         color: Colors.white
                     ),)
                 ),
@@ -59,12 +59,12 @@ class ProductReviewsPage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                ElevatedButton(
-                    onPressed: ()=>Get.to(const CreateReviewPage()),
-                    child: Text('Tạo đánh giá',style: TextStyle(
-                        color: Colors.white
-                    ),)
-                ),
+                // ElevatedButton(
+                //     onPressed: ()=>Get.to(const CreateReviewPage()),
+                //     child: const Text('Tạo đánh giá',style: TextStyle(
+                //         color: Colors.white
+                //     ),)
+                // ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -103,6 +103,7 @@ class ProductReviewsPage extends StatelessWidget {
                     style:
                     TextStyle(fontSize: 14)),
                 const SizedBox(height: 10,),
+
                 const ListImageReviews(),
                 const SizedBox(height: 10,),
                 Divider(color: Colors.grey.shade300,height: 0.5,),

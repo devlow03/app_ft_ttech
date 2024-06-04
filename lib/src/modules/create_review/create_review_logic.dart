@@ -29,7 +29,8 @@ class CreateReviewLogic extends GetxController {
 
   Future<void> uploadImageToFirebase(File imageFile, String filename) async {
     final productDetail = Get.put(ProductDetailLogic(Get.find()));
-    String productId = productDetail. getProductByIdRsp.value?.data?.id.toString() ?? "";
+    String productId =
+        productDetail.getProductByIdRsp.value?.data?.id.toString() ?? "";
     final DIO.Dio dio = DIO.Dio();
     dio.interceptors.add(CurlLoggerDioInterceptor(printOnSuccess: true));
     dio.interceptors.add(PrettyDioLogger(
@@ -56,27 +57,31 @@ class CreateReviewLogic extends GetxController {
 
   Future<void> postAddComment() async {
     final productDetail = Get.put(ProductDetailLogic(Get.find()));
-    if (logicPhoto.images.isEmpty == true) {
-      Fluttertoast.showToast(
-          msg: "Vui lòng thêm ít nhất 1 ảnh để hoàn thành đánh giá");
-    }
-    if(reviewTextController.text==""){
+    // if (logicPhoto.images.isEmpty == true) {
+    //   Fluttertoast.showToast(
+    //       msg: "Vui lòng thêm ít nhất 1 ảnh để hoàn thành đánh giá");
+    // }
+    if (reviewTextController.text == "") {
       Fluttertoast.showToast(
           msg: "Vui lòng thêm nhận xét để hoàn thành đánh giá");
-    } 
-    
-    else {
+    } else {
       Utils.loading(() async {
-        for (var i = 0; i < logicPhoto.images.length; i++) {
-          var uuid = const Uuid();
-          String fileName = uuid.v1();
-          String productId = productDetail. getProductByIdRsp.value?.data?.id.toString() ?? "";
-          await uploadImageToFirebase(logicPhoto.images[i]!, fileName);
-          String imageUrl =
-              "${GlobalData.firebaseStorageUrl}/comments%2F$productId%2F$fileName.png?alt=media&token=${postUploadFileRsp.value?.downloadTokens}";
-          listImage.add(imageUrl);
+        if (logicPhoto.images.isNotEmpty == true) {
+          for (var i = 0; i < logicPhoto.images.length; i++) {
+            var uuid = const Uuid();
+            String fileName = uuid.v1();
+            String productId =
+                productDetail.getProductByIdRsp.value?.data?.id.toString() ??
+                    "";
+
+            await uploadImageToFirebase(logicPhoto.images[i]!, fileName);
+
+            String imageUrl =
+                "${GlobalData.firebaseStorageUrl}/comments%2F$productId%2F$fileName.png?alt=media&token=${postUploadFileRsp.value?.downloadTokens}";
+            listImage.add(imageUrl);
+          }
+          setMapImage();
         }
-        setMapImage();
 
         await tMartServices.postAddComment(
             bodies: PostAddCommentRqst(
@@ -84,18 +89,23 @@ class CreateReviewLogic extends GetxController {
                 imageUrl: imageUrlData,
                 text: reviewTextController.text,
                 parentId: "",
-                productId: int.parse(productDetail. getProductByIdRsp.value?.data?.id.toString() ?? "" ?? ""),
+                productId: int.parse(productDetail
+                        .getProductByIdRsp.value?.data?.id
+                        .toString() ??
+                    "" ??
+                    ""),
                 test: true));
+
         listImage.clear();
         imageUrlData.clear();
         Fluttertoast.showToast(msg: "Gửi đánh giá thành công");
         Get.back();
         Get.back();
-         productDetail.getComment();
-        productDetail.getProductById(productDetail. getProductByIdRsp.value?.data?.id.toString() ?? "");
+        productDetail.getComment();
+        productDetail.getProductById(
+            productDetail.getProductByIdRsp.value?.data?.id.toString() ?? "");
       });
     }
-   
   }
 
   setMapImage() {

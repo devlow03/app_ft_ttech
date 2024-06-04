@@ -15,6 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:pinput/pinput.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../core/global_data.dart';
@@ -45,8 +46,10 @@ class ProductDetailLogic extends GetxController {
   // Rxn<String> productId = Rxn();
   PageController pageViewController = PageController();
   Rxn<int> indexCommentDetail = Rxn(0);
+  Rxn<int> indexComment = Rxn(0);
   ScrollController scrollControllerAllReview = ScrollController();
   Rx<int> perPage = Rx(10);
+  RxList<Map<String,dynamic>> imageComments = RxList();
 
   // final dio = Dio();
   @override
@@ -59,8 +62,14 @@ class ProductDetailLogic extends GetxController {
     await getComment();
     getProductByBrands();
     getProductByIdCategory();
-  }
 
+  }
+  @override
+  void onClose() {
+    // TODO: implement onClose
+    super.onClose();
+    imageComments.clear();
+  }
   @override
   void onReady() async {
     // TODO: implement onReady
@@ -147,6 +156,7 @@ class ProductDetailLogic extends GetxController {
     getCommentRsp.value = await tMartServices.getCommentRsp(
         query:
             GetCommentQueries(perPage: "10", productId: getProductByIdRsp.value?.data?.id.toString() ?? ""));
+    await getImageComment();
     return getCommentRsp.value;
   }
 
@@ -167,4 +177,30 @@ class ProductDetailLogic extends GetxController {
       }
     });
   }
+
+  Future<void>getImageComment()async{
+    imageComments.clear();
+    final commentLength = getCommentRsp.value?.data?.length??0;
+    for(var i =0 ; i<commentLength;i++){
+      final images = getCommentRsp.value?.data?[i].imageUrl;
+
+
+       if(images?.isNotEmpty==true){
+         final Map<String,dynamic>  imageMap = {
+           "id":getCommentRsp.value?.data?[i].id,
+           "avatar":getCommentRsp.value?.data?[i].userAvatar,
+           "fullName":getCommentRsp.value?.data?[i].user,
+           "content":getCommentRsp.value?.data?[i].text,
+           "rating":getCommentRsp.value?.data?[i].rating,
+           "createdAt":getCommentRsp.value?.data?[i].createdAt,
+           "imageUrl":images
+         };
+         imageComments.add(imageMap);
+       }
+      }
+    print(">>>>>>>>>>${jsonEncode(imageComments)}");
+    }
+
+
+
 }
