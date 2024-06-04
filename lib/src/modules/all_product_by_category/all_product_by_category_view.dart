@@ -113,22 +113,16 @@ class AllProductByCategoryPage extends StatelessWidget {
                               logic.indexPage.value = ind;
                               final data =
                                   logic.getProductByCategory.value?.data?[ind];
-                              return InkWell(
-                                onTap: () {
-                                  Get.put(ProductDetailLogic(Get.find())).getProductById(data?.id
-                                      .toString()??"");
-                                },
-                                child: GlobalProduct(
-                                  productId: data?.id.toString(),
-                                  imageLink: data?.thumpnailUrl,
-                                  defaultPrice: '${data?.defaultPrice}',
-                                  // price:NumberFormat("###,###.# đ").format(snapshot.data?.products?[index].price),
-                                  price: '${data?.price}',
-                                  nameProduct: data?.productName,
-                                  rating:
-                                      double.parse(data?.averageRating ?? ""),
-                                  isFavorites: data?.favorite,
-                                ),
+                              return GlobalProduct(
+                                productId: data?.id.toString(),
+                                imageLink: data?.thumpnailUrl,
+                                defaultPrice: '${data?.defaultPrice}',
+                                // price:NumberFormat("###,###.# đ").format(snapshot.data?.products?[index].price),
+                                price: '${data?.price}',
+                                nameProduct: data?.productName,
+                                rating:
+                                    double.parse(data?.averageRating ?? ""),
+                                isFavorites: data?.favorite,
                               );
                             },
                             gridDelegate:

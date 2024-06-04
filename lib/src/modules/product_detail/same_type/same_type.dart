@@ -149,26 +149,19 @@ class SameType extends StatelessWidget {
                                               ?.data?[ind].id !=
                                           logic.getProductByIdRsp.value?.data
                                               ?.id,
-                                      child: InkWell(
-                                        onTap: () async {
-                                          // Get.back();
-                                          logic.getProductById(data?.id.toString()??"");
-
-                                        },
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 8, horizontal: 2),
-                                          child: GlobalProduct(
-                                            productId: data?.id.toString(),
-                                            imageLink: data?.thumpnailUrl,
-                                            defaultPrice:
-                                                '${data?.defaultPrice}',
-                                            price: '${data?.price}',
-                                            nameProduct: data?.productName,
-                                            rating: double.parse(
-                                                data?.averageRating ?? ""),
-                                            isFavorites: data?.favorite,
-                                          ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 8, horizontal: 2),
+                                        child: GlobalProduct(
+                                          productId: data?.id.toString(),
+                                          imageLink: data?.thumpnailUrl,
+                                          defaultPrice:
+                                              '${data?.defaultPrice}',
+                                          price: '${data?.price}',
+                                          nameProduct: data?.productName,
+                                          rating: double.parse(
+                                              data?.averageRating ?? ""),
+                                          isFavorites: data?.favorite,
                                         ),
                                       ),
                                     );
@@ -311,33 +304,26 @@ class SameType extends StatelessWidget {
                                     visible: logic.getProductRsp.value
                                             ?.data?[ind].id !=
                                         logic.getProductByIdRsp.value?.data?.id,
-                                    child: InkWell(
-                                      onTap: () async {
-
-                                        logic.getProductById(logic.getProductRsp.value
-                                            ?.data?[ind].id
-                                            .toString()??"");
-
-                                      },
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 8, horizontal: 2),
-                                        child: GlobalProduct(
-                                          imageLink: logic.getProductRsp.value
-                                              ?.data?[ind].thumpnailUrl,
-                                          defaultPrice:
-                                              '${logic.getProductRsp.value?.data?[ind].defaultPrice}',
-                                          price:
-                                              '${logic.getProductRsp.value?.data?[ind].price}',
-                                          nameProduct: logic.getProductRsp.value
-                                              ?.data?[ind].productName,
-                                          rating: double.parse(logic
-                                                  .getProductRsp
-                                                  .value
-                                                  ?.data?[ind]
-                                                  .averageRating ??
-                                              ""),
-                                        ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 8, horizontal: 2),
+                                      child: GlobalProduct(
+                                        productId: logic.getProductRsp.value
+                                            ?.data?[ind].id.toString(),
+                                        imageLink: logic.getProductRsp.value
+                                            ?.data?[ind].thumpnailUrl,
+                                        defaultPrice:
+                                            '${logic.getProductRsp.value?.data?[ind].defaultPrice}',
+                                        price:
+                                            '${logic.getProductRsp.value?.data?[ind].price}',
+                                        nameProduct: logic.getProductRsp.value
+                                            ?.data?[ind].productName,
+                                        rating: double.parse(logic
+                                                .getProductRsp
+                                                .value
+                                                ?.data?[ind]
+                                                .averageRating ??
+                                            ""),
                                       ),
                                     ),
                                   );

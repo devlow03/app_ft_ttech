@@ -19,7 +19,7 @@ class FavouritesPage extends StatelessWidget {
         appBar: AppBar(
         elevation: 0.0,
         backgroundColor: Colors.white,
-        title: Text(
+        title: const Text(
           "Sản phẩm yêu thích",
           style: TextStyle(fontWeight: FontWeight.w600),
         ),
@@ -29,7 +29,7 @@ class FavouritesPage extends StatelessWidget {
           visible: logic.getProductFavoriteRsp.value?.data?.isNotEmpty == true,
           replacement: Visibility(
             visible: logic.getProductFavoriteRsp.value==null,
-            replacement: Center(
+            replacement: const Center(
               child: Text("Chưa có sản phẩm nào",
               style: TextStyle(
                 fontSize: 16,
@@ -74,6 +74,7 @@ class FavouritesPage extends StatelessWidget {
                               // ));
                             },
                             child: GlobalProduct(
+                              productId: logic.getProductFavoriteRsp.value?.data?[ind].id.toString()??"",
                               imageLink: logic.getProductFavoriteRsp.value
                                   ?.data?[ind].thumpnailUrl,
                               defaultPrice: '${logic.getProductFavoriteRsp
@@ -125,8 +126,8 @@ class FavouritesPage extends StatelessWidget {
                       visible: logic.page.value <
                           (logic.getProductFavoriteRsp.value?.meta?.total ??
                               0),
-                      replacement: Center(),
-                      child: Center(
+                      replacement: const Center(),
+                      child: const Center(
                         child: SpinKitCircle(size: 40,
                         color: Colors.grey,
                         )

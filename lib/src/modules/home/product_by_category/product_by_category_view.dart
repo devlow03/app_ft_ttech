@@ -55,22 +55,15 @@ class ProductByCategoryPage extends StatelessWidget {
                   ),
                 ),
               ),
-              child: InkWell(
-                onTap: () {
-                  Get.put(ProductDetailLogic(Get.find())).getProductById(logic.getProductByCategoryRsp.value?.data?[ind].id
-                      .toString()??"");
-
-                },
-                child: GlobalProduct(
-                  productId: data?.id.toString() ?? "",
-                  imageLink: data?.thumpnailUrl,
-                  defaultPrice: '${data?.defaultPrice}',
-                  // price:NumberFormat("###,###.# đ").format(snapshot.data?.products?[index].price),
-                  price: '${data?.price}',
-                  nameProduct: data?.productName,
-                  rating: double.parse(data?.averageRating ?? "0"),
-                  isFavorites: data?.favorite,
-                ),
+              child: GlobalProduct(
+                productId: data?.id.toString() ?? "",
+                imageLink: data?.thumpnailUrl,
+                defaultPrice: '${data?.defaultPrice}',
+                // price:NumberFormat("###,###.# đ").format(snapshot.data?.products?[index].price),
+                price: '${data?.price}',
+                nameProduct: data?.productName,
+                rating: double.parse(data?.averageRating ?? "0"),
+                isFavorites: data?.favorite,
               ),
             );
           },

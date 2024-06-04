@@ -55,50 +55,22 @@ class ProductSuggestPage extends StatelessWidget {
                       const NeverScrollableScrollPhysics(),
                       itemBuilder: (context, ind) {
                         logic.indexPage.value = ind;
-                        return InkWell(
-                          onTap: () {
-                            // Get.to(ProductDetailPage(
-                            //   id: logic.getProductRsp.value
-                            //       ?.data?[ind].id.toString(),
-                            //
-                            // ));
-                          },
-                          child: GlobalProduct(
-                            imageLink: logic.getProductRsp.value
-                                ?.data?[ind].thumpnailUrl,
-                            defaultPrice: '${logic.getProductRsp
-                                .value?.data?[ind].defaultPrice}',
-                            // price:NumberFormat("###,###.# đ").format(snapshot.data?.products?[index].price),
-                            price:
-                            '${ logic.getProductRsp.value
-                                ?.data?[ind].price}',
-                            nameProduct:
-                            logic.getProductRsp.value?.data?[ind]
-                                .productName,
+                        return GlobalProduct(
+                          productId: logic.getProductRsp.value?.data?[ind].id.toString()??"",
+                          imageLink: logic.getProductRsp.value
+                              ?.data?[ind].thumpnailUrl,
+                          defaultPrice: '${logic.getProductRsp
+                              .value?.data?[ind].defaultPrice}',
+                          // price:NumberFormat("###,###.# đ").format(snapshot.data?.products?[index].price),
+                          price:
+                          '${ logic.getProductRsp.value
+                              ?.data?[ind].price}',
+                          nameProduct:
+                          logic.getProductRsp.value?.data?[ind]
+                              .productName,
 
-                          ),
                         );
-                        // else{
-                        //   // logic.loadMore();
-                        //
-                        //   return Padding(
-                        //     padding: const EdgeInsets.symmetric(horizontal: 50),
-                        //     child: Column(
-                        //       crossAxisAlignment: CrossAxisAlignment.center,
-                        //       mainAxisAlignment: MainAxisAlignment.center,
-                        //       children: [
-                        //         CircularProgressIndicator(),
-                        //         TextButton(
-                        //             onPressed:(){
-                        //               logic.loadMore();
-                        //             },
-                        //             child: Text("load")
-                        //         )
-                        //       ],
-                        //     ),
-                        //   );
-                        //
-                        // }
+
                       },
                       gridDelegate:
                       const SliverGridDelegateWithFixedCrossAxisCount(

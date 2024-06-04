@@ -111,9 +111,10 @@ class SettingPage extends StatelessWidget {
                                 ),
                               )),
                           title: Text(
-                            logic.biometric.value == "finger"
-                                ? "Đăng nhập bằng vân tay"
-                                : "Đăng nhập bằng face ID",
+                            // logic.biometric.value == "finger"
+                            //     ? "Đăng nhập bằng vân tay"
+                            //     : "Đăng nhập bằng face ID",
+                            "Đăng nhập bằng vân tay",
                             style: TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.bold),
                           ),

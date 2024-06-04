@@ -143,21 +143,16 @@ class ListProductDetailPage extends StatelessWidget {
                           itemBuilder: (context, ind) {
                             logic.indexPage.value=ind;
                             
-                            return InkWell(
-                              onTap: () {
-                                Get.put(ProductDetailLogic(Get.find())).getProductById(logic.getSearchRsp.value?.data?[ind].id.toString()??"");
-
-                              },
-                              child: GlobalProduct(
-                                imageLink:logic.getSearchRsp.value?.data?[ind].thumpnailUrl,
-                                defaultPrice: '${logic.getSearchRsp.value?.data?[ind].defaultPrice}',
-                                // price:NumberFormat("###,###.# đ").format(snapshot.data?.products?[index].price),
-                                price:
-                                '${ logic.getSearchRsp.value?.data?[ind].price}',
-                                nameProduct:
-                                logic.getSearchRsp.value?.data?[ind].productName,
-                                rating: double.parse(logic.getSearchRsp.value?.data?[ind].averageRating??""),
-                              ),
+                            return GlobalProduct(
+                              productId: logic.getSearchRsp.value?.data?[ind].id.toString()??"",
+                              imageLink:logic.getSearchRsp.value?.data?[ind].thumpnailUrl,
+                              defaultPrice: '${logic.getSearchRsp.value?.data?[ind].defaultPrice}',
+                              // price:NumberFormat("###,###.# đ").format(snapshot.data?.products?[index].price),
+                              price:
+                              '${ logic.getSearchRsp.value?.data?[ind].price}',
+                              nameProduct:
+                              logic.getSearchRsp.value?.data?[ind].productName,
+                              rating: double.parse(logic.getSearchRsp.value?.data?[ind].averageRating??""),
                             );
         
                           },

@@ -27,7 +27,7 @@ class SearchPage extends StatelessWidget {
 
       },
       child: Scaffold(
-        backgroundColor: Colors.grey.shade50,
+        backgroundColor: Colors.white,
         appBar: AppBar(
           elevation: 0.0,
             automaticallyImplyLeading: false,

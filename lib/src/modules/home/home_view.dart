@@ -221,6 +221,7 @@ class SearchAndCart extends StatelessWidget {
             readOnly: true,
           ),
         ),
+        const SizedBox(width: 5,),
         const Expanded(flex: 2, child: CartWidget())
       ],
     );

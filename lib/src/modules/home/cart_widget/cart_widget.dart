@@ -26,8 +26,8 @@ class CartWidget extends StatelessWidget {
           },
           child: Container(
             alignment: Alignment.center,
-            margin: const EdgeInsets.symmetric(horizontal: 5),
-            padding: const EdgeInsets.all(13),
+            // margin: const EdgeInsets.symmetric(horizontal: 5),
+            padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),
                 color: Colors.white
@@ -41,7 +41,7 @@ class CartWidget extends StatelessWidget {
                 ?.cartDetails?.isNotEmpty ==
                 true,
             child: Positioned(
-              right: 12,
+              right: 5,
               bottom: 23,
               child: Container(
                 decoration: BoxDecoration(

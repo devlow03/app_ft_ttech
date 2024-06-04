@@ -94,6 +94,8 @@ class ProductDetailLogic extends GetxController {
           await tMartServices.getProductByIdRsp(id: id ?? "");
       getProductByIdRsp.refresh();
       await getComment();
+      getProductByBrands();
+      getProductByIdCategory();
 
     return getProductByIdRsp.value;
   }
@@ -140,7 +142,7 @@ class ProductDetailLogic extends GetxController {
     final id = (getProductByIdRsp.value?.data?.categoryId) ?? 0;
     getProductRsp.value = await tMartServices.getProductRsp(
         query: GetProductRqQuery(categoryId: [id.toString()]));
-    // getProductRsp.refresh();
+    getProductRsp.refresh();
     return getProductRsp.value;
   }
 
