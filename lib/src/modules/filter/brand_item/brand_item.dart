@@ -4,13 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class BrandItem extends StatelessWidget {
+  final FilterLogic logic;
   const BrandItem({
-    super.key,
+    super.key, required this.logic,
   });
 
   @override
   Widget build(BuildContext context) {
-    final logic = Get.put(FilterLogic());
+
     return Obx(() {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -61,17 +62,19 @@ class BrandItem extends StatelessWidget {
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
                         color: logic.selectedBrandTypes.contains(dataItem?.id.toString())
-                            ? const Color(0xff01CB69)
+                            ? Colors.white
                             : Colors.grey.shade100,
-                        borderRadius: BorderRadius.circular(8)),
+                        borderRadius: BorderRadius.circular(5),
+                      border: logic.selectedBrandTypes.contains(dataItem?.id.toString())?Border.all(color: XColor.primary):null
+                    ),
                     child: Text(
                       dataItem?.name?? "",
                       style: TextStyle(
                         fontSize: 13,
                         color: logic.selectedBrandTypes.contains(dataItem?.id.toString())
-                            ? Colors.white
-                            : Colors.grey,
-                        fontWeight: FontWeight.bold,
+                            ? XColor.primary
+                            : Colors.black,
+
                       ),
                     ),
                   );

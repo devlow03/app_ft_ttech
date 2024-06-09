@@ -81,16 +81,19 @@ class SignInLogic extends GetxController {
   }
 
   Future signIn({String? phone, String? password})async{
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? deviceToken = await prefs.getString(GlobalData.deviceToken);
     final profile = Get.put(ProfileLogic());
     if(phone!='' && password!=''){
       Utils.loading(()async{
         postSignInRsp.value = await tMartServices.postSigninRsp(body:
         PostSigninRqst(
             phone: phone,
-            password: password
+            password: password,
+            deviceId: deviceToken
         )
         );
-        final SharedPreferences prefs = await SharedPreferences.getInstance();
+        
         await prefs.setString(GlobalData.token,"${postSignInRsp.value?.token}" );
         await prefs.setString("password", password??"");
         await prefs.setString("phone", phone??"");
@@ -112,7 +115,8 @@ class SignInLogic extends GetxController {
         postSignInRsp.value = await tMartServices.postSigninRsp(body:
         PostSigninRqst(
             phone: phoneControl.text,
-            password: passControl.text
+            password: passControl.text,
+            deviceId: deviceToken
         )
         );
         final SharedPreferences prefs = await SharedPreferences.getInstance();

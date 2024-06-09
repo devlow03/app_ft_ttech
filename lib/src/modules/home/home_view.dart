@@ -20,7 +20,6 @@ import '../../widget/search_widget.dart';
 
 import '../cart/cart_logic.dart';
 import '../notification/notification_view.dart';
-import '../search/list_product/list_product_view.dart';
 import '../product_detail/product_detail_view.dart';
 import 'banner/banner_view.dart';
 
@@ -73,10 +72,12 @@ class HomePage extends StatelessWidget {
                     ),
                     centerTitle: false,
                     elevation: 0.0,
-                    actions: const [
+                    actions:  [
                       Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: PhosphorIcon(PhosphorIconsBold.bell)
+                        padding: const EdgeInsets.all(8.0),
+                        child: InkWell(
+                            onTap: ()=>Get.to(const NotificationPage()),
+                            child: const PhosphorIcon(PhosphorIconsBold.bell))
                       )
 
                     ],

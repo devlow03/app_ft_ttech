@@ -1,6 +1,4 @@
-import 'package:app_ft_tmart/src/modules/search/list_product/list_product_view.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
 import '../core/xcolor.dart';
@@ -38,7 +36,7 @@ class SearchWidget extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: FaIcon(FontAwesomeIcons.search,
+                child: Icon(Icons.search,
                 color: Colors.black,
                   size: 20,
                 ),

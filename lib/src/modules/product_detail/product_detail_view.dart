@@ -25,7 +25,6 @@ import '../../data/repositories/get_product_rsp.dart';
 import '../../widget/global_product.dart';
 import '../cart/cart_logic.dart';
 import '../cart/cart_view.dart';
-import '../search/list_product/list_product_view.dart';
 import '../photo/photo_view.dart';
 import 'image_slider/image_slider.dart';
 import 'info/info.dart';

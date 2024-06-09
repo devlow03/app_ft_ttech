@@ -9,35 +9,24 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
-
-
 class OrderDetailLogic extends GetxController {
   final Services tMartServices = Get.find();
-  final realTimeDataBase = Get.put(RealTimeDataBase(Get.find()));
+
   RxList<String> productId = <String>[].obs;
   RxList<String> productQuantity = <String>[].obs;
   Rxn<GetOrderByIdRsp> getOrderByIdRsp = Rxn();
 
-  Future<void> cancelOrder(
-      String? id, String? productName, String? thumbnail, String? orderNumber,BuildContext context) async {
+  Future<void> cancelOrder(String? id, String? productName, String? thumbnail,
+      String? orderNumber, BuildContext context) async {
     final logic = Get.put(OrderHistoryLogic());
     Utils.loading(() async {
       await tMartServices.cancelOrder(id: id ?? "");
-      await realTimeDataBase.addData(
-          
-          orderId: int.parse(id ?? ""),
-          title: "Đã hủy đơn hàng $orderNumber thành công",
-          content: "${productName}",
-          image: "${thumbnail}");
 
       Get.back();
-      await logic.getOrder().then((value){
-
+      await logic.getOrder().then((value) {
         Get.back();
-        logic.tabIndex.value=4;
+        logic.tabIndex.value = 4;
       });
-      
-      
     });
   }
 
@@ -54,7 +43,7 @@ class OrderDetailLogic extends GetxController {
     productQuantity.add(quantity ?? "");
   }
 
-  Future<GetOrderByIdRsp?>getOrderById({required String id})async{
+  Future<GetOrderByIdRsp?> getOrderById({required String id}) async {
     getOrderByIdRsp.value = await tMartServices.getOrderByIdRsp(id: id);
     return getOrderByIdRsp.value;
   }

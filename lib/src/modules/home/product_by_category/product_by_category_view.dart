@@ -7,7 +7,6 @@ import 'package:shimmer/shimmer.dart';
 
 import '../../../core/xcolor.dart';
 import '../../../widget/global_product.dart';
-import '../../search/list_product/list_product_view.dart';
 import '../../product_detail/product_detail_view.dart';
 import '../home_logic.dart';
 

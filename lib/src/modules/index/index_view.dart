@@ -7,7 +7,6 @@ import 'package:app_ft_tmart/src/modules/news/news_view.dart';
 import 'package:app_ft_tmart/src/modules/notification/notification_view.dart';
 import 'package:app_ft_tmart/src/modules/profile/profile_view.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';

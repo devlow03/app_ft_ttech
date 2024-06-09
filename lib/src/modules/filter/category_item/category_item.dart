@@ -61,17 +61,20 @@ class CategoryItem extends StatelessWidget {
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
                         color: logic.selectedCategoryTypes.contains(dataItem?.id.toString())
-                            ? const Color(0xff01CB69)
+                            ? Colors.white
                             : Colors.grey.shade100,
-                        borderRadius: BorderRadius.circular(8)),
+                        borderRadius: BorderRadius.circular(5),
+                        border: logic.selectedCategoryTypes.contains(dataItem?.id.toString())?Border.all(color: XColor.primary):null
+
+                    ),
                     child: Text(
                       dataItem?.name?? "",
                       style: TextStyle(
                         fontSize: 13,
                         color: logic.selectedCategoryTypes.contains(dataItem?.id.toString())
-                            ? Colors.white
-                            : Colors.grey,
-                        fontWeight: FontWeight.bold,
+                            ? XColor.primary
+                            : Colors.black,
+
                       ),
                     ),
                   );

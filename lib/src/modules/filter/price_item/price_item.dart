@@ -4,13 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class PriceItem extends StatelessWidget {
+  final FilterLogic logic;
   const PriceItem({
-    super.key,
+    super.key, required this.logic,
   });
 
   @override
   Widget build(BuildContext context) {
-    final logic = Get.put(FilterLogic());
+
     return Obx(() {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -61,17 +62,18 @@ class PriceItem extends StatelessWidget {
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
                         color: logic.selectedPriceRange.contains(dataItem["id"])
-                            ? const Color(0xff01CB69)
+                            ? Colors.white
                             : Colors.grey.shade100,
-                        borderRadius: BorderRadius.circular(8)),
+                        border: logic.selectedPriceRange.contains(dataItem["id"])?Border.all(color: XColor.primary):null,
+                        borderRadius: BorderRadius.circular(5)),
                     child: Text(
                       dataItem["title"] ?? "",
                       style: TextStyle(
                         fontSize: 13,
                         color: logic.selectedPriceRange.contains(dataItem["id"])
-                            ? Colors.white
-                            : Colors.grey,
-                        fontWeight: FontWeight.bold,
+                            ? XColor.primary
+                            : Colors.black,
+                        // fontWeight: FontWeight.bold,
                       ),
                     ),
                   );
@@ -79,7 +81,7 @@ class PriceItem extends StatelessWidget {
               },
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 3,
-                crossAxisSpacing: 5,
+                crossAxisSpacing: 15,
                 mainAxisSpacing: 10,
                 childAspectRatio: 5 / 2,
               ))

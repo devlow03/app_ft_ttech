@@ -38,6 +38,7 @@ class CategoryPage extends StatelessWidget {
                       categoryName: logic.getCategoryRsp
                           .value?.data?[logic.indexCat.value ?? 0]
                           .name ?? "",
+
                     ));
                   // Get.to(FilterPage());
                 },

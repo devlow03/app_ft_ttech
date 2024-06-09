@@ -21,7 +21,7 @@ class FilterPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    logic.isCategory.value = isCategory??false;
+    // logic.isCategory.value = isCategory??false;
     return Obx(() {
       return ClipRRect(
             borderRadius: const BorderRadius.only(
@@ -60,15 +60,16 @@ class FilterPage extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const PriceItem(),
+                      PriceItem(logic: logic,),
                       const SizedBox(height: 20,),
-                      Obx(() {
-                        return Visibility(
-                            visible: logic.isCategory.isFalse,
-                            child: const CategoryItem());
-                      }),
+                      // Obx(() {
+                      //   return Visibility(
+                      //       visible: logic.isCategory.value==true,
+                      //       child:);
+                      // }),
+                      const CategoryItem(),
                       const SizedBox(height: 20,),
-                      const BrandItem(),
+                      BrandItem(logic: logic,),
                       const SizedBox(height: 20,),
               
               
@@ -98,32 +99,24 @@ class FilterPage extends StatelessWidget {
                         final search = Get.put(SearchLogic());
                         final allCategory = Get.put(
                             AllProductByCategoryLogic());
-                        if (isCategory == true) {
+
                           Utils.loading(() async {
                             await allCategory.getProductCategory(
+                                view: null,
+                                latest: logic.selectLatest.value,
+                                rangePrice: logic.sortPrice.value??"",
                                 brand: logic.selectedBrandTypes,
                                 category: logic.selectedCategoryTypes,
-                                price: logic.selectedPriceRange
+                                price: logic.selectedPriceRange,
+                                name: allCategory.keyword.value
                             );
-                                  
+
                             Get.back();
                             Get.back();
-                            
+
                           });
-                        }
-                        else {
-                          Utils.loading(() async {
-                            await search.getSearch(
-                                keyword: logic.keyword.value,
-                                brand: logic.selectedBrandTypes,
-                                category: logic.selectedCategoryTypes,
-                                price: logic.selectedPriceRange
-                            );
-                            Get.back();
-                            Get.back();
-                            
-                          });
-                        }
+
+
                       },
                       child: const Text("Áp dụng", style: TextStyle(
                           color: Colors.white

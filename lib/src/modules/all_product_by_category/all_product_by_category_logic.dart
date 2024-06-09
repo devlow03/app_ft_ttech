@@ -7,7 +7,6 @@ import 'package:get/get.dart';
 import '../../data/repositories/get_product_rq_query.dart';
 import '../../data/repositories/get_product_rsp.dart';
 
-
 class AllProductByCategoryLogic extends GetxController {
   final Services tMartServices = Get.find();
   final logic = Get.put(FilterLogic());
@@ -17,15 +16,19 @@ class AllProductByCategoryLogic extends GetxController {
   final ScrollController controller = ScrollController();
   Rx<int> indexPage = Rx(0);
   final GlobalKey<ScaffoldState> key = GlobalKey<ScaffoldState>();
-  TextEditingController keyController = TextEditingController();
-  Rxn<int>idCategory = Rxn();
-  Rxn<int>idBrand = Rxn();
+  Rxn<int> idCategory = Rxn();
+  Rxn<int> idBrand = Rxn();
+  Rxn<String>keyword = Rxn();
+
+  // Rxn<String> viewDefault = Rxn("desc");
+  Rxn<String> sortPrice = Rxn("asc");
+  Rxn<bool> latestSort = Rxn(false);
 
   void onReady() async {
     // TODO: implement onReady
     super.onReady();
     await getProductCategory();
-    print(">>>>>>>>>>>>>>2:${keyController.text}");
+
     loadMore();
   }
 
@@ -36,41 +39,28 @@ class AllProductByCategoryLogic extends GetxController {
     // keyController.dispose();
   }
 
-  Future<GetProductRsp?> getProductCategory(
-      {String? name,
-        List<String>? category,
-        List<String>? brand,
-        List<String>? price}) async {
+  Future<GetProductRsp?> getProductCategory({
+    String? name,
+    List<String>? category,
+    List<String>? brand,
+    List<String>? price,
+    String? view,
+    bool? latest,
+    String? rangePrice,
+  }) async {
+      getProductByCategory.value = await tMartServices.getProductRsp(
+          query: GetProductRqQuery(
+              latest: latest,
+              arrangePrice: rangePrice,
+              views:null,
+              categoryId: idCategory.value!=null?[idCategory.value.toString()]:logic.selectedCategoryTypes.isNotEmpty==true?logic.selectedCategoryTypes:category?.isNotEmpty==true?category:null,
+              perPage: page.value.toString(),
+              productName: keyword.value,
+              manufacturerId: idBrand.value!=null?[idBrand.value.toString()]:logic.selectedBrandTypes.isNotEmpty==true?logic.selectedBrandTypes:brand?.isNotEmpty==true?brand:null,
+              price: price ?? (logic.selectedPriceRange.isNotEmpty==true?logic.selectedPriceRange:null),
+    ));
 
-    if(idCategory.value !=null){
-      getProductByCategory.value = await tMartServices.getProductRsp(
-          query: GetProductRqQuery(
-              categoryId: [idCategory.toString()],
-              perPage: page.value.toString(),
-              productName: keyController.text,
-              manufacturerId: (brand?.length ?? 0) != 0 ? brand : null,
-              price: (price?.length ?? 0) != 0 ? price : null));
-    }
-   else if(idBrand.value!=null){
-      getProductByCategory.value = await tMartServices.getProductRsp(
-          query: GetProductRqQuery(
-              categoryId: (category?.length ?? 0) != 0 ? category : null,
-              perPage: page.value.toString(),
-              productName: keyController.text,
-              manufacturerId: [idBrand.toString()],
-              price: (price?.length ?? 0) != 0 ? price : null));
-
-    }
-   else{
-      getProductByCategory.value = await tMartServices.getProductRsp(
-          query: GetProductRqQuery(
-              categoryId: (category?.length ?? 0) != 0 ? category : null,
-              perPage: page.value.toString(),
-              productName: keyController.text,
-              manufacturerId: (brand?.length ?? 0) != 0 ? brand : null,
-              price: (price?.length ?? 0) != 0 ? price : null));
-    }
-    getProductByCategory.refresh();
+    // getProductByCategory.refresh();
 
     return getProductByCategory.value;
   }
@@ -82,25 +72,22 @@ class AllProductByCategoryLogic extends GetxController {
           isLoading.value = true;
           print(">>>>>>>>>>>>>>>>>>>>>>>>>AAAAAAAAAAAAAAAAAA");
           page.value += 10;
-         if(idCategory.value!=null){
-           getProductByCategory.value = await tMartServices.getProductRsp(
-               query: GetProductRqQuery(
-                   categoryId: [idCategory.toString()],
-                   perPage: page.value.toString(),
-                   productName: keyController.text,
-                   manufacturerId: (logic.selectedBrandTypes.length ?? 0) != 0 ? logic.selectedBrandTypes: null,
-                   price: (logic.selectedPriceRange.length ?? 0) != 0 ? logic.selectedPriceRange : null));
-         }
-         else if(idBrand.value!=null){
-           getProductByCategory.value = await tMartServices.getProductRsp(
-               query: GetProductRqQuery(
-                   categoryId: (logic.selectedCategoryTypes.length ?? 0) != 0 ? logic.selectedCategoryTypes: null,
-                   perPage: page.value.toString(),
-                   productName: keyController.text,
-                   manufacturerId: [idBrand.toString()],
-                   price: (logic.selectedPriceRange.length ?? 0) != 0 ? logic.selectedPriceRange : null));
 
-         }
+            getProductByCategory.value = await tMartServices.getProductRsp(
+                query: GetProductRqQuery(
+                  latest: logic.selectLatest.value,
+                    arrangePrice: logic.sortPrice.value,
+                    views: null,
+                    categoryId: idCategory.value!=null?[idCategory.value.toString()]:logic.selectedCategoryTypes.isNotEmpty==true?logic.selectedCategoryTypes:null,
+                    perPage: page.value.toString(),
+                    productName: keyword.value,
+                    manufacturerId: idBrand.value!=null?[idBrand.value.toString()]:logic.selectedBrandTypes.isNotEmpty==true?logic.selectedBrandTypes:null,
+                    price: logic.selectedPriceRange.isNotEmpty==true
+                        ? logic.selectedPriceRange
+                        : null),
+
+            );
+
         }
       }
     });
@@ -109,12 +96,11 @@ class AllProductByCategoryLogic extends GetxController {
 
   Future<bool> onWillPop() async {
     getProductByCategory.value = null;
-    keyController.clear();
+    keyword.value = null;
     logic.selectedBrandTypes.clear();
     logic.selectedCategoryTypes.clear();
     logic.selectedPriceRange.clear();
     page.value = 10;
     return true;
-    
   }
 }

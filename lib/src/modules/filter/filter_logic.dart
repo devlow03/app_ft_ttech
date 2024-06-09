@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 
 class FilterLogic extends GetxController {
   final Services tMartServices = Get.find();
+  Rxn<String>titleSort = Rxn();
   RxBool isCategory = RxBool(false);
   Rxn<double>initialChildSize = Rxn(0.08);
   Rxn<int>itemCount = Rxn();
@@ -55,7 +56,29 @@ class FilterLogic extends GetxController {
   //   }
   // ];
 
+  List<Map<String,dynamic>> popupMenuItems = [
+    {
+      "id":"1",
+      "title":"Mới nhất",
+      "value":true
+    },
+    {
+      "id":"2",
+      "title":"Giá: thấp - cao",
+      "value": "asc",
 
+    },
+
+    {
+      "id":"3",
+      "title":"Giá: cao - thấp",
+      "value":"desc"
+
+    }
+  ];
+
+  Rxn<bool>selectLatest = Rxn(false);
+  Rxn<String>sortPrice = Rxn();
   final RxList<String> selectedPriceRange = <String>[].obs;
 
   @override

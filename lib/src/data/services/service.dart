@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:app_ft_tmart/src/data/repositories/get_%20comment_queries.dart';
 import 'package:app_ft_tmart/src/data/repositories/get_comment_response.dart';
+import 'package:app_ft_tmart/src/data/repositories/get_notification_rsp.dart';
 import 'package:app_ft_tmart/src/data/repositories/get_order_by_id_rsp.dart';
 import 'package:app_ft_tmart/src/data/repositories/get_product_rsp.dart';
 import 'package:app_ft_tmart/src/data/repositories/get_voucher_rsp.dart';
@@ -14,6 +15,7 @@ import 'package:app_ft_tmart/src/data/repositories/post_signin_rqst.dart';
 import 'package:app_ft_tmart/src/data/repositories/post_update_cart_detail_rqst.dart';
 import 'package:app_ft_tmart/src/data/repositories/put_update_address_book_rqst.dart';
 import 'package:dio/dio.dart';
+import 'package:retrofit/http.dart';
 import 'package:retrofit/retrofit.dart';
 
 import '../../core/global_data.dart';
@@ -174,4 +176,7 @@ abstract class Services {
 
   @POST("api/auth/add_comment")
   Future postAddComment({@Body() required PostAddCommentRqst bodies});
+
+  @GET("api/auth/notification")
+  Future<GetNotificationRsp>getNotification({@Query("perPage") required String perPage});
 }

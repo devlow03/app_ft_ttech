@@ -1,3 +1,4 @@
+import 'package:app_ft_tmart/src/modules/all_product_by_category/all_product_by_category_logic.dart';
 import 'package:app_ft_tmart/src/modules/index/index_view.dart';
 import 'package:app_ft_tmart/src/modules/product_detail/product_detail_view.dart';
 import 'package:app_ft_tmart/src/widget/global_image.dart';
@@ -6,7 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import '../../core/xcolor.dart';
-import 'list_product/list_product_view.dart';
+import '../all_product_by_category/all_product_by_category_view.dart';
+
 import 'search_logic.dart';
 
 class SearchPage extends StatelessWidget {
@@ -15,7 +17,7 @@ class SearchPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final logic = Get.put(SearchLogic());
-
+    final all = Get.put(AllProductByCategoryLogic());
     // logic.getSearchRsp.value = null;
     // logic.showKeyboard(context);
 
@@ -47,10 +49,13 @@ class SearchPage extends StatelessWidget {
 
                 logic.getSearchSuggest();
               },
-              onSubmitted: (value) {
+              onSubmitted: (value) async{
+                all.keyword.value = logic.keyController.text;
+                await all.getProductCategory();
+                Get.to(AllProductByCategoryPage(
+                  keyword: logic.keyController.text,
 
-               logic.getSearch();
-               Get.to( const ListProductDetailPage());
+                ));
 
               },
             ),
@@ -69,9 +74,16 @@ class SearchPage extends StatelessWidget {
                 itemBuilder: (context, index) {
                   return ListTile(
                     onTap: ()async{
-                      logic.logic.keyword.value = logic.getSearchSuggestionRsp.value?.data?[index].keyword;
-                       logic.getSearch(keyword: logic.getSearchSuggestionRsp.value?.data?[index].keyword);
-                      Get.to( ListProductDetailPage(keyword: logic.getSearchSuggestionRsp.value?.data?[index].keyword,));
+                      all.keyword.value = logic.getSearchSuggestionRsp.value?.data?[index].keyword;
+                      await all.getProductCategory();
+                      Get.to(AllProductByCategoryPage(
+                        keyword: logic.getSearchSuggestionRsp.value?.data?[index].keyword,
+
+
+                      ));
+                      // logic.logic.keyword.value = logic.getSearchSuggestionRsp.value?.data?[index].keyword;
+                      //  logic.getSearch(keyword: logic.getSearchSuggestionRsp.value?.data?[index].keyword);
+                      // Get.to( ListProductDetailPage(keyword: logic.getSearchSuggestionRsp.value?.data?[index].keyword,));
                     },
                     leading: const Icon(Icons.search),
                     title: Text('${logic.getSearchSuggestionRsp.value?.data?[index].keyword}',style: const TextStyle(color: Colors.black),),

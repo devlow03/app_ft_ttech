@@ -57,7 +57,7 @@ class HomeLogic extends GetxController {
     // TODO: implement onReady
     super.onReady();
     isSignIn.value = await userUtils.checkSignIn(fromHome: true);
-    await notification.getNotifications();
+    // await notification.getNotifications();
     await getBanner();
     await getCategory();
     await getProdByCategory();

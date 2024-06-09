@@ -43,17 +43,27 @@ class SearchLogic extends GetxController {
         String? keyword,
         List<String>? category,
         List<String>? brand,
-        List<String>? price}) async {
+        List<String>? price,
+        bool? latest,
+        String? rangePrice,
+      }) async {
 
 
       getSearchRsp.value = null;
       getSearchRsp.value = await tMartServices.getProductRsp(
           query: GetProductRqQuery(
+              arrangePrice: rangePrice,
+              latest: latest,
+              views: null,
               categoryId: (category?.length ?? 0) != 0 ? category : null,
               perPage: page.value.toString(),
               productName: keyword??keyController.text,
               manufacturerId: (brand?.length ?? 0) != 0 ? brand : null,
-              price: (price?.length ?? 0) != 0 ? price : null));
+              price: (price?.length ?? 0) != 0 ? price : null),
+
+
+      );
+
 
     return getSearchRsp.value;
   }
@@ -67,6 +77,9 @@ class SearchLogic extends GetxController {
           page.value += 10;
           getSearchRsp.value = await tMartServices.getProductRsp(
               query: GetProductRqQuery(
+                latest: logic.selectLatest.value,
+                arrangePrice: logic.sortPrice.value,
+                views: null,
                 categoryId: logic.selectedCategoryTypes.isNotEmpty == true
                     ? (logic.selectedCategoryTypes)
                     : null,
@@ -78,6 +91,7 @@ class SearchLogic extends GetxController {
                 price: logic.selectedPriceRange.isNotEmpty == true
                     ? (logic.selectedPriceRange)
                     : null,
+
               ));
         }
       }
