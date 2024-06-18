@@ -83,13 +83,24 @@ class NotificationPage extends StatelessWidget {
                             ),
                             title: Padding(
                               padding: const EdgeInsets.symmetric(vertical: 8),
-                              child: Text(
-                                '${data?.title}',
-                                style: const TextStyle(
-                                    fontSize: 15, fontWeight: FontWeight.bold),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    '${data?.title}',
+                                    style: const TextStyle(
+                                        fontSize: 15, fontWeight: FontWeight.bold),
+                                  ),
+                                  Text(
+                                    '${data?.timeElapsed}',
+                                    style: const TextStyle(
+                                        fontSize: 12, color: Colors.grey),
+                                  ),
+                                ],
                               ),
                             ),
                             subtitle: Text('${data?.content}'),
+
                           )
                         ],
                       ),

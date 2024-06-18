@@ -94,7 +94,7 @@ class SettingPage extends StatelessWidget {
                       thickness: 1,
                       color: Colors.grey.shade100,
                     ),
-                    Obx(() => ListTile(
+                    ListTile(
                           // onTap: () async {
                           //   Get.dialog(const ConfirmPasswordDialog());
                           // },
@@ -140,7 +140,7 @@ class SettingPage extends StatelessWidget {
                                       }
                                     }),
                               )),
-                        ))
+                        )
                   ],
                 )),
           ),

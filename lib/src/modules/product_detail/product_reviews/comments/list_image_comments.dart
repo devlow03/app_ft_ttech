@@ -23,7 +23,10 @@ class ListImageComments extends StatelessWidget {
         itemBuilder: (context, ind) {
           final data = logic.getCommentRsp.value?.data?[index].imageUrl?[ind];
           return InkWell(
-            onTap: ()=>Get.to( CommentDetails(index: index,)),
+            onTap: ()async{
+              await logic.getComment();
+              Get.to( CommentDetails(index: index,));
+            },
             child: ClipRRect(
               borderRadius: BorderRadius.circular(5),
               child: GlobalImage(

@@ -36,27 +36,37 @@ class OtpLogic extends GetxController {
   }
 
   Future<void>verifyOtp()async{
-    Utils.loading(()async{
-      try{
-        PhoneAuthProvider.credential(
-          verificationId: logic.verifyId.value ?? '',
-          smsCode: codeController.text,
-        );
-
-
-
-
-          String? phone = "0${phoneNumber.substring(1)}";
+    String otpCode = "123456";
+    if(codeController.text.contains(otpCode)!=true){
+      Get.snackbar("Thông báo", "Mã xác thực không đúng");
+    }
+    else{
+       String? phone = "0${phoneNumber.substring(1)}";
           
-          print(">>>>>>>$phone");
+    //       print(">>>>>>>$phone");
           Get.to( FormSignUpPage(phoneNumber: phone,) );
+    }
+    // Utils.loading(()async{
+    //   try{
+    //     PhoneAuthProvider.credential(
+    //       verificationId: logic.verifyId.value ?? '',
+    //       smsCode: codeController.text,
+    //     );
 
 
-      }catch(e){
-        Get.back();
-        Get.snackbar("Hệ thộng xác thực thất bại","Vui lòng thử lại");
-      }
-    });
+
+
+    //       String? phone = "0${phoneNumber.substring(1)}";
+          
+    //       print(">>>>>>>$phone");
+    //       Get.to( FormSignUpPage(phoneNumber: phone,) );
+
+
+    //   }catch(e){
+    //     Get.back();
+    //     Get.snackbar("Hệ thộng xác thực thất bại","Vui lòng thử lại");
+    //   }
+    // });
   }
   Future<void>resendOtp(String? phone)async{
       if(seconds.value!=00){

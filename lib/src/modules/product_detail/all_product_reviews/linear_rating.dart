@@ -78,11 +78,11 @@ class LinearRatingView extends StatelessWidget {
                       .width * .5,
                   child: Column(
                     children: [
-                      LinearRatingWidget(text: logic.getProductByIdRsp.value?.data?.ratingDistribution?.s5.toString()??"", value: 1.0, itemCount: 5,),
-                      LinearRatingWidget(text: logic.getProductByIdRsp.value?.data?.ratingDistribution?.s4.toString()??"", value: 0.8, itemCount: 4,),
-                      LinearRatingWidget(text: logic.getProductByIdRsp.value?.data?.ratingDistribution?.s3.toString()??"", value: 0.6, itemCount: 3,),
-                      LinearRatingWidget(text: logic.getProductByIdRsp.value?.data?.ratingDistribution?.s2.toString()??"", value: 0.4, itemCount: 2,),
-                      LinearRatingWidget(text: logic.getProductByIdRsp.value?.data?.ratingDistribution?.s1.toString()??"", value: 0.2, itemCount: 1,),
+                      LinearRatingWidget(text: logic.getProductByIdRsp.value?.data?.ratingDistribution?.s5.toString()??"", value: (logic.getProductByIdRsp.value?.data?.ratingDistribution?.s5?.toDouble()??0)/10, itemCount: 5,),
+                      LinearRatingWidget(text: logic.getProductByIdRsp.value?.data?.ratingDistribution?.s4.toString()??"", value: (logic.getProductByIdRsp.value?.data?.ratingDistribution?.s4?.toDouble()??0)/10, itemCount: 4,),
+                      LinearRatingWidget(text: logic.getProductByIdRsp.value?.data?.ratingDistribution?.s3.toString()??"", value: (logic.getProductByIdRsp.value?.data?.ratingDistribution?.s3?.toDouble()??0)/10, itemCount: 3,),
+                      LinearRatingWidget(text: logic.getProductByIdRsp.value?.data?.ratingDistribution?.s2.toString()??"", value: (logic.getProductByIdRsp.value?.data?.ratingDistribution?.s2?.toDouble()??0)/10, itemCount: 2,),
+                      LinearRatingWidget(text: logic.getProductByIdRsp.value?.data?.ratingDistribution?.s1.toString()??"", value: (logic.getProductByIdRsp.value?.data?.ratingDistribution?.s1?.toDouble()??0)/10, itemCount: 1,),
                     ],
                   ),
 

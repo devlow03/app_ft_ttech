@@ -49,6 +49,7 @@ class ProductDetailPage extends StatelessWidget {
       onWillPop: () async {
         logic.quantity.value = 1;
         logic.getProductByIdRsp.value = null;
+        logic.indexSlider.value=0;
         return true;
       },
       child: Scaffold(
@@ -87,7 +88,14 @@ class ProductDetailPage extends StatelessWidget {
                   stretch: true,
                   actions: [
                     IconButton(
-                        onPressed: logic.postAddFavorite,
+                        onPressed: (){
+                          if(logic.getProductByIdRsp.value?.data?.favorite ==true){
+                            logic.deleteFavorite();
+                          }
+                          else{
+                            logic.postAddFavorite();
+                          }
+                        },
                         icon: Visibility(
                           visible:
                               logic.getProductByIdRsp.value?.data?.favorite ==

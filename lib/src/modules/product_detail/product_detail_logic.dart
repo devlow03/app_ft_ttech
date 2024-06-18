@@ -2,29 +2,21 @@ import 'dart:convert';
 
 import 'package:app_ft_tmart/src/data/repositories/get_%20comment_queries.dart';
 import 'package:app_ft_tmart/src/data/repositories/get_comment_response.dart';
-import 'package:app_ft_tmart/src/data/repositories/get_slider_prod_rsp.dart';
 import 'package:app_ft_tmart/src/data/repositories/post_cart_rqst.dart';
 import 'package:app_ft_tmart/src/data/services/service.dart';
 import 'package:app_ft_tmart/src/modules/cart/cart_view.dart';
 import 'package:app_ft_tmart/src/modules/product_detail/product_detail_view.dart';
 import 'package:app_ft_tmart/src/utils/user_utils.dart';
-import 'package:app_ft_tmart/src/utils/utils.dart';
 import 'package:carousel_slider/carousel_controller.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:pinput/pinput.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../core/global_data.dart';
-import '../../data/repositories/get_cart_rsp.dart';
 import '../../data/repositories/get_product_by_id_rsp.dart';
 import '../../data/repositories/get_product_rq_query.dart';
 import '../../data/repositories/get_product_rsp.dart';
 import '../../data/repositories/post_add_favorite_rqst.dart';
-import '../authentication/sign_in/sign_in_view.dart';
 import '../cart/cart_logic.dart';
 
 class ProductDetailLogic extends GetxController {
@@ -118,15 +110,19 @@ class ProductDetailLogic extends GetxController {
     await tMartServices.postAddFavorite(
         body: PostAddFavoriteRqst(
             productId: getProductByIdRsp.value?.data?.id?.toInt()));
+             getProductById(getProductByIdRsp.value?.data?.id?.toString()??"");
     Fluttertoast.showToast(msg: "Đã thêm vào bộ sưu tập");
   }
+
+  
 
   Future<void> deleteFavorite() async {
     await tMartServices.deleteFavorite(
         body: PostAddFavoriteRqst(
             productId:
                 int.parse(getProductByIdRsp.value?.data?.id.toString() ?? "")));
-    Fluttertoast.showToast(msg: "Đã thêm vào bộ sưu tập");
+    getProductById(getProductByIdRsp.value?.data?.id?.toString()??"");
+    Fluttertoast.showToast(msg: "Đã xóa khỏi bộ sưu tập");
   }
 
   Future<void> buyNow(
@@ -157,7 +153,7 @@ class ProductDetailLogic extends GetxController {
   Future<GetCommentResponse?> getComment() async {
     getCommentRsp.value = await tMartServices.getCommentRsp(
         query:
-            GetCommentQueries(perPage: "10", productId: getProductByIdRsp.value?.data?.id.toString() ?? ""));
+            GetCommentQueries(perPage: perPage.value.toString(), productId: getProductByIdRsp.value?.data?.id.toString() ?? ""));
     await getImageComment();
     return getCommentRsp.value;
   }

@@ -59,12 +59,12 @@ class ProductReviewsPage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // ElevatedButton(
-                //     onPressed: ()=>Get.to(const CreateReviewPage()),
-                //     child: const Text('Tạo đánh giá',style: TextStyle(
-                //         color: Colors.white
-                //     ),)
-                // ),
+                ElevatedButton(
+                    onPressed: ()=>Get.to(const CreateReviewPage()),
+                    child: const Text('Tạo đánh giá',style: TextStyle(
+                        color: Colors.white
+                    ),)
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [

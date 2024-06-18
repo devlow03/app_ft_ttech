@@ -1,3 +1,4 @@
+import 'package:app_ft_tmart/src/modules/product_detail/all_product_reviews/all_image_reviews.dart';
 import 'package:app_ft_tmart/src/modules/product_detail/comment_details/comment_details.dart';
 import 'package:app_ft_tmart/src/modules/product_detail/product_detail_logic.dart';
 import 'package:app_ft_tmart/src/modules/product_detail/product_rating/product_rating.dart';
@@ -41,14 +42,17 @@ class ListImageReviews extends StatelessWidget {
                     boxFit: BoxFit.cover,
                   ),
                 ),
-                child:GlobalImage(
-                  color: Colors.black.withOpacity(0.5), // Màu tối lại
-                  colorBlendMode: BlendMode.darken,
-                  imageUrl:
-                      "${logic.imageComments[index]["imageUrl"][0]}",
-                  width: MediaQuery.of(context).size.width * .2,
-                  height: 30,
-                  boxFit: BoxFit.cover,
+                child:InkWell(
+                  onTap: ()=>Get.to(AllImageReview()),
+                  child: GlobalImage(
+                    color: Colors.black.withOpacity(0.5), // Màu tối lại
+                    colorBlendMode: BlendMode.darken,
+                    imageUrl:
+                        "${logic.imageComments[index]["imageUrl"][0]}",
+                    width: MediaQuery.of(context).size.width * .2,
+                    height: 30,
+                    boxFit: BoxFit.cover,
+                  ),
                 ),
               ),
               separatorBuilder: (context, index) => const SizedBox(
@@ -56,11 +60,13 @@ class ListImageReviews extends StatelessWidget {
               ),
             ),
             Visibility(
-              visible: (logic.imageComments.length ?? 0)>4,
+              visible: (logic.imageComments.length)>4,
               child: Positioned(
                   right: 20,
                   bottom: 30,
-                  child: Text("+ ${(logic.getCommentRsp.value?.data?.length??0) - 4} ảnh",style: const TextStyle(color: Colors.white),)
+                  child: InkWell(
+                     onTap: ()=>Get.to(AllImageReview()),
+                    child: Text("+ ${(logic.getCommentRsp.value?.data?.length??0) - 4} ảnh",style: const TextStyle(color: Colors.white),))
 
 
               ),
