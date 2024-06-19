@@ -1,26 +1,16 @@
-import 'package:app_ft_tmart/src/data/repositories/get_product_rsp.dart';
-import 'package:app_ft_tmart/src/modules/cart/cart_view.dart';
+import 'package:app_ft_tmart/src/modules/home/badge_notify/badge_notification.dart';
 import 'package:app_ft_tmart/src/modules/home/category/category_view.dart';
-import 'package:app_ft_tmart/src/modules/home/product_suggest/product_suggest_view.dart';
 import 'package:app_ft_tmart/src/modules/profile/profile_detail/profile_detail_logic.dart';
 import 'package:app_ft_tmart/src/modules/profile/profile_logic.dart';
-import 'package:app_ft_tmart/src/modules/profile/profile_view.dart';
 import 'package:app_ft_tmart/src/modules/search/search_view.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
-import 'package:shimmer/shimmer.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../../core/xcolor.dart';
-import '../../widget/global_image.dart';
-import '../../widget/global_product.dart';
 import '../../widget/search_widget.dart';
 
-import '../cart/cart_logic.dart';
 import '../notification/notification_view.dart';
-import '../product_detail/product_detail_view.dart';
 import 'banner/banner_view.dart';
 
 import 'cart_widget/cart_widget.dart';
@@ -74,10 +64,21 @@ class HomePage extends StatelessWidget {
                     elevation: 0.0,
                     actions:  [
                       Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
                         child: InkWell(
-                            onTap: ()=>Get.to(const NotificationPage()),
-                            child: const PhosphorIcon(PhosphorIconsBold.bell))
+                            onTap: (){
+                             
+                              Get.to(const NotificationPage());
+                               logic.notification.clearNotify();
+                            },
+                            child: const Stack(
+                              clipBehavior: Clip.none,
+                              alignment: Alignment.topRight,
+                              children: [
+                                PhosphorIcon(PhosphorIconsBold.bell,size: 30,),
+                                BadgeNotification()
+                              ],
+                            ))
                       )
 
                     ],

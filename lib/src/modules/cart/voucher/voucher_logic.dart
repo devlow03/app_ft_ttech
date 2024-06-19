@@ -1,5 +1,6 @@
 import 'package:app_ft_tmart/src/data/repositories/post_add_voucher.dart';
 import 'package:app_ft_tmart/src/data/services/service.dart';
+import 'package:app_ft_tmart/src/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -30,7 +31,8 @@ class VoucherLogic extends GetxController {
   }
   final logicCart = Get.put(CartLogic());
   Future<void>addVoucher({required int cartId, required String voucherCode})async{
-    await tMartServices.postAddVoucher(
+    Utils.loading(()async{
+       await tMartServices.postAddVoucher(
       body: PostAddVoucher(
         cartId: cartId,
         voucherCode: voucherCode
@@ -39,7 +41,10 @@ class VoucherLogic extends GetxController {
     await logicCart.getCart();
     // logicCart.getVoucher();
     Get.back();
+    Get.back();
     Fluttertoast.showToast(msg: "Áp dụng voucher thành công");
+    });
+    
 
   }
   Future<void>deleteVoucher({required int cartId})async{

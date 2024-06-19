@@ -43,7 +43,7 @@ class ProductDetailPage extends StatelessWidget {
     final logicCart = Get.put(CartLogic());
     final logic = Get.put(ProductDetailLogic(Get.find()));
     // logic.productId.value = id;
-
+    
 
     return WillPopScope(
       onWillPop: () async {
@@ -97,9 +97,7 @@ class ProductDetailPage extends StatelessWidget {
                           }
                         },
                         icon: Visibility(
-                          visible:
-                              logic.getProductByIdRsp.value?.data?.favorite ==
-                                  true,
+                          visible:logic.isFavorite.value==true,
                           replacement: const Icon(Icons.favorite_border),
                           child: const Icon(
                             Icons.favorite,

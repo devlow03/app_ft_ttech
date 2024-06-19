@@ -72,8 +72,8 @@ class SignInLogic extends GetxController {
   Future signOut()async{
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await auth.signOut();
-    prefs.remove(GlobalData.token);
-    prefs.remove(GlobalData.userIdNotify);
+    prefs.clear();
+    // prefs.remove(GlobalData.userIdNotify);
     uid.value=null;
     Get.offAll(IndexPage());
     Fluttertoast.showToast(

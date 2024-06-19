@@ -4,7 +4,10 @@ import 'package:app_ft_tmart/src/data/repositories/get_%20comment_queries.dart';
 import 'package:app_ft_tmart/src/data/repositories/get_comment_response.dart';
 import 'package:app_ft_tmart/src/data/repositories/post_cart_rqst.dart';
 import 'package:app_ft_tmart/src/data/services/service.dart';
+import 'package:app_ft_tmart/src/modules/all_product_by_category/all_product_by_category_logic.dart';
 import 'package:app_ft_tmart/src/modules/cart/cart_view.dart';
+import 'package:app_ft_tmart/src/modules/favourites/favourites_logic.dart';
+import 'package:app_ft_tmart/src/modules/home/home_logic.dart';
 import 'package:app_ft_tmart/src/modules/product_detail/product_detail_view.dart';
 import 'package:app_ft_tmart/src/utils/user_utils.dart';
 import 'package:carousel_slider/carousel_controller.dart';
@@ -41,34 +44,38 @@ class ProductDetailLogic extends GetxController {
   Rxn<int> indexComment = Rxn(0);
   ScrollController scrollControllerAllReview = ScrollController();
   Rx<int> perPage = Rx(10);
-  RxList<Map<String,dynamic>> imageComments = RxList();
-
+  RxList<Map<String, dynamic>> imageComments = RxList();
+  final homelogic = Get.put(HomeLogic());
+  final favoriteLogic = Get.put(FavouritesLogic());
+  final allProduct = Get.put(AllProductByCategoryLogic());
+  RxBool isFavorite = RxBool(false);
   // final dio = Dio();
   @override
   void refresh() async {
     // TODO: implement refresh
     super.refresh();
     await logicCart.getCart();
-    await getProductById(getProductByIdRsp.value?.data?.id.toString()??"");
+    await getProductById(getProductByIdRsp.value?.data?.id.toString() ?? "");
 
     await getComment();
     getProductByBrands();
     getProductByIdCategory();
-
   }
+
   @override
   void onClose() {
     // TODO: implement onClose
     super.onClose();
     imageComments.clear();
   }
+
   @override
   void onReady() async {
     // TODO: implement onReady
     // await getSliderProd;
     super.onReady();
+    isFavorite.value = false;
     await logicCart.getCart();
-
 
     await getProductByIdCategory();
     getProductByBrands();
@@ -80,14 +87,15 @@ class ProductDetailLogic extends GetxController {
   }
 
   Future<GetProductByIdRsp?> getProductById(String id) async {
-      Get.to(const ProductDetailPage());
-      getProductByIdRsp.value = null;
-      getProductByIdRsp.value =
-          await tMartServices.getProductByIdRsp(id: id ?? "");
-      getProductByIdRsp.refresh();
-      await getComment();
-      getProductByBrands();
-      getProductByIdCategory();
+    Get.to(const ProductDetailPage());
+    getProductByIdRsp.value = null;
+    getProductByIdRsp.value =
+        await tMartServices.getProductByIdRsp(id: id ?? "");
+    getProductByIdRsp.refresh();
+    isFavorite.value = getProductByIdRsp.value?.data?.favorite??false;
+    await getComment();
+    getProductByBrands();
+    getProductByIdCategory();
 
     return getProductByIdRsp.value;
   }
@@ -106,22 +114,34 @@ class ProductDetailLogic extends GetxController {
 
   Future<void> postAddFavorite() async {
     await userUtils.checkSignIn(intoPage: true);
-
+    isFavorite.value = true;
     await tMartServices.postAddFavorite(
         body: PostAddFavoriteRqst(
             productId: getProductByIdRsp.value?.data?.id?.toInt()));
-             getProductById(getProductByIdRsp.value?.data?.id?.toString()??"");
+    
+   Future.wait([
+      homelogic.getProdByCategory(),
+      favoriteLogic.getProductFavorite(),
+      allProduct.getProductCategory()
+
+    ]);
     Fluttertoast.showToast(msg: "Đã thêm vào bộ sưu tập");
   }
 
-  
-
   Future<void> deleteFavorite() async {
+    isFavorite.value = false;
     await tMartServices.deleteFavorite(
         body: PostAddFavoriteRqst(
             productId:
                 int.parse(getProductByIdRsp.value?.data?.id.toString() ?? "")));
-    getProductById(getProductByIdRsp.value?.data?.id?.toString()??"");
+    // getProductById(getProductByIdRsp.value?.data?.id?.toString() ?? "");
+   
+    Future.wait([
+      homelogic.getProdByCategory(),
+      favoriteLogic.getProductFavorite(),
+      allProduct.getProductCategory()
+
+    ]);
     Fluttertoast.showToast(msg: "Đã xóa khỏi bộ sưu tập");
   }
 
@@ -152,8 +172,9 @@ class ProductDetailLogic extends GetxController {
 
   Future<GetCommentResponse?> getComment() async {
     getCommentRsp.value = await tMartServices.getCommentRsp(
-        query:
-            GetCommentQueries(perPage: perPage.value.toString(), productId: getProductByIdRsp.value?.data?.id.toString() ?? ""));
+        query: GetCommentQueries(
+            perPage: perPage.value.toString(),
+            productId: getProductByIdRsp.value?.data?.id.toString() ?? ""));
     await getImageComment();
     return getCommentRsp.value;
   }
@@ -168,7 +189,9 @@ class ProductDetailLogic extends GetxController {
 
           getCommentRsp.value = await tMartServices.getCommentRsp(
               query: GetCommentQueries(
-                  perPage: perPage.value.toString(), productId:  getProductByIdRsp.value?.data?.id.toString() ?? ""));
+                  perPage: perPage.value.toString(),
+                  productId:
+                      getProductByIdRsp.value?.data?.id.toString() ?? ""));
 
           getCommentRsp.refresh();
         }
@@ -176,29 +199,25 @@ class ProductDetailLogic extends GetxController {
     });
   }
 
-  Future<void>getImageComment()async{
+  Future<void> getImageComment() async {
     imageComments.clear();
-    final commentLength = getCommentRsp.value?.data?.length??0;
-    for(var i =0 ; i<commentLength;i++){
+    final commentLength = getCommentRsp.value?.data?.length ?? 0;
+    for (var i = 0; i < commentLength; i++) {
       final images = getCommentRsp.value?.data?[i].imageUrl;
 
-
-       if(images?.isNotEmpty==true){
-         final Map<String,dynamic>  imageMap = {
-           "id":getCommentRsp.value?.data?[i].id,
-           "avatar":getCommentRsp.value?.data?[i].userAvatar,
-           "fullName":getCommentRsp.value?.data?[i].user,
-           "content":getCommentRsp.value?.data?[i].text,
-           "rating":getCommentRsp.value?.data?[i].rating,
-           "createdAt":getCommentRsp.value?.data?[i].createdAt,
-           "imageUrl":images
-         };
-         imageComments.add(imageMap);
-       }
+      if (images?.isNotEmpty == true) {
+        final Map<String, dynamic> imageMap = {
+          "id": getCommentRsp.value?.data?[i].id,
+          "avatar": getCommentRsp.value?.data?[i].userAvatar,
+          "fullName": getCommentRsp.value?.data?[i].user,
+          "content": getCommentRsp.value?.data?[i].text,
+          "rating": getCommentRsp.value?.data?[i].rating,
+          "createdAt": getCommentRsp.value?.data?[i].createdAt,
+          "imageUrl": images
+        };
+        imageComments.add(imageMap);
       }
-    print(">>>>>>>>>>${jsonEncode(imageComments)}");
     }
-
-
-
+    print(">>>>>>>>>>${jsonEncode(imageComments)}");
+  }
 }

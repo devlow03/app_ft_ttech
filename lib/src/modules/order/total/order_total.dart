@@ -46,7 +46,7 @@ class OrderTotal extends StatelessWidget {
                   children: [
                     const Text("Tổng tiền phí vận chuyển"),
                     Text(NumberFormat.simpleCurrency(locale: 'VI')
-                        .format(logic.totalFee.value))
+                        .format(0))
                   ],
                 ),
               ),

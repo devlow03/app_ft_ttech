@@ -74,6 +74,7 @@ class FavouritesPage extends StatelessWidget {
                               // ));
                             },
                             child: GlobalProduct(
+                              isFavorites: logic.getProductFavoriteRsp.value?.data?[ind].favorite,
                               productId: logic.getProductFavoriteRsp.value?.data?[ind].id.toString()??"",
                               imageLink: logic.getProductFavoriteRsp.value
                                   ?.data?[ind].thumpnailUrl,

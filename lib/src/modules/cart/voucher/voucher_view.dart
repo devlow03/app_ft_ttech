@@ -162,7 +162,7 @@ class VoucherPage extends StatelessWidget {
                           // ],
                           // borderColor: XColor.primary,
                           width: 100,
-                          height: 130,
+                          height: 150,
                           color: Colors.white,
                           // isCornerRounded: true,
                           padding: const EdgeInsets.all(20),
@@ -172,40 +172,47 @@ class VoucherPage extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      '${logic.getVoucherRsp.value?.data?[index]
-                                          .title}',
-                                      style: const TextStyle(
-                                        fontSize: 16,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w900,
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        '${logic.getVoucherRsp.value?.data?[index]
+                                            .title}',
+                                        style: const TextStyle(
+                                          fontSize: 16,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w900,
+                                        ),
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
                                       ),
-                                    ),
-                                    const SizedBox(height: 5),
-                                    Text(
-                                      'CODE: ${logic.getVoucherRsp.value?.data?[index]
-                                          .voucherCode}',
-                                      style: const TextStyle(
-                                        fontSize: 14,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold,
+                                      const SizedBox(height: 5),
+                                      Text(
+                                        'CODE: ${logic.getVoucherRsp.value?.data?[index]
+                                            .voucherCode}',
+                                        style: const TextStyle(
+                                          fontSize: 14,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
                                       ),
-                                    ),
-                                    const SizedBox(height: 5),
-                                    Text(
-                                      'HSD: ${logic.getVoucherRsp.value?.data?[index]
-                                          .voucherDateEnd}',
-                                      style: const TextStyle(
-                                        fontSize: 14,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w400,
+                                      const SizedBox(height: 5),
+                                      Text(
+                                        'HSD: ${logic.getVoucherRsp.value?.data?[index]
+                                            .voucherDateEnd}',
+                                        style: const TextStyle(
+                                          fontSize: 14,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w400,
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
+                                const SizedBox(width: 20,),
                                 Visibility(
                                   visible: logic.logicCart.voucherTitle.value!=logic.getVoucherRsp.value?.data?[index]
                                       .title,

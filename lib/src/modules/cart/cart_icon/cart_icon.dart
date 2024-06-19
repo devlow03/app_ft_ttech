@@ -19,7 +19,7 @@ class CartIcon extends StatelessWidget {
         visible: fromHome!=true,
         replacement: const PhosphorIcon(PhosphorIconsBold.shoppingCartSimple),
         child: Stack(
-          alignment: Alignment.centerRight,
+          alignment: Alignment.topCenter,
           children: [
             IconButton(
               onPressed: () async {
@@ -37,7 +37,7 @@ class CartIcon extends StatelessWidget {
                   true,
               child: Positioned(
                 right: 5,
-                bottom: 25,
+                // bottom: 10,
                 child: Container(
                   decoration: BoxDecoration(
                       shape: BoxShape.circle,

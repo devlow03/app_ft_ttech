@@ -127,7 +127,7 @@ class OrderPage extends StatelessWidget {
                             children: [
                               Text(logic.totalFee.value != 0
                                   ? NumberFormat.simpleCurrency(locale: 'VI')
-                                  .format(logic.totalFee.value)
+                                  .format(0)
                                   : "chưa chọn địa chỉ"),
                               // Center(child: Icon(Icons
                               //     .arrow_forward_ios_outlined, color: Colors.grey,

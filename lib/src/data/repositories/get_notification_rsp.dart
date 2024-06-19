@@ -144,54 +144,45 @@ Meta copyWith({  num? currentPage,
 
 }
 
-
-
 class Links {
   Links({
-      String? first, 
-      String? last, 
-      dynamic prev, 
-      String? next,}){
-    _first = first;
-    _last = last;
-    _prev = prev;
-    _next = next;
+      dynamic url, 
+      String? label, 
+      bool? active,}){
+    _url = url;
+    _label = label;
+    _active = active;
 }
 
   Links.fromJson(dynamic json) {
-    _first = json['first'];
-    _last = json['last'];
-    _prev = json['prev'];
-    _next = json['next'];
+    _url = json['url'];
+    _label = json['label'];
+    _active = json['active'];
   }
-  String? _first;
-  String? _last;
-  dynamic _prev;
-  String? _next;
-Links copyWith({  String? first,
-  String? last,
-  dynamic prev,
-  String? next,
-}) => Links(  first: first ?? _first,
-  last: last ?? _last,
-  prev: prev ?? _prev,
-  next: next ?? _next,
+  dynamic _url;
+  String? _label;
+  bool? _active;
+Links copyWith({  dynamic url,
+  String? label,
+  bool? active,
+}) => Links(  url: url ?? _url,
+  label: label ?? _label,
+  active: active ?? _active,
 );
-  String? get first => _first;
-  String? get last => _last;
-  dynamic get prev => _prev;
-  String? get next => _next;
+  dynamic get url => _url;
+  String? get label => _label;
+  bool? get active => _active;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
-    map['first'] = _first;
-    map['last'] = _last;
-    map['prev'] = _prev;
-    map['next'] = _next;
+    map['url'] = _url;
+    map['label'] = _label;
+    map['active'] = _active;
     return map;
   }
 
 }
+
 
 class Response {
   Response({
@@ -234,12 +225,14 @@ Response copyWith({  String? status,
 
 class Data {
   Data({
+      num? id, 
       num? userId, 
       num? orderId, 
       String? title, 
       String? content, 
       String? imageUrl, 
       String? timeElapsed,}){
+    _id = id;
     _userId = userId;
     _orderId = orderId;
     _title = title;
@@ -249,6 +242,7 @@ class Data {
 }
 
   Data.fromJson(dynamic json) {
+    _id = json['id'];
     _userId = json['user_id'];
     _orderId = json['order_id'];
     _title = json['title'];
@@ -256,25 +250,29 @@ class Data {
     _imageUrl = json['image_url'];
     _timeElapsed = json['time_elapsed'];
   }
+  num? _id;
   num? _userId;
   num? _orderId;
   String? _title;
   String? _content;
   String? _imageUrl;
   String? _timeElapsed;
-Data copyWith({  num? userId,
+Data copyWith({  num? id,
+  num? userId,
   num? orderId,
   String? title,
   String? content,
   String? imageUrl,
   String? timeElapsed,
-}) => Data(  userId: userId ?? _userId,
+}) => Data(  id: id ?? _id,
+  userId: userId ?? _userId,
   orderId: orderId ?? _orderId,
   title: title ?? _title,
   content: content ?? _content,
   imageUrl: imageUrl ?? _imageUrl,
   timeElapsed: timeElapsed ?? _timeElapsed,
 );
+  num? get id => _id;
   num? get userId => _userId;
   num? get orderId => _orderId;
   String? get title => _title;
@@ -284,6 +282,7 @@ Data copyWith({  num? userId,
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
+    map['id'] = _id;
     map['user_id'] = _userId;
     map['order_id'] = _orderId;
     map['title'] = _title;

@@ -18,30 +18,27 @@ class VoucherWidget extends StatelessWidget {
         decoration: BoxDecoration(
             color: Colors.white,
             border: Border.all(color: XColor.primary, width: 1),
-            borderRadius: BorderRadius.circular(8)
-        ),
+            borderRadius: BorderRadius.circular(8)),
         child: ListTile(
-          onTap: () =>
-              Get.bottomSheet(
-                  isScrollControlled: true,
-                  enableDrag: true,
-                  SizedBox(
-                    height:
-                    MediaQuery
-                        .of(context)
-                        .size
-                        .height * .6,
-                    child: VoucherPage(
-                        cartId: int.parse((logic
-                            .getCartRsp.value?.data?.id
-                            .toString() ??
-                            ""))),
-                  )),
+          onTap: () => Get.bottomSheet(
+              isScrollControlled: true,
+              enableDrag: true,
+              SizedBox(
+                height: MediaQuery.of(context).size.height * .6,
+                child: VoucherPage(
+                    cartId: int.parse(
+                        (logic.getCartRsp.value?.data?.id.toString() ?? ""))),
+              )),
           leading: Image.asset(
-            "assets/images/icons/coupon.png", width: 30, height: 30,),
-          title: Text(logic.voucherCode.value ?? "Chọn mã giảm giá",
-            style: TextStyle(fontWeight: FontWeight.w400, fontSize: 14),),
-          trailing: Text(logic.voucherTitle.value??""),
+            "assets/images/icons/coupon.png",
+            width: 30,
+            height: 30,
+          ),
+          title: Text(
+            logic.voucherCode.value ?? "Chọn mã giảm giá",
+            style: TextStyle(fontWeight: FontWeight.w400, fontSize: 14),
+          ),
+          trailing: Text(logic.voucherTitle.value ?? ""),
         ),
       );
     });

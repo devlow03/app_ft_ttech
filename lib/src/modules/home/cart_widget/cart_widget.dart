@@ -41,8 +41,8 @@ class CartWidget extends StatelessWidget {
                 ?.cartDetails?.isNotEmpty ==
                 true,
             child: Positioned(
-              right: 5,
-              bottom: 23,
+              right: 10,
+              bottom: 15,
               child: Container(
                 decoration: BoxDecoration(
                     shape: BoxShape.circle,

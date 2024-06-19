@@ -15,37 +15,25 @@ class BadgeNotification extends StatelessWidget {
     final logic = Get.put(NotificationLogic());
     // logic.getNotifications();
     return Obx(() {
-      return Stack(
-        alignment: Alignment.centerRight,
-        children: [
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10),
-            child: Icon(Icons.notifications_outlined),
-          ),
-          Visibility(
-            visible: true,
-            child: Positioned(
-              right: 5,
-              bottom: 26,
-              child: Container(
-                decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: XColor.primary),
-                child: Padding(
-                  padding: const EdgeInsets.all(5),
-                  child: Text(
-                    "",
-                    style: const TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 11
-                    ),
-                  ),
-                ),
+      return Positioned(
+        bottom: 8,
+        child: Visibility(
+          visible: logic.notificationLength.value!=0,
+          child: Container(
+            padding: EdgeInsets.all(5),
+            decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: XColor.primary),
+            child: Text(
+              "${logic.notificationLength.value}",
+              style: const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  
               ),
             ),
-          )
-        ],
+          ),
+        ),
       );
     });
   }

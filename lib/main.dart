@@ -123,12 +123,12 @@ class MyApp extends StatelessWidget {
           unselectedItemColor: Colors.grey.shade500,
           // showUnselectedLabels: true,
         ),
-        datePickerTheme: DatePickerThemeData(
+        datePickerTheme: const DatePickerThemeData(
           backgroundColor: Colors.white,
 
 
         ),
-        bottomAppBarTheme: BottomAppBarTheme(
+        bottomAppBarTheme: const BottomAppBarTheme(
           color: Colors.white
         )
         // buttonColor: XColor.primary,
