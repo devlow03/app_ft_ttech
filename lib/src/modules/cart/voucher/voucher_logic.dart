@@ -30,8 +30,9 @@ class VoucherLogic extends GetxController {
     return getVoucherRsp.value;
   }
   final logicCart = Get.put(CartLogic());
-  Future<void>addVoucher({required int cartId, required String voucherCode})async{
-    Utils.loading(()async{
+  Future<void>addVoucher({required int cartId, required String voucherCode, int? index})async{
+   if(index!=null){
+     Utils.loading(()async{
        await tMartServices.postAddVoucher(
       body: PostAddVoucher(
         cartId: cartId,
@@ -39,11 +40,20 @@ class VoucherLogic extends GetxController {
       )
     );
     await logicCart.getCart();
+    final cart = Get.put(CartLogic());
+                                      cart.voucherCode.value = getVoucherRsp.value?.data?[index]
+                                          .voucherCode;
+                                      cart.voucherTitle.value = getVoucherRsp.value?.data?[index]
+                                          .title;
     // logicCart.getVoucher();
     Get.back();
     Get.back();
     Fluttertoast.showToast(msg: "Áp dụng voucher thành công");
     });
+   }
+   else{
+
+   }
     
 
   }

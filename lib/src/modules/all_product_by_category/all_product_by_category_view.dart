@@ -36,7 +36,7 @@ class AllProductByCategoryPage extends StatelessWidget {
     logic.idCategory.value = id;
     logic.idBrand.value = idBrand;
     logic.keyword.value = keyword;
-
+    logic.getProductCategory();
 
     return Scaffold(
         backgroundColor: Colors.grey.shade50,

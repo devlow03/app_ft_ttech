@@ -47,6 +47,7 @@ class SameType extends StatelessWidget {
                             ),
                             InkWell(
                               onTap: () {
+                                
                                 Get.to(AllProductByCategoryPage(
                                   idBrand: int.parse(logic.getProductByIdRsp
                                           .value?.data?.manufacturerId

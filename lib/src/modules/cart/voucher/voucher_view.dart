@@ -244,13 +244,9 @@ class VoucherPage extends StatelessWidget {
                                       await logic.addVoucher(
                                           cartId: cartId,
                                           voucherCode: logic.getVoucherRsp.value?.data?[index]
-                                              .voucherCode??""
+                                              .voucherCode??"",index: index
                                       );
-                                      final cart = Get.put(CartLogic());
-                                      cart.voucherCode.value = logic.getVoucherRsp.value?.data?[index]
-                                          .voucherCode;
-                                      cart.voucherTitle.value =  logic.getVoucherRsp.value?.data?[index]
-                                          .title;
+                                     
                                     },
                                     child: Container(
                                       decoration: BoxDecoration(

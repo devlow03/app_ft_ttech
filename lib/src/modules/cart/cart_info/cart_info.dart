@@ -35,7 +35,15 @@ class CartInfo extends StatelessWidget {
             return Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(info?.title ?? "",style: TextStyle(fontSize: 15,fontWeight: info?.code=='total'?FontWeight.bold:FontWeight.w400),),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(info?.title ?? "",style: TextStyle(fontSize: 15,fontWeight: info?.code=='total'?FontWeight.bold:FontWeight.w400),),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 50,),
                 Text(
                   "${info?.text}",style: TextStyle(
                   color: info?.code=='total'?Colors.red:Colors.black

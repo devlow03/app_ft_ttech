@@ -48,6 +48,7 @@ class AllProductByCategoryLogic extends GetxController {
     bool? latest,
     String? rangePrice,
   }) async {
+      getProductByCategory.value = null;
       getProductByCategory.value = await tMartServices.getProductRsp(
           query: GetProductRqQuery(
               latest: latest,
